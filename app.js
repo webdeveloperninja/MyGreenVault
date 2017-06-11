@@ -22,7 +22,7 @@ const multer = require('multer');
 
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
-const isProd = true;
+const isProd = false;
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
@@ -39,6 +39,7 @@ else
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
+const jobApiController = require('./controllers/api/job');
 const contactController = require('./controllers/contact');
 const jobController = require('./controllers/job');
 
@@ -179,6 +180,8 @@ app.post('/api/upload', upload.single('myFile'), apiController.postFileUpload);
 app.get('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getPinterest);
 app.post('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.postPinterest);
 app.get('/api/google-maps', apiController.getGoogleMaps);
+
+app.get('/api/job', passportConfig.isAuthenticated, passportConfig.isAuthorized, jobApiController.getJobs);
 
 /**
  * OAuth authentication routes. (Sign in)
