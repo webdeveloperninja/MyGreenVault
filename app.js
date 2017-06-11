@@ -22,11 +22,17 @@ const multer = require('multer');
 
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
+const isProd = true;
+
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
+ * 
+ * dev and prod //////
  */
-dotenv.load({ path: '.env.example' });
-
+if (isProd)
+  dotenv.load({ path: '.env.prod' });
+else 
+  dotenv.load({ path: '.env.dev' });
 /**
  * Controllers (route handlers).
  */
@@ -34,6 +40,7 @@ const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
+const jobController = require('./controllers/job');
 
 /**
  * API keys and Passport configuration.
@@ -44,6 +51,7 @@ const passportConfig = require('./config/passport');
  * Create Express server.
  */
 const app = express();
+app.use('/views/job-app/dist',express.static(path.join(__dirname, 'views/job-app/dist')));
 
 /**
  * Connect to MongoDB.
@@ -135,6 +143,8 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
+
+app.get('/job-app', passportConfig.isAuthenticated, jobController.getJob);
 
 
 /**
