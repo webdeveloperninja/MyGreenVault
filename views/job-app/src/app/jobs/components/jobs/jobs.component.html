@@ -1,0 +1,42 @@
+<ti-header></ti-header>
+<div class="card">
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="row">
+    <div class="col-sm-3 mb-4 mt-1" *ngFor="let job of jobs">
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title">{{job.companyName | json}}</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Job Number: {{job.jobNumber | json}}</li>
+                <li class="list-group-item">Contact Phone Number: {{job.contactPhoneNumber | json}}</li>
+            </ul>
+        </div>
+    </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button 
+                    (click)="previousPage()" 
+                    *ngIf="skip !== 0" 
+                    class="btn btn-info mr-auto"
+                    [disabled]="loading">
+                        Previous Page
+                </button> 
+                <button 
+                    (click)="nextPage()" 
+                    *ngIf="more"
+                    class="btn btn-info ml-auto next"
+                    [disabled]="loading">
+                        Next Page
+                </button>  
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <add-job></add-job> 
+    </div>
+</div>
+</div>

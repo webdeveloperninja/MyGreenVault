@@ -23,7 +23,19 @@ const userSchema = new mongoose.Schema({
     location: String,
     website: String,
     picture: String
-  }
+  },
+  jobs: [
+    {
+      companyName: String,
+      contactName: String,
+      contactPhoneNumber: String,
+      contactEmail: String,
+      jobName: String,
+      jobNumber: String,
+      jobDescription: String,
+      jobStatus: Number
+    }
+  ]
 }, { timestamps: true });
 
 /**
