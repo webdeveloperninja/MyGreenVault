@@ -22,7 +22,7 @@ const multer = require('multer');
 
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
-const isProd = false;
+const isProd = true;
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
@@ -41,7 +41,7 @@ const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const jobApiController = require('./controllers/api/job');
 const contactController = require('./controllers/contact');
-const jobController = require('./controllers/job');
+const toolingInventorySPA = require('./controllers/toolingInventorySPA');
 
 /**
  * API keys and Passport configuration.
@@ -52,7 +52,21 @@ const passportConfig = require('./config/passport');
  * Create Express server.
  */
 const app = express();
+
+app.use(function(req, res, next) {
+res.header('Access-Control-Allow-Credentials', true);
+res.header('Access-Control-Allow-Origin', req.headers.origin);
+res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+if ('OPTIONS' == req.method) {
+     res.send(200);
+ } else {
+     next();
+ }
+});
+
 app.use('/views/job-app/dist',express.static(path.join(__dirname, 'views/job-app/dist')));
+
 
 /**
  * Connect to MongoDB.
@@ -94,13 +108,16 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use((req, res, next) => {
-  if (req.path === '/api/upload') {
-    next();
-  } else {
-    lusca.csrf()(req, res, next);
-  }
-});
+
+
+// app.use((req, res, next) => {
+//   if (req.path === '/api/upload') {
+//     next();
+//   } else {
+//     lusca.csrf()(req, res, next);
+//   }
+// });
+
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
 app.use((req, res, next) => {
@@ -145,8 +162,10 @@ app.post('/account/password', passportConfig.isAuthenticated, userController.pos
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 
-app.get('/job-app', passportConfig.isAuthenticated, jobController.getJob);
+app.get('/job-app', passportConfig.isAuthenticated, toolingInventorySPA.getToolingInventorySPA);
 
+app.get('/api/v1/jobs', passportConfig.isAuthenticated, jobApiController.getJobs);
+app.post('/api/v1/job/', passportConfig.isAuthenticated, jobApiController.addJob);
 
 /**
  * API examples routes.
@@ -181,7 +200,6 @@ app.get('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAutho
 app.post('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.postPinterest);
 app.get('/api/google-maps', apiController.getGoogleMaps);
 
-app.get('/api/job', passportConfig.isAuthenticated, passportConfig.isAuthorized, jobApiController.getJobs);
 
 /**
  * OAuth authentication routes. (Sign in)

@@ -12,7 +12,7 @@
     "start": "node app.js",
     "test": "mocha --reporter spec",
     "postinstall": "npm rebuild node-sass",
-    "dev": "node --debug app.js"
+    "dev": "node_modules/.bin/nodemon --debug app.js"
   },
   "dependencies": {
     "bcrypt-nodejs": "^0.0.3",
@@ -43,6 +43,7 @@
     "node-linkedin": "^0.5.4",
     "node-sass-middleware": "^0.11.0",
     "nodemailer": "^3.1.7",
+    "nodemon": "^1.11.0",
     "passport": "0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-github": "^1.1.0",
