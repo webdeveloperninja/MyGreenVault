@@ -41,7 +41,7 @@ const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const jobApiController = require('./controllers/api/job');
 const contactController = require('./controllers/contact');
-const toolingInventorySPA = require('./controllers/toolingInventorySPA');
+const toolingInventorySPA = require('./controllers/toolingInventorySpa');
 
 /**
  * API keys and Passport configuration.
