@@ -93,3 +93,10 @@
 a, button {
   cursor: pointer;
 }
+
+tr {
+  cursor: pointer;
+  &:hover {
+    background-color: #5cb85c!important;
+  }
+}

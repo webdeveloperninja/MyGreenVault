@@ -1,42 +1,72 @@
 <ti-header></ti-header>
-<div class="card">
-
 <div class="row">
-    <div class="col-md-8">
-        <div class="row">
-    <div class="col-sm-3 mb-4 mt-1" *ngFor="let job of jobs">
+    <div class="col-md-12">
         <div class="card">
-            <div class="card-block">
-                <h4 class="card-title">{{job.companyName | json}}</h4>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">Job Number: {{job.jobNumber | json}}</li>
-                <li class="list-group-item">Contact Phone Number: {{job.contactPhoneNumber | json}}</li>
-            </ul>
-        </div>
-    </div>
-        </div>
+        <ti-loading [isLoading]="isLoading"></ti-loading>
         <div class="row">
             <div class="col-md-12">
-                <button 
-                    (click)="previousPage()" 
-                    *ngIf="skip !== 0" 
-                    class="btn btn-info mr-auto"
-                    [disabled]="loading">
-                        Previous Page
-                </button> 
-                <button 
-                    (click)="nextPage()" 
-                    *ngIf="more"
-                    class="btn btn-info ml-auto next"
-                    [disabled]="loading">
-                        Next Page
-                </button>  
+            <!--<div class="col-sm-3 mb-4 mt-1" *ngFor="let job of jobs">
+                <div class="card">
+                    <div class="card-block">
+                        <h4 class="card-title">{{job.companyName | json}}</h4>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Job Number: {{job.jobNumber | json}}</li>
+                        <li class="list-group-item">Contact Phone Number: {{job.contactPhoneNumber | json}}</li>
+                    </ul>
+                </div>
+            </div>-->
+            <add-job [orientation]="'inline'"></add-job> 
+            <table class="table">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>Company Name</th>
+                    <th>Contact Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Job Name</th>
+                    <th>Job Number</th>
+                    <th>Job Description</th>
+                    <th>Job Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let job of jobs$ | async" (click)="updateJob(job._id)">
+                    <td>{{ job.companyName }}</td>
+                    <td>{{ job.contactName }}</td>
+                    <td>{{ job.jobNumber }}</td>
+                    <td>{{ job.contactPhoneNumber }}</td>
+                    <td>{{ job.contactEmail }}</td>
+                    <td>{{ job.jobNumber }}</td>
+                    <td>{{ job.jobDescription }}</td>
+                    <td>{{ job.jobStatus }}</td>
+                </tr>
+            </tbody>
+            </table>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <button 
+                            (click)="previousPage()" 
+                            *ngIf="skip !== 0" 
+                            class="btn btn-info mr-auto"
+                            [disabled]="isLoading">
+                                Previous Page
+                        </button> 
+                        <button 
+                            (click)="nextPage()" 
+                            *ngIf="more"
+                            class="btn btn-info ml-auto next"
+                            [disabled]="isLoading">
+                                Next Page
+                        </button>  
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <add-job></add-job> 
+        </div>
     </div>
 </div>
-</div>
+<ng-template #content let-c="close" let-d="dismiss">
+  <ti-update-job [activeJob]="activeJob"></ti-update-job>
+</ng-template>
