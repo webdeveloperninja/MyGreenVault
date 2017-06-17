@@ -8,8 +8,11 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class JobsService {
     
-    private _jobsSubject: BehaviorSubject<IPagedList> = new BehaviorSubject(null);
-    public readonly jobs = this._jobsSubject.asObservable();
+    private _jobsSubject$: BehaviorSubject<IJob[]> = new BehaviorSubject<IJob[]>(null);
+    public readonly jobs$: Observable<IJob[]> = this._jobsSubject$.asObservable();
+
+    private _isJobsLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
+    public readonly isJobsLoading$: Observable<boolean> = this._isJobsLoadingSubject$.asObservable();
 
     constructor(
         private _http: Http,
@@ -28,8 +31,10 @@ export class JobsService {
     getJobs(skip: number = 0, take: number = 8) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
+        this._isJobsLoadingSubject$.next(true);
         return this._http.get(`/api/v1/jobs?skip=${skip}&take=${take}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
-            this._jobsSubject.next(res.json());
+            this._jobsSubject$.next(res.json().data);
+            this._isJobsLoadingSubject$.next(false);
             return res.json()
         });
     }

@@ -11,11 +11,16 @@ import { JobsService } from './services/jobs';
 import { ActiveJobService } from './services/activeJob';
 import { SettingsService } from './services/settings';
 import { SidebarService } from './services/sidebar';
+import { UpdateJobComponent } from './components/update-job/update-job.component';
 
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';
 
+export const routes: Routes = [
+    { path: 'add-job', component: AddJobComponent },
+    { path: '', component: JobsComponent }
+];
 
 
 @NgModule({
@@ -29,6 +34,7 @@ import { SharedModule } from '../shared/shared.module';
     declarations: [
         JobsComponent,
         AddJobComponent,
+        UpdateJobComponent,
         FilterPipe,
         JobStatusPipe
     ],
@@ -40,7 +46,8 @@ import { SharedModule } from '../shared/shared.module';
     ],
     exports: [
         JobsComponent,
-        AddJobComponent
+        AddJobComponent,
+        UpdateJobComponent
     ]
 })
 export class JobsModule {}

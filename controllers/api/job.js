@@ -11,19 +11,31 @@ exports.getJobs = (req, res) => {
   let url_parts = url.parse(req.url, true);
   let skip = Number(url_parts.query.skip);
   let take = Number(url_parts.query.take);
-  // improve query
-  User.findById(req.user.id, (err, user) => {
+  User.find({ _id: req.user.id},{'jobs':{$slice:[skip, take + 1]}}).exec((err, data) => {
     if (err) { return next(err); }
-    let more = (user._doc.jobs[skip + take] != null ? true: false);
-    let resObj = {
-      skip: skip,
-      take: take,
-      more: more,
-      data: user._doc.jobs.splice(skip,take)
-    }
-    res.json(resObj);
-  });
+
+        let jobs = data[0]._doc.jobs;
+        let jobsArrLength = jobs.length;
+        let more = false;
+
+        if(jobs.length === take + 1) {
+          more = true;
+        }
+
+        jobs = jobs.slice(0, -1); 
+
+        let resObj = {
+          skip: skip,
+          take: take,
+          more: more,
+          data: jobs
+      }
+      res.json(resObj);
+  })
+  
 };
+
+  
 
 exports.addJob = (req, res) => {
   User.findOneAndUpdate(
@@ -40,9 +52,21 @@ exports.addJob = (req, res) => {
 }
 
 exports.updateJob = (req, res) => {
-  User.findById(req.user.id, (err, user) => {
+  // User.findById(req.user.id, (err, user) => {
     
-  });
+  // });
+  console.log(req.body)
+  User.findOneAndUpdate({
+         _id: req.user.id,
+        'jobs._id': req.body._id
+    },
+    {
+        $set: {
+            'jobs.$' : req.body
+        }
+    }, function(err, book){
+        // Response
+    });
 }
 
 

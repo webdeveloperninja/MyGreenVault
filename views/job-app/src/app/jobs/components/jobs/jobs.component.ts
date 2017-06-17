@@ -1,18 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { JobsService, IPagedList, IJob } from '../../services/jobs';
 import { SettingsService } from '../../services/settings';
 import { SidebarService } from '../../services/sidebar';
 import { Pipe, PipeTransform } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { NgbModal, NgbActiveModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+
+
+const DEFAULT_TAKE: number = 8;
 
 @Component({
-  selector: 'app-jobs',
+  selector: 'ti-jobs',
   templateUrl: './jobs.component.html',
   styleUrls: ['./jobs.component.scss']
 })
 export class JobsComponent implements OnInit {
 
-  public defaultTake: number = 8;
+  @ViewChild('content') content: ElementRef;
+
+  jobs$: Observable<IJob[]>
+  isJobsLoading$: Observable<boolean>;
+
+  activeJob: IJob = null;
+  activeJobSub$: Subscription;
+
+  isLoading: boolean = false;
+
   loading: boolean = true;
   private _more: boolean;
   get more(): boolean {
@@ -20,14 +33,6 @@ export class JobsComponent implements OnInit {
   }
   set more(val: boolean) {
     this._more = val;
-  }
-
-  private _jobs: IJob[];
-  get jobs() {
-    return this._jobs;
-  }
-  set jobs(val: IJob[]) {
-    this._jobs = val;
   }
 
   private _skip: number = 0;
@@ -38,7 +43,7 @@ export class JobsComponent implements OnInit {
     return this._skip;
   }
 
-  private _take: number = this.defaultTake;
+  private _take: number = DEFAULT_TAKE;
   set take(val: number) {
     this._take = val;
   }
@@ -47,39 +52,50 @@ export class JobsComponent implements OnInit {
   }
 
   constructor(
-      private _jobsService: JobsService
+      private _jobsService: JobsService,
+      private _modalService: NgbModal
   ) { }
 
   ngOnInit() {
-    this.loading = true;
-    this._jobsService.getJobs(this.skip, this.take).subscribe(val => {
-      this.loading = false;
-      this.jobs = val.data;
-      this.skip = val.skip;
-      this.take = val.take;
-      this.more = val.more;
-    })
+    this.jobs$ = this._jobsService.jobs$;
+    this.isJobsLoading$ = this._jobsService.isJobsLoading$;
+    this.doSearch();
   }
 
   nextPage() {
     this.skip = this.skip + this.take;
-    this.loading = true;
-    this._jobsService.getJobs(this.skip, this.take).subscribe(data => {
-      this.loading = false;
-      this.jobs = data.data;
-      this.more = data.more;
-    })
+    this.doSearch();
   }
 
   previousPage() {
-    this.loading = true;
     if (this.skip >= this.take) {
-      this.skip = this.skip - this.take; 
-      this._jobsService.getJobs(this.skip, this.take).subscribe(data => {
-        this.loading = false;
-        this.jobs = data.data;
-        this.more = data.more;
-      })
+      this.skip = this.skip - this.take;
+      this.doSearch();
     } 
+  }
+
+  doSearch() {
+    this.isLoading = true;
+
+    this._jobsService.getJobs(this.skip, this.take).subscribe(jobsData => {
+      this.isLoading = false;
+      this.more = jobsData.more;
+      this.skip = jobsData.skip;
+      this.take = jobsData.take;
+    })
+  }
+
+  updateJob(jobId) {
+    this.activeJobSub$ = this.jobs$.flatMap(job => {
+      return job
+    }).filter((job, i) => {
+      return job._id === jobId;
+    }).subscribe((job) => {
+      this.activeJob = job;
+      console.log(this.activeJob);
+      // open modal populate field
+      this._modalService.open(this.content);
+    });
+   
   }
 }

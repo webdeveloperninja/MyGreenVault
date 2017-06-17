@@ -166,6 +166,7 @@ app.get('/job-app', passportConfig.isAuthenticated, toolingInventorySPA.getTooli
 
 app.get('/api/v1/jobs', passportConfig.isAuthenticated, jobApiController.getJobs);
 app.post('/api/v1/job/', passportConfig.isAuthenticated, jobApiController.addJob);
+app.post('/api/v1/update-job/', passportConfig.isAuthenticated, jobApiController.updateJob);
 
 /**
  * API examples routes.

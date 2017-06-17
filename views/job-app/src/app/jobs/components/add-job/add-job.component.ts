@@ -10,6 +10,16 @@ import { JobsService } from '../../services/jobs';
     styleUrls: ['./add-job.component.scss']
 })
 export class AddJobComponent implements OnInit {
+
+    private _orientation: string;
+    @Input('orientation')
+    set orientation(orientation: string) {
+        this._orientation = orientation;
+    }
+    get orientation(): string {
+        return this._orientation;
+    }
+
     @Input() job: any;
     constructor(
         private _formBuilder: FormBuilder,
@@ -17,7 +27,6 @@ export class AddJobComponent implements OnInit {
     ) { }
     jobFormGroup: FormGroup;
     ngOnInit() {
-        console.log(this.job);
         this.jobFormGroup = new FormGroup({
             companyName: new FormControl(''),
             contactName: new FormControl(''),
