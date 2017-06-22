@@ -68,5 +68,5 @@
     </div>
 </div>
 <ng-template #content let-c="close" let-d="dismiss">
-  <ti-update-job [activeJob]="activeJob"></ti-update-job>
+  <ti-update-job [activeJob]="activeJob" (closeUpdateModal)="closeModal($event)"></ti-update-job>
 </ng-template>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Input} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter} from '@angular/core';
 import { JobsService, IJob } from '../../services/jobs';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
@@ -12,6 +12,8 @@ export class UpdateJobComponent implements OnInit {
 
   activeJobFormGroup: FormGroup;
 
+  @Output('closeUpdateModal')
+  closeUpdateModal: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   private _activeJob: any;
   get activeJob(): any {
@@ -23,7 +25,8 @@ export class UpdateJobComponent implements OnInit {
   }
 
   constructor(
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private _jobsService: JobsService
   ) { }
 
   ngOnInit() {
@@ -44,6 +47,14 @@ export class UpdateJobComponent implements OnInit {
   updateJob(activeJob) {
     console.log(activeJob.value);
     // update job 
+    this._jobsService.updateJob(activeJob.value).subscribe(data => {
+      console.log(data);
+    });
+
+  }
+
+  closeModal() {
+    this.closeUpdateModal.emit(true);
   }
 
 }

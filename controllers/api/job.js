@@ -52,10 +52,6 @@ exports.addJob = (req, res) => {
 }
 
 exports.updateJob = (req, res) => {
-  // User.findById(req.user.id, (err, user) => {
-    
-  // });
-  console.log(req.body)
   User.findOneAndUpdate({
          _id: req.user.id,
         'jobs._id': req.body._id
@@ -64,8 +60,8 @@ exports.updateJob = (req, res) => {
         $set: {
             'jobs.$' : req.body
         }
-    }, function(err, book){
-        // Response
+    }, function(err, job) {
+        res.json({"success": true});
     });
 }
 
