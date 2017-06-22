@@ -42,7 +42,7 @@ export class JobsService {
     updateJob(job) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('/api/v1/job', job, {headers: headers})
+        return this._http.post('/api/v1/update-job', job, {headers: headers})
             .map((res: Response) =>  {
                 return res.json() 
         })

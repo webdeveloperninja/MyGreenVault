@@ -4,7 +4,7 @@ import { SettingsService } from '../../services/settings';
 import { SidebarService } from '../../services/sidebar';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { NgbModal, NgbActiveModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 
 const DEFAULT_TAKE: number = 8;
@@ -17,6 +17,9 @@ const DEFAULT_TAKE: number = 8;
 export class JobsComponent implements OnInit {
 
   @ViewChild('content') content: ElementRef;
+
+  updateJobModal: any;
+  private _updateJobModalRef: NgbModalRef;
 
   jobs$: Observable<IJob[]>
   isJobsLoading$: Observable<boolean>;
@@ -94,8 +97,12 @@ export class JobsComponent implements OnInit {
       this.activeJob = job;
       console.log(this.activeJob);
       // open modal populate field
-      this._modalService.open(this.content);
     });
-   
+    this._updateJobModalRef = this._modalService.open(this.content, {size: 'lg'});
+
+  }
+
+  closeModal() {
+    this._updateJobModalRef.close();
   }
 }
