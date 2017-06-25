@@ -1,8 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewContainerRef, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { JobsService } from '../../services/jobs';
-
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'add-job',
@@ -10,22 +10,21 @@ import { JobsService } from '../../services/jobs';
     styleUrls: ['./add-job.component.scss']
 })
 export class AddJobComponent implements OnInit {
+    jobFormGroup: FormGroup;
 
-    private _orientation: string;
-    @Input('orientation')
-    set orientation(orientation: string) {
-        this._orientation = orientation;
-    }
-    get orientation(): string {
-        return this._orientation;
-    }
+    jobSuccessfullyAdded: boolean = false;
 
-    @Input() job: any;
+    @Output('closeAddJobModal')
+    closeAddJobModal: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+    @Input('skip') skip: number;
+    @Input('take') take: number;
+
     constructor(
         private _formBuilder: FormBuilder,
-        private _jobsService: JobsService,
+        private _jobsService: JobsService
     ) { }
-    jobFormGroup: FormGroup;
+    
     ngOnInit() {
         this.jobFormGroup = new FormGroup({
             companyName: new FormControl(''),
@@ -40,7 +39,6 @@ export class AddJobComponent implements OnInit {
     }
 
     addJob(jobFormGroup) {
-        console.log(this.jobFormGroup.controls['jobStatus'].value);
         let jobObj = {
             companyName: this.jobFormGroup.controls['companyName'].value,
             contactName: this.jobFormGroup.controls['contactName'].value,
@@ -52,11 +50,19 @@ export class AddJobComponent implements OnInit {
             jobStatus: this.jobFormGroup.controls['jobStatus'].value
         };
         this._jobsService.addJob(jobObj).subscribe((job) => {
-            console.log(job);
             if(job.success) {
                 this.jobFormGroup.reset();
+                this.jobSuccessfullyAdded = true;
+                Observable.timer(5000).subscribe(() => {
+                    this.jobSuccessfullyAdded = false;
+                })
             } else {
             }
         })
     }
+
+  closeModal() {
+    this.closeAddJobModal.emit(true);
+  }
+
 }

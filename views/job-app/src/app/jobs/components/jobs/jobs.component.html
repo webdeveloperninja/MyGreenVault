@@ -1,72 +1,103 @@
 <ti-header></ti-header>
 <div class="row">
     <div class="col-md-12">
-        <div class="card">
-        <ti-loading [isLoading]="isLoading"></ti-loading>
-        <div class="row">
-            <div class="col-md-12">
-            <!--<div class="col-sm-3 mb-4 mt-1" *ngFor="let job of jobs">
-                <div class="card">
-                    <div class="card-block">
-                        <h4 class="card-title">{{job.companyName | json}}</h4>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Job Number: {{job.jobNumber | json}}</li>
-                        <li class="list-group-item">Contact Phone Number: {{job.contactPhoneNumber | json}}</li>
-                    </ul>
-                </div>
-            </div>-->
-            <add-job [orientation]="'inline'"></add-job> 
-            <table class="table">
-            <thead class="thead-inverse">
-                <tr>
-                    <th>Company Name</th>
-                    <th>Contact Name</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th>Job Name</th>
-                    <th>Job Number</th>
-                    <th>Job Description</th>
-                    <th>Job Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let job of jobs$ | async" (click)="updateJob(job._id)">
-                    <td>{{ job.companyName }}</td>
-                    <td>{{ job.contactName }}</td>
-                    <td>{{ job.jobNumber }}</td>
-                    <td>{{ job.contactPhoneNumber }}</td>
-                    <td>{{ job.contactEmail }}</td>
-                    <td>{{ job.jobNumber }}</td>
-                    <td>{{ job.jobDescription }}</td>
-                    <td>{{ job.jobStatus }}</td>
-                </tr>
-            </tbody>
-            </table>
-
+        <div class="dropdown pull-right">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                Jobs
+            </button>
+            <div class="dropdown-menu dropdown-menu-right display-dropdown" (click)="$event.stopPropagation()" aria-labelledby="dropdownMenuButton">
                 <div class="row">
-                    <div class="col-md-12">
-                        <button 
-                            (click)="previousPage()" 
-                            *ngIf="skip !== 0" 
-                            class="btn btn-info mr-auto"
-                            [disabled]="isLoading">
+                    <label class="col">
+                        <input type="checkbox" [(ngModel)]="displayOptions.companyName.selected" /> Company Name
+                    </label>
+                    <label class="col">
+                        <input type="checkbox" [(ngModel)]="displayOptions.contactName.selected" /> Contact Name
+                    </label>
+                    <label class="col">
+                        <input type="checkbox" [(ngModel)]="displayOptions.contactPhoneNumber.selected" /> Phone
+                    </label>
+                    <label class="col">
+                        <input type="checkbox" [(ngModel)]="displayOptions.contactEmail.selected" /> Email Address
+                    </label>
+                    <label class="col">
+                        <input type="checkbox" [(ngModel)]="displayOptions.jobName.selected" /> Job Name
+                    </label>
+                    <label class="col">
+                        <input type="checkbox" [(ngModel)]="displayOptions.jobNumber.selected" /> Job Number
+                    </label>
+                    <label class="col">
+                        <input type="checkbox" [(ngModel)]="displayOptions.jobDescription.selected" /> Job Description
+                    </label>
+                    <label class="col">
+                        <input type="checkbox" [(ngModel)]="displayOptions.jobStatus.selected" /> Job Status
+                    </label>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary pull-right" (click)="addJob()">Add Job</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <ti-loading [isLoading]="isLoading"></ti-loading>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table">
+                        <thead class="thead-inverse">
+                            <tr>
+                                <th [hidden]="!displayOptions.companyName.selected">Company Name</th>
+                                <th [hidden]="!displayOptions.contactName.selected">Contact Name</th>
+                                <th [hidden]="!displayOptions.contactPhoneNumber.selected">Phone</th>
+                                <th [hidden]="!displayOptions.contactEmail.selected">Email</th>
+                                <th [hidden]="!displayOptions.jobName.selected">Job Name</th>
+                                <th [hidden]="!displayOptions.jobNumber.selected">Job Number</th>
+                                <th [hidden]="!displayOptions.jobDescription.selected">Job Description</th>
+                                <th [hidden]="!displayOptions.jobStatus.selected">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let job of jobs$ | async" (click)="openUpdateJobModal(job._id)">
+                                <td [hidden]="!displayOptions.companyName.selected">{{ job.companyName }}</td>
+                                <td [hidden]="!displayOptions.contactName.selected">{{ job.contactName }}</td>
+                                <td [hidden]="!displayOptions.contactPhoneNumber.selected">{{ job.contactPhoneNumber }}</td>
+                                <td [hidden]="!displayOptions.contactEmail.selected">{{ job.contactEmail }}</td>
+                                <td [hidden]="!displayOptions.jobName.selected">{{ job.jobName }}</td>
+                                <td [hidden]="!displayOptions.jobNumber.selected">{{ job.jobNumber }}</td>
+                                <td [hidden]="!displayOptions.jobDescription.selected">{{ job.jobDescription }}</td>
+                                <td [hidden]="!displayOptions.jobStatus.selected">{{ job.jobStatus | jobStatusNumberToTitle }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button (click)="previousPage()" *ngIf="skip !== 0" class="btn btn-info mr-auto" [disabled]="isLoading">
                                 Previous Page
-                        </button> 
-                        <button 
-                            (click)="nextPage()" 
-                            *ngIf="more"
-                            class="btn btn-info ml-auto next"
-                            [disabled]="isLoading">
+                        </button>
+                            <button (click)="nextPage()" *ngIf="more" class="btn btn-info ml-auto next" [disabled]="isLoading">
                                 Next Page
-                        </button>  
+                        </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
     </div>
 </div>
-<ng-template #content let-c="close" let-d="dismiss">
-  <ti-update-job [activeJob]="activeJob" (closeUpdateModal)="closeModal($event)"></ti-update-job>
+<ng-template #updateJobRef let-c="close" let-d="dismiss">
+    <ti-update-job 
+        [activeJob]="activeJob$" 
+        (closeUpdateModal)="closeUpdateJobModal($event)" 
+        (isLoading)="isTiUpdateJobLoading($event)"
+        [skip]="skip" 
+        [take]="take">
+    </ti-update-job>
+</ng-template>
+<ng-template #addJobRef let-c="close" let-d="dismiss">
+    <add-job 
+        (closeAddJobModal)="closeAddJobModal($event)" 
+        [skip]="skip" 
+        [take]="take">
+    </add-job>
 </ng-template>

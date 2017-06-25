@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
   email: { type: String, unique: true },
-  password: String,
+  password:{ type: String, required: true },
   passwordResetToken: String,
   passwordResetExpires: Date,
 
@@ -26,14 +26,14 @@ const userSchema = new mongoose.Schema({
   },
   jobs: [
     {
-      companyName: String,
-      contactName: String,
-      contactPhoneNumber: String,
-      contactEmail: String,
-      jobName: String,
-      jobNumber: String,
-      jobDescription: String,
-      jobStatus: Number
+      companyName: { type: String, required: true },
+      contactName: { type: String, required: true },
+      contactPhoneNumber: { type: String, required: true },
+      contactEmail: { type: String, required: true },
+      jobName: { type: String, required: true },
+      jobNumber: { type: String, required: true },
+      jobDescription: { type: String, required: true },
+      jobStatus: { type: Number, required: true },
     }
   ]
 }, { timestamps: true });

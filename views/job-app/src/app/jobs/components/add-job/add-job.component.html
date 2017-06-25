@@ -1,39 +1,64 @@
 <form [formGroup]="jobFormGroup" (ngSubmit)="addJob(jobFormGroup)">
-<button class="btn btn-primary save pull-right" type="submit">S</button>
-<thead class="thead-inverse">
-    <tr>
-        <th>
-            <input class="form-control" formControlName="companyName" placeholder="Company Name">
-        </th>
-        <th>
-            <input class="form-control" formControlName="contactName" placeholder="Contact Name">
-        </th>
-        <th>
-            <input class="form-control" formControlName="contactPhoneNumber" placeholder="Contact Phone Number">
-        </th>
-        <th>
-            <input class="form-control" formControlName="contactEmail" placeholder="Contact Email">
-        </th>
-        <th>
-            <input class="form-control" formControlName="jobName" placeholder="Job Name">
-        </th>
-        <th>
-            <input class="form-control" formControlName="jobNumber" placeholder="Job Number">
-        </th>
-        <th>
-            <input class="form-control" formControlName="jobDescription" placeholder="Description">
-        </th>
-        <th>
-            <select class="form-control" placeholder="Status" formControlName="jobStatus">
-                <option></option>
-                <option value="0">Staging</option>
-                <option value="1">Machining</option>
-                <option value="2">Quality</option>
-                <option value="3">Shipping</option>
-                <option value="4">Complete</option>
-                <option value="5">Waiting</option>
-            </select>
-        </th>
-    </tr>
-</thead>
+    <div class="modal-header">
+        <h4 class="modal-title">Add Job</h4>
+        <div class="alert alert-success" *ngIf="jobSuccessfullyAdded" role="alert">
+            <strong>Job Saved</strong>
+        </div>
+        <button type="button" (click)="closeModal()" class="close" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Company Name</label>
+                <input class="form-control" formControlName="companyName" placeholder="Company Name">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Contact Name</label>
+                <input class="form-control" formControlName="contactName" placeholder="Contact Name">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Contact Phone Number</label>
+                <input class="form-control" formControlName="contactPhoneNumber" placeholder="Contact Phone Number">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Contact Email</label>
+                <input class="form-control" formControlName="contactEmail" placeholder="Contact Email">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Job Number</label>
+                <input class="form-control" formControlName="jobNumber" placeholder="Job Number">
+            </div>
+            <div class="form-group col-md-6">
+                <label>Job Name</label>
+                <input class="form-control" formControlName="jobName" placeholder="Job Name">
+            </div>
+            <div class="form-group col-md-6">
+                <label>Job Description</label>
+                <input class="form-control" formControlName="jobDescription" placeholder="Job Description">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Job Status</label>
+                <select class="form-control" placeholder="Status" formControlName="jobStatus">
+                    <option>Select Status</option>
+                    <option value="0">Staging</option>
+                    <option value="1">Machining</option>
+                    <option value="2">Quality</option>
+                    <option value="3">Shipping</option>
+                    <option value="4">Complete</option>
+                    <option value="5">Waiting</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary pull-right" type="submit">Add Job</button>
+
+    </div>
 </form>

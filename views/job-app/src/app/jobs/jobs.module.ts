@@ -13,9 +13,11 @@ import { SettingsService } from './services/settings';
 import { SidebarService } from './services/sidebar';
 import { UpdateJobComponent } from './components/update-job/update-job.component';
 
+
 import {NgbModule, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';
+import { JobStatusNumberToTitlePipe } from './pipes/job-status-number-to-title/job-status-number-to-status-title.pipe';
 
 export const routes: Routes = [
     { path: 'add-job', component: AddJobComponent },
@@ -36,7 +38,8 @@ export const routes: Routes = [
         AddJobComponent,
         UpdateJobComponent,
         FilterPipe,
-        JobStatusPipe
+        JobStatusPipe,
+        JobStatusNumberToTitlePipe
     ],
     providers: [
         JobsService,
