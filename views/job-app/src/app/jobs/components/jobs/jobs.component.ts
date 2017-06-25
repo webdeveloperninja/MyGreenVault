@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { JobsService, IPagedList, IJob } from '../../services/jobs';
 import { SettingsService } from '../../services/settings';
 import { SidebarService } from '../../services/sidebar';
@@ -16,7 +16,10 @@ const DEFAULT_TAKE: number = 8;
 })
 export class JobsComponent implements OnInit {
 
-  @ViewChild('content') content: ElementRef;
+  @ViewChild('updateJobRef') updateJobRef: ElementRef;
+  @ViewChild('addJobRef') addJobRef: ElementRef;
+
+  private _addJobModalRef: NgbModalRef;
 
   updateJobModal: any;
   private _updateJobModalRef: NgbModalRef;
@@ -26,6 +29,8 @@ export class JobsComponent implements OnInit {
 
   activeJob: IJob = null;
   activeJobSub$: Subscription;
+
+  activeJob$: Observable<IJob>;
 
   isLoading: boolean = false;
 
@@ -55,14 +60,43 @@ export class JobsComponent implements OnInit {
   }
 
   constructor(
-      private _jobsService: JobsService,
-      private _modalService: NgbModal
+    private _jobsService: JobsService,
+    private _modalService: NgbModal
   ) { }
 
   ngOnInit() {
     this.jobs$ = this._jobsService.jobs$;
     this.isJobsLoading$ = this._jobsService.isJobsLoading$;
+    this.activeJob$ = this._jobsService.activeJob$;
+
     this.doSearch();
+  }
+
+  displayOptions = {
+    companyName: {
+      selected: true
+    },
+    contactName: {
+      selected: true
+    },
+    contactPhoneNumber: {
+      selected: true
+    },
+    contactEmail: {
+      selected: true
+    },
+    jobName: {
+      selected: true
+    },
+    jobNumber: {
+      selected: true
+    },
+    jobDescription: {
+      selected: true
+    },
+    jobStatus: {
+      selected: true
+    }
   }
 
   nextPage() {
@@ -74,35 +108,41 @@ export class JobsComponent implements OnInit {
     if (this.skip >= this.take) {
       this.skip = this.skip - this.take;
       this.doSearch();
-    } 
+    }
   }
 
   doSearch() {
     this.isLoading = true;
 
-    this._jobsService.getJobs(this.skip, this.take).subscribe(jobsData => {
+    this._jobsService.getJobs(this.skip, this.take).subscribe(response => {
+      console.log(response);
+      this.more = response.more
       this.isLoading = false;
-      this.more = jobsData.more;
-      this.skip = jobsData.skip;
-      this.take = jobsData.take;
+      this.more = response.more;
+      this.skip = response.skip;
+      this.take = response.take;
     })
   }
 
-  updateJob(jobId) {
-    this.activeJobSub$ = this.jobs$.flatMap(job => {
-      return job
-    }).filter((job, i) => {
-      return job._id === jobId;
-    }).subscribe((job) => {
-      this.activeJob = job;
-      console.log(this.activeJob);
-      // open modal populate field
-    });
-    this._updateJobModalRef = this._modalService.open(this.content, {size: 'lg'});
-
+  openUpdateJobModal(jobId) {
+    this._jobsService.setActiveJob(jobId);
+    this._updateJobModalRef = this._modalService.open(this.updateJobRef, { size: 'lg' });
   }
 
-  closeModal() {
+  closeUpdateJobModal() {
     this._updateJobModalRef.close();
   }
+
+  closeAddJobModal() {
+    this._addJobModalRef.close();
+  }
+
+  isTiUpdateJobLoading(event) {
+    console.log(event);
+  }
+
+  addJob() {
+    this._addJobModalRef = this._modalService.open(this.addJobRef, { size: 'lg' });
+  }
+
 }

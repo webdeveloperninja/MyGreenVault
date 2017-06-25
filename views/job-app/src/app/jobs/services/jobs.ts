@@ -3,6 +3,7 @@ import {Http, Headers, Response} from '@angular/http';
 import { SidebarService } from './sidebar';
 import {Observable, BehaviorSubject} from 'rxjs'
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
 
 
 @Injectable()
@@ -13,6 +14,10 @@ export class JobsService {
 
     private _isJobsLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
     public readonly isJobsLoading$: Observable<boolean> = this._isJobsLoadingSubject$.asObservable();
+
+    private _activeJobSubject$: BehaviorSubject<IJob> = new BehaviorSubject<IJob>(null);
+    public readonly activeJob$: Observable<IJob> = this._activeJobSubject$.asObservable();
+
 
     constructor(
         private _http: Http,
@@ -28,16 +33,16 @@ export class JobsService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); //...
     }
 
-    getJobs(skip: number = 0, take: number = 8) {
+    getJobs(skip = 0, take = 8) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         this._isJobsLoadingSubject$.next(true);
         return this._http.get(`/api/v1/jobs?skip=${skip}&take=${take}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
-            this._jobsSubject$.next(res.json().data);
-            this._isJobsLoadingSubject$.next(false);
-            return res.json()
+            this._jobsSubject$.next(res.json().data)
+            return res.json();
         });
     }
+
 
     updateJob(job) {
         let headers = new Headers();
@@ -47,6 +52,12 @@ export class JobsService {
                 return res.json() 
         })
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
+    }
+
+    setActiveJob(jobId: string): void {
+        let activeJob = this.jobs$.map(jobs => jobs.filter(job => job._id === jobId)[0]).subscribe(activeJob => {
+            this._activeJobSubject$.next(activeJob);
+        });
     }
 }
 

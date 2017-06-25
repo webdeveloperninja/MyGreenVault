@@ -1,21 +1,59 @@
-  <div class="modal-header">
-    <h4 class="modal-title">Update: {{activeJob.jobName}}</h4>
+ <form [formGroup]="activeJobFormGroup" (ngSubmit)="updateJob(activeJobFormGroup)">
+ <div class="modal-header">
+    <h4 class="modal-title">Update: {{activeJob.companyName}}</h4>
     <button type="button" (click)="closeModal()" class="close" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="activeJobFormGroup" (ngSubmit)="updateJob(activeJobFormGroup)">
       <div class="row">
-        <div class="form-group col-md-6" *ngFor="let job of activeJob | keys">
-          <label>{{ job.key | camelCaseToRegular}}</label>
-          <input class="form-control" formControlName="{{job.key}}" placeholder="{{job.key | camelCaseToRegular}}">
+        <div class="form-group col-md-6">
+          <label>Company Name</label>
+          <input class="form-control" formControlName="companyName" placeholder="Job Status">          
+        </div>
+        <div class="form-group col-md-6">
+          <label>Job Name</label>
+          <input class="form-control" formControlName="jobName" placeholder="Job Status">          
+        </div>
+        <div class="form-group col-md-6">
+          <label>Contact Email</label>
+          <input class="form-control" formControlName="contactEmail" placeholder="Job Status">          
+        </div>
+        <div class="form-group col-md-6">
+          <label>Contact Phone Number</label>
+          <input class="form-control" formControlName="contactPhoneNumber" placeholder="Job Status">          
+        </div>
+        <div class="form-group col-md-6">
+          <label>Contact Name</label>
+          <input class="form-control" formControlName="contactName" placeholder="Job Status">          
+        </div>
+        <div class="form-group col-md-6">
+          <label>Job Status</label>
+          <select class="form-control" placeholder="Status" formControlName="jobStatus">
+              <option>Select Status</option>
+              <option value="0">Staging</option>
+              <option value="1">Machining</option>
+              <option value="2">Quality</option>
+              <option value="3">Shipping</option>
+              <option value="4">Complete</option>
+              <option value="5">Waiting</option>
+          </select>
+        </div>
+        <div class="form-group col-md-6">
+          <label>Job Description</label>
+          <input class="form-control" formControlName="jobDescription" placeholder="Job Status">          
+        </div>
+        <div class="form-group col-md-6">
+          <label>Job Number</label>
+          <input class="form-control" formControlName="jobDescription" placeholder="Job Status">          
+        </div>
+        <div class="form-group col-md-6" hidden>
+            <input formControlName="_id">
         </div>
       </div>
-      <button class="btn btn-primary save pull-right" type="submit">Save</button>
-    </form>
   </div>
   <div class="modal-footer">
-
+    <button class="btn btn-primary save pull-right" type="submit">Save</button>
   </div>
+</form>
 

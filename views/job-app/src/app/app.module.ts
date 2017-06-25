@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { FlashMessagesModule } from 'ngx-flash-messages';
 
 import { AppComponent } from './app.component';
 
@@ -24,11 +25,15 @@ export const routes: Routes = [
     ReactiveFormsModule,
     FormsModule,
     HttpModule,
+    FlashMessagesModule,
     SharedModule,
     JobsModule,
     NgbModule.forRoot(),
   ],
   providers: [
+  ],
+  exports: [
+    FlashMessagesModule
   ],
   bootstrap: [AppComponent]
 })

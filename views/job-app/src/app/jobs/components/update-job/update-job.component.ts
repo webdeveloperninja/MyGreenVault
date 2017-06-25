@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter, OnDestroy} from '@angular/core';
 import { JobsService, IJob } from '../../services/jobs';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, Subject } from 'rxjs';
 
 @Component({
   selector: 'ti-update-job',
@@ -12,8 +12,16 @@ export class UpdateJobComponent implements OnInit {
 
   activeJobFormGroup: FormGroup;
 
+  @Input('skip') skip: number;
+  @Input('take') take: number;
+
   @Output('closeUpdateModal')
   closeUpdateModal: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Output('isLoading')
+  isLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  activeJobSubscription$: Subscription;
 
   private _activeJob: any;
   get activeJob(): any {
@@ -21,7 +29,9 @@ export class UpdateJobComponent implements OnInit {
   }
   @Input('activeJob')
   set activeJob(activeJob: any) {
-    this._activeJob = activeJob;
+    activeJob.subscribe(activeJob => {
+      this._activeJob = activeJob;
+    })
   }
 
   constructor(
@@ -30,8 +40,12 @@ export class UpdateJobComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.activeJob);
     this.activeJobFormGroup = this.createGroup();
+  }
+
+  ngOnDestroy() {
+    if(this.activeJobSubscription$)
+      this.activeJobSubscription$.unsubscribe()
   }
 
   createGroup() {
@@ -45,12 +59,15 @@ export class UpdateJobComponent implements OnInit {
   }
 
   updateJob(activeJob) {
-    console.log(activeJob.value);
-    // update job 
-    this._jobsService.updateJob(activeJob.value).subscribe(data => {
-      console.log(data);
+    this.activeJobSubscription$ = this._jobsService.updateJob(activeJob.value).subscribe(data => {
+      
+      this._jobsService.getJobs().finally(() => {
+     
+      }).subscribe(() => {
+        
+      })
+      this.closeModal();
     });
-
   }
 
   closeModal() {
