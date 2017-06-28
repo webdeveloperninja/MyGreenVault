@@ -96,11 +96,14 @@ a, button {
 
 tr {
   cursor: pointer;
-  &:hover {
-    background-color: #5cb85c!important;
-  }
 }
 
 .display-dropdown {
   padding: 20px;
+}
+
+.dropdown-menu {
+  label {
+    cursor: pointer;
+  }
 }

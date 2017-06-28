@@ -1,4 +1,4 @@
-<form [formGroup]="jobFormGroup" (ngSubmit)="addJob(jobFormGroup)">
+<form [formGroup]="jobFormGroup" #jobForm="ngForm" class="add-job" (ngSubmit)="addJob(jobFormGroup)">
     <div class="modal-header">
         <h4 class="modal-title">Add Job</h4>
         <div class="alert alert-success" *ngIf="jobSuccessfullyAdded" role="alert">
@@ -11,8 +11,8 @@
     <div class="modal-body">
         <div class="row">
             <div class="form-group col-md-6">
-                <label>Company Name</label>
-                <input class="form-control" formControlName="companyName" placeholder="Company Name">
+                <label>Company Name <span class="danger">{{ formErrors.companyName}}</span></label>
+                <input class="form-control" formControlName="companyName">
             </div>
 
             <div class="form-group col-md-6">
@@ -58,6 +58,7 @@
         </div>
     </div>
     <div class="modal-footer">
+        {{ jobFormGroup.valid | json}}
         <button class="btn btn-primary pull-right" type="submit">Add Job</button>
 
     </div>

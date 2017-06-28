@@ -20,10 +20,9 @@ exports.getJobs = (req, res) => {
 
         if(jobs.length === take + 1) {
           more = true;
+          jobs = jobs.slice(0, -1); 
         }
-
-        jobs = jobs.slice(0, -1); 
-
+        
         let resObj = {
           skip: skip,
           take: take,
@@ -63,13 +62,4 @@ exports.updateJob = (req, res) => {
     }, function(err, job) {
         res.json({"success": true});
     });
-}
-
-
-exports.deleteJob = (req, res) => {
-
-}
-
-exports.getJob = (req, res) => {
-  
 }
