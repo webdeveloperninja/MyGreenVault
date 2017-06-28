@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, ViewContainerRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewContainerRef, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angular/forms';
 import { JobsService } from '../../services/jobs';
 import { Observable } from 'rxjs';
 
@@ -14,6 +14,8 @@ export class AddJobComponent implements OnInit {
 
     jobSuccessfullyAdded: boolean = false;
 
+    @ViewChild('jobForm') jobForm: NgForm;
+
     @Output('closeAddJobModal')
     closeAddJobModal: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -26,15 +28,16 @@ export class AddJobComponent implements OnInit {
     ) { }
     
     ngOnInit() {
-        this.jobFormGroup = new FormGroup({
-            companyName: new FormControl(''),
-            contactName: new FormControl(''),
-            contactPhoneNumber:  new FormControl(''),
-            contactEmail: new FormControl(''),
-            jobName: new FormControl(''),
-            jobNumber: new FormControl(''),
-            jobDescription: new FormControl(''),
-            jobStatus: new FormControl('')
+
+        this.jobFormGroup = this._formBuilder.group({
+            companyName: ['', Validators.required],
+            contactName: ['', Validators.required],
+            contactPhoneNumber: ['', Validators.required],
+            contactEmail: ['', Validators.required],
+            jobName: ['', Validators.required],
+            jobNumber: ['', Validators.required],
+            jobDescription: ['', Validators.required],
+            jobStatus: ['', Validators.required]
         });
     }
 
@@ -53,6 +56,7 @@ export class AddJobComponent implements OnInit {
             if(job.success) {
                 this.jobFormGroup.reset();
                 this.jobSuccessfullyAdded = true;
+                this._jobsService.getJobs(this.skip, this.take).subscribe();
                 Observable.timer(5000).subscribe(() => {
                     this.jobSuccessfullyAdded = false;
                 })
@@ -64,5 +68,46 @@ export class AddJobComponent implements OnInit {
   closeModal() {
     this.closeAddJobModal.emit(true);
   }
+
+ngAfterViewChecked() {
+  this.formChanged();
+}
+
+formChanged() {
+  if (this.jobForm) {
+    this.jobForm.valueChanges
+      .subscribe(data => this.onValueChanged(data));
+  }
+}
+
+
+onValueChanged(data?: any) {
+  if (!this.jobForm) { return; }
+  const form = this.jobForm.form;
+
+  for (const field in this.formErrors) {
+    // clear previous error message (if any)
+    this.formErrors[field] = '';
+    const control = form.get(field);
+
+    if (control && control.dirty && !control.valid) {
+      const messages = this.validationMessages[field];
+      for (const key in control.errors) {
+        this.formErrors[field] += messages[key] + ' ';
+      }
+    }
+  }
+  console.log(this.formErrors);
+}
+
+formErrors = {
+  'companyName': ''
+};
+
+validationMessages = {
+  'companyName': {
+    'required':      'Name is required.'
+  }
+};
 
 }

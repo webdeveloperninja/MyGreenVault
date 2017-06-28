@@ -22,14 +22,14 @@ const multer = require('multer');
 
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
-const isProd = true;
+const isProd = false;
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  * 
  * dev and prod //////
  */
-if (isProd)
+if (process.env.isProd)
   dotenv.load({ path: '.env.prod' });
 else 
   dotenv.load({ path: '.env.dev' });
