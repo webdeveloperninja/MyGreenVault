@@ -84,12 +84,9 @@ formChanged() {
 onValueChanged(data?: any) {
   if (!this.jobForm) { return; }
   const form = this.jobForm.form;
-
   for (const field in this.formErrors) {
-    // clear previous error message (if any)
     this.formErrors[field] = '';
     const control = form.get(field);
-
     if (control && control.dirty && !control.valid) {
       const messages = this.validationMessages[field];
       for (const key in control.errors) {
@@ -97,17 +94,40 @@ onValueChanged(data?: any) {
       }
     }
   }
-  console.log(this.formErrors);
 }
 
 formErrors = {
-  'companyName': ''
+  'companyName': '',
+  'contactName': '',
+  'contactPhoneNumber': '',
+  'contactEmail': '',
+  'jobNumber': '',
+  'jobName': '',
+  'jobDescription': ''
 };
 
 validationMessages = {
   'companyName': {
-    'required':      'Name is required.'
-  }
+    'required':      'Company Name is required.'
+  },
+  'contactName': {
+    'required':      'Contact Name is required.'
+  },
+  'contactPhoneNumber': {
+    'required':      'Phone Number is required.'
+  },
+  'contactEmail': {
+    'required':      'Contact Email is required.'
+  },
+  'jobNumber': {
+    'required':      'Job Number is required.'
+  },
+  'jobName': {
+    'required':      'Job Name is required.'
+  },
+  'jobDescription': {
+    'required':      'Job Description is required.'
+  },
 };
 
 }
