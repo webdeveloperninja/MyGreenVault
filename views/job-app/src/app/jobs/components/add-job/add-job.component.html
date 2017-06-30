@@ -16,33 +16,32 @@
             </div>
 
             <div class="form-group col-md-6">
-                <label>Contact Name</label>
-                <input class="form-control" formControlName="contactName" placeholder="Contact Name">
+                <label>Contact Name <span class="danger">{{ formErrors.contactName}}</span></label>
+                <input class="form-control" formControlName="contactName">
             </div>
 
             <div class="form-group col-md-6">
-                <label>Contact Phone Number</label>
-                <input class="form-control" formControlName="contactPhoneNumber" placeholder="Contact Phone Number">
+                <label>Contact Phone Number <span class="danger">{{ formErrors.contactPhoneNumber}}</span></label>
+                <input class="form-control" formControlName="contactPhoneNumber">
             </div>
 
             <div class="form-group col-md-6">
-                <label>Contact Email</label>
-                <input class="form-control" formControlName="contactEmail" placeholder="Contact Email">
+                <label>Contact Email <span class="danger">{{ formErrors.contactEmail}}</span></label>
+                <input class="form-control" formControlName="contactEmail">
             </div>
 
             <div class="form-group col-md-6">
-                <label>Job Number</label>
-                <input class="form-control" formControlName="jobNumber" placeholder="Job Number">
+                <label>Job Number <span class="danger">{{ formErrors.jobNumber}}</span></label>
+                <input class="form-control" formControlName="jobNumber">
             </div>
             <div class="form-group col-md-6">
-                <label>Job Name</label>
-                <input class="form-control" formControlName="jobName" placeholder="Job Name">
+                <label>Job Name <span class="danger">{{ formErrors.jobName}}</span></label>
+                <input class="form-control" formControlName="jobName">
             </div>
             <div class="form-group col-md-6">
-                <label>Job Description</label>
-                <input class="form-control" formControlName="jobDescription" placeholder="Job Description">
+                <label>Job Description <span class="danger">{{ formErrors.jobDescription}}</span></label>
+                <input class="form-control" formControlName="jobDescription">
             </div>
-
             <div class="form-group col-md-6">
                 <label>Job Status</label>
                 <select class="form-control" placeholder="Status" formControlName="jobStatus">
@@ -58,8 +57,6 @@
         </div>
     </div>
     <div class="modal-footer">
-        {{ jobFormGroup.valid | json}}
-        <button class="btn btn-primary pull-right" type="submit">Add Job</button>
-
+        <button [disabled]="jobFormGroup.invalid" class="btn btn-primary pull-right" type="submit">Add Job</button>
     </div>
 </form>

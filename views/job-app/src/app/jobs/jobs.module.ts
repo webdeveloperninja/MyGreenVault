@@ -20,10 +20,8 @@ import { SharedModule } from '../shared/shared.module';
 import { JobStatusNumberToTitlePipe } from './pipes/job-status-number-to-title/job-status-number-to-status-title.pipe';
 
 export const routes: Routes = [
-    { path: 'add-job', component: AddJobComponent },
-    { path: '', component: JobsComponent }
+    { path: 'jobs', component: JobsComponent }
 ];
-
 
 @NgModule({
     imports: [
@@ -31,6 +29,12 @@ export const routes: Routes = [
         FormsModule,
         SharedModule,
         ReactiveFormsModule,
+        RouterModule.forChild([
+            {
+                path: 'jobs',
+                component: JobsComponent
+            }
+            ]),
         NgbModule.forRoot()
     ],
     declarations: [
