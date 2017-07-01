@@ -1,0 +1,59 @@
+ <form [formGroup]="activetoolFormGroup" (ngSubmit)="updatetool(activetoolFormGroup)">
+ <div class="modal-header">
+    <h4 class="modal-title">Update: {{activetool.companyName}}</h4>
+    <button type="button" (click)="closeModal()" class="close" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label>Company Name</label>
+          <input class="form-control" formControlName="companyName" placeholder="tool Status">          
+        </div>
+        <div class="form-group col-md-6">
+          <label>tool Name</label>
+          <input class="form-control" formControlName="toolName" placeholder="tool Status">          
+        </div>
+        <div class="form-group col-md-6">
+          <label>Contact Email</label>
+          <input class="form-control" formControlName="contactEmail" placeholder="tool Status">          
+        </div>
+        <div class="form-group col-md-6">
+          <label>Contact Phone Number</label>
+          <input class="form-control" formControlName="contactPhoneNumber" placeholder="tool Status">          
+        </div>
+        <div class="form-group col-md-6">
+          <label>Contact Name</label>
+          <input class="form-control" formControlName="contactName" placeholder="tool Status">          
+        </div>
+        <div class="form-group col-md-6">
+          <label>tool Status</label>
+          <select class="form-control" placeholder="Status" formControlName="toolstatus">
+              <option>Select Status</option>
+              <option value="0">Staging</option>
+              <option value="1">Machining</option>
+              <option value="2">Quality</option>
+              <option value="3">Shipping</option>
+              <option value="4">Complete</option>
+              <option value="5">Waiting</option>
+          </select>
+        </div>
+        <div class="form-group col-md-6">
+          <label>tool Description</label>
+          <input class="form-control" formControlName="toolDescription" placeholder="tool Status">          
+        </div>
+        <div class="form-group col-md-6">
+          <label>tool Number</label>
+          <input class="form-control" formControlName="toolNumber" placeholder="tool Status">          
+        </div>
+        <div class="form-group col-md-6" hidden>
+            <input formControlName="_id">
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary save pull-right" type="submit">Save</button>
+  </div>
+</form>
+

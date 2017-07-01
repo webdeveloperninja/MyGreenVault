@@ -14,14 +14,12 @@ import { SidebarService } from './services/sidebar';
 import { UpdateJobComponent } from './components/update-job/update-job.component';
 
 
-import {NgbModule, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';
 import { JobStatusNumberToTitlePipe } from './pipes/job-status-number-to-title/job-status-number-to-status-title.pipe';
 
-export const routes: Routes = [
-    { path: 'jobs', component: JobsComponent }
-];
+import { routes } from './jobs.routing';
 
 @NgModule({
     imports: [
@@ -29,12 +27,7 @@ export const routes: Routes = [
         FormsModule,
         SharedModule,
         ReactiveFormsModule,
-        RouterModule.forChild([
-            {
-                path: 'jobs',
-                component: JobsComponent
-            }
-            ]),
+        RouterModule.forChild(routes),
         NgbModule.forRoot()
     ],
     declarations: [

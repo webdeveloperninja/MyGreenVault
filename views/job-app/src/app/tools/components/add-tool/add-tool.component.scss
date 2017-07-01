@@ -1,0 +1,17 @@
+.add-tool {
+  .ng-touched {
+    &.ng-invalid {
+      border: 1px solid red!important;
+    }
+  } 
+  .danger {
+    color: red;
+    position: absolute;
+    top: 32px;
+    left: 23px;
+    font-size: 11px;
+  }
+  .form-group {
+    position: relative;
+  }
+}

@@ -1,0 +1,62 @@
+<form [formGroup]="ToolFormGroup" #ToolForm="ngForm" class="add-Tool" (ngSubmit)="addTool(ToolFormGroup)">
+    <div class="modal-header">
+        <h4 class="modal-title">Add Tool</h4>
+        <div class="alert alert-success" *ngIf="toolsuccessfullyAdded" role="alert">
+            <strong>Tool Saved</strong>
+        </div>
+        <button type="button" (click)="closeModal()" class="close" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Company Name <span class="danger">{{ formErrors.companyName}}</span></label>
+                <input class="form-control" formControlName="companyName">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Contact Name <span class="danger">{{ formErrors.contactName}}</span></label>
+                <input class="form-control" formControlName="contactName">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Contact Phone Number <span class="danger">{{ formErrors.contactPhoneNumber}}</span></label>
+                <input class="form-control" formControlName="contactPhoneNumber">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Contact Email <span class="danger">{{ formErrors.contactEmail}}</span></label>
+                <input class="form-control" formControlName="contactEmail">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Tool Number <span class="danger">{{ formErrors.ToolNumber}}</span></label>
+                <input class="form-control" formControlName="ToolNumber">
+            </div>
+            <div class="form-group col-md-6">
+                <label>Tool Name <span class="danger">{{ formErrors.ToolName}}</span></label>
+                <input class="form-control" formControlName="ToolName">
+            </div>
+            <div class="form-group col-md-6">
+                <label>Tool Description <span class="danger">{{ formErrors.ToolDescription}}</span></label>
+                <input class="form-control" formControlName="ToolDescription">
+            </div>
+            <div class="form-group col-md-6">
+                <label>Tool Status</label>
+                <select class="form-control" placeholder="Status" formControlName="Toolstatus">
+                    <option>Select Status</option>
+                    <option value="0">Staging</option>
+                    <option value="1">Machining</option>
+                    <option value="2">Quality</option>
+                    <option value="3">Shipping</option>
+                    <option value="4">Complete</option>
+                    <option value="5">Waiting</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button [disabled]="toolFormGroup.invalid" class="btn btn-primary pull-right" type="submit">Add Tool</button>
+    </div>
+</form>

@@ -1,0 +1,102 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="dropdown pull-right">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                tools
+            </button>
+            <div class="dropdown-menu dropdown-menu-right display-dropdown" (click)="$event.stopPropagation()" aria-labelledby="dropdownMenuButton">
+                <div class="row">
+                    <label class="col">
+                        <input type="checkbox" [(ngModel)]="displayOptions.companyName.selected" /> Company Name
+                    </label>
+                    <label class="col">
+                        <input type="checkbox" [(ngModel)]="displayOptions.contactName.selected" /> Contact Name
+                    </label>
+                    <label class="col">
+                        <input type="checkbox" [(ngModel)]="displayOptions.contactPhoneNumber.selected" /> Phone
+                    </label>
+                    <label class="col">
+                        <input type="checkbox" [(ngModel)]="displayOptions.contactEmail.selected" /> Email Address
+                    </label>
+                    <label class="col">
+                        <input type="checkbox" [(ngModel)]="displayOptions.toolName.selected" /> tool Name
+                    </label>
+                    <label class="col">
+                        <input type="checkbox" [(ngModel)]="displayOptions.toolNumber.selected" /> tool Number
+                    </label>
+                    <label class="col">
+                        <input type="checkbox" [(ngModel)]="displayOptions.toolDescription.selected" /> tool Description
+                    </label>
+                    <label class="col">
+                        <input type="checkbox" [(ngModel)]="displayOptions.toolStatus.selected" /> tool Status
+                    </label>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary pull-right" (click)="addtool()">Add tool</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <ti-loading [isLoading]="isLoading"></ti-loading>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <thead class="thead-inverse">
+                            <tr>
+                                <th [hidden]="!displayOptions.companyName.selected">Company Name</th>
+                                <th [hidden]="!displayOptions.contactName.selected">Contact Name</th>
+                                <th [hidden]="!displayOptions.contactPhoneNumber.selected">Phone</th>
+                                <th [hidden]="!displayOptions.contactEmail.selected">Email</th>
+                                <th [hidden]="!displayOptions.toolName.selected">tool Name</th>
+                                <th [hidden]="!displayOptions.toolNumber.selected">tool Number</th>
+                                <th [hidden]="!displayOptions.toolDescription.selected">tool Description</th>
+                                <th [hidden]="!displayOptions.toolStatus.selected">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let tool of tools$ | async" (click)="openUpdatetoolModal(tool._id)">
+                                <td [hidden]="!displayOptions.companyName.selected">{{ tool.companyName }}</td>
+                                <td [hidden]="!displayOptions.contactName.selected">{{ tool.contactName }}</td>
+                                <td [hidden]="!displayOptions.contactPhoneNumber.selected">{{ tool.contactPhoneNumber }}</td>
+                                <td [hidden]="!displayOptions.contactEmail.selected">{{ tool.contactEmail }}</td>
+                                <td [hidden]="!displayOptions.toolName.selected">{{ tool.toolName }}</td>
+                                <td [hidden]="!displayOptions.toolNumber.selected">{{ tool.toolNumber }}</td>
+                                <td [hidden]="!displayOptions.toolDescription.selected">{{ tool.toolDescription }}</td>
+                                <td [hidden]="!displayOptions.toolStatus.selected">{{ tool.toolStatus  }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button (click)="previousPage()" *ngIf="skip !== 0" class="btn btn-info mr-auto" [disabled]="isLoading">
+                                Previous Page
+                        </button>
+                            <button (click)="nextPage()" *ngIf="more" class="btn btn-info ml-auto next" [disabled]="isLoading">
+                                Next Page
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #updatetoolRef let-c="close" let-d="dismiss">
+    <ti-update-tool 
+        [activetool]="activetool$" 
+        (closeUpdateModal)="closeUpdatetoolModal($event)" 
+        (isLoading)="isTiUpdatetoolLoading($event)"
+        [skip]="skip" 
+        [take]="take">
+    </ti-update-tool>
+</ng-template>
+<ng-template #addtoolRef let-c="close" let-d="dismiss">
+    <add-tool 
+        (closeAddtoolModal)="closeAddtoolModal($event)" 
+        [skip]="skip" 
+        [take]="take">
+    </add-tool>
+</ng-template>
