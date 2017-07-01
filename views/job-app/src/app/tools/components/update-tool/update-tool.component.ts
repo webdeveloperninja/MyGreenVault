@@ -49,12 +49,13 @@ export class UpdateToolComponent implements OnInit {
   }
 
   createGroup() {
-    const group = this._fb.group({});
-
-    for (var prop in this.activetool) {
-       group.addControl(prop, this._fb.control(this.activetool[prop]));
-    }
-
+    const group = this._fb.group({
+        toolName: [this.activetool.toolName, Validators.required],
+        qty: [this.activetool.qty, Validators.required],
+        idealAmount: [this.activetool.idealAmount, Validators.required],
+        autoOrderQty: [this.activetool.autoOrderQty, Validators.required],
+        _id: [this.activetool._id, Validators.required]
+    });
     return group;
   }
 
