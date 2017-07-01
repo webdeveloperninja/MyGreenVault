@@ -30,29 +30,21 @@ export class AddToolComponent implements OnInit {
     ngOnInit() {
 
         this.toolFormGroup = this._formBuilder.group({
-            companyName: ['', Validators.required],
-            contactName: ['', Validators.required],
-            contactPhoneNumber: ['', Validators.required],
-            contactEmail: ['', Validators.required],
             toolName: ['', Validators.required],
-            toolNumber: ['', Validators.required],
-            toolDescription: ['', Validators.required],
-            toolStatus: ['', Validators.required]
+            qty: ['', Validators.required],
+            idealAmount: ['', Validators.required],
+            autoOrderQty: ['', Validators.required],
         });
     }
 
-    addtool(toolFormGroup) {
+    addTool(toolFormGroup) {
         let toolObj = {
-            companyName: this.toolFormGroup.controls['companyName'].value,
-            contactName: this.toolFormGroup.controls['contactName'].value,
-            contactPhoneNumber: this.toolFormGroup.controls['contactPhoneNumber'].value,
-            contactEmail: this.toolFormGroup.controls['contactEmail'].value,
             toolName: this.toolFormGroup.controls['toolName'].value,
-            toolNumber: this.toolFormGroup.controls['toolNumber'].value,
-            toolDescription: this.toolFormGroup.controls['toolDescription'].value,
-            toolStatus: this.toolFormGroup.controls['toolStatus'].value
+            qty: this.toolFormGroup.controls['qty'].value,
+            idealAmount: this.toolFormGroup.controls['idealAmount'].value,
+            autoOrderQty: this.toolFormGroup.controls['autoOrderQty'].value,
         };
-        this._toolsService.addtool(toolObj).subscribe((tool) => {
+        this._toolsService.addTool(toolObj).subscribe((tool) => {
             if(tool.success) {
                 this.toolFormGroup.reset();
                 this.toolSuccessfullyAdded = true;

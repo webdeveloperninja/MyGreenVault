@@ -35,6 +35,14 @@ const userSchema = new mongoose.Schema({
       jobDescription: { type: String, required: true },
       jobStatus: { type: Number, required: true },
     }
+  ],
+  tools: [
+    {
+      toolName: {type: String, require: true },
+      qty: { type: Number, required: true },
+      idealAmount: { type: Number, required: true },
+      autoOrderQty: { type: Number, required: true }
+    }
   ]
 }, { timestamps: true });
 

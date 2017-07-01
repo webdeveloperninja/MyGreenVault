@@ -170,7 +170,7 @@ app.post('/api/v1/job/', passportConfig.isAuthenticated, jobApiController.addJob
 app.post('/api/v1/update-job/', passportConfig.isAuthenticated, jobApiController.updateJob);
 
 app.get('/api/v1/tools', passportConfig.isAuthenticated, toolsApiController.getTools);
-
+app.post('/api/v1/tool/', passportConfig.isAuthenticated, toolsApiController.addTool);
 
 /**
  * API examples routes.

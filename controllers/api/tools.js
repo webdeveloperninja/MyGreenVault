@@ -45,10 +45,13 @@ exports.addTool = (req, res) => {
       {$push: {tools: req.body}},
       {safe: true, upsert: true},
       function(err, model) {
-          if(err)
+        if(err) {
+            console.log(err);
             res.json({"error": true})
-          else 
+        } else {
             res.json({"success": true})
+        }
+           
       }
   );  
 }

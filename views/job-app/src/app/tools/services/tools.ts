@@ -25,7 +25,7 @@ export class ToolsService {
         ) {
     }
 
-    addtool(tool) {
+    addTool(tool) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         return this._http.post('/api/v1/tool/', tool, {headers: headers}) // ...using post request
