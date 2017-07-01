@@ -40,6 +40,7 @@ const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const jobApiController = require('./controllers/api/job');
+const toolsApiController = require('./controllers/api/tools');
 const contactController = require('./controllers/contact');
 const toolingInventorySPA = require('./controllers/toolingInventorySpa');
 
@@ -167,6 +168,10 @@ app.get('/job-app', passportConfig.isAuthenticated, toolingInventorySPA.getTooli
 app.get('/api/v1/jobs', passportConfig.isAuthenticated, jobApiController.getJobs);
 app.post('/api/v1/job/', passportConfig.isAuthenticated, jobApiController.addJob);
 app.post('/api/v1/update-job/', passportConfig.isAuthenticated, jobApiController.updateJob);
+
+app.get('/api/v1/tools', passportConfig.isAuthenticated, toolsApiController.getTools);
+app.post('/api/v1/tool/', passportConfig.isAuthenticated, toolsApiController.addTool);
+app.post('/api/v1/update-tool/', passportConfig.isAuthenticated, toolsApiController.updateTool);
 
 /**
  * API examples routes.

@@ -9,27 +9,29 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AppComponent } from './app.component';
 
 import { JobsModule } from './jobs/jobs.module';
+import { ToolsModule } from './tools/tools.module';
 import { SharedModule } from './shared/shared.module';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
-import { AppRoutingModule } from './app-routing.module';
-
+import { WelcomeComponent } from './welcome/welcome.component';
+import { routes } from './app.routing';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,
-    RouterModule,
+    RouterModule.forRoot(routes),
     ReactiveFormsModule,
     FormsModule,
     HttpModule,
     FlashMessagesModule,
     SharedModule,
     JobsModule,
-    AppRoutingModule,
+    ToolsModule,
     NgbModule.forRoot(),
   ],
   providers: [

@@ -1,5 +1,6 @@
 <div class="row">
     <div class="col-md-12">
+        <h3 class="pull-left">Jobs</h3>
         <div class="dropdown pull-right">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
@@ -58,14 +59,14 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let job of jobs$ | async" (click)="openUpdateJobModal(job._id)">
-                                <td [hidden]="!displayOptions.companyName.selected">{{ job.companyName }}</td>
-                                <td [hidden]="!displayOptions.contactName.selected">{{ job.contactName }}</td>
-                                <td [hidden]="!displayOptions.contactPhoneNumber.selected">{{ job.contactPhoneNumber }}</td>
-                                <td [hidden]="!displayOptions.contactEmail.selected">{{ job.contactEmail }}</td>
-                                <td [hidden]="!displayOptions.jobName.selected">{{ job.jobName }}</td>
-                                <td [hidden]="!displayOptions.jobNumber.selected">{{ job.jobNumber }}</td>
-                                <td [hidden]="!displayOptions.jobDescription.selected">{{ job.jobDescription }}</td>
-                                <td [hidden]="!displayOptions.jobStatus.selected">{{ job.jobStatus | jobStatusNumberToTitle }}</td>
+                                <td [hidden]="!displayOptions.companyName.selected">{{ job.companyName | empty }}</td>
+                                <td [hidden]="!displayOptions.contactName.selected">{{ job.contactName | empty }}</td>
+                                <td [hidden]="!displayOptions.contactPhoneNumber.selected">{{ job.contactPhoneNumber | empty }}</td>
+                                <td [hidden]="!displayOptions.contactEmail.selected">{{ job.contactEmail | empty }}</td>
+                                <td [hidden]="!displayOptions.jobName.selected">{{ job.jobName | empty }}</td>
+                                <td [hidden]="!displayOptions.jobNumber.selected">{{ job.jobNumber | empty }}</td>
+                                <td [hidden]="!displayOptions.jobDescription.selected">{{ job.jobDescription | empty }}</td>
+                                <td [hidden]="!displayOptions.jobStatus.selected">{{ job.jobStatus | jobStatusNumberToTitle | empty }}</td>
                             </tr>
                         </tbody>
                     </table>

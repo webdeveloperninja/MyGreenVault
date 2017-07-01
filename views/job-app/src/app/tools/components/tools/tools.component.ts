@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { JobsService, IPagedList, IJob } from '../../services/jobs';
+import { ToolsService, IPagedList, Itool } from '../../services/tools';
 import { SettingsService } from '../../services/settings';
 import { SidebarService } from '../../services/sidebar';
 import { Pipe, PipeTransform } from '@angular/core';
@@ -10,27 +10,27 @@ import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-
 const DEFAULT_TAKE: number = 8;
 
 @Component({
-  selector: 'ti-jobs',
-  templateUrl: './jobs.component.html',
-  styleUrls: ['./jobs.component.scss']
+  selector: 'ti-tools',
+  templateUrl: './tools.component.html',
+  styleUrls: ['./tools.component.scss']
 })
-export class JobsComponent implements OnInit {
+export class ToolsComponent implements OnInit {
 
-  @ViewChild('updateJobRef') updateJobRef: ElementRef;
-  @ViewChild('addJobRef') addJobRef: ElementRef;
+  @ViewChild('updatetoolRef') updatetoolRef: ElementRef;
+  @ViewChild('addtoolRef') addtoolRef: ElementRef;
 
-  private _addJobModalRef: NgbModalRef;
+  private _addtoolModalRef: NgbModalRef;
 
-  updateJobModal: any;
-  private _updateJobModalRef: NgbModalRef;
+  updatetoolModal: any;
+  private _updatetoolModalRef: NgbModalRef;
 
-  jobs$: Observable<IJob[]>
-  isJobsLoading$: Observable<boolean>;
+  tools$: Observable<Itool[]>
+  istoolsLoading$: Observable<boolean>;
 
-  activeJob: IJob = null;
-  activeJobSub$: Subscription;
+  activetool: Itool = null;
+  activetoolSub$: Subscription;
 
-  activeJob$: Observable<IJob>;
+  activetool$: Observable<Itool>;
 
   isLoading: boolean = false;
 
@@ -60,41 +60,29 @@ export class JobsComponent implements OnInit {
   }
 
   constructor(
-    private _jobsService: JobsService,
+    private _toolsService: ToolsService,
     private _modalService: NgbModal
   ) { }
 
   ngOnInit() {
-    this.jobs$ = this._jobsService.jobs$;
-    this.isJobsLoading$ = this._jobsService.isJobsLoading$;
-    this.activeJob$ = this._jobsService.activeJob$;
+    this.tools$ = this._toolsService.tools$;
+    this.istoolsLoading$ = this._toolsService.istoolsLoading$;
+    this.activetool$ = this._toolsService.activetool$;
 
     this.doSearch();
   }
 
   displayOptions = {
-    companyName: {
+    toolName: {
       selected: true
     },
-    contactName: {
-      selected: false
-    },
-    contactPhoneNumber: {
+    qty: {
       selected: true
     },
-    contactEmail: {
-      selected: false
-    },
-    jobName: {
-      selected: false
-    },
-    jobNumber: {
+    idealAmount: {
       selected: true
     },
-    jobDescription: {
-      selected: false
-    },
-    jobStatus: {
+    autoOrderQty: {
       selected: true
     }
   }
@@ -114,7 +102,7 @@ export class JobsComponent implements OnInit {
   doSearch() {
     this.isLoading = true;
 
-    this._jobsService.getJobs(this.skip, this.take).subscribe(response => {
+    this._toolsService.gettools(this.skip, this.take).subscribe(response => {
       console.log(response);
       this.more = response.more
       this.isLoading = false;
@@ -124,25 +112,25 @@ export class JobsComponent implements OnInit {
     })
   }
 
-  openUpdateJobModal(jobId) {
-    this._jobsService.setActiveJob(jobId);
-    this._updateJobModalRef = this._modalService.open(this.updateJobRef, { size: 'lg' });
+  openUpdatetoolModal(toolId) {
+    this._toolsService.setActivetool(toolId);
+    this._updatetoolModalRef = this._modalService.open(this.updatetoolRef, { size: 'lg' });
   }
 
-  closeUpdateJobModal() {
-    this._updateJobModalRef.close();
+  closeUpdatetoolModal() {
+    this._updatetoolModalRef.close();
   }
 
-  closeAddJobModal() {
-    this._addJobModalRef.close();
+  closeAddtoolModal() {
+    this._addtoolModalRef.close();
   }
 
-  isTiUpdateJobLoading(event) {
+  isTiUpdatetoolLoading(event) {
     console.log(event);
   }
 
-  addJob() {
-    this._addJobModalRef = this._modalService.open(this.addJobRef, { size: 'lg' });
+  addtool() {
+    this._addtoolModalRef = this._modalService.open(this.addtoolRef, { size: 'lg' });
   }
 
 }

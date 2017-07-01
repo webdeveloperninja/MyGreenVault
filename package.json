@@ -12,7 +12,7 @@
     "start": "ISPROD=true node app.js",
     "test": "mocha --reporter spec",
     "postinstall": "npm rebuild node-sass",
-    "dev": "node_modules/.bin/nodemon --debug app.js"
+    "dev": "nodemon --inspect=5858 app.js"
   },
   "dependencies": {
     "bcrypt-nodejs": "^0.0.3",

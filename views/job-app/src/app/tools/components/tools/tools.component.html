@@ -1,0 +1,83 @@
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="pull-left">Tools</h3>
+        <div class="dropdown pull-right">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                tools
+            </button>
+            <div class="dropdown-menu dropdown-menu-right display-dropdown" (click)="$event.stopPropagation()" aria-labelledby="dropdownMenuButton">
+                <div class="row">
+                    <label class="col-md-12">
+                        <input type="checkbox" [(ngModel)]="displayOptions.toolName.selected" /> Tool Name
+                    </label>
+                    <label class="col-md-12">
+                        <input type="checkbox" [(ngModel)]="displayOptions.qty.selected" /> Qty
+                    </label>
+                    <label class="col-md-12">
+                        <input type="checkbox" [(ngModel)]="displayOptions.idealAmount.selected" /> Ideal Amount
+                    </label>
+                    <label class="col-md-12">
+                        <input type="checkbox" [(ngModel)]="displayOptions.autoOrderQty.selected" /> Auto Order Qty
+                    </label>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary pull-right" (click)="addtool()">Add tool</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <ti-loading [isLoading]="isLoading"></ti-loading>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <thead class="thead-inverse">
+                            <tr>
+                                <th [hidden]="!displayOptions.toolName.selected">Tool Name</th>
+                                <th [hidden]="!displayOptions.qty.selected">Qty</th>
+                                <th [hidden]="!displayOptions.idealAmount.selected">Ideal Amount</th>
+                                <th [hidden]="!displayOptions.autoOrderQty.selected">Auto Order Qty</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let tool of tools$ | async" (click)="openUpdatetoolModal(tool._id)">
+                                <td [hidden]="!displayOptions.toolName.selected">{{ tool.toolName | empty }}</td>
+                                <td [hidden]="!displayOptions.qty.selected">{{ tool.qty | empty }}</td>
+                                <td [hidden]="!displayOptions.idealAmount.selected">{{ tool.idealAmount | empty }}</td>
+                                <td [hidden]="!displayOptions.autoOrderQty.selected">{{ tool.autoOrderQty | empty }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button (click)="previousPage()" *ngIf="skip !== 0" class="btn btn-info mr-auto" [disabled]="isLoading">
+                                Previous Page
+                        </button>
+                            <button (click)="nextPage()" *ngIf="more" class="btn btn-info ml-auto next" [disabled]="isLoading">
+                                Next Page
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #updatetoolRef let-c="close" let-d="dismiss">
+    <ti-update-tool 
+        [activetool]="activetool$" 
+        (closeUpdateModal)="closeUpdatetoolModal($event)" 
+        (isLoading)="isTiUpdatetoolLoading($event)"
+        [skip]="skip" 
+        [take]="take">
+    </ti-update-tool>
+</ng-template>
+<ng-template #addtoolRef let-c="close" let-d="dismiss">
+    <add-tool 
+        (closeAddtoolModal)="closeAddtoolModal($event)" 
+        [skip]="skip" 
+        [take]="take">
+    </add-tool>
+</ng-template>
