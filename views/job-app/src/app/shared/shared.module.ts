@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { EmptyPipe } from './pipes/empty/empty.pipe';
 
 import { KeysPipe } from './pipes/object-keys.pipe';
 import { CamelCaseToRegularPipe } from './pipes/camel-case-to-regular';
@@ -16,7 +17,8 @@ import { CamelCaseToRegularPipe } from './pipes/camel-case-to-regular';
       HeaderComponent,
       LoadingComponent,
       KeysPipe,
-      CamelCaseToRegularPipe
+      CamelCaseToRegularPipe,
+      EmptyPipe
     ],
     providers: [
     ],
@@ -24,7 +26,8 @@ import { CamelCaseToRegularPipe } from './pipes/camel-case-to-regular';
       HeaderComponent,
       LoadingComponent,
       KeysPipe,
-      CamelCaseToRegularPipe
+      CamelCaseToRegularPipe,
+      EmptyPipe
     ]
 })
 export class SharedModule {}

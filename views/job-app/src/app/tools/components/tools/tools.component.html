@@ -7,29 +7,17 @@
             </button>
             <div class="dropdown-menu dropdown-menu-right display-dropdown" (click)="$event.stopPropagation()" aria-labelledby="dropdownMenuButton">
                 <div class="row">
-                    <label class="col">
-                        <input type="checkbox" [(ngModel)]="displayOptions.companyName.selected" /> Company Name
+                    <label class="col-md-12">
+                        <input type="checkbox" [(ngModel)]="displayOptions.toolName.selected" /> Tool Name
                     </label>
-                    <label class="col">
-                        <input type="checkbox" [(ngModel)]="displayOptions.contactName.selected" /> Contact Name
+                    <label class="col-md-12">
+                        <input type="checkbox" [(ngModel)]="displayOptions.qty.selected" /> Qty
                     </label>
-                    <label class="col">
-                        <input type="checkbox" [(ngModel)]="displayOptions.contactPhoneNumber.selected" /> Phone
+                    <label class="col-md-12">
+                        <input type="checkbox" [(ngModel)]="displayOptions.idealAmount.selected" /> Ideal Amount
                     </label>
-                    <label class="col">
-                        <input type="checkbox" [(ngModel)]="displayOptions.contactEmail.selected" /> Email Address
-                    </label>
-                    <label class="col">
-                        <input type="checkbox" [(ngModel)]="displayOptions.toolName.selected" /> tool Name
-                    </label>
-                    <label class="col">
-                        <input type="checkbox" [(ngModel)]="displayOptions.toolNumber.selected" /> tool Number
-                    </label>
-                    <label class="col">
-                        <input type="checkbox" [(ngModel)]="displayOptions.toolDescription.selected" /> tool Description
-                    </label>
-                    <label class="col">
-                        <input type="checkbox" [(ngModel)]="displayOptions.toolStatus.selected" /> tool Status
+                    <label class="col-md-12">
+                        <input type="checkbox" [(ngModel)]="displayOptions.autoOrderQty.selected" /> Auto Order Qty
                     </label>
                 </div>
             </div>
@@ -46,26 +34,18 @@
                     <table class="table table-striped">
                         <thead class="thead-inverse">
                             <tr>
-                                <th [hidden]="!displayOptions.companyName.selected">Company Name</th>
-                                <th [hidden]="!displayOptions.contactName.selected">Contact Name</th>
-                                <th [hidden]="!displayOptions.contactPhoneNumber.selected">Phone</th>
-                                <th [hidden]="!displayOptions.contactEmail.selected">Email</th>
-                                <th [hidden]="!displayOptions.toolName.selected">tool Name</th>
-                                <th [hidden]="!displayOptions.toolNumber.selected">tool Number</th>
-                                <th [hidden]="!displayOptions.toolDescription.selected">tool Description</th>
-                                <th [hidden]="!displayOptions.toolStatus.selected">Status</th>
+                                <th [hidden]="!displayOptions.toolName.selected">Tool Name</th>
+                                <th [hidden]="!displayOptions.qty.selected">Qty</th>
+                                <th [hidden]="!displayOptions.idealAmount.selected">Ideal Amount</th>
+                                <th [hidden]="!displayOptions.autoOrderQty.selected">Auto Order Qty</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let tool of tools$ | async" (click)="openUpdatetoolModal(tool._id)">
-                                <td [hidden]="!displayOptions.companyName.selected">{{ tool.companyName }}</td>
-                                <td [hidden]="!displayOptions.contactName.selected">{{ tool.contactName }}</td>
-                                <td [hidden]="!displayOptions.contactPhoneNumber.selected">{{ tool.contactPhoneNumber }}</td>
-                                <td [hidden]="!displayOptions.contactEmail.selected">{{ tool.contactEmail }}</td>
-                                <td [hidden]="!displayOptions.toolName.selected">{{ tool.toolName }}</td>
-                                <td [hidden]="!displayOptions.toolNumber.selected">{{ tool.toolNumber }}</td>
-                                <td [hidden]="!displayOptions.toolDescription.selected">{{ tool.toolDescription }}</td>
-                                <td [hidden]="!displayOptions.toolStatus.selected">{{ tool.toolStatus  }}</td>
+                                <td [hidden]="!displayOptions.toolName.selected">{{ tool.toolName | empty }}</td>
+                                <td [hidden]="!displayOptions.qty.selected">{{ tool.qty | empty }}</td>
+                                <td [hidden]="!displayOptions.idealAmount.selected">{{ tool.idealAmount | empty }}</td>
+                                <td [hidden]="!displayOptions.autoOrderQty.selected">{{ tool.autoOrderQty | empty }}</td>
                             </tr>
                         </tbody>
                     </table>

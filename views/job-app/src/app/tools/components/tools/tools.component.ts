@@ -73,28 +73,16 @@ export class ToolsComponent implements OnInit {
   }
 
   displayOptions = {
-    companyName: {
-      selected: true
-    },
-    contactName: {
-      selected: false
-    },
-    contactPhoneNumber: {
-      selected: true
-    },
-    contactEmail: {
-      selected: false
-    },
     toolName: {
-      selected: false
-    },
-    toolNumber: {
       selected: true
     },
-    toolDescription: {
-      selected: false
+    qty: {
+      selected: true
     },
-    toolStatus: {
+    idealAmount: {
+      selected: true
+    },
+    autoOrderQty: {
       selected: true
     }
   }
