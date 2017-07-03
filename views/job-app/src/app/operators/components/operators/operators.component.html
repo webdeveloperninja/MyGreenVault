@@ -1,0 +1,103 @@
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="pull-left">operators</h3>
+        <div class="dropdown pull-right">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                operators
+            </button>
+            <div class="dropdown-menu dropdown-menu-right display-dropdown" (click)="$event.stopPropagation()" aria-labelledby="dropdownMenuButton">
+                <div class="row">
+                    <label class="col">
+                        <input type="checkbox" /> Company Name
+                    </label>
+                    <label class="col">
+                        <input type="checkbox" /> Contact Name
+                    </label>
+                    <label class="col">
+                        <input type="checkbox"/> Phone
+                    </label>
+                    <label class="col">
+                        <input type="checkbox" /> Email Address
+                    </label>
+                    <label class="col">
+                        <input type="checkbox"/> operator Name
+                    </label>
+                    <label class="col">
+                        <input type="checkbox"/> operator Number
+                    </label>
+                    <label class="col">
+                        <input type="checkbox" /> operator Description
+                    </label>
+                    <label class="col">
+                        <input type="checkbox" /> operator Status
+                    </label>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary pull-right" (click)="addOperator()">Add operator</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <ti-loading [isLoading]="isLoading"></ti-loading>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <thead class="thead-inverse">
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Contact Name</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>operator Name</th>
+                                <th>operator Number</th>
+                                <th>operator Description</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let operator of operators$ | async" (click)="openUpdateOperatorModal(operator._id)">
+                                <td>{{ operator.companyName | empty }}</td>
+                                <td>{{ operator.contactName | empty }}</td>
+                                <td>{{ operator.contactPhoneNumber | empty }}</td>
+                                <td>{{ operator.contactEmail | empty }}</td>
+                                <td>{{ operator.operatorName | empty }}</td>
+                                <td>{{ operator.operatorNumber | empty }}</td>
+                                <td>{{ operator.operatorDescription | empty }}</td>
+                                <td>{{ operator.operatorStatus | empty }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button (click)="previousPage()" *ngIf="skip !== 0" class="btn btn-info mr-auto" [disabled]="isLoading">
+                                Previous Page
+                        </button>
+                            <button (click)="nextPage()" *ngIf="more" class="btn btn-info ml-auto next" [disabled]="isLoading">
+                                Next Page
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #updateoperatorRef let-c="close" let-d="dismiss">
+    <ti-update-operator 
+        [activeOperator]="activeOperator$" 
+        (closeUpdateModal)="closeUpdateOperatorModal($event)" 
+        (isLoading)="isTiUpdateOperatorLoading($event)"
+        [skip]="skip" 
+        [take]="take">
+    </ti-update-operator>
+</ng-template>
+<ng-template #addOperatorRef let-c="close" let-d="dismiss">
+    <add-operator 
+        (closeAddOperatorModal)="closeAddOperatorModal($event)" 
+        [skip]="skip" 
+        [take]="take">
+    </add-operator>
+</ng-template>
