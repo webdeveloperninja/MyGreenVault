@@ -1,0 +1,14 @@
+<div class="dropdown inline pull-right">
+  <a class="btn btn-secondary dropdown-toggle" href="https://example.com" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+    aria-expanded="false">
+    Add Qty
+  </a>
+
+  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" (click)="$event.stopPropagation()">
+    <div class="form-group">
+      <label>Add qty to: {{ tool.toolName }}</label>
+      <input [(ngModel)]="qtyToAdd" class="form-control" min="0" type="number">
+      <button (click)="saveQty()" class="btn btn-primary mt-2">Save</button>
+    </div>
+  </div>
+</div>

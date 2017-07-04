@@ -41,6 +41,7 @@ const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const jobApiController = require('./controllers/api/job');
 const toolsApiController = require('./controllers/api/tools');
+const operatorsApiController = require('./controllers/api/operators');
 const contactController = require('./controllers/contact');
 const toolingInventorySPA = require('./controllers/toolingInventorySpa');
 
@@ -166,12 +167,18 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
 app.get('/job-app', passportConfig.isAuthenticated, toolingInventorySPA.getToolingInventorySPA);
 
 app.get('/api/v1/jobs', passportConfig.isAuthenticated, jobApiController.getJobs);
-app.post('/api/v1/job/', passportConfig.isAuthenticated, jobApiController.addJob);
-app.post('/api/v1/update-job/', passportConfig.isAuthenticated, jobApiController.updateJob);
+app.post('/api/v1/job', passportConfig.isAuthenticated, jobApiController.addJob);
+app.post('/api/v1/update-job', passportConfig.isAuthenticated, jobApiController.updateJob);
 
 app.get('/api/v1/tools', passportConfig.isAuthenticated, toolsApiController.getTools);
-app.post('/api/v1/tool/', passportConfig.isAuthenticated, toolsApiController.addTool);
-app.post('/api/v1/update-tool/', passportConfig.isAuthenticated, toolsApiController.updateTool);
+app.post('/api/v1/tool', passportConfig.isAuthenticated, toolsApiController.addTool);
+app.post('/api/v1/update-tool', passportConfig.isAuthenticated, toolsApiController.updateTool);
+
+app.get('/api/v1/operators', passportConfig.isAuthenticated, operatorsApiController.getOperators);
+app.post('/api/v1/operator', passportConfig.isAuthenticated, operatorsApiController.addOperator);
+app.post('/api/v1/update-operator', passportConfig.isAuthenticated, operatorsApiController.updateOperator);
+
+
 
 /**
  * API examples routes.

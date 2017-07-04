@@ -43,6 +43,12 @@ const userSchema = new mongoose.Schema({
       idealAmount: { type: Number, required: true },
       autoOrderQty: { type: Number, required: true }
     }
+  ],
+  operators: [
+    {
+      operatorName: {type: String, require: true},
+      operatorNumber: {type: Number, require: true}
+    }
   ]
 }, { timestamps: true });
 

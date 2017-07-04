@@ -30,27 +30,15 @@ export class AddOperatorComponent implements OnInit {
     ngOnInit() {
 
         this.operatorFormGroup = this._formBuilder.group({
-            companyName: ['', Validators.required],
-            contactName: ['', Validators.required],
-            contactPhoneNumber: ['', Validators.required],
-            contactEmail: ['', Validators.required],
             operatorName: ['', Validators.required],
-            operatorNumber: ['', Validators.required],
-            operatorDescription: ['', Validators.required],
-            operatorStatus: ['', Validators.required]
+            operatorNumber: ['', Validators.required]
         });
     }
 
     addoperator(operatorFormGroup) {
         let operatorObj = {
-            companyName: this.operatorFormGroup.controls['companyName'].value,
-            contactName: this.operatorFormGroup.controls['contactName'].value,
-            contactPhoneNumber: this.operatorFormGroup.controls['contactPhoneNumber'].value,
-            contactEmail: this.operatorFormGroup.controls['contactEmail'].value,
             operatorName: this.operatorFormGroup.controls['operatorName'].value,
-            operatorNumber: this.operatorFormGroup.controls['operatorNumber'].value,
-            operatorDescription: this.operatorFormGroup.controls['operatorDescription'].value,
-            operatorStatus: this.operatorFormGroup.controls['operatorStatus'].value
+            operatorNumber: this.operatorFormGroup.controls['operatorNumber'].value
         };
         this._operatorsService.addOperator(operatorObj).subscribe((operator) => {
             if(operator.success) {

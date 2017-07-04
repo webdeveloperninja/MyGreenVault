@@ -64,7 +64,10 @@ export class UpdateJobComponent implements OnInit {
       this._jobsService.getJobs().finally(() => {
      
       }).subscribe(() => {
-        
+        /*
+          1) Todo Remove somehow breaks REMOVE
+         */
+        console.log('fuck');
       })
       this.closeModal();
     });

@@ -56,7 +56,13 @@ export class AddJobComponent implements OnInit {
             if(job.success) {
                 this.jobFormGroup.reset();
                 this.jobSuccessfullyAdded = true;
-                this._jobsService.getJobs(this.skip, this.take).subscribe();
+                this._jobsService.getJobs(this.skip, this.take).subscribe(() => {
+                  /*
+                    Todo 
+                    1) This doesnt work unless I have console.log
+                  */
+                  console.log('asodifosadjf');
+                });
                 Observable.timer(5000).subscribe(() => {
                     this.jobSuccessfullyAdded = false;
                 })

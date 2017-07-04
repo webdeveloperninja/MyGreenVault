@@ -17,6 +17,7 @@ import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../shared/shared.module';
 
 import { routes } from './tools.routing';
+import { AddToolQtyComponent } from './components/add-tool-qty/add-tool-qty.component';
 
 @NgModule({
     imports: [
@@ -31,6 +32,7 @@ import { routes } from './tools.routing';
         ToolsComponent,
         AddToolComponent,
         UpdateToolComponent,
+        AddToolQtyComponent,
     ],
     providers: [
         ToolsService,

@@ -40,7 +40,7 @@ export class UpdateOperatorComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.activeOperatorFormGroup = this.createGroup();
+    this.createGroup();
   }
 
   ngOnDestroy() {
@@ -48,18 +48,17 @@ export class UpdateOperatorComponent implements OnInit {
       this.activeOperatorSubscription$.unsubscribe()
   }
 
+
   createGroup() {
-    const group = this._fb.group({});
-
-    for (var prop in this.activeOperator) {
-       group.addControl(prop, this._fb.control(this.activeOperator[prop]));
-    }
-
-    return group;
+    this.activeOperatorFormGroup = this._fb.group({
+        operatorName: [this.activeOperator.operatorName, Validators.required],
+        operatorNumber: [this.activeOperator.operatorNumber, Validators.required],
+        _id: [this.activeOperator._id, Validators.required]
+    });
   }
 
   updateOperator(activeOperator) {
-    this.activeOperatorSubscription$ = this._operatorsService.updateOperator(activeOperator.value).subscribe(data => {
+    this.activeOperatorSubscription$ = this._operatorsService.updateOperator(this.activeOperatorFormGroup.value).subscribe(data => {
       
       this._operatorsService.getOperators().finally(() => {
      

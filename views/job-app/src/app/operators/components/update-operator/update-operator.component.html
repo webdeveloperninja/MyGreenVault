@@ -1,6 +1,6 @@
- <form [formGroup]="activeoperatorFormGroup" (ngSubmit)="updateoperator(activeoperatorFormGroup)">
+ <form [formGroup]="activeOperatorFormGroup" (ngSubmit)="updateOperator(activeoperatorFormGroup)">
  <div class="modal-header">
-    <h4 class="modal-title">Update: {{activeoperator.companyName}}</h4>
+    <h4 class="modal-title">Update: {{activeOperator.operatorName | empty}}</h4>
     <button type="button" (click)="closeModal()" class="close" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -8,44 +8,12 @@
   <div class="modal-body">
       <div class="row">
         <div class="form-group col-md-6">
-          <label>Company Name</label>
-          <input class="form-control" formControlName="companyName" placeholder="operator Status">          
+          <label>Operator Name</label>
+          <input class="form-control" formControlName="operatorName" placeholder="Operator Name">          
         </div>
         <div class="form-group col-md-6">
-          <label>operator Name</label>
-          <input class="form-control" formControlName="operatorName" placeholder="operator Status">          
-        </div>
-        <div class="form-group col-md-6">
-          <label>Contact Email</label>
-          <input class="form-control" formControlName="contactEmail" placeholder="operator Status">          
-        </div>
-        <div class="form-group col-md-6">
-          <label>Contact Phone Number</label>
-          <input class="form-control" formControlName="contactPhoneNumber" placeholder="operator Status">          
-        </div>
-        <div class="form-group col-md-6">
-          <label>Contact Name</label>
-          <input class="form-control" formControlName="contactName" placeholder="operator Status">          
-        </div>
-        <div class="form-group col-md-6">
-          <label>operator Status</label>
-          <select class="form-control" placeholder="Status" formControlName="operatorStatus">
-              <option>Select Status</option>
-              <option value="0">Staging</option>
-              <option value="1">Machining</option>
-              <option value="2">Quality</option>
-              <option value="3">Shipping</option>
-              <option value="4">Complete</option>
-              <option value="5">Waiting</option>
-          </select>
-        </div>
-        <div class="form-group col-md-6">
-          <label>operator Description</label>
-          <input class="form-control" formControlName="operatorDescription" placeholder="operator Status">          
-        </div>
-        <div class="form-group col-md-6">
-          <label>operator Number</label>
-          <input class="form-control" formControlName="operatorNumber" placeholder="operator Status">          
+          <label>Operator Number</label>
+          <input class="form-control" formControlName="operatorNumber" placeholder="Operator Number">          
         </div>
         <div class="form-group col-md-6" hidden>
             <input formControlName="_id">

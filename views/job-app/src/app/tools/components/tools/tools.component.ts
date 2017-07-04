@@ -72,21 +72,6 @@ export class ToolsComponent implements OnInit {
     this.doSearch();
   }
 
-  displayOptions = {
-    toolName: {
-      selected: true
-    },
-    qty: {
-      selected: true
-    },
-    idealAmount: {
-      selected: true
-    },
-    autoOrderQty: {
-      selected: true
-    }
-  }
-
   nextPage() {
     this.skip = this.skip + this.take;
     this.doSearch();
