@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ToolsService } from '../../services/tools';
-import { NotificationService } from '../../../shared/services/notification/notification.service';
+import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -30,7 +30,7 @@ export class AddToolQtyComponent implements OnInit {
     this._toolsService.updatetool(this.tool).subscribe(() => {
       this._notificationService.setNotificationOn('successfully added tools')
       this.qtyToAdd = null;
-      Observable.timer(5000).subscribe(() => {
+      Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
         this._notificationService.setNotificationOff()
       });
     })

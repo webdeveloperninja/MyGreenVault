@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewContainerRef, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angular/forms';
+import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
 import { ToolsService } from '../../services/tools';
 import { Observable } from 'rxjs';
 
@@ -12,8 +13,6 @@ import { Observable } from 'rxjs';
 export class AddToolComponent implements OnInit {
     toolFormGroup: FormGroup;
 
-    toolSuccessfullyAdded: boolean = false;
-
     @ViewChild('toolForm') toolForm: NgForm;
 
     @Output('closeAddtoolModal')
@@ -24,7 +23,8 @@ export class AddToolComponent implements OnInit {
 
     constructor(
         private _formBuilder: FormBuilder,
-        private _toolsService: ToolsService
+        private _toolsService: ToolsService,
+        private _notificationService: NotificationService
     ) { }
     
     ngOnInit() {
@@ -46,12 +46,15 @@ export class AddToolComponent implements OnInit {
         };
         this._toolsService.addTool(toolObj).subscribe((tool) => {
             if(tool.success) {
+
+                this._notificationService.setNotificationOn('Successfully added tool');
+                Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
+                  this._notificationService.setNotificationOff();
+                });
                 this.toolFormGroup.reset();
-                this.toolSuccessfullyAdded = true;
+                this.closeModal();
                 this._toolsService.gettools(this.skip, this.take).subscribe();
-                Observable.timer(5000).subscribe(() => {
-                    this.toolSuccessfullyAdded = false;
-                })
+
             } else {
             }
         })
