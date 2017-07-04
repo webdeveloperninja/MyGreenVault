@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ToolsService } from '../../services/tools';
+import { NotificationService } from '../../../shared/services/notification/notification.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ti-add-tool-qty',
@@ -12,7 +14,8 @@ export class AddToolQtyComponent implements OnInit {
   @Input() tool: any;
 
   constructor(
-    private _toolsService: ToolsService
+    private _toolsService: ToolsService,
+    private _notificationService: NotificationService
   ) { }
 
   ngOnInit() {
@@ -25,8 +28,11 @@ export class AddToolQtyComponent implements OnInit {
     this.tool.qty += this.qtyToAdd;
 
     this._toolsService.updatetool(this.tool).subscribe(() => {
-      console.log('successfully updated');
+      this._notificationService.setNotificationOn('successfully added tools')
       this.qtyToAdd = null;
+      Observable.timer(5000).subscribe(() => {
+        this._notificationService.setNotificationOff()
+      });
     })
   }
 
