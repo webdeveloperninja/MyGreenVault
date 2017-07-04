@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
+export const DEFAULT_NOTIFICATION_TIME: number = 5000;
+
+
 @Injectable()
 export class NotificationService {
 
