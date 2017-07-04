@@ -54,6 +54,15 @@ export class JobsService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
     }
 
+    removeJob(job) {
+        let headers = new Headers();
+        return this._http.get('/api/v1/delete-job', job)
+            .map((res: Response) =>  {
+                return res.json() 
+        })
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
+    }
+
     setActiveJob(jobId: string): void {
         let activeJob = this.jobs$.map(jobs => jobs.filter(job => job._id === jobId)[0]).subscribe(activeJob => {
             this._activeJobSubject$.next(activeJob);

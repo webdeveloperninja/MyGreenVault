@@ -34,8 +34,6 @@ exports.getJobs = (req, res) => {
   
 };
 
-  
-
 exports.addJob = (req, res) => {
   User.findOneAndUpdate(
       {_id: req.user.id},
@@ -63,3 +61,4 @@ exports.updateJob = (req, res) => {
         res.json({"success": true});
     });
 }
+

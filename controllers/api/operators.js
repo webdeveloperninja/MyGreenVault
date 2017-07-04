@@ -7,27 +7,27 @@ const User = require('../../models/User');
 const url = require('url');
 
 
-exports.getTools = (req, res) => {
+exports.getOperators = (req, res) => {
   let url_parts = url.parse(req.url, true);
   let skip = Number(url_parts.query.skip);
   let take = Number(url_parts.query.take);
-  User.find({ _id: req.user.id},{'tools':{$slice:[skip, take + 1]}}).exec((err, data) => {
+  User.find({ _id: req.user.id},{'operators':{$slice:[skip, take + 1]}}).exec((err, data) => {
     if (err) { return next(err); }
 
-        let tools = data[0]._doc.tools;
-        let toolsArrLength = tools.length;
+        let operators = data[0]._doc.operators;
+        let operatorsArrLength = operators.length;
         let more = false;
 
-        if(tools.length === take + 1) {
+        if(operators.length === take + 1) {
           more = true;
-          tools = tools.slice(0, -1); 
+          operators = operators.slice(0, -1); 
         }
         
         let resObj = {
           skip: skip,
           take: take,
           more: more,
-          data: tools
+          data: operators
       }
       res.json(resObj);
   })
@@ -36,13 +36,13 @@ exports.getTools = (req, res) => {
 
   
 
-exports.addTool = (req, res) => {
+exports.addOperator = (req, res) => {
   Number(req.body.qty)
   Number(req.body.idealAmount)
   Number(req.body.autoOrderQty)
   User.findOneAndUpdate(
       {_id: req.user.id},
-      {$push: {tools: req.body}},
+      {$push: {operators: req.body}},
       {safe: true, upsert: true},
       function(err, model) {
         if(err) {
@@ -56,14 +56,15 @@ exports.addTool = (req, res) => {
   );  
 }
 
-exports.updateTool = (req, res) => {
+exports.updateOperator = (req, res) => {
+  Number(req.body.operatorNumber);
   User.findOneAndUpdate({
          _id: req.user.id,
-        'tools._id': req.body._id
+        'operators._id': req.body._id
     },
     {
         $set: {
-            'tools.$' : req.body
+            'operators.$' : req.body
         }
     }, function(err, tool) {
         res.json({"success": true});

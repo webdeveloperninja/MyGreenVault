@@ -1,40 +1,6 @@
 <div class="row">
     <div class="col-md-12">
         <h3 class="pull-left">operators</h3>
-        <div class="dropdown pull-right">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">
-                operators
-            </button>
-            <div class="dropdown-menu dropdown-menu-right display-dropdown" (click)="$event.stopPropagation()" aria-labelledby="dropdownMenuButton">
-                <div class="row">
-                    <label class="col">
-                        <input type="checkbox" /> Company Name
-                    </label>
-                    <label class="col">
-                        <input type="checkbox" /> Contact Name
-                    </label>
-                    <label class="col">
-                        <input type="checkbox"/> Phone
-                    </label>
-                    <label class="col">
-                        <input type="checkbox" /> Email Address
-                    </label>
-                    <label class="col">
-                        <input type="checkbox"/> operator Name
-                    </label>
-                    <label class="col">
-                        <input type="checkbox"/> operator Number
-                    </label>
-                    <label class="col">
-                        <input type="checkbox" /> operator Description
-                    </label>
-                    <label class="col">
-                        <input type="checkbox" /> operator Status
-                    </label>
-                </div>
-            </div>
-        </div>
         <button class="btn btn-primary pull-right" (click)="addOperator()">Add operator</button>
     </div>
 </div>
@@ -47,26 +13,14 @@
                     <table class="table table-striped">
                         <thead class="thead-inverse">
                             <tr>
-                                <th>Company Name</th>
-                                <th>Contact Name</th>
-                                <th>Phone</th>
-                                <th>Email</th>
-                                <th>operator Name</th>
-                                <th>operator Number</th>
-                                <th>operator Description</th>
-                                <th>Status</th>
+                                <th>Operator Name</th>
+                                <th>Operator Number</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let operator of operators$ | async" (click)="openUpdateOperatorModal(operator._id)">
-                                <td>{{ operator.companyName | empty }}</td>
-                                <td>{{ operator.contactName | empty }}</td>
-                                <td>{{ operator.contactPhoneNumber | empty }}</td>
-                                <td>{{ operator.contactEmail | empty }}</td>
                                 <td>{{ operator.operatorName | empty }}</td>
                                 <td>{{ operator.operatorNumber | empty }}</td>
-                                <td>{{ operator.operatorDescription | empty }}</td>
-                                <td>{{ operator.operatorStatus | empty }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -85,7 +39,7 @@
         </div>
     </div>
 </div>
-<ng-template #updateoperatorRef let-c="close" let-d="dismiss">
+<ng-template #updateOperatorRef let-c="close" let-d="dismiss">
     <ti-update-operator 
         [activeOperator]="activeOperator$" 
         (closeUpdateModal)="closeUpdateOperatorModal($event)" 

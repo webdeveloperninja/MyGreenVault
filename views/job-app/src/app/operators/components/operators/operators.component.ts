@@ -16,8 +16,8 @@ const DEFAULT_TAKE: number = 8;
 })
 export class OperatorsComponent implements OnInit {
 
-  @ViewChild('updateoperatorRef') updateoperatorRef: ElementRef;
-  @ViewChild('addoperatorRef') addoperatorRef: ElementRef;
+  @ViewChild('updateOperatorRef') updateOperatorRef: ElementRef;
+  @ViewChild('addOperatorRef') addOperatorRef: ElementRef;
 
   private _addOperatorModalRef: NgbModalRef;
 
@@ -72,33 +72,6 @@ export class OperatorsComponent implements OnInit {
     this.doSearch();
   }
 
-  displayOptions = {
-    companyName: {
-      selected: true
-    },
-    contactName: {
-      selected: false
-    },
-    contactPhoneNumber: {
-      selected: true
-    },
-    contactEmail: {
-      selected: false
-    },
-    operatorName: {
-      selected: false
-    },
-    operatorNumber: {
-      selected: true
-    },
-    operatorDescription: {
-      selected: false
-    },
-    operatorstatus: {
-      selected: true
-    }
-  }
-
   nextPage() {
     this.skip = this.skip + this.take;
     this.doSearch();
@@ -115,7 +88,6 @@ export class OperatorsComponent implements OnInit {
     this.isLoading = true;
 
     this._operatorsService.getOperators(this.skip, this.take).subscribe(response => {
-      console.log(response);
       this.more = response.more
       this.isLoading = false;
       this.more = response.more;
@@ -124,25 +96,25 @@ export class OperatorsComponent implements OnInit {
     })
   }
 
-  openUpdateoperatorModal(operatorId) {
+  openUpdateOperatorModal(operatorId) {
     this._operatorsService.setActiveOperator(operatorId);
-    this._updateOperatorModalRef = this._modalService.open(this.updateoperatorRef, { size: 'lg' });
+    this._updateOperatorModalRef = this._modalService.open(this.updateOperatorRef, { size: 'lg' });
   }
 
-  closeUpdateoperatorModal() {
+  closeUpdateOperatorModal() {
     this._updateOperatorModalRef.close();
   }
 
-  closeAddoperatorModal() {
+  closeAddOperatorModal() {
     this._addOperatorModalRef.close();
   }
 
-  isTiUpdateoperatorLoading(event) {
+  isTiUpdateOperatorLoading(event) {
     console.log(event);
   }
 
-  addoperator() {
-    this._addOperatorModalRef = this._modalService.open(this.addoperatorRef, { size: 'lg' });
+  addOperator() {
+    this._addOperatorModalRef = this._modalService.open(this.addOperatorRef, { size: 'lg' });
   }
 
 }

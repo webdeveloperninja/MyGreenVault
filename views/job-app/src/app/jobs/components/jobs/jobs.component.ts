@@ -16,6 +16,8 @@ const DEFAULT_TAKE: number = 8;
 })
 export class JobsComponent implements OnInit {
 
+  isJobNotFound: boolean = false;
+
   @ViewChild('updateJobRef') updateJobRef: ElementRef;
   @ViewChild('addJobRef') addJobRef: ElementRef;
 
@@ -72,33 +74,6 @@ export class JobsComponent implements OnInit {
     this.doSearch();
   }
 
-  displayOptions = {
-    companyName: {
-      selected: true
-    },
-    contactName: {
-      selected: false
-    },
-    contactPhoneNumber: {
-      selected: true
-    },
-    contactEmail: {
-      selected: false
-    },
-    jobName: {
-      selected: false
-    },
-    jobNumber: {
-      selected: true
-    },
-    jobDescription: {
-      selected: false
-    },
-    jobStatus: {
-      selected: true
-    }
-  }
-
   nextPage() {
     this.skip = this.skip + this.take;
     this.doSearch();
@@ -113,9 +88,11 @@ export class JobsComponent implements OnInit {
 
   doSearch() {
     this.isLoading = true;
-
+    this.isJobNotFound = false;
     this._jobsService.getJobs(this.skip, this.take).subscribe(response => {
-      console.log(response);
+      if(response.data.length === 0) {
+        this.isJobNotFound = true;
+      }
       this.more = response.more
       this.isLoading = false;
       this.more = response.more;
