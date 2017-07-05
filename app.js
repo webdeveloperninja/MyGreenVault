@@ -173,6 +173,8 @@ app.post('/api/v1/update-job', passportConfig.isAuthenticated, jobApiController.
 app.get('/api/v1/tools', passportConfig.isAuthenticated, toolsApiController.getTools);
 app.post('/api/v1/tool', passportConfig.isAuthenticated, toolsApiController.addTool);
 app.post('/api/v1/update-tool', passportConfig.isAuthenticated, toolsApiController.updateTool);
+app.post('/api/v1/remove-tool', passportConfig.isAuthenticated, toolsApiController.removeTool);
+
 
 app.get('/api/v1/operators', passportConfig.isAuthenticated, operatorsApiController.getOperators);
 app.post('/api/v1/operator', passportConfig.isAuthenticated, operatorsApiController.addOperator);

@@ -21,10 +21,11 @@
                                 <th>Job Number</th>
                                 <th>Job Description</th>
                                 <th>Status</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let job of jobs$ | async" (click)="openUpdateJobModal(job._id)">
+                            <tr *ngFor="let job of jobs$ | async" >
                                 <td>{{ job.companyName | empty }}</td>
                                 <td>{{ job.contactName | empty }}</td>
                                 <td>{{ job.contactPhoneNumber | empty }}</td>
@@ -33,6 +34,7 @@
                                 <td>{{ job.jobNumber | empty }}</td>
                                 <td>{{ job.jobDescription | empty }}</td>
                                 <td>{{ job.jobStatus | jobStatusNumberToTitle | empty }}</td>
+                                <td><button class="btn btn-primary" (click)="openUpdateJobModal(job._id)">Edit</button></td>
                             </tr>
                         </tbody>
                     </table>

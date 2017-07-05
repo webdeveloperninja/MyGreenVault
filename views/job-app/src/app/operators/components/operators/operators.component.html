@@ -15,12 +15,18 @@
                             <tr>
                                 <th>Operator Name</th>
                                 <th>Operator Number</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let operator of operators$ | async" (click)="openUpdateOperatorModal(operator._id)">
+                            <tr *ngFor="let operator of operators$ | async" >
                                 <td>{{ operator.operatorName | empty }}</td>
                                 <td>{{ operator.operatorNumber | empty }}</td>
+                                <td>
+                                    <button class="btn btn-primary pull-right" (click)="openUpdateOperatorModal(operator._id)">
+                                        Edit
+                                    </button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
