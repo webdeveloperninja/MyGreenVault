@@ -69,3 +69,13 @@ exports.updateTool = (req, res) => {
         res.json({"success": true});
     });
 }
+
+exports.removeTool = (req, res) => {
+  User.findOneAndUpdate({
+         _id: req.user.id,
+        'tools._id': req.body._id
+    },
+    {$pull: {'tools': {'_id': req.body._id}}}, function() {
+        res.json({"success": true});
+    });
+}

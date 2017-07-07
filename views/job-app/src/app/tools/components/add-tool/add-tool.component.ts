@@ -18,6 +18,9 @@ export class AddToolComponent implements OnInit {
     @Output('closeAddtoolModal')
     closeAddtoolModal: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+    @Output('isAddToolLoading')
+    isAddToolLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
+
     @Input('skip') skip: number;
     @Input('take') take: number;
 
@@ -38,6 +41,10 @@ export class AddToolComponent implements OnInit {
     }
 
     addTool(toolFormGroup) {
+      
+      // this.isAddToolLoading.emit(true);
+      
+      
         let toolObj = {
             toolName: this.toolFormGroup.controls['toolName'].value,
             qty: this.toolFormGroup.controls['qty'].value,
@@ -45,15 +52,21 @@ export class AddToolComponent implements OnInit {
             autoOrderQty: this.toolFormGroup.controls['autoOrderQty'].value,
         };
         this._toolsService.addTool(toolObj).subscribe((tool) => {
+          
             if(tool.success) {
-
+              
                 this._notificationService.setNotificationOn('Successfully added tool');
                 Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
                   this._notificationService.setNotificationOff();
                 });
                 this.toolFormGroup.reset();
-                this.closeModal();
-                this._toolsService.gettools(this.skip, this.take).subscribe();
+                
+                this._toolsService.gettools(this.skip, this.take).subscribe(() => {
+                  // this.isAddToolLoading.emit(false);
+                  // this.closeModal();
+                }, () => {
+                
+                });
 
             } else {
             }

@@ -54,6 +54,16 @@ export class ToolsService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
     }
 
+    removeTool(tool) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this._http.post('/api/v1/remove-tool', tool, {headers: headers})
+            .map((res: Response) =>  {
+                return res.json() 
+        })
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
+    }
+
     setActivetool(toolId: string): void {
         let activetool = this.tools$.map(tools => tools.filter(tool => tool._id === toolId)[0]).subscribe(activetool => {
             this._activetoolSubject$.next(activetool);

@@ -5,6 +5,8 @@ import { SidebarService } from '../../services/sidebar';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
+
 
 
 const DEFAULT_TAKE: number = 8;
@@ -61,7 +63,8 @@ export class ToolsComponent implements OnInit {
 
   constructor(
     private _toolsService: ToolsService,
-    private _modalService: NgbModal
+    private _modalService: NgbModal,
+    private _notificationService: NotificationService
   ) { }
 
   ngOnInit() {
@@ -116,6 +119,25 @@ export class ToolsComponent implements OnInit {
 
   addtool() {
     this._addtoolModalRef = this._modalService.open(this.addtoolRef, { size: 'lg' });
+  }
+
+  removeTool(tool) {
+    this.isLoading = true;
+    this._toolsService.removeTool(tool).subscribe(data => {
+      this._notificationService.setNotificationOn('successfully removed tool')
+      Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
+        this._notificationService.setNotificationOff()
+      });
+      this._toolsService.gettools(this.skip, this.take).subscribe(() => {
+        this.isLoading = false;
+        console.log('updated');
+      })
+    });
+  }
+
+  setIsAddToolLoading(isLoading) {
+    console.log(isLoading);
+    this.isLoading = isLoading;
   }
 
 }

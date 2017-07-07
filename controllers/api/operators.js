@@ -70,3 +70,13 @@ exports.updateOperator = (req, res) => {
         res.json({"success": true});
     });
 }
+
+exports.removeOperator = (req, res) => {
+  User.findOneAndUpdate({
+         _id: req.user.id,
+        'operators._id': req.body._id
+    },
+    {$pull: {'operators': {'_id': req.body._id}}}, function() {
+        res.json({"success": true});
+    });
+}

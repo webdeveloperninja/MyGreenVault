@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter, 
 import { OperatorsService, IOperator } from '../../services/operators';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription, Subject } from 'rxjs';
+import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
+
 
 @Component({
   selector: 'ti-update-operator',
@@ -36,7 +38,8 @@ export class UpdateOperatorComponent implements OnInit {
 
   constructor(
     private _fb: FormBuilder,
-    private _operatorsService: OperatorsService
+    private _operatorsService: OperatorsService,
+    private _notificationService: NotificationService
   ) { }
 
   ngOnInit() {
@@ -61,6 +64,10 @@ export class UpdateOperatorComponent implements OnInit {
     this.activeOperatorSubscription$ = this._operatorsService.updateOperator(this.activeOperatorFormGroup.value).subscribe(data => {
       
       this._operatorsService.getOperators().finally(() => {
+        this._notificationService.setNotificationOn('Successfully updated operator');
+        Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
+          this._notificationService.setNotificationOff();
+        });
      
       }).subscribe(() => {
         
