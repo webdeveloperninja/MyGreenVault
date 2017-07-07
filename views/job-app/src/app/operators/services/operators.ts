@@ -59,6 +59,19 @@ export class OperatorsService {
             this._activeOperatorSubject$.next(activeoperator);
         });
     }
+
+
+    removeOperator(operator) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this._http.post('/api/v1/remove-operator', operator, {headers: headers})
+            .map((res: Response) =>  {
+                return res.json() 
+        })
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
+    }
+
+
 }
 
 export interface IOperator {

@@ -23,7 +23,9 @@
                                 <td>{{ operator.operatorName | empty }}</td>
                                 <td>{{ operator.operatorNumber | empty }}</td>
                                 <td>
-                                    <button class="btn btn-primary pull-right" (click)="openUpdateOperatorModal(operator._id)">
+                                    <button class="btn btn-danger pull-right" (click)="removeOperator(operator)">Remove</button>
+
+                                    <button class="btn btn-primary pull-right mr-2" (click)="openUpdateOperatorModal(operator._id)">
                                         Edit
                                     </button>
                                 </td>

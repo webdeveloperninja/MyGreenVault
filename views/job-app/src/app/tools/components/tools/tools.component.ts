@@ -135,4 +135,9 @@ export class ToolsComponent implements OnInit {
     });
   }
 
+  setIsAddToolLoading(isLoading) {
+    console.log(isLoading);
+    this.isLoading = isLoading;
+  }
+
 }

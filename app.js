@@ -179,7 +179,7 @@ app.post('/api/v1/remove-tool', passportConfig.isAuthenticated, toolsApiControll
 app.get('/api/v1/operators', passportConfig.isAuthenticated, operatorsApiController.getOperators);
 app.post('/api/v1/operator', passportConfig.isAuthenticated, operatorsApiController.addOperator);
 app.post('/api/v1/update-operator', passportConfig.isAuthenticated, operatorsApiController.updateOperator);
-
+app.post('/api/v1/remove-operator', passportConfig.isAuthenticated, operatorsApiController.removeOperator);
 
 
 /**
