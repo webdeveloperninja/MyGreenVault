@@ -5,6 +5,9 @@ import {Observable, BehaviorSubject} from 'rxjs'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 
+export const DEFAULT_SKIP: number = 0;
+export const DEFAULT_TAKE: number = 8;
+
 
 @Injectable()
 export class OperatorsService {
@@ -15,10 +18,10 @@ export class OperatorsService {
     private _moreOperatorsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public readonly moreOperators$: Observable<boolean> = this._moreOperatorsSubject$.asObservable();
 
-    private _operatorsSkipSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+    private _operatorsSkipSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(DEFAULT_SKIP);
     public readonly operatorsSkip$: Observable<number> = this._operatorsSkipSubject$.asObservable();
 
-    private _operatorsTakeSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(8);
+    private _operatorsTakeSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(DEFAULT_TAKE);
     public readonly operatorsTake$: Observable<number> = this._operatorsSkipSubject$.asObservable();
 
     private _isLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
