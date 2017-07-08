@@ -56,7 +56,8 @@ export class JobsService {
 
     removeJob(job) {
         let headers = new Headers();
-        return this._http.get('/api/v1/delete-job', job)
+        headers.append('Content-Type', 'application/json');
+        return this._http.post('/api/v1/remove-job', job, {headers: headers})
             .map((res: Response) =>  {
                 return res.json() 
         })

@@ -18,6 +18,7 @@ import { SharedModule } from '../shared/shared.module';
 
 import { routes } from './tools.routing';
 import { AddToolQtyComponent } from './components/add-tool-qty/add-tool-qty.component';
+import { CheckoutToolComponent } from './components/checkout-tool/checkout-tool.component';
 
 @NgModule({
     imports: [
@@ -33,6 +34,7 @@ import { AddToolQtyComponent } from './components/add-tool-qty/add-tool-qty.comp
         AddToolComponent,
         UpdateToolComponent,
         AddToolQtyComponent,
+        CheckoutToolComponent,
     ],
     providers: [
         ToolsService,

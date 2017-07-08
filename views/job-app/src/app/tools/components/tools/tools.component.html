@@ -29,10 +29,17 @@
                                 <td>{{ tool.autoOrderQty | empty }}</td>
                                 <th scope="row">
                                     <button (click)="removeTool(tool)" class="btn btn-danger pull-right">Remove</button>
-                                    <button href="#" class="btn btn-success mr-2 pull-right">Checkout</button>
-                                    <button class="btn btn-primary pull-right mr-2 ml-2" (click)="openUpdatetoolModal(tool._id)">Edit</button>
+                                    <ti-checkout-tool
+                                        [tool]="tool">
+                                    </ti-checkout-tool>
+                                    <button 
+                                        class="btn btn-primary pull-right mr-2 ml-2" 
+                                        (click)="openUpdatetoolModal(tool._id)">
+                                            Edit
+                                    </button>
                                     <ti-add-tool-qty
-                                        [tool]="tool"></ti-add-tool-qty>
+                                        [tool]="tool">
+                                    </ti-add-tool-qty>
                                 </th>
                             </tr>
                         </tbody>

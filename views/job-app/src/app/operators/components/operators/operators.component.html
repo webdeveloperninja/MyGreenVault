@@ -1,13 +1,13 @@
 <div class="row">
     <div class="col-md-12">
-        <h3 class="pull-left">operators</h3>
+        <h3 class="pull-left">{{ title }}</h3>
         <button class="btn btn-primary pull-right" (click)="addOperator()">Add operator</button>
     </div>
 </div>
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <ti-loading [isLoading]="isLoading"></ti-loading>
+            <ti-loading [isLoading]="isLoading$ | async"></ti-loading>
             <div class="row">
                 <div class="col-md-12">
                     <table class="table table-striped">
@@ -34,12 +34,12 @@
                     </table>
                     <div class="row">
                         <div class="col-md-12">
-                            <button (click)="previousPage()" *ngIf="skip !== 0" class="btn btn-info mr-auto" [disabled]="isLoading">
+                            <button (click)="previousPage()" *ngIf="(operatorsSkip$ | async) !== 0" class="btn btn-info mr-auto" [disabled]="isLoading$ | async">
                                 Previous Page
-                        </button>
-                            <button (click)="nextPage()" *ngIf="more" class="btn btn-info ml-auto next" [disabled]="isLoading">
+                            </button>
+                            <button (click)="nextPage()" *ngIf="moreOperators$ | async" class="btn btn-info ml-auto next" [disabled]="isLoading$ | async">
                                 Next Page
-                        </button>
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -31,7 +31,7 @@ export class AddOperatorComponent implements OnInit {
 
         this.operatorFormGroup = this._formBuilder.group({
             operatorName: ['', Validators.required],
-            operatorNumber: ['', Validators.required]
+            operatorNumber: ['', Validators.required,  Validators.pattern('[A-Za-z]{5}')]
         });
     }
 
@@ -44,7 +44,7 @@ export class AddOperatorComponent implements OnInit {
             if(operator.success) {
                 this.operatorFormGroup.reset();
                 this.operatorSuccessfullyAdded = true;
-                this._operatorsService.getOperators(this.skip, this.take).subscribe();
+                this._operatorsService.getOperators().subscribe();
                 Observable.timer(5000).subscribe(() => {
                     this.operatorSuccessfullyAdded = false;
                 })
