@@ -12,6 +12,7 @@
     "start": "ISPROD=true node app.js",
     "test": "mocha --reporter spec",
     "postinstall": "npm rebuild node-sass",
+    "heroku-prebuild": "npm install -g @angular/cli",
     "heroku-postbuild": "cd ./views/job-app && npm run build",
     "dev": "nodemon --inspect=5858 app.js"
   },
