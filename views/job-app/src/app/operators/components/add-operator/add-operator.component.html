@@ -1,9 +1,6 @@
 <form [formGroup]="operatorFormGroup" #operatorForm="ngForm" class="add-operator" (ngSubmit)="addoperator(operatorFormGroup)">
     <div class="modal-header">
         <h4 class="modal-title">Add operator</h4>
-        <div class="alert alert-success" *ngIf="operatorSuccessfullyAdded" role="alert">
-            <strong>operator Saved</strong>
-        </div>
         <button type="button" (click)="closeModal()" class="close" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>

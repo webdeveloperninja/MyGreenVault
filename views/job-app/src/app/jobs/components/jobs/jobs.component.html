@@ -6,7 +6,7 @@
 </div>
 <div class="row" *ngIf="!isJobNotFound">
     <div class="col-md-12">
-        <div class="card" *ngIf="!(jobs$ | async)?.length==0">
+        <div class="card" *ngIf="!(jobs$ | async)?.length === false">
             <ti-loading [isLoading]="isLoading"></ti-loading>
             <div class="row">
                 <div class="col-md-12">
