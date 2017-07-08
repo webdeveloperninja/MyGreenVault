@@ -6,7 +6,7 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="card" *ngIf="!(operators$ | async)?.length==0">
+        <div class="card" *ngIf="!(operators$ | async)?.length === false">
             <ti-loading [isLoading]="isLoading$ | async"></ti-loading>
             <div class="row">
                 <div class="col-md-12">
