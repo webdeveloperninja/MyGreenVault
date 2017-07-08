@@ -7,8 +7,6 @@ import { ToolsComponent } from './components/tools/tools.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ToolsService } from './services/tools';
 import { ActiveToolService } from './services/activeTool';
-import { SettingsService } from './services/settings';
-import { SidebarService } from './services/sidebar';
 import { UpdateToolComponent } from './components/update-tool/update-tool.component';
 
 
@@ -38,8 +36,6 @@ import { CheckoutToolComponent } from './components/checkout-tool/checkout-tool.
     ],
     providers: [
         ToolsService,
-        SettingsService,
-        SidebarService,
         ActiveToolService
     ],
     exports: [

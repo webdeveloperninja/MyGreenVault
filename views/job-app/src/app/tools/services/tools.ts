@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers, Response} from '@angular/http';
-import { SidebarService } from './sidebar';
 import {Observable, BehaviorSubject} from 'rxjs'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
@@ -20,8 +19,7 @@ export class ToolsService {
 
 
     constructor(
-        private _http: Http,
-        private _sidebarService: SidebarService
+        private _http: Http
         ) {
     }
 

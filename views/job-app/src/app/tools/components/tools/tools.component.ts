@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ToolsService, IPagedList, Itool } from '../../services/tools';
-import { SettingsService } from '../../services/settings';
-import { SidebarService } from '../../services/sidebar';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';

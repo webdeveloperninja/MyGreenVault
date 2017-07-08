@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { OperatorsService, PagedList, Operator } from '../../services/operators';
-import { SettingsService } from '../../services/settings';
-import { SidebarService } from '../../services/sidebar';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
 
 const TITLE: string = 'Operators';
+const REMOVE_TOOL_SUCCESS_MESSAGE: string = 'Successfully Removed Tool';
 const MODAL_SIZE = 'lg';
 
 @Component({
@@ -79,12 +78,8 @@ export class OperatorsComponent implements OnInit {
   }
 
   removeOperator(operator) {
-    this._operatorsService.removeOperator(operator).subscribe(data => {
-      this._notificationService.setNotificationOn('successfully removed tool')
-      Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
-        this._notificationService.setNotificationOff()
-      });
-      this._operatorsService.getOperators().subscribe(() => {})
+    this._operatorsService.removeOperator(operator).subscribe(() => {
+      this._notificationService.setNotificationOn(REMOVE_TOOL_SUCCESS_MESSAGE);
     });
   }
 }

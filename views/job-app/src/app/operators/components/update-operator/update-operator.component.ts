@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { Observable, Subscription, Subject } from 'rxjs';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
 
-
 @Component({
   selector: 'ti-update-operator',
   templateUrl: './update-operator.component.html',

@@ -9,8 +9,6 @@ import { FilterPipe } from './pipes/filter.pipe';
 import { JobStatusPipe } from './pipes/job-status.pipe';
 import { JobsService } from './services/jobs';
 import { ActiveJobService } from './services/activeJob';
-import { SettingsService } from './services/settings';
-import { SidebarService } from './services/sidebar';
 import { UpdateJobComponent } from './components/update-job/update-job.component';
 
 
@@ -40,8 +38,6 @@ import { routes } from './jobs.routing';
     ],
     providers: [
         JobsService,
-        SettingsService,
-        SidebarService,
         ActiveJobService
     ],
     exports: [

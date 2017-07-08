@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers, Response} from '@angular/http';
-import { SidebarService } from './sidebar';
 import {Observable, BehaviorSubject} from 'rxjs'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
@@ -31,11 +30,7 @@ export class OperatorsService {
     public readonly activeOperator$: Observable<Operator> = this._activeOperatorSubject$.asObservable();
 
 
-    constructor(
-        private _http: Http,
-        private _sidebarService: SidebarService
-        ) {
-    }
+    constructor(private _http: Http) {}
 
     addOperator(operator) {
         let headers = new Headers();
@@ -81,8 +76,9 @@ export class OperatorsService {
         headers.append('Content-Type', 'application/json');
         return this._http.post('/api/v1/remove-operator', operator, {headers: headers})
             .map((res: Response) =>  {
+                this.getOperators().subscribe();
                 return res.json() 
-        })
+            })
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
     }
 
