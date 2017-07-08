@@ -35,7 +35,7 @@ export class AddOperatorComponent implements OnInit {
             operatorNumber: this.operatorFormGroup.controls['operatorNumber'].value
         };
         this._operatorsService.addOperator(operatorObj).subscribe((operator) => {
-            if(operator.success) {
+            if(operator && operator.success) {
                 this.operatorFormGroup.reset();
                 Observable.timer(5000).subscribe(() => {
                 })
