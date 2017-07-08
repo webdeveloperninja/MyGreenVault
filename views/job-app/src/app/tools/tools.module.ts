@@ -9,7 +9,6 @@ import { ToolsService } from './services/tools';
 import { ActiveToolService } from './services/activeTool';
 import { UpdateToolComponent } from './components/update-tool/update-tool.component';
 
-
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';

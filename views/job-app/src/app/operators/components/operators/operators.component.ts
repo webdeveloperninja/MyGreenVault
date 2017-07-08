@@ -57,7 +57,7 @@ export class OperatorsComponent implements OnInit {
   }
 
   doSearch() {
-    this._operatorsService.getOperators().subscribe(response => {})
+    this._operatorsService.getOperators().subscribe(response => {});
   }
 
   openUpdateOperatorModal(operatorId) {

@@ -36,7 +36,10 @@ export class OperatorsService {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         return this._http.post('/api/v1/operator/', operator, {headers: headers}) // ...using post request
-            .map((res: Response) => res.json()) // ...and callingls .json() on the response to return data
+            .map((res: Response) => { 
+                this.getOperators().subscribe();
+                res.json()
+            })
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); //...
     }
 
