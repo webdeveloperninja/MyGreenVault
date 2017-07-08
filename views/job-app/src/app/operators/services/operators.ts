@@ -1,45 +1,58 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers, Response} from '@angular/http';
-import { SidebarService } from './sidebar';
 import {Observable, BehaviorSubject} from 'rxjs'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
+
+export const DEFAULT_SKIP: number = 0;
+export const DEFAULT_TAKE: number = 8;
 
 
 @Injectable()
 export class OperatorsService {
     
-    private _operatorsSubject$: BehaviorSubject<IOperator[]> = new BehaviorSubject<IOperator[]>(null);
-    public readonly operators$: Observable<IOperator[]> = this._operatorsSubject$.asObservable();
+    private _operatorsSubject$: BehaviorSubject<Operator[]> = new BehaviorSubject<Operator[]>(null);
+    public readonly operators$: Observable<Operator[]> = this._operatorsSubject$.asObservable();
 
-    private _isOperatorsLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
-    public readonly isOperatorsLoading$: Observable<boolean> = this._isOperatorsLoadingSubject$.asObservable();
+    private _moreOperatorsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public readonly moreOperators$: Observable<boolean> = this._moreOperatorsSubject$.asObservable();
 
-    private _activeOperatorSubject$: BehaviorSubject<IOperator> = new BehaviorSubject<IOperator>(null);
-    public readonly activeOperator$: Observable<IOperator> = this._activeOperatorSubject$.asObservable();
+    private _operatorsSkipSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(DEFAULT_SKIP);
+    public readonly operatorsSkip$: Observable<number> = this._operatorsSkipSubject$.asObservable();
+
+    private _operatorsTakeSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(DEFAULT_TAKE);
+    public readonly operatorsTake$: Observable<number> = this._operatorsSkipSubject$.asObservable();
+
+    private _isLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public readonly isLoading$: Observable<boolean> = this._isLoadingSubject$.asObservable();
+
+    private _activeOperatorSubject$: BehaviorSubject<Operator> = new BehaviorSubject<Operator>(null);
+    public readonly activeOperator$: Observable<Operator> = this._activeOperatorSubject$.asObservable();
 
 
-    constructor(
-        private _http: Http,
-        private _sidebarService: SidebarService
-        ) {
-    }
+    constructor(private _http: Http) {}
 
     addOperator(operator) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         return this._http.post('/api/v1/operator/', operator, {headers: headers}) // ...using post request
-            .map((res: Response) => res.json()) // ...and callingls .json() on the response to return data
+            .map((res: Response) => { 
+                this.getOperators().subscribe();
+                res.json()
+            })
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); //...
     }
 
-    getOperators(skip = 0, take = 8) {
+    getOperators() {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        this._isOperatorsLoadingSubject$.next(true);
-        return this._http.get(`/api/v1/operators?skip=${skip}&take=${take}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
+        this._isLoadingSubject$.next(true);
+        return this._http.get(`/api/v1/operators?skip=${this._operatorsSkipSubject$.value}&take=${this._operatorsTakeSubject$.value}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
+            this._isLoadingSubject$.next(false);
             this._operatorsSubject$.next(res.json().data)
-            return res.json();
+            this._moreOperatorsSubject$.next(res.json().more);
+            this._operatorsSkipSubject$.next(res.json().skip);
+            this._operatorsTakeSubject$.next(res.json().take);
         });
     }
 
@@ -66,15 +79,27 @@ export class OperatorsService {
         headers.append('Content-Type', 'application/json');
         return this._http.post('/api/v1/remove-operator', operator, {headers: headers})
             .map((res: Response) =>  {
+                this.getOperators().subscribe();
                 return res.json() 
-        })
+            })
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
     }
 
+    nextPage() {
+        this._operatorsSkipSubject$.next(this._operatorsSkipSubject$.value + this._operatorsTakeSubject$.value);
+        this.getOperators().first().subscribe();
+    }
+
+    previousPage() {
+        if(this._operatorsSkipSubject$.value >= this._operatorsTakeSubject$.value) {
+            this._operatorsSkipSubject$.next(this._operatorsSkipSubject$.value - this._operatorsTakeSubject$.value);
+            this.getOperators().first().subscribe();
+        }
+    }
 
 }
 
-export interface IOperator {
+export interface Operator {
   companyName: string;
   contactEmail: string;
   contactName: string;
@@ -87,9 +112,9 @@ export interface IOperator {
   _id: string;
 }
 
-export interface IPagedList {
+export interface PagedList {
     skip: number,
     take: number,
     more: boolean,
-    data: IOperator[]
+    data: Operator[]
 }

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
-import { SidebarService } from './sidebar';
 import { Observable, BehaviorSubject } from 'rxjs'
 import { Itool } from './tools';
 export { Itool } from './tools';
@@ -14,13 +13,9 @@ export class ActiveToolService {
   private _activetoolsubject: BehaviorSubject<Itool> = new BehaviorSubject(null);
   public readonly activetool: Observable<Itool> = this._activetoolsubject.asObservable()
 
-  constructor(
-    private _sidebarService: SidebarService
-  ) {
-  }
+  constructor() {}
 
   setActivetool(tool: Itool): void {
-    this._sidebarService.openSidebar();
     this._activetoolsubject.next(tool);
   }
 
@@ -29,7 +24,6 @@ export class ActiveToolService {
   }
 
   removeActivetool():void {
-    this._sidebarService.shutSidebar();
     this._activetoolsubject.next(null);
   }
 

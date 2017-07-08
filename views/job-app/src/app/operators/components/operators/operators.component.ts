@@ -1,14 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { OperatorsService, IPagedList, IOperator } from '../../services/operators';
-import { SettingsService } from '../../services/settings';
-import { SidebarService } from '../../services/sidebar';
+import { OperatorsService, PagedList, Operator } from '../../services/operators';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
 
-
-const DEFAULT_TAKE: number = 8;
+const TITLE: string = 'Operators';
+const REMOVE_TOOL_SUCCESS_MESSAGE: string = 'Successfully Removed Tool';
+const MODAL_SIZE = 'lg';
 
 @Component({
   selector: 'ti-operators',
@@ -16,49 +15,22 @@ const DEFAULT_TAKE: number = 8;
   styleUrls: ['./operators.component.scss']
 })
 export class OperatorsComponent implements OnInit {
-
   @ViewChild('updateOperatorRef') updateOperatorRef: ElementRef;
   @ViewChild('addOperatorRef') addOperatorRef: ElementRef;
 
   private _addOperatorModalRef: NgbModalRef;
-
-  updateOperatorModal: any;
   private _updateOperatorModalRef: NgbModalRef;
-
-  operators$: Observable<IOperator[]>
+  
+  title: string = TITLE;
+  updateOperatorModal: any;
+  operators$: Observable<Operator[]>;
+  moreOperators$: Observable<boolean>;
+  operatorsSkip$: Observable<number>;
+  operatorsTake$: Observable<number>;
   isOperatorsLoading$: Observable<boolean>;
-
-  activeOperator: IOperator = null;
   activeOperatorSub$: Subscription;
-
-  activeOperator$: Observable<IOperator>;
-
-  isLoading: boolean = false;
-
-  loading: boolean = true;
-  private _more: boolean;
-  get more(): boolean {
-    return this._more;
-  }
-  set more(val: boolean) {
-    this._more = val;
-  }
-
-  private _skip: number = 0;
-  set skip(val: number) {
-    this._skip = val;
-  }
-  get skip(): number {
-    return this._skip;
-  }
-
-  private _take: number = DEFAULT_TAKE;
-  set take(val: number) {
-    this._take = val;
-  }
-  get take(): number {
-    return this._take;
-  }
+  activeOperator$: Observable<Operator>;
+  isLoading$: Observable<boolean>;
 
   constructor(
     private _operatorsService: OperatorsService,
@@ -68,39 +40,29 @@ export class OperatorsComponent implements OnInit {
 
   ngOnInit() {
     this.operators$ = this._operatorsService.operators$;
-    this.isOperatorsLoading$ = this._operatorsService.isOperatorsLoading$;
     this.activeOperator$ = this._operatorsService.activeOperator$;
-
+    this.moreOperators$ = this._operatorsService.moreOperators$;
+    this.operatorsSkip$ = this._operatorsService.operatorsSkip$;
+    this.operatorsTake$ = this._operatorsService.operatorsTake$;
+    this.isLoading$ = this._operatorsService.isLoading$;
     this.doSearch();
   }
 
   nextPage() {
-    this.skip = this.skip + this.take;
-    this.doSearch();
+    this._operatorsService.nextPage();
   }
 
   previousPage() {
-    if (this.skip >= this.take) {
-      this.skip = this.skip - this.take;
-      this.doSearch();
-    }
+    this._operatorsService.previousPage();
   }
 
   doSearch() {
-    this.isLoading = true;
-
-    this._operatorsService.getOperators(this.skip, this.take).subscribe(response => {
-      this.more = response.more
-      this.isLoading = false;
-      this.more = response.more;
-      this.skip = response.skip;
-      this.take = response.take;
-    })
+    this._operatorsService.getOperators().subscribe(response => {});
   }
 
   openUpdateOperatorModal(operatorId) {
     this._operatorsService.setActiveOperator(operatorId);
-    this._updateOperatorModalRef = this._modalService.open(this.updateOperatorRef, { size: 'lg' });
+    this._updateOperatorModalRef = this._modalService.open(this.updateOperatorRef, { size: MODAL_SIZE });
   }
 
   closeUpdateOperatorModal() {
@@ -111,26 +73,13 @@ export class OperatorsComponent implements OnInit {
     this._addOperatorModalRef.close();
   }
 
-  isTiUpdateOperatorLoading(event) {
-    console.log(event);
-  }
-
   addOperator() {
-    this._addOperatorModalRef = this._modalService.open(this.addOperatorRef, { size: 'lg' });
+    this._addOperatorModalRef = this._modalService.open(this.addOperatorRef, { size: MODAL_SIZE });
   }
 
   removeOperator(operator) {
-    this.isLoading = true;
-    this._operatorsService.removeOperator(operator).subscribe(data => {
-      this._notificationService.setNotificationOn('successfully removed tool')
-      Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
-        this._notificationService.setNotificationOff()
-      });
-      this._operatorsService.getOperators(this.skip, this.take).subscribe(() => {
-        this.isLoading = false;
-        console.log('updated');
-      })
+    this._operatorsService.removeOperator(operator).subscribe(() => {
+      this._notificationService.setNotificationOn(REMOVE_TOOL_SUCCESS_MESSAGE);
     });
   }
-
 }

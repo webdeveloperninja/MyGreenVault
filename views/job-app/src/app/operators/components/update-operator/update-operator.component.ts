@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter, OnDestroy} from '@angular/core';
-import { OperatorsService, IOperator } from '../../services/operators';
+import { OperatorsService, Operator } from '../../services/operators';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription, Subject } from 'rxjs';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
-
 
 @Component({
   selector: 'ti-update-operator',
@@ -13,9 +12,7 @@ import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/
 export class UpdateOperatorComponent implements OnInit {
 
   activeOperatorFormGroup: FormGroup;
-
-  @Input('skip') skip: number;
-  @Input('take') take: number;
+  activeOperatorSubscription$: Subscription;
 
   @Output('closeUpdateModal')
   closeUpdateModal: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -23,7 +20,6 @@ export class UpdateOperatorComponent implements OnInit {
   @Output('isLoading')
   isLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  activeOperatorSubscription$: Subscription;
 
   private _activeOperator: any;
   get activeOperator(): any {
@@ -51,7 +47,6 @@ export class UpdateOperatorComponent implements OnInit {
       this.activeOperatorSubscription$.unsubscribe()
   }
 
-
   createGroup() {
     this.activeOperatorFormGroup = this._fb.group({
         operatorName: [this.activeOperator.operatorName, Validators.required],
@@ -62,16 +57,12 @@ export class UpdateOperatorComponent implements OnInit {
 
   updateOperator(activeOperator) {
     this.activeOperatorSubscription$ = this._operatorsService.updateOperator(this.activeOperatorFormGroup.value).subscribe(data => {
-      
       this._operatorsService.getOperators().finally(() => {
         this._notificationService.setNotificationOn('Successfully updated operator');
         Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
           this._notificationService.setNotificationOff();
         });
-     
-      }).subscribe(() => {
-        
-      })
+      }).subscribe(() => {})
       this.closeModal();
     });
   }
@@ -79,5 +70,4 @@ export class UpdateOperatorComponent implements OnInit {
   closeModal() {
     this.closeUpdateModal.emit(true);
   }
-
 }

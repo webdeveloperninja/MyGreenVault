@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers, Response} from '@angular/http';
-import { SidebarService } from './sidebar';
 import {Observable, BehaviorSubject} from 'rxjs'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
@@ -19,11 +18,7 @@ export class JobsService {
     public readonly activeJob$: Observable<IJob> = this._activeJobSubject$.asObservable();
 
 
-    constructor(
-        private _http: Http,
-        private _sidebarService: SidebarService
-        ) {
-    }
+    constructor(private _http: Http,) {}
 
     addJob(job) {
         let headers = new Headers();
@@ -56,7 +51,8 @@ export class JobsService {
 
     removeJob(job) {
         let headers = new Headers();
-        return this._http.get('/api/v1/delete-job', job)
+        headers.append('Content-Type', 'application/json');
+        return this._http.post('/api/v1/remove-job', job, {headers: headers})
             .map((res: Response) =>  {
                 return res.json() 
         })

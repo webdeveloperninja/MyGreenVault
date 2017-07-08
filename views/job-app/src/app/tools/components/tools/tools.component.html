@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row mt-3">
     <div class="col-md-12">
         <h3 class="pull-left">Tools</h3>
         <button class="btn btn-primary pull-right" (click)="addtool()">Add tool</button>
@@ -6,14 +6,13 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="card">
+        <div class="card" *ngIf="!(tools$ | async)?.length==0">
             <ti-loading [isLoading]="isLoading"></ti-loading>
             <div class="row">
                 <div class="col-md-12">
                     <table class="table table-striped">
                         <thead class="thead-inverse">
                             <tr>
-                                
                                 <th>Tool Name</th>
                                 <th>Qty</th>
                                 <th>Ideal Amount</th>
@@ -29,10 +28,17 @@
                                 <td>{{ tool.autoOrderQty | empty }}</td>
                                 <th scope="row">
                                     <button (click)="removeTool(tool)" class="btn btn-danger pull-right">Remove</button>
-                                    <button href="#" class="btn btn-success mr-2 pull-right">Checkout</button>
-                                    <button class="btn btn-primary pull-right mr-2 ml-2" (click)="openUpdatetoolModal(tool._id)">Edit</button>
+                                    <ti-checkout-tool
+                                        [tool]="tool">
+                                    </ti-checkout-tool>
+                                    <button 
+                                        class="btn btn-primary pull-right mr-2 ml-2" 
+                                        (click)="openUpdatetoolModal(tool._id)">
+                                            Edit
+                                    </button>
                                     <ti-add-tool-qty
-                                        [tool]="tool"></ti-add-tool-qty>
+                                        [tool]="tool">
+                                    </ti-add-tool-qty>
                                 </th>
                             </tr>
                         </tbody>
@@ -48,6 +54,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="mt-3" *ngIf="(tools$ | async)?.length==0">
+            <div class="alert alert-info" role="alert">
+            <strong>No Tools Found</strong>
             </div>
         </div>
     </div>

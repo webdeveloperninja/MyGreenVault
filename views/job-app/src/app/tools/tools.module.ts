@@ -7,10 +7,7 @@ import { ToolsComponent } from './components/tools/tools.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ToolsService } from './services/tools';
 import { ActiveToolService } from './services/activeTool';
-import { SettingsService } from './services/settings';
-import { SidebarService } from './services/sidebar';
 import { UpdateToolComponent } from './components/update-tool/update-tool.component';
-
 
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -18,6 +15,7 @@ import { SharedModule } from '../shared/shared.module';
 
 import { routes } from './tools.routing';
 import { AddToolQtyComponent } from './components/add-tool-qty/add-tool-qty.component';
+import { CheckoutToolComponent } from './components/checkout-tool/checkout-tool.component';
 
 @NgModule({
     imports: [
@@ -33,11 +31,10 @@ import { AddToolQtyComponent } from './components/add-tool-qty/add-tool-qty.comp
         AddToolComponent,
         UpdateToolComponent,
         AddToolQtyComponent,
+        CheckoutToolComponent,
     ],
     providers: [
         ToolsService,
-        SettingsService,
-        SidebarService,
         ActiveToolService
     ],
     exports: [

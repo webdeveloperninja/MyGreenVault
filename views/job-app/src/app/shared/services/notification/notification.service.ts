@@ -18,6 +18,9 @@ export class NotificationService {
   setNotificationOn(notificationText: string = '') {
     this._notificationTextSubject$.next(notificationText);
     this._isNotificationOnSubject$.next(true);
+    Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
+      this._isNotificationOnSubject$.next(false);
+    });
   }
 
   setNotificationOff() {

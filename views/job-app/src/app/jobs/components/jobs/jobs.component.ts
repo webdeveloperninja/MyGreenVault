@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { JobsService, IPagedList, IJob } from '../../services/jobs';
-import { SettingsService } from '../../services/settings';
-import { SidebarService } from '../../services/sidebar';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
 
 
 const DEFAULT_TAKE: number = 8;
@@ -63,7 +62,8 @@ export class JobsComponent implements OnInit {
 
   constructor(
     private _jobsService: JobsService,
-    private _modalService: NgbModal
+    private _modalService: NgbModal,
+    private _notificationService: NotificationService
   ) { }
 
   ngOnInit() {
@@ -120,6 +120,20 @@ export class JobsComponent implements OnInit {
 
   addJob() {
     this._addJobModalRef = this._modalService.open(this.addJobRef, { size: 'lg' });
+  }
+
+  removeJob(job) {
+    this.isLoading = true;
+    this._jobsService.removeJob(job).subscribe(data => {
+      this._notificationService.setNotificationOn('successfully removed job')
+      Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
+        this._notificationService.setNotificationOff()
+      });
+      this._jobsService.getJobs(this.skip, this.take).subscribe(() => {
+        this.isLoading = false;
+        console.log('updated');
+      })
+    });
   }
 
 }

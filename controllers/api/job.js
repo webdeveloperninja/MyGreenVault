@@ -62,3 +62,12 @@ exports.updateJob = (req, res) => {
     });
 }
 
+exports.removeJob = (req, res) => {
+  User.findOneAndUpdate({
+         _id: req.user.id,
+        'jobs._id': req.body._id
+    },
+    {$pull: {'jobs': {'_id': req.body._id}}}, function() {
+        res.json({"success": true});
+    });
+}
