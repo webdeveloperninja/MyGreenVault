@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter, OnDestroy} from '@angular/core';
-import { ToolsService, Itool } from '../../services/tools';
+import { ToolsService, Tool } from '../../services/tools';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription, Subject } from 'rxjs';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
@@ -29,7 +29,7 @@ export class UpdateToolComponent implements OnInit {
   get activetool(): any {
     return this._activetool;
   }
-  @Input('activetool')
+  @Input('activeTool')
   set activetool(activetool: any) {
     activetool.subscribe(activetool => {
       this._activetool = activetool;
@@ -65,7 +65,7 @@ export class UpdateToolComponent implements OnInit {
   updatetool(activetool) {
     this.activetoolSubscription$ = this._toolsService.updatetool(activetool.value).subscribe(data => {
       
-      this._toolsService.gettools().finally(() => {
+      this._toolsService.getTools().finally(() => {
         this._notificationService.setNotificationOn(`Successfully updated ${this.activetool.toolName}`);
         Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
           this._notificationService.setNotificationOff();

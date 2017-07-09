@@ -4,18 +4,29 @@ import {Observable, BehaviorSubject} from 'rxjs'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 
+export const DEFAULT_SKIP: number = 0;
+export const DEFAULT_TAKE: number = 8;
 
 @Injectable()
 export class ToolsService {
     
-    private _toolsSubject$: BehaviorSubject<Itool[]> = new BehaviorSubject<Itool[]>(null);
-    public readonly tools$: Observable<Itool[]> = this._toolsSubject$.asObservable();
+    private _toolsSubject$: BehaviorSubject<Tool[]> = new BehaviorSubject<Tool[]>(null);
+    public readonly tools$: Observable<Tool[]> = this._toolsSubject$.asObservable();
+
+    private _moreToolsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public readonly moreTools$: Observable<boolean> = this._moreToolsSubject$.asObservable();
+
+    private _toolsSkipSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(DEFAULT_SKIP);
+    public readonly toolsSkip$: Observable<number> = this._toolsSkipSubject$.asObservable();
+
+    private _toolsTakeSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(DEFAULT_TAKE);
+    public readonly toolsTake$: Observable<number> = this._toolsSkipSubject$.asObservable();
 
     private _istoolsLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
     public readonly istoolsLoading$: Observable<boolean> = this._istoolsLoadingSubject$.asObservable();
 
-    private _activetoolSubject$: BehaviorSubject<Itool> = new BehaviorSubject<Itool>(null);
-    public readonly activetool$: Observable<Itool> = this._activetoolSubject$.asObservable();
+    private _activetoolSubject$: BehaviorSubject<Tool> = new BehaviorSubject<Tool>(null);
+    public readonly activetool$: Observable<Tool> = this._activetoolSubject$.asObservable();
 
 
     constructor(
@@ -31,16 +42,18 @@ export class ToolsService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); //...
     }
 
-    gettools(skip = 0, take = 8) {
+    getTools() {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         this._istoolsLoadingSubject$.next(true);
-        return this._http.get(`/api/v1/tools?skip=${skip}&take=${take}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
+        return this._http.get(`/api/v1/tools?skip=${this._toolsSkipSubject$.value}&take=${this._toolsTakeSubject$.value}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
+            this._istoolsLoadingSubject$.next(false);
+            this._moreToolsSubject$.next(res.json().more);
+            this._toolsSkipSubject$.next(res.json().skip);
+            this._toolsTakeSubject$.next(res.json().take);
             this._toolsSubject$.next(res.json().data)
-            return res.json();
         });
     }
-
 
     updatetool(tool) {
         let headers = new Headers();
@@ -55,10 +68,15 @@ export class ToolsService {
     removeTool(tool) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
+        this._istoolsLoadingSubject$.next(true);
         return this._http.post('/api/v1/remove-tool', tool, {headers: headers})
             .map((res: Response) =>  {
+                if(this._toolsSubject$.value.length === 1) {
+                    this.previousPage();
+                }
+                this.getTools().subscribe();
                 return res.json() 
-        })
+            })
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
     }
 
@@ -67,9 +85,21 @@ export class ToolsService {
             this._activetoolSubject$.next(activetool);
         });
     }
+
+     nextPage() {
+        this._toolsSkipSubject$.next(this._toolsSkipSubject$.value + this._toolsTakeSubject$.value);
+        this.getTools().first().subscribe();
+    }
+
+    previousPage() {
+        if(this._toolsSkipSubject$.value >= this._toolsTakeSubject$.value) {
+            this._toolsSkipSubject$.next(this._toolsSkipSubject$.value - this._toolsTakeSubject$.value);
+            this.getTools().first().subscribe();
+        }
+    }   
 }
 
-export interface Itool {
+export interface Tool {
   companyName: string;
   contactEmail: string;
   contactName: string;
@@ -82,9 +112,9 @@ export interface Itool {
   _id: string;
 }
 
-export interface IPagedList {
+export interface PagedList {
     skip: number,
     take: number,
     more: boolean,
-    data: Itool[]
+    data: Tool[]
 }

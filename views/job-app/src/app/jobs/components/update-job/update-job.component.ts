@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter, OnDestroy} from '@angular/core';
-import { JobsService, IJob } from '../../services/jobs';
+import { JobsService, Job } from '../../services/jobs';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription, Subject } from 'rxjs';
 

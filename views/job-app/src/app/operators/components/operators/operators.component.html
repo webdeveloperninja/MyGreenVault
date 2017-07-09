@@ -6,9 +6,9 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="card" *ngIf="!(operators$ | async)?.length === false">
+        <div class="card">
             <ti-loading [isLoading]="isLoading$ | async"></ti-loading>
-            <div class="row">
+            <div class="row" *ngIf="!(operators$ | async)?.length === false">
                 <div class="col-md-12">
                     <table class="table table-striped">
                         <thead class="thead-inverse">
@@ -24,7 +24,6 @@
                                 <td>{{ operator.operatorNumber | empty }}</td>
                                 <td>
                                     <button class="btn btn-danger pull-right" (click)="removeOperator(operator)">Remove</button>
-
                                     <button class="btn btn-primary pull-right mr-2" (click)="openUpdateOperatorModal(operator._id)">
                                         Edit
                                     </button>

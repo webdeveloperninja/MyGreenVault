@@ -4,18 +4,29 @@ import {Observable, BehaviorSubject} from 'rxjs'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 
+export const DEFAULT_SKIP: number = 0;
+export const DEFAULT_TAKE: number = 8;
 
 @Injectable()
 export class JobsService {
     
-    private _jobsSubject$: BehaviorSubject<IJob[]> = new BehaviorSubject<IJob[]>(null);
-    public readonly jobs$: Observable<IJob[]> = this._jobsSubject$.asObservable();
+    private _jobsSubject$: BehaviorSubject<Job[]> = new BehaviorSubject<Job[]>(null);
+    public readonly jobs$: Observable<Job[]> = this._jobsSubject$.asObservable();
 
     private _isJobsLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
     public readonly isJobsLoading$: Observable<boolean> = this._isJobsLoadingSubject$.asObservable();
 
-    private _activeJobSubject$: BehaviorSubject<IJob> = new BehaviorSubject<IJob>(null);
-    public readonly activeJob$: Observable<IJob> = this._activeJobSubject$.asObservable();
+    private _moreJobsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public readonly moreJobs$: Observable<boolean> = this._moreJobsSubject$.asObservable();
+
+    private _jobsSkipSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(DEFAULT_SKIP);
+    public readonly jobsSkip$: Observable<number> = this._jobsSkipSubject$.asObservable();
+
+    private _jobsTakeSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(DEFAULT_TAKE);
+    public readonly jobsTake$: Observable<number> = this._jobsSkipSubject$.asObservable();
+
+    private _activeJobSubject$: BehaviorSubject<Job> = new BehaviorSubject<Job>(null);
+    public readonly activeJob$: Observable<Job> = this._activeJobSubject$.asObservable();
 
 
     constructor(private _http: Http,) {}
@@ -32,8 +43,12 @@ export class JobsService {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         this._isJobsLoadingSubject$.next(true);
-        return this._http.get(`/api/v1/jobs?skip=${skip}&take=${take}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
+        return this._http.get(`/api/v1/jobs?skip=${this._jobsSkipSubject$.value}&take=${this._jobsTakeSubject$.value}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
+            this._isJobsLoadingSubject$.next(false);
             this._jobsSubject$.next(res.json().data)
+            this._moreJobsSubject$.next(res.json().more);
+            this._jobsSkipSubject$.next(res.json().skip);
+            this._jobsTakeSubject$.next(res.json().take);
             return res.json();
         });
     }
@@ -52,10 +67,15 @@ export class JobsService {
     removeJob(job) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
+        this._isJobsLoadingSubject$.next(true);
         return this._http.post('/api/v1/remove-job', job, {headers: headers})
             .map((res: Response) =>  {
+                if(this._jobsSubject$.value.length === 1) {
+                    this.previousPage();
+                }
+                this.getJobs().subscribe();
                 return res.json() 
-        })
+            })
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
     }
 
@@ -64,9 +84,22 @@ export class JobsService {
             this._activeJobSubject$.next(activeJob);
         });
     }
+
+    nextPage() {
+        this._jobsSkipSubject$.next(this._jobsSkipSubject$.value + this._jobsTakeSubject$.value);
+        this.getJobs().first().subscribe();
+    }
+
+    previousPage() {
+        if(this._jobsSkipSubject$.value >= this._jobsTakeSubject$.value) {
+            this._jobsSkipSubject$.next(this._jobsSkipSubject$.value - this._jobsTakeSubject$.value);
+            this.getJobs().first().subscribe();
+        }
+    }
+
 }
 
-export interface IJob {
+export interface Job {
   companyName: string;
   contactEmail: string;
   contactName: string;
@@ -79,9 +112,9 @@ export interface IJob {
   _id: string;
 }
 
-export interface IPagedList {
+export interface PagedList {
     skip: number,
     take: number,
     more: boolean,
-    data: IJob[]
+    data: Job[]
 }
