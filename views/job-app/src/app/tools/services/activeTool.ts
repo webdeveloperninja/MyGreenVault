@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable, BehaviorSubject } from 'rxjs'
-import { Itool } from './tools';
-export { Itool } from './tools';
+import { Tool } from './tools';
+export { Tool } from './tools';
 
 import 'rxjs/add/operator/map';
 
@@ -10,21 +10,21 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ActiveToolService {
 
-  private _activetoolsubject: BehaviorSubject<Itool> = new BehaviorSubject(null);
-  public readonly activetool: Observable<Itool> = this._activetoolsubject.asObservable()
+  private _activeToolsubject: BehaviorSubject<Tool> = new BehaviorSubject(null);
+  public readonly activeTool: Observable<Tool> = this._activeToolsubject.asObservable()
 
   constructor() {}
 
-  setActivetool(tool: Itool): void {
-    this._activetoolsubject.next(tool);
+  setActiveTool(tool: Tool): void {
+    this._activeToolsubject.next(tool);
   }
 
-  getActivetool(): Observable<Itool> {
-    return this.activetool;
+  getActiveTool(): Observable<Tool> {
+    return this.activeTool;
   }
 
-  removeActivetool():void {
-    this._activetoolsubject.next(null);
+  removeActiveTool():void {
+    this._activeToolsubject.next(null);
   }
 
 }

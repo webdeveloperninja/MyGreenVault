@@ -73,12 +73,15 @@ export class OperatorsService {
         });
     }
 
-
     removeOperator(operator) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
+        this._isLoadingSubject$.next(true);
         return this._http.post('/api/v1/remove-operator', operator, {headers: headers})
             .map((res: Response) =>  {
+                if(this._operatorsSubject$.value.length === 1) {
+                    this.previousPage();
+                }
                 this.getOperators().subscribe();
                 return res.json() 
             })

@@ -6,9 +6,9 @@
 </div>
 <div class="row" *ngIf="!isJobNotFound">
     <div class="col-md-12">
-        <div class="card" *ngIf="!(jobs$ | async)?.length === false">
-            <ti-loading [isLoading]="isLoading"></ti-loading>
-            <div class="row">
+        <div class="card">
+            <ti-loading [isLoading]="isJobsLoading$ | async"></ti-loading>
+            <div class="row" *ngIf="!(jobs$ | async)?.length === false">
                 <div class="col-md-12">
                     <table class="table table-striped">
                         <thead class="thead-inverse">
@@ -43,10 +43,10 @@
                     </table>
                     <div class="row">
                         <div class="col-md-12">
-                            <button (click)="previousPage()" *ngIf="skip !== 0" class="btn btn-info mr-auto" [disabled]="isLoading">
+                            <button (click)="previousPage()" *ngIf="(jobsSkip$ | async) !== 0" class="btn btn-info mr-auto" [disabled]="isLoading">
                                 Previous Page
                         </button>
-                            <button (click)="nextPage()" *ngIf="more" class="btn btn-info ml-auto next" [disabled]="isLoading">
+                            <button (click)="nextPage()" *ngIf="moreJobs$ | async" class="btn btn-info ml-auto next" [disabled]="isLoading">
                                 Next Page
                         </button>
                         </div>

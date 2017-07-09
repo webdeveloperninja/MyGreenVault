@@ -6,7 +6,7 @@ import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
 
 const TITLE: string = 'Operators';
-const REMOVE_TOOL_SUCCESS_MESSAGE: string = 'Successfully Removed Tool';
+const REMOVE_TOOL_SUCCESS_MESSAGE: string = 'Successfully Removed Operator';
 const MODAL_SIZE = 'lg';
 
 @Component({
@@ -39,12 +39,7 @@ export class OperatorsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.operators$ = this._operatorsService.operators$;
-    this.activeOperator$ = this._operatorsService.activeOperator$;
-    this.moreOperators$ = this._operatorsService.moreOperators$;
-    this.operatorsSkip$ = this._operatorsService.operatorsSkip$;
-    this.operatorsTake$ = this._operatorsService.operatorsTake$;
-    this.isLoading$ = this._operatorsService.isLoading$;
+    this.setInitialSubscriptions();
     this.doSearch();
   }
 
@@ -81,5 +76,14 @@ export class OperatorsComponent implements OnInit {
     this._operatorsService.removeOperator(operator).subscribe(() => {
       this._notificationService.setNotificationOn(REMOVE_TOOL_SUCCESS_MESSAGE);
     });
+  }
+
+  setInitialSubscriptions() {
+    this.operators$ = this._operatorsService.operators$;
+    this.activeOperator$ = this._operatorsService.activeOperator$;
+    this.moreOperators$ = this._operatorsService.moreOperators$;
+    this.operatorsSkip$ = this._operatorsService.operatorsSkip$;
+    this.operatorsTake$ = this._operatorsService.operatorsTake$;
+    this.isLoading$ = this._operatorsService.isLoading$;
   }
 }

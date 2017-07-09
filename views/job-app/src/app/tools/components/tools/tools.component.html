@@ -1,14 +1,14 @@
 <div class="row mt-3">
     <div class="col-md-12">
         <h3 class="pull-left">Tools</h3>
-        <button class="btn btn-primary pull-right" (click)="addtool()">Add tool</button>
+        <button class="btn btn-primary pull-right" (click)="addTool()">Add tool</button>
     </div>
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="card" *ngIf="!(tools$ | async)?.length === false">
-            <ti-loading [isLoading]="isLoading"></ti-loading>
-            <div class="row">
+        <div class="card">
+            <ti-loading [isLoading]="isToolsLoading$ | async"></ti-loading>
+            <div class="row" *ngIf="!(tools$ | async)?.length === false">
                 <div class="col-md-12">
                     <table class="table table-striped">
                         <thead class="thead-inverse">
@@ -33,7 +33,7 @@
                                     </ti-checkout-tool>
                                     <button 
                                         class="btn btn-primary pull-right mr-2 ml-2" 
-                                        (click)="openUpdatetoolModal(tool._id)">
+                                        (click)="openUpdateToolModal(tool._id)">
                                             Edit
                                     </button>
                                     <ti-add-tool-qty
@@ -45,10 +45,10 @@
                     </table>
                     <div class="row">
                         <div class="col-md-12">
-                            <button (click)="previousPage()" *ngIf="skip !== 0" class="btn btn-info mr-auto" [disabled]="isLoading">
+                            <button (click)="previousPage()" *ngIf="(toolsSkip$ | async) !== 0" class="btn btn-info mr-auto" [disabled]="isLoading">
                                 Previous Page
                         </button>
-                            <button (click)="nextPage()" *ngIf="more" class="btn btn-info ml-auto next" [disabled]="isLoading">
+                            <button (click)="nextPage()" *ngIf="moreTools$ | async" class="btn btn-info ml-auto next" [disabled]="isLoading">
                                 Next Page
                         </button>
                         </div>
@@ -63,18 +63,18 @@
         </div>
     </div>
 </div>
-<ng-template #updatetoolRef let-c="close" let-d="dismiss">
+<ng-template #updateToolRef let-c="close" let-d="dismiss">
     <ti-update-tool 
-        [activetool]="activetool$" 
-        (closeUpdateModal)="closeUpdatetoolModal($event)" 
-        (isLoading)="isTiUpdatetoolLoading($event)"
+        [activeTool]="activeTool$" 
+        (closeUpdateModal)="closeUpdateToolModal($event)" 
+        (isLoading)="isTiUpdateToolLoading($event)"
         [skip]="skip" 
         [take]="take">
     </ti-update-tool>
 </ng-template>
-<ng-template #addtoolRef let-c="close" let-d="dismiss">
+<ng-template #addToolRef let-c="close" let-d="dismiss">
     <add-tool 
-        (closeAddtoolModal)="closeAddtoolModal($event)" 
+        (closeAddToolModal)="closeAddToolModal($event)" 
         (isAddToolLoading)="setIsAddToolLoading($event)"
         [skip]="skip" 
         [take]="take">

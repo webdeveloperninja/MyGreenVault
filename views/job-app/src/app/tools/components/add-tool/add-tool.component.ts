@@ -15,8 +15,8 @@ export class AddToolComponent implements OnInit {
 
     @ViewChild('toolForm') toolForm: NgForm;
 
-    @Output('closeAddtoolModal')
-    closeAddtoolModal: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output('closeAddToolModal')
+    closeAddToolModal: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     @Output('isAddToolLoading')
     isAddToolLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -61,7 +61,7 @@ export class AddToolComponent implements OnInit {
                 });
                 this.toolFormGroup.reset();
                 
-                this._toolsService.gettools(this.skip, this.take).subscribe(() => {
+                this._toolsService.getTools().subscribe(() => {
                   // this.isAddToolLoading.emit(false);
                   // this.closeModal();
                 }, () => {
@@ -74,7 +74,7 @@ export class AddToolComponent implements OnInit {
     }
 
   closeModal() {
-    this.closeAddtoolModal.emit(true);
+    this.closeAddToolModal.emit(true);
   }
 
 ngAfterViewChecked() {

@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { JobsService, IPagedList, IJob } from '../../services/jobs';
+import { JobsService, PagedList, Job } from '../../services/jobs';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
 
-
 const DEFAULT_TAKE: number = 8;
+const REMOVE_JOB_SUCCESS_MESSAGE: string = 'Successfully Removed Job';
+const MODAL_SIZE = 'lg';
 
 @Component({
   selector: 'ti-jobs',
@@ -15,50 +16,22 @@ const DEFAULT_TAKE: number = 8;
 })
 export class JobsComponent implements OnInit {
 
-  isJobNotFound: boolean = false;
-
   @ViewChild('updateJobRef') updateJobRef: ElementRef;
   @ViewChild('addJobRef') addJobRef: ElementRef;
 
   private _addJobModalRef: NgbModalRef;
-
-  updateJobModal: any;
   private _updateJobModalRef: NgbModalRef;
-
-  jobs$: Observable<IJob[]>
+  
+  updateJobModal: any;
+  isJobNotFound: boolean = false;
+  jobs$: Observable<Job[]>
   isJobsLoading$: Observable<boolean>;
-
-  activeJob: IJob = null;
+  activeJob: Job = null;
   activeJobSub$: Subscription;
-
-  activeJob$: Observable<IJob>;
-
-  isLoading: boolean = false;
-
-  loading: boolean = true;
-  private _more: boolean;
-  get more(): boolean {
-    return this._more;
-  }
-  set more(val: boolean) {
-    this._more = val;
-  }
-
-  private _skip: number = 0;
-  set skip(val: number) {
-    this._skip = val;
-  }
-  get skip(): number {
-    return this._skip;
-  }
-
-  private _take: number = DEFAULT_TAKE;
-  set take(val: number) {
-    this._take = val;
-  }
-  get take(): number {
-    return this._take;
-  }
+  activeJob$: Observable<Job>;
+  moreJobs$: Observable<boolean>;
+  jobsSkip$: Observable<number>;
+  jobsTake$: Observable<number>;
 
   constructor(
     private _jobsService: JobsService,
@@ -70,40 +43,32 @@ export class JobsComponent implements OnInit {
     this.jobs$ = this._jobsService.jobs$;
     this.isJobsLoading$ = this._jobsService.isJobsLoading$;
     this.activeJob$ = this._jobsService.activeJob$;
-
+    this.moreJobs$ = this._jobsService.moreJobs$;
+    this.jobsSkip$ = this._jobsService.jobsSkip$;
+    this.jobsTake$ = this._jobsService.jobsTake$;
     this.doSearch();
   }
 
   nextPage() {
-    this.skip = this.skip + this.take;
-    this.doSearch();
+    this._jobsService.nextPage();
   }
 
   previousPage() {
-    if (this.skip >= this.take) {
-      this.skip = this.skip - this.take;
-      this.doSearch();
-    }
+    this._jobsService.previousPage();
   }
 
   doSearch() {
-    this.isLoading = true;
     this.isJobNotFound = false;
-    this._jobsService.getJobs(this.skip, this.take).subscribe(response => {
+    this._jobsService.getJobs().subscribe(response => {
       if(response.data.length === 0) {
         this.isJobNotFound = true;
       }
-      this.more = response.more
-      this.isLoading = false;
-      this.more = response.more;
-      this.skip = response.skip;
-      this.take = response.take;
     })
   }
 
   openUpdateJobModal(jobId) {
     this._jobsService.setActiveJob(jobId);
-    this._updateJobModalRef = this._modalService.open(this.updateJobRef, { size: 'lg' });
+    this._updateJobModalRef = this._modalService.open(this.updateJobRef, { size: MODAL_SIZE });
   }
 
   closeUpdateJobModal() {
@@ -114,26 +79,13 @@ export class JobsComponent implements OnInit {
     this._addJobModalRef.close();
   }
 
-  isTiUpdateJobLoading(event) {
-    console.log(event);
-  }
-
   addJob() {
-    this._addJobModalRef = this._modalService.open(this.addJobRef, { size: 'lg' });
+    this._addJobModalRef = this._modalService.open(this.addJobRef, { size: MODAL_SIZE });
   }
 
   removeJob(job) {
-    this.isLoading = true;
-    this._jobsService.removeJob(job).subscribe(data => {
-      this._notificationService.setNotificationOn('successfully removed job')
-      Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
-        this._notificationService.setNotificationOff()
-      });
-      this._jobsService.getJobs(this.skip, this.take).subscribe(() => {
-        this.isLoading = false;
-        console.log('updated');
-      })
+    this._jobsService.removeJob(job).subscribe(() => {
+      this._notificationService.setNotificationOn(REMOVE_JOB_SUCCESS_MESSAGE);
     });
   }
-
 }
