@@ -145,7 +145,13 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 /**
  * Primary app routes.
  */
+// app.use(function(req, res, next) {
+//   if (req.path !== '/')
+//     return res.redirect('/');
+//   next();
+// });
 app.get('/', passportConfig.isAuthenticated, toolingInventorySPA.getToolingInventorySPA);
+
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);

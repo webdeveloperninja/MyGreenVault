@@ -1,3 +1,4 @@
+block variables
 doctype html
 html
   head
@@ -15,8 +16,11 @@ html
         width: 200px !important;
         margin-top: -8px !important;
       }
+      .navbar {
+        background-color: white!important;
+      }
 
-  body
+  body(class=(body_class || "tooling-vault"))
     include partials/header
 
     .container
