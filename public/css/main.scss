@@ -3,7 +3,7 @@
 @import "lib/bootstrap/bootstrap";
 @import "lib/font-awesome/font-awesome";
 
-@import "themes/default/default";
+@import "themes/modern/modern";
 
 // Scaffolding
 // -------------------------
@@ -13,6 +13,9 @@ html {
   min-height: 100%;
 }
 
+.logo {
+  width: 200px !important;
+}
 body {
   padding-top: 60px;
   margin-bottom: 75px;
