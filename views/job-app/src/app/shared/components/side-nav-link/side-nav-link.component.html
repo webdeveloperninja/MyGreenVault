@@ -1,2 +1,4 @@
-<i class="fa fa-briefcase"></i>
-<span *ngIf="isSideBarOpen">My Account</span>
+<a [href]="linkPath">
+  <i class="fa fa-briefcase">
+  <span *ngIf="isSideBarOpen">{{linkText}}</span></i>
+</a>
