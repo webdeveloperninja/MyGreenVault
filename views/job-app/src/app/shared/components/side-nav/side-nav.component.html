@@ -1,0 +1,15 @@
+<div 
+  class="side-nav"
+  [ngClass]="{'open': isSideBarOpen}">
+  <i 
+    class="fa fa-bars nav-btn" 
+    aria-hidden="true"
+    (click)="toggleSideBar()"></i>
+     <img src="./assets/vault-logo.png" [hidden]="!isSideBarOpen" class="img-responsive side-nav-logo">
+    <div class="row nav-links">
+      <div class="col-md-12">
+        <ti-side-nav-link
+          [isSideBarOpen]="isSideBarOpen"></ti-side-nav-link>
+      </div>
+    </div>
+</div>
