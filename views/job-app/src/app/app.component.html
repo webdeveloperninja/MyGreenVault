@@ -1,5 +1,11 @@
-<ti-header></ti-header>
-<div class="container-fluid">
-  <ti-toaster></ti-toaster>
-  <router-outlet></router-outlet>
+<ti-side-nav
+  [isSideBarOpen]="isSideNavOpen$ | async"></ti-side-nav>
+<div 
+  class="app-wrapper"
+  [ngClass]="{'side-nav-open': isSideNavOpen$ | async}">
+  <ti-header></ti-header>
+  <div class="container-fluid">
+    <ti-toaster></ti-toaster>
+    <router-outlet></router-outlet>
+  </div>
 </div>

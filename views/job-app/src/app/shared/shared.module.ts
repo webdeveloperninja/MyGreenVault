@@ -6,10 +6,13 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { EmptyPipe } from './pipes/empty/empty.pipe';
 
 import { NotificationService } from './services/notification/notification.service';
+import { SideNavService } from './services/side-nav/side-nav.service';
 
 import { KeysPipe } from './pipes/object-keys.pipe';
 import { CamelCaseToRegularPipe } from './pipes/camel-case-to-regular';
 import { ToasterComponent } from './components/toaster/toaster.component';
+import { SideNavComponent } from './components/side-nav/side-nav.component';
+import { SideNavLinkComponent } from './components/side-nav-link/side-nav-link.component';
 
 @NgModule({
     imports: [
@@ -22,10 +25,13 @@ import { ToasterComponent } from './components/toaster/toaster.component';
       KeysPipe,
       CamelCaseToRegularPipe,
       EmptyPipe,
-      ToasterComponent
+      ToasterComponent,
+      SideNavComponent,
+      SideNavLinkComponent
     ],
     providers: [
-      NotificationService
+      NotificationService,
+      SideNavService
     ],
     exports: [
       HeaderComponent,
@@ -33,7 +39,8 @@ import { ToasterComponent } from './components/toaster/toaster.component';
       KeysPipe,
       CamelCaseToRegularPipe,
       EmptyPipe,
-      ToasterComponent
+      ToasterComponent,
+      SideNavComponent
     ]
 })
 export class SharedModule {}
