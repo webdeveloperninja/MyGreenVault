@@ -7,6 +7,8 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class SideNavLinkComponent implements OnInit {
   @Input() isSideBarOpen: boolean;
+  @Input() linkText: string;
+  @Input() linkPath: string;
 
   constructor() { }
 
