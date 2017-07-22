@@ -150,7 +150,11 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 //     return res.redirect('/');
 //   next();
 // });
-app.get('/', passportConfig.isAuthenticated, toolingInventorySPA.getToolingInventorySPA);
+// app.get('/', passportConfig.isAuthenticated, toolingInventorySPA.getToolingInventorySPA);
+
+// guard this route
+
+app.use(express.static(__dirname + '/views/job-app/dist'));
 
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
@@ -169,8 +173,6 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
-
-app.get('/job-app', passportConfig.isAuthenticated, toolingInventorySPA.getToolingInventorySPA);
 
 app.get('/api/v1/jobs', passportConfig.isAuthenticated, jobApiController.getJobs);
 app.post('/api/v1/job', passportConfig.isAuthenticated, jobApiController.addJob);
