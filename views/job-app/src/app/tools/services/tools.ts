@@ -37,7 +37,7 @@ export class ToolsService {
     addTool(tool) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('/api/v1/tool/', tool, {headers: headers}) // ...using post request
+        return this._http.post('/api/v1/tools/', tool, {headers: headers}) // ...using post request
             .map((res: Response) => res.json()) // ...and callingls .json() on the response to return data
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); //...
     }
@@ -58,7 +58,7 @@ export class ToolsService {
     updatetool(tool) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('/api/v1/update-tool', tool, {headers: headers})
+        return this._http.put('/api/v1/tools', tool, {headers: headers})
             .map((res: Response) =>  {
                 return res.json() 
         })
@@ -69,7 +69,7 @@ export class ToolsService {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         this._istoolsLoadingSubject$.next(true);
-        return this._http.post('/api/v1/remove-tool', tool, {headers: headers})
+        return this._http.post('/api/v1/tools/remove', tool, {headers: headers})
             .map((res: Response) =>  {
                 if(this._toolsSubject$.value.length === 1) {
                     this.previousPage();

@@ -1,6 +1,3 @@
-/**
- * Module dependencies.
- */
 const express = require('express');
 const compression = require('compression');
 const session = require('express-session');
@@ -23,23 +20,15 @@ const multer = require('multer');
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
 const isProd = false;
+dotenv.load({ path: '.env.dev' });
 
-/**
- * Load environment variables from .env file, where API keys and passwords are configured.
- * 
- * dev and prod //////
- */
-if (process.env.isProd)
-  dotenv.load({ path: '.env.prod' });
-else 
-  dotenv.load({ path: '.env.dev' });
 /**
  * Controllers (route handlers).
  */
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
-const jobApiController = require('./controllers/api/job');
+const jobsApiController = require('./controllers/api/job');
 const toolsApiController = require('./controllers/api/tools');
 const operatorsApiController = require('./controllers/api/operators');
 const contactController = require('./controllers/contact');
@@ -54,6 +43,10 @@ const passportConfig = require('./config/passport');
  * Create Express server.
  */
 const app = express();
+
+const toolsRoutes = require('./routes/tools')(passportConfig, toolsApiController);
+const operatorsRoutes = require('./routes/operators')(passportConfig, operatorsApiController);
+const jobsRoutes = require('./routes/jobs')(passportConfig, jobsApiController);
 
 app.use(function(req, res, next) {
 res.header('Access-Control-Allow-Credentials', true);
@@ -107,18 +100,11 @@ app.use(session({
     clear_interval: 3600
   })
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-
-// app.use((req, res, next) => {
-//   if (req.path === '/api/upload') {
-//     next();
-//   } else {
-//     lusca.csrf()(req, res, next);
-//   }
-// });
 
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
@@ -140,19 +126,8 @@ app.use((req, res, next) => {
   }
   next();
 });
+
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
-
-/**
- * Primary app routes.
- */
-// app.use(function(req, res, next) {
-//   if (req.path !== '/')
-//     return res.redirect('/');
-//   next();
-// });
-// app.get('/', passportConfig.isAuthenticated, toolingInventorySPA.getToolingInventorySPA);
-
-// guard this route
 
 app.use(express.static(__dirname + '/views/job-app/dist'));
 
@@ -174,55 +149,25 @@ app.post('/account/password', passportConfig.isAuthenticated, userController.pos
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 
-app.get('/api/v1/jobs', passportConfig.isAuthenticated, jobApiController.getJobs);
-app.post('/api/v1/job', passportConfig.isAuthenticated, jobApiController.addJob);
-app.post('/api/v1/update-job', passportConfig.isAuthenticated, jobApiController.updateJob);
-app.post('/api/v1/remove-job', passportConfig.isAuthenticated, jobApiController.removeJob);
 
-app.get('/api/v1/tools', passportConfig.isAuthenticated, toolsApiController.getTools);
-app.post('/api/v1/tool', passportConfig.isAuthenticated, toolsApiController.addTool);
-app.post('/api/v1/update-tool', passportConfig.isAuthenticated, toolsApiController.updateTool);
-app.post('/api/v1/remove-tool', passportConfig.isAuthenticated, toolsApiController.removeTool);
+// TOOLING INVENTORY API
+app.use('/api/v1/tools', toolsRoutes);
+app.use('/api/v1/operators', operatorsRoutes);
+app.use('/api/v1/jobs', jobsRoutes);
 
 
-app.get('/api/v1/operators', passportConfig.isAuthenticated, operatorsApiController.getOperators);
-app.post('/api/v1/operator', passportConfig.isAuthenticated, operatorsApiController.addOperator);
-app.post('/api/v1/update-operator', passportConfig.isAuthenticated, operatorsApiController.updateOperator);
-app.post('/api/v1/remove-operator', passportConfig.isAuthenticated, operatorsApiController.removeOperator);
 
-
-/**
- * API examples routes.
- */
 app.get('/api', apiController.getApi);
 app.get('/api/lastfm', apiController.getLastfm);
-app.get('/api/nyt', apiController.getNewYorkTimes);
-app.get('/api/aviary', apiController.getAviary);
 app.get('/api/steam', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getSteam);
 app.get('/api/stripe', apiController.getStripe);
 app.post('/api/stripe', apiController.postStripe);
-app.get('/api/scraping', apiController.getScraping);
-app.get('/api/twilio', apiController.getTwilio);
-app.post('/api/twilio', apiController.postTwilio);
-app.get('/api/clockwork', apiController.getClockwork);
-app.post('/api/clockwork', apiController.postClockwork);
-app.get('/api/foursquare', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFoursquare);
-app.get('/api/tumblr', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getTumblr);
-app.get('/api/facebook', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFacebook);
-app.get('/api/github', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getGithub);
-app.get('/api/twitter', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getTwitter);
-app.post('/api/twitter', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.postTwitter);
-app.get('/api/linkedin', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getLinkedin);
-app.get('/api/instagram', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getInstagram);
 app.get('/api/paypal', apiController.getPayPal);
 app.get('/api/paypal/success', apiController.getPayPalSuccess);
 app.get('/api/paypal/cancel', apiController.getPayPalCancel);
-app.get('/api/lob', apiController.getLob);
+
 app.get('/api/upload', apiController.getFileUpload);
 app.post('/api/upload', upload.single('myFile'), apiController.postFileUpload);
-app.get('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getPinterest);
-app.post('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.postPinterest);
-app.get('/api/google-maps', apiController.getGoogleMaps);
 
 
 /**

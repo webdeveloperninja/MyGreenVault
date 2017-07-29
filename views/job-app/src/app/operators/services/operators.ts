@@ -35,7 +35,7 @@ export class OperatorsService {
     addOperator(operator) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('/api/v1/operator/', operator, {headers: headers}) // ...using post request
+        return this._http.post('/api/v1/operators/', operator, {headers: headers}) // ...using post request
             .map((res: Response) => { 
                 this.getOperators().subscribe();
                 res.json()
@@ -60,7 +60,7 @@ export class OperatorsService {
     updateOperator(operator) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('/api/v1/update-operator', operator, {headers: headers})
+        return this._http.put('/api/v1/operators', operator, {headers: headers})
             .map((res: Response) =>  {
                 return res.json() 
         })
@@ -77,7 +77,7 @@ export class OperatorsService {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         this._isLoadingSubject$.next(true);
-        return this._http.post('/api/v1/remove-operator', operator, {headers: headers})
+        return this._http.post('/api/v1/operators/remove', operator, {headers: headers})
             .map((res: Response) =>  {
                 if(this._operatorsSubject$.value.length === 1) {
                     this.previousPage();
