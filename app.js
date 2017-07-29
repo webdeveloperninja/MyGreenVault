@@ -20,16 +20,8 @@ const multer = require('multer');
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
 const isProd = false;
+dotenv.load({ path: '.env.dev' });
 
-/**
- * Load environment variables from .env file, where API keys and passwords are configured.
- * 
- * dev and prod //////
- */
-if (process.env.isProd)
-  dotenv.load({ path: '.env.prod' });
-else 
-  dotenv.load({ path: '.env.dev' });
 /**
  * Controllers (route handlers).
  */
@@ -52,9 +44,9 @@ const passportConfig = require('./config/passport');
  */
 const app = express();
 
-var toolsRoutes = require('./routes/tools')(passportConfig, toolsApiController);
-var operatorsRoutes = require('./routes/operators')(passportConfig, operatorsApiController);
-var jobsRoutes = require('./routes/jobs')(passportConfig, jobsApiController);
+const toolsRoutes = require('./routes/tools')(passportConfig, toolsApiController);
+const operatorsRoutes = require('./routes/operators')(passportConfig, operatorsApiController);
+const jobsRoutes = require('./routes/jobs')(passportConfig, jobsApiController);
 
 app.use(function(req, res, next) {
 res.header('Access-Control-Allow-Credentials', true);
