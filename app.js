@@ -1,6 +1,3 @@
-/**
- * Module dependencies.
- */
 const express = require('express');
 const compression = require('compression');
 const session = require('express-session');
@@ -39,7 +36,7 @@ else
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
-const jobApiController = require('./controllers/api/job');
+const jobsApiController = require('./controllers/api/job');
 const toolsApiController = require('./controllers/api/tools');
 const operatorsApiController = require('./controllers/api/operators');
 const contactController = require('./controllers/contact');
@@ -54,6 +51,10 @@ const passportConfig = require('./config/passport');
  * Create Express server.
  */
 const app = express();
+
+var toolsRoutes = require('./routes/tools')(passportConfig, toolsApiController);
+var operatorsRoutes = require('./routes/operators')(passportConfig, operatorsApiController);
+var jobsRoutes = require('./routes/jobs')(passportConfig, jobsApiController);
 
 app.use(function(req, res, next) {
 res.header('Access-Control-Allow-Credentials', true);
@@ -140,19 +141,9 @@ app.use((req, res, next) => {
   }
   next();
 });
+
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
-/**
- * Primary app routes.
- */
-// app.use(function(req, res, next) {
-//   if (req.path !== '/')
-//     return res.redirect('/');
-//   next();
-// });
-// app.get('/', passportConfig.isAuthenticated, toolingInventorySPA.getToolingInventorySPA);
-
-// guard this route
 
 app.use(express.static(__dirname + '/views/job-app/dist'));
 
@@ -174,25 +165,16 @@ app.post('/account/password', passportConfig.isAuthenticated, userController.pos
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 
-app.get('/api/v1/jobs', passportConfig.isAuthenticated, jobApiController.getJobs);
-app.post('/api/v1/job', passportConfig.isAuthenticated, jobApiController.addJob);
-app.post('/api/v1/update-job', passportConfig.isAuthenticated, jobApiController.updateJob);
-app.post('/api/v1/remove-job', passportConfig.isAuthenticated, jobApiController.removeJob);
-
-app.get('/api/v1/tools', passportConfig.isAuthenticated, toolsApiController.getTools);
-app.post('/api/v1/tool', passportConfig.isAuthenticated, toolsApiController.addTool);
-app.post('/api/v1/update-tool', passportConfig.isAuthenticated, toolsApiController.updateTool);
-app.post('/api/v1/remove-tool', passportConfig.isAuthenticated, toolsApiController.removeTool);
 
 
-app.get('/api/v1/operators', passportConfig.isAuthenticated, operatorsApiController.getOperators);
-app.post('/api/v1/operator', passportConfig.isAuthenticated, operatorsApiController.addOperator);
-app.post('/api/v1/update-operator', passportConfig.isAuthenticated, operatorsApiController.updateOperator);
-app.post('/api/v1/remove-operator', passportConfig.isAuthenticated, operatorsApiController.removeOperator);
+// TOOLING INVENTORY API
+app.use('/api/v1/tools', toolsRoutes);
+app.use('/api/v1/operators', operatorsRoutes);
+app.use('/api/v1/jobs', jobsRoutes);
 
 
-/**
- * API examples routes.
+
+/*
  */
 app.get('/api', apiController.getApi);
 app.get('/api/lastfm', apiController.getLastfm);

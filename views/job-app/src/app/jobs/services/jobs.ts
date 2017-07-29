@@ -34,7 +34,7 @@ export class JobsService {
     addJob(job) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('/api/v1/job/', job, {headers: headers}) // ...using post request
+        return this._http.post('/api/v1/jobs/', job, {headers: headers}) // ...using post request
             .map((res: Response) => res.json()) // ...and callingls .json() on the response to return data
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); //...
     }
@@ -57,7 +57,7 @@ export class JobsService {
     updateJob(job) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('/api/v1/update-job', job, {headers: headers})
+        return this._http.put('/api/v1/jobs', job, {headers: headers})
             .map((res: Response) =>  {
                 return res.json() 
         })
@@ -68,7 +68,7 @@ export class JobsService {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         this._isJobsLoadingSubject$.next(true);
-        return this._http.post('/api/v1/remove-job', job, {headers: headers})
+        return this._http.post('/api/v1/jobs/remove', job, {headers: headers})
             .map((res: Response) =>  {
                 if(this._jobsSubject$.value.length === 1) {
                     this.previousPage();
