@@ -12,6 +12,7 @@ import { JobsModule } from './jobs/jobs.module';
 import { ToolsModule } from './tools/tools.module';
 import { SharedModule } from './shared/shared.module';
 import { OperatorsModule } from './operators/operators.module';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
@@ -33,6 +34,7 @@ import { routes } from './app.routing';
     SharedModule,
     JobsModule,
     ToolsModule,
+    AuthenticationModule,
     OperatorsModule,
     NgbModule.forRoot(),
   ],
