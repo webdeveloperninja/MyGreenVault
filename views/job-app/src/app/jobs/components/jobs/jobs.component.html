@@ -1,7 +1,38 @@
 <div class="row mt-3">
     <div class="col-md-12">
         <h3 class="pull-left">Jobs</h3>
-        <button class="btn btn-primary pull-right" (click)="addJob()">Add Job</button>
+        <div class="dropdown pull-right">
+        <button class="btn btn-secondary dropdown-toggle ml-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Display
+        </button>
+        <div class="dropdown-menu dropdown-menu-right display-dropdown" (click)="stopPropogation($event); $event.stopPropagation()" aria-labelledby="dropdownMenuButton">
+            <div class="form-group">
+                <label><input type="checkbox" [(ngModel)]="displayOptions.companyName"/>Company Name</label>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" [(ngModel)]="displayOptions.contactName"/>Contact Name</label>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" [(ngModel)]="displayOptions.jobPhone"/>Phone</label>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" [(ngModel)]="displayOptions.jobEmail"/>Email</label>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" [(ngModel)]="displayOptions.jobName"/>Job Name</label>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" [(ngModel)]="displayOptions.jobNumber"/>Job Number</label>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" [(ngModel)]="displayOptions.jobDescription"/>Job Description</label>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" [(ngModel)]="displayOptions.jobStatus"/>Job Status</label>
+            </div>
+        </div>
+        </div>
+        <button class="btn btn-primary pull-right" (click)="addJob()">Add Job</button>        
     </div>
 </div>
 <div class="row" *ngIf="!isJobNotFound">
@@ -13,27 +44,27 @@
                     <table class="table table-striped">
                         <thead class="thead-inverse">
                             <tr>
-                                <th>Company Name</th>
-                                <th>Contact Name</th>
-                                <th>Phone</th>
-                                <th>Email</th>
-                                <th>Job Name</th>
-                                <th>Job Number</th>
-                                <th>Job Description</th>
-                                <th>Status</th>
+                                <th [hidden]="!displayOptions.companyName">Company Name</th>
+                                <th [hidden]="!displayOptions.contactName">Contact Name</th>
+                                <th [hidden]="!displayOptions.jobPhone">Phone</th>
+                                <th [hidden]="!displayOptions.jobEmail">Email</th>
+                                <th [hidden]="!displayOptions.jobName">Job Name</th>
+                                <th [hidden]="!displayOptions.jobNumber">Job Number</th>
+                                <th [hidden]="!displayOptions.jobDescription">Job Description</th>
+                                <th [hidden]="!displayOptions.jobStatus">Status</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let job of jobs$ | async" >
-                                <td>{{ job.companyName | empty }}</td>
-                                <td>{{ job.contactName | empty }}</td>
-                                <td>{{ job.contactPhoneNumber | empty }}</td>
-                                <td>{{ job.contactEmail | empty }}</td>
-                                <td>{{ job.jobName | empty }}</td>
-                                <td>{{ job.jobNumber | empty }}</td>
-                                <td>{{ job.jobDescription | empty }}</td>
-                                <td>{{ job.jobStatus | jobStatusNumberToTitle | empty }}</td>
+                                <td [hidden]="!displayOptions.companyName">{{ job.companyName | empty }}</td>
+                                <td [hidden]="!displayOptions.contactName">{{ job.contactName | empty }}</td>
+                                <td [hidden]="!displayOptions.jobPhone">{{ job.contactPhoneNumber | empty }}</td>
+                                <td [hidden]="!displayOptions.jobEmail">{{ job.contactEmail | empty }}</td>
+                                <td [hidden]="!displayOptions.jobName">{{ job.jobName | empty }}</td>
+                                <td [hidden]="!displayOptions.jobNumber">{{ job.jobNumber | empty }}</td>
+                                <td [hidden]="!displayOptions.jobDescription">{{ job.jobDescription | empty }}</td>
+                                <td [hidden]="!displayOptions.jobStatus">{{ job.jobStatus | jobStatusNumberToTitle | empty }}</td>
                                 <td>
                                     <button class="btn btn-danger pull-right" (click)="removeJob(job)">Remove</button>
                                     <button class="btn btn-primary" (click)="openUpdateJobModal(job._id)">Edit</button>

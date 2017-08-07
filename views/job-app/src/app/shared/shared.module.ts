@@ -13,6 +13,7 @@ import { CamelCaseToRegularPipe } from './pipes/camel-case-to-regular';
 import { ToasterComponent } from './components/toaster/toaster.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { SideNavLinkComponent } from './components/side-nav-link/side-nav-link.component';
+import { DisplayOptionsComponent } from './components/display-options/display-options.component';
 
 @NgModule({
     imports: [
@@ -27,7 +28,8 @@ import { SideNavLinkComponent } from './components/side-nav-link/side-nav-link.c
       EmptyPipe,
       ToasterComponent,
       SideNavComponent,
-      SideNavLinkComponent
+      SideNavLinkComponent,
+      DisplayOptionsComponent
     ],
     providers: [
       NotificationService,
@@ -40,7 +42,8 @@ import { SideNavLinkComponent } from './components/side-nav-link/side-nav-link.c
       CamelCaseToRegularPipe,
       EmptyPipe,
       ToasterComponent,
-      SideNavComponent
+      SideNavComponent,
+      DisplayOptionsComponent
     ]
 })
 export class SharedModule {}
