@@ -13,7 +13,10 @@ export class AuthenticationService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     return this._http.post('/login', userAuthenticationObject, {headers: headers}) // ...using post request
-        .map(response => response.json())
+        .map(response => {
+          console.log(response.json())
+          return response.json();
+        })
         .catch(error => Observable.throw(error));
   }
 

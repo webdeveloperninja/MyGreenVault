@@ -16,6 +16,17 @@ const MODAL_SIZE = 'lg';
 })
 export class JobsComponent implements OnInit {
 
+  displayOptions = {
+    companyName: true,
+    contactName: true,
+    jobPhone: true,
+    jobEmail: true,
+    jobName: true,
+    jobNumber: true,
+    jobDescription: true,
+    jobStatus: true
+  }
+
   @ViewChild('updateJobRef') updateJobRef: ElementRef;
   @ViewChild('addJobRef') addJobRef: ElementRef;
 
@@ -81,6 +92,10 @@ export class JobsComponent implements OnInit {
 
   addJob() {
     this._addJobModalRef = this._modalService.open(this.addJobRef, { size: MODAL_SIZE });
+  }
+
+  stopPropogation(event) {
+
   }
 
   removeJob(job) {
