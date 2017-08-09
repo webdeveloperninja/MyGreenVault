@@ -14,6 +14,7 @@ import { ToasterComponent } from './components/toaster/toaster.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { SideNavLinkComponent } from './components/side-nav-link/side-nav-link.component';
 import { DisplayOptionsComponent } from './components/display-options/display-options.component';
+import { TokenService } from './services/token/token.service';
 
 @NgModule({
     imports: [
@@ -33,7 +34,8 @@ import { DisplayOptionsComponent } from './components/display-options/display-op
     ],
     providers: [
       NotificationService,
-      SideNavService
+      SideNavService,
+      TokenService
     ],
     exports: [
       HeaderComponent,
