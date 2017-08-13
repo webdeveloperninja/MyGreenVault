@@ -54,7 +54,9 @@ exports.postLogin = (req, res, next) => {
  * Log out.
  */
 exports.logout = (req, res) => {
-  req.logout();
+
+  req.logOut();
+  res.clearCookie("connect.sid");
   res.redirect('/');
 };
 

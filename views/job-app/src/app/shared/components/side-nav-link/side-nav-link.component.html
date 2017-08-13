@@ -1,4 +1,8 @@
-<a [href]="linkPath">
-  <i class="fa fa-briefcase">
+<a [href]="linkPath" *ngIf="isExternalLink">
+  <i [ngClass]="iconClass">
+  <span *ngIf="isSideBarOpen">{{linkText}}</span></i>
+</a>
+<a routerLink = "/{{linkPath}}" *ngIf="!isExternalLink">
+  <i [ngClass]="iconClass">
   <span *ngIf="isSideBarOpen">{{linkText}}</span></i>
 </a>

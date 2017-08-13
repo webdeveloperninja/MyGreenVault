@@ -1,11 +1,28 @@
-<ti-side-nav
-  [isSideBarOpen]="isSideNavOpen$ | async"></ti-side-nav>
-<div 
-  class="app-wrapper"
-  [ngClass]="{'side-nav-open': isSideNavOpen$ | async}">
-  <ti-header></ti-header>
-  <div class="container-fluid">
-    <ti-toaster></ti-toaster>
-    <router-outlet></router-outlet>
+
+<div id="wrapper" class="forced" [ngClass]="{'enlarged': isSideNavOpen$ | async}">
+  <div class="topbar">
+    <ti-header [isSideBarOpen]="isSideNavOpen$ | async"></ti-header>
+  </div>
+  <div class="left side-menu">
+    <ti-side-nav
+      [isSideBarOpen]="isSideNavOpen$ | async">
+    </ti-side-nav>
+  </div>
+  <div class="content-page">
+    <div class="content">
+      <div class="container-fluid">
+        <ti-toaster></ti-toaster>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
   </div>
 </div>
+
+<!--<div 
+  class="app-wrapper"
+  [ngClass]="{'side-nav-open': isSideNavOpen$ | async}">
+  
+  <div class="container-fluid">
+
+  </div>
+</div>-->

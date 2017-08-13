@@ -1,65 +1,71 @@
-<div class="row mt-3">
-    <div class="col-md-12">
-        <h3 class="pull-left">{{ title }}</h3>
-        <button class="btn btn-primary pull-right" (click)="addOperator()">Add operator</button>
-    </div>
-</div>
 <div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <ti-loading [isLoading]="isLoading$ | async"></ti-loading>
-            <div class="row" *ngIf="!(operators$ | async)?.length === false">
+    <div class="col">   
+        <div class="card-box">
+            <div class="row mt-3">
                 <div class="col-md-12">
-                    <table class="table table-striped">
-                        <thead class="thead-inverse">
-                            <tr>
-                                <th>Operator Name</th>
-                                <th>Operator Number</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let operator of operators$ | async" >
-                                <td>{{ operator.operatorName | empty }}</td>
-                                <td>{{ operator.operatorNumber | empty }}</td>
-                                <td>
-                                    <button class="btn btn-danger pull-right" (click)="removeOperator(operator)">Remove</button>
-                                    <button class="btn btn-primary pull-right mr-2" (click)="openUpdateOperatorModal(operator._id)">
-                                        Edit
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <button (click)="previousPage()" *ngIf="(operatorsSkip$ | async) !== 0" class="btn btn-info mr-auto" [disabled]="isLoading$ | async">
-                                Previous Page
-                            </button>
-                            <button (click)="nextPage()" *ngIf="moreOperators$ | async" class="btn btn-info ml-auto next" [disabled]="isLoading$ | async">
-                                Next Page
-                            </button>
+                    <h3 class="pull-left">{{ title }}</h3>
+                    <button class="btn btn-primary pull-right" (click)="addOperator()">Add operator</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <ti-loading [isLoading]="isLoading$ | async"></ti-loading>
+                        <div class="row" *ngIf="!(operators$ | async)?.length === false">
+                            <div class="col-md-12">
+                                <table class="table table-striped">
+                                    <thead class="thead-inverse">
+                                        <tr>
+                                            <th>Operator Name</th>
+                                            <th>Operator Number</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let operator of operators$ | async" >
+                                            <td>{{ operator.operatorName | empty }}</td>
+                                            <td>{{ operator.operatorNumber | empty }}</td>
+                                            <td>
+                                                <button class="btn btn-danger pull-right" (click)="removeOperator(operator)">Remove</button>
+                                                <button class="btn btn-primary pull-right mr-2" (click)="openUpdateOperatorModal(operator._id)">
+                                                    Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button (click)="previousPage()" *ngIf="(operatorsSkip$ | async) !== 0" class="btn btn-info mr-auto" [disabled]="isLoading$ | async">
+                                            Previous Page
+                                        </button>
+                                        <button (click)="nextPage()" *ngIf="moreOperators$ | async" class="btn btn-info ml-auto next" [disabled]="isLoading$ | async">
+                                            Next Page
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3" *ngIf="(operators$ | async)?.length==0">
+                        <div class="alert alert-info" role="alert">
+                        <strong>No Operators Found</strong>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="mt-3" *ngIf="(operators$ | async)?.length==0">
-            <div class="alert alert-info" role="alert">
-            <strong>No Operators Found</strong>
-            </div>
+            <ng-template #updateOperatorRef let-c="close" let-d="dismiss">
+                <ti-update-operator 
+                    [activeOperator]="activeOperator$" 
+                    (closeUpdateModal)="closeUpdateOperatorModal($event)" 
+                    (isLoading)="isTiUpdateOperatorLoading($event)">
+                </ti-update-operator>
+            </ng-template>
+            <ng-template #addOperatorRef let-c="close" let-d="dismiss">
+                <add-operator 
+                    (closeAddOperatorModal)="closeAddOperatorModal($event)">
+                </add-operator>
+            </ng-template>
         </div>
     </div>
 </div>
-<ng-template #updateOperatorRef let-c="close" let-d="dismiss">
-    <ti-update-operator 
-        [activeOperator]="activeOperator$" 
-        (closeUpdateModal)="closeUpdateOperatorModal($event)" 
-        (isLoading)="isTiUpdateOperatorLoading($event)">
-    </ti-update-operator>
-</ng-template>
-<ng-template #addOperatorRef let-c="close" let-d="dismiss">
-    <add-operator 
-        (closeAddOperatorModal)="closeAddOperatorModal($event)">
-    </add-operator>
-</ng-template>
