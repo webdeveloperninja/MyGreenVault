@@ -4,6 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
+import { HeaderService } from '../../../shared/services/header/header.service';
 
 const DEFAULT_TAKE: number = 8;
 const REMOVE_JOB_SUCCESS_MESSAGE: string = 'Successfully Removed Job';
@@ -47,7 +48,8 @@ export class JobsComponent implements OnInit {
   constructor(
     private _jobsService: JobsService,
     private _modalService: NgbModal,
-    private _notificationService: NotificationService
+    private _notificationService: NotificationService,
+    private _headerService: HeaderService
   ) { }
 
   ngOnInit() {
@@ -57,6 +59,7 @@ export class JobsComponent implements OnInit {
     this.moreJobs$ = this._jobsService.moreJobs$;
     this.jobsSkip$ = this._jobsService.jobsSkip$;
     this.jobsTake$ = this._jobsService.jobsTake$;
+    this._headerService.setHeaderText('Jobs');
     this.doSearch();
   }
 

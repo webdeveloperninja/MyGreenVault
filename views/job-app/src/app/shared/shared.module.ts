@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { EmptyPipe } from './pipes/empty/empty.pipe';
+import { HeaderService } from './services/header/header.service';
 
 import { NotificationService } from './services/notification/notification.service';
 import { SideNavService } from './services/side-nav/side-nav.service';
@@ -35,7 +36,8 @@ import { TokenService } from './services/token/token.service';
     providers: [
       NotificationService,
       SideNavService,
-      TokenService
+      TokenService,
+      HeaderService
     ],
     exports: [
       HeaderComponent,

@@ -4,6 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
+import { HeaderService } from '../../../shared/services/header/header.service';
 
 const REMOVE_TOOL_SUCCESS_MESSAGE: string = 'Successfully Removed Tool';
 const MODAL_SIZE = 'lg';
@@ -33,11 +34,13 @@ export class ToolsComponent implements OnInit {
   constructor(
     private _toolsService: ToolsService,
     private _modalService: NgbModal,
-    private _notificationService: NotificationService
+    private _notificationService: NotificationService,
+    private _headerService: HeaderService
   ) { }
 
   ngOnInit() {
     this.setInitialSubscriptions();
+    this._headerService.setHeaderText('Tools');
     this.doSearch();
   }
 
