@@ -18,6 +18,7 @@ import { SharedModule } from '../shared/shared.module';
 import { JobStatusNumberToTitlePipe } from './pipes/job-status-number-to-title/job-status-number-to-status-title.pipe';
 
 import { routes } from './jobs.routing';
+import { KanbanComponent } from './components/kanban/kanban.component';
 
 @NgModule({
     imports: [
@@ -34,7 +35,8 @@ import { routes } from './jobs.routing';
         UpdateJobComponent,
         FilterPipe,
         JobStatusPipe,
-        JobStatusNumberToTitlePipe
+        JobStatusNumberToTitlePipe,
+        KanbanComponent
     ],
     providers: [
         JobsService,
