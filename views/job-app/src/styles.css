@@ -5,3 +5,10 @@
 a, button {
   cursor: pointer;
 }
+
+.small-logo {
+  display: none;
+}
+.enlarged .small-logo {
+  display: block;
+}
