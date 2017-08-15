@@ -5,3 +5,7 @@
 .navbar {
   border-bottom: 1px solid black;
 }
+
+.logo {
+  width: 225px;
+}
