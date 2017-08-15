@@ -9,3 +9,8 @@
 .logo {
   width: 225px;
 }
+.small-logo {
+  width: 45px;
+  margin: auto;
+  margin-top: 15px;
+}
