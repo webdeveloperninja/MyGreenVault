@@ -16,6 +16,7 @@ import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { SideNavLinkComponent } from './components/side-nav-link/side-nav-link.component';
 import { DisplayOptionsComponent } from './components/display-options/display-options.component';
 import { TokenService } from './services/token/token.service';
+import { FilterJobPipe } from './pipes/filter-job/filter-job.pipe';
 
 @NgModule({
     imports: [
@@ -31,7 +32,8 @@ import { TokenService } from './services/token/token.service';
       ToasterComponent,
       SideNavComponent,
       SideNavLinkComponent,
-      DisplayOptionsComponent
+      DisplayOptionsComponent,
+      FilterJobPipe
     ],
     providers: [
       NotificationService,
@@ -47,7 +49,8 @@ import { TokenService } from './services/token/token.service';
       EmptyPipe,
       ToasterComponent,
       SideNavComponent,
-      DisplayOptionsComponent
+      DisplayOptionsComponent,
+      FilterJobPipe
     ]
 })
 export class SharedModule {}
