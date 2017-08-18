@@ -9,6 +9,7 @@ import { HeaderService } from '../../../shared/services/header/header.service';
 const DEFAULT_TAKE: number = 8;
 const REMOVE_JOB_SUCCESS_MESSAGE: string = 'Successfully Removed Job';
 const MODAL_SIZE = 'lg';
+const PAGE_TITLE: string = 'Jobs';
 
 @Component({
   selector: 'ti-jobs',
@@ -59,7 +60,7 @@ export class JobsComponent implements OnInit {
     this.moreJobs$ = this._jobsService.moreJobs$;
     this.jobsSkip$ = this._jobsService.jobsSkip$;
     this.jobsTake$ = this._jobsService.jobsTake$;
-    this._headerService.setHeaderText('Jobs');
+    this._headerService.setHeaderText(PAGE_TITLE);
     this.doSearch();
   }
 

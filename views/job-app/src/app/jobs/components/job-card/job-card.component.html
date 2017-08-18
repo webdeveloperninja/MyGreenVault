@@ -1,0 +1,10 @@
+<div class="card m-b-20">
+    <h3 class="card-header">{{job.companyName | empty}}</h3>
+    <div class="card-block">
+        <h4 class="card-title">Contact: {{ job.contactName | empty }}</h4>
+        <p class="card-text">
+          {{ job.jobNumber | empty }}
+          {{ job.jobStatus | jobStatusNumberToTitle | empty }}
+        </p>
+    </div>
+</div>

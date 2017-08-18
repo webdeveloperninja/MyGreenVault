@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { HeaderService } from '../shared/services/header/header.service';
+
+const PAGE_TITLE: string = 'Dashboard';
 
 @Component({
   selector: 'ti-welcome',
@@ -7,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private _headerService: HeaderService
+  ) { }
 
   ngOnInit() {
+    this._headerService.setHeaderText(PAGE_TITLE);
   }
 
 }
