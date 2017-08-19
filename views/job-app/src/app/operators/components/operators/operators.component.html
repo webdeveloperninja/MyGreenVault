@@ -1,6 +1,7 @@
 <div class="row">
     <div class="col">
         <div class="card-box">
+            <ti-loading [isLoading]="isLoading$ | async"></ti-loading>            
             <div class="row mt-3">
                 <div class="col-md-12">
                     <button class="btn btn-primary pull-right" (click)="addOperator()">Add operator</button>
@@ -9,7 +10,6 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <ti-loading [isLoading]="isLoading$ | async"></ti-loading>
                         <div class="row" *ngIf="!(operators$ | async)?.length === false">
                             <div class="col-md-12">
                                 <table class="table table-striped">

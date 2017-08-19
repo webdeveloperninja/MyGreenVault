@@ -9,8 +9,11 @@ import { HeaderService } from '../../../shared/services/header/header.service';
   styleUrls: ['./kanban.component.scss']
 })
 export class KanbanComponent implements OnInit {
+
   jobs$: Observable<Job[]>
   isJobNotFound: boolean = false;
+  isJobsLoading$: Observable<boolean>;
+
   constructor(
      private _jobsService: JobsService,
      private _headerService: HeaderService
@@ -19,6 +22,8 @@ export class KanbanComponent implements OnInit {
   ngOnInit() {
     this.jobs$ = this._jobsService.jobs$;
     this._headerService.setHeaderText('Kanban');
+    this.isJobsLoading$ = this._jobsService.isJobsLoading$;
+    
     this.doSearch();
   }
 

@@ -1,0 +1,32 @@
+.card {
+  &.staging {
+    .card-header {
+      background-color: yellow;
+    }
+  }
+  &.machining {
+    .card-header {
+      background-color: blue;
+    }
+  }
+  &.quality {
+    .card-header {
+      background-color: blue;
+    }
+  }
+  &.shipping {
+    .card-header {
+      background-color: green;
+    }
+  }
+  &.complete {
+    .card-header {
+      background-color: green;
+    }
+  }
+  &.waiting {
+    .card-header {
+      background-color: blue;
+    }
+  }
+}

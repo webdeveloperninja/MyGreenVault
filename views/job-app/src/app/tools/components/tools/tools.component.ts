@@ -9,6 +9,7 @@ import { HeaderService } from '../../../shared/services/header/header.service';
 const REMOVE_TOOL_SUCCESS_MESSAGE: string = 'Successfully Removed Tool';
 const MODAL_SIZE = 'lg';
 const DEFAULT_TAKE: number = 8;
+const PAGE_TITLE: string = 'Tools';
 
 @Component({
   selector: 'ti-tools',
@@ -40,7 +41,7 @@ export class ToolsComponent implements OnInit {
 
   ngOnInit() {
     this.setInitialSubscriptions();
-    this._headerService.setHeaderText('Tools');
+    this._headerService.setHeaderText(PAGE_TITLE);
     this.doSearch();
   }
 

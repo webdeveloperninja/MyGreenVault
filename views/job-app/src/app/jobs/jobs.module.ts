@@ -19,6 +19,7 @@ import { JobStatusNumberToTitlePipe } from './pipes/job-status-number-to-title/j
 
 import { routes } from './jobs.routing';
 import { KanbanComponent } from './components/kanban/kanban.component';
+import { JobCardComponent } from './components/job-card/job-card.component';
 
 @NgModule({
     imports: [
@@ -36,7 +37,8 @@ import { KanbanComponent } from './components/kanban/kanban.component';
         FilterPipe,
         JobStatusPipe,
         JobStatusNumberToTitlePipe,
-        KanbanComponent
+        KanbanComponent,
+        JobCardComponent
     ],
     providers: [
         JobsService,

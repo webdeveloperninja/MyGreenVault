@@ -106,6 +106,7 @@ export interface Job {
   jobId: number;
   jobName: string;
   process: number;
+  jobStatus: number;
   jobNumber: string;
   userId: string;
   __v: number;

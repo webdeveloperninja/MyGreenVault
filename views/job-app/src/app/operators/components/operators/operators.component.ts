@@ -6,10 +6,9 @@ import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
 import { HeaderService } from '../../../shared/services/header/header.service';
 
-
-const TITLE: string = 'Operators';
 const REMOVE_TOOL_SUCCESS_MESSAGE: string = 'Successfully Removed Operator';
 const MODAL_SIZE = 'lg';
+const PAGE_TITLE: string = 'Operators';
 
 @Component({
   selector: 'ti-operators',
@@ -23,7 +22,7 @@ export class OperatorsComponent implements OnInit {
   private _addOperatorModalRef: NgbModalRef;
   private _updateOperatorModalRef: NgbModalRef;
   
-  title: string = TITLE;
+  title: string = PAGE_TITLE;
   updateOperatorModal: any;
   operators$: Observable<Operator[]>;
   moreOperators$: Observable<boolean>;
@@ -43,7 +42,7 @@ export class OperatorsComponent implements OnInit {
 
   ngOnInit() {
     this.setInitialSubscriptions();
-    this._headerService.setHeaderText('Operators');
+    this._headerService.setHeaderText(PAGE_TITLE);
     this.doSearch();
   }
 
