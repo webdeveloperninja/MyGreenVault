@@ -9,6 +9,7 @@ import { HeaderService } from '../../../shared/services/header/header.service';
   styleUrls: ['./kanban.component.scss']
 })
 export class KanbanComponent implements OnInit {
+
   jobs$: Observable<Job[]>
   isJobNotFound: boolean = false;
   isJobsLoading$: Observable<boolean>;

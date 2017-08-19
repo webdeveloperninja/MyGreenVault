@@ -8,6 +8,7 @@ import { Job } from '../../services/jobs';
 })
 export class JobCardComponent implements OnInit {
   @Input() job: Job;
+  @Input() status: string; 
 
   constructor() { }
 
