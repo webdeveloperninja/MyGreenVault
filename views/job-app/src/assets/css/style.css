@@ -279,11 +279,12 @@ File: Menu
       line-height: 70px; }
 
 .navbar-custom {
-  background-color: #2b3d51;
+  background-color: #626264;
   border-radius: 0px;
   margin-bottom: 0px;
   padding: 0px 10px;
   margin-left: 250px;
+  color: white;
   min-height: 70px;
   -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
@@ -755,12 +756,12 @@ body.fixed-left .side-menu.left {
     line-height: 34px;
     width: 34px;
     text-align: center;
-    color: rgba(255, 255, 255, 0.5); }
+    color: #ffffff }
     .app-search a:hover {
       color: #ffffff; }
   .app-search .form-control,
   .app-search .form-control:focus {
-    border: 1px solid rgba(129, 138, 145, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     font-size: 13px;
     height: 34px;
     color: #ffffff;
