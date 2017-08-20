@@ -7,6 +7,14 @@ const User = require('../../models/User');
 const url = require('url');
 
 
+exports.getAllJobs = (req, res) => {
+  User.find({ _id: req.user.id}, 'jobs').exec((err, data) => {
+    if (err) { return next(err); }
+      res.json(data[0].jobs);
+  })
+  
+};
+
 exports.getJobs = (req, res) => {
   let url_parts = url.parse(req.url, true);
   let skip = Number(url_parts.query.skip);

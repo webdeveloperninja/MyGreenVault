@@ -28,6 +28,11 @@ export class JobsService {
     private _activeJobSubject$: BehaviorSubject<Job> = new BehaviorSubject<Job>(null);
     public readonly activeJob$: Observable<Job> = this._activeJobSubject$.asObservable();
 
+    /// KANBAN TODO: REFACTOR ALL JOBS AND JOBS
+
+    private _allJobsSubject$: BehaviorSubject<Job[]> = new BehaviorSubject<Job[]>(null);
+    public readonly allJobs$: Observable<Job[]> = this._allJobsSubject$.asObservable();
+
 
     constructor(private _http: Http,) {}
 
@@ -49,6 +54,18 @@ export class JobsService {
             this._moreJobsSubject$.next(res.json().more);
             this._jobsSkipSubject$.next(res.json().skip);
             this._jobsTakeSubject$.next(res.json().take);
+            return res.json();
+        });
+    }
+
+    getAllJobs() {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        this._isJobsLoadingSubject$.next(true);
+        return this._http.get(`/api/v1/jobs/all-jobs`, {headers: headers, withCredentials: true}).map((res: Response) => { 
+            this._isJobsLoadingSubject$.next(false);
+            console.log(res);
+            this._allJobsSubject$.next(res.json())
             return res.json();
         });
     }
