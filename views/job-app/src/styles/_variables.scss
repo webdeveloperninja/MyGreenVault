@@ -7,9 +7,11 @@
 
 $grid-columns:               12 !default;
 $grid-gutter-width:          1.2rem; // 24px
-
+  
 
 //Bootstrap overwrite
+
+$ti-green:                  #43bea1;
 
 $gray-dark:                 #373a3c;
 $gray:                      #55595c;
@@ -24,7 +26,7 @@ $warning:             #f1b53d;
 $danger:              #ff5d48;
 // Custom colors
 $white:               #ffffff;
-$custom:              #64b0f2;
+$custom:              $ti-green;
 $dark:                #2b3d51;
 $pink:                #ff7aa3;
 $purple:              #9261c6;
