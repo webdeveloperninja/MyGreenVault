@@ -7,7 +7,7 @@ File: Menu
 */
 
 .topbar {
-
+  box-shadow: 3px 1px 4px 2px #8e8e8e;
   left: 0px;
   position: fixed;
   right: 0;
@@ -30,16 +30,12 @@ File: Menu
 }
 
 .navbar-custom {
-  background-color: $dark;
+  background-color: $white;
   border-radius: 0px;
   margin-bottom: 0px;
-  padding: 0px 10px;
+  padding: 0px 10px; 
   margin-left: 250px;
   min-height: 70px;
-  -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
-  -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
-  box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
-
   .nav-link {
     padding: 0px;
     line-height: 70px;
@@ -175,7 +171,7 @@ body.fixed-left .side-menu.left {
 .button-menu-mobile {
   background: transparent;
   border: none;
-  color: $white;
+  color: $dark;
   font-size: 21px;
   line-height: 70px;
   padding: 0px 15px;
