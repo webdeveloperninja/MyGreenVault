@@ -79,3 +79,8 @@ exports.removeJob = (req, res) => {
         res.json({"success": true});
     });
 }
+
+exports.searchJobs = (req, res) => {
+  let url_parts = url.parse(req.url, true);
+  console.log('test');
+};

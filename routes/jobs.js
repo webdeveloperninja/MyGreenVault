@@ -7,6 +7,7 @@ module.exports = function(passportConfig, jobsApiController) {
     router.post('/', passportConfig.isAuthenticated, jobsApiController.addJob);
     router.put('/', passportConfig.isAuthenticated, jobsApiController.updateJob);
     router.post('/remove', passportConfig.isAuthenticated, jobsApiController.removeJob);
+    router.get('/search', passportConfig.isAuthenticated, jobsApiController.searchJobs);
 
     return router;
 }

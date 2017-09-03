@@ -12,7 +12,7 @@ export class WikipediaService {
       return Observable.of([]);
     }
 
-    let wikiUrl = 'https://en.wikipedia.org/w/api.php';
+    let wikiUrl = '/api/v1/jobs/search';
     let params = new URLSearchParams();
     params.set('search', term);
     params.set('action', 'opensearch');
