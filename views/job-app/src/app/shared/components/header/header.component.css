@@ -1,0 +1,16 @@
+.navbar-brand img {
+  max-width: 200px;
+}
+
+.navbar {
+  border-bottom: 1px solid black;
+}
+
+.logo {
+  width: 225px;
+}
+.small-logo {
+  width: 45px;
+  margin: auto;
+  margin-top: 15px;
+}

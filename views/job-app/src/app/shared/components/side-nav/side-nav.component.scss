@@ -1,0 +1,25 @@
+.side-nav {
+  position: absolute;
+  padding: 10px;
+  width: 50px;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  border-right: 1px solid black;
+  background-color: #f7f7f7;
+  z-index: 1;
+  &.open {
+    width: 250px;
+  }
+  .nav-btn {
+    font-size: 40px;
+    cursor: pointer;
+  }
+  .nav-links {
+    margin-top: 15px;
+  }
+  .side-nav-logo {
+    width: 187px;
+    margin-top: -20px;
+  }
+}

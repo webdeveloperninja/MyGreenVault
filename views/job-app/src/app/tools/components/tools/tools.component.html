@@ -1,0 +1,87 @@
+<div class="row">
+    <div class="col">
+        <div class="card-box">
+            <ti-loading [isLoading]="isToolsLoading$ | async"></ti-loading>            
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <button class="btn btn-primary pull-right" (click)="addTool()">Add tool</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="row" *ngIf="!(tools$ | async)?.length === false">
+                            <div class="col-md-12">
+                                <table class="table table-striped">
+                                    <thead class="thead-inverse">
+                                        <tr>
+                                            <th>Tool Name</th>
+                                            <th>Qty</th>
+                                            <th>Ideal Amount</th>
+                                            <th>Auto Order Qty</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let tool of tools$ | async">
+                                            <td>{{ tool.toolName | empty }}</td>
+                                            <td>{{ tool.qty | empty }}</td>
+                                            <td>{{ tool.idealAmount | empty }}</td>
+                                            <td>{{ tool.autoOrderQty | empty }}</td>
+                                            <th scope="row">
+                                                <button (click)="removeTool(tool)" class="btn btn-danger pull-right">Remove</button>
+                                                <ti-checkout-tool
+                                                    [tool]="tool">
+                                                </ti-checkout-tool>
+                                                <button 
+                                                    class="btn btn-primary pull-right mr-2 ml-2" 
+                                                    (click)="openUpdateToolModal(tool._id)">
+                                                        Edit
+                                                </button>
+                                                <ti-add-tool-qty
+                                                    [tool]="tool">
+                                                </ti-add-tool-qty>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button (click)="previousPage()" *ngIf="(toolsSkip$ | async) !== 0" class="btn btn-info mr-auto" [disabled]="isLoading">
+                                            Previous Page
+                                    </button>
+                                        <button (click)="nextPage()" *ngIf="moreTools$ | async" class="btn btn-info ml-auto next" [disabled]="isLoading">
+                                            Next Page
+                                    </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3" *ngIf="(tools$ | async)?.length==0">
+                        <div class="alert alert-info" role="alert">
+                        <strong>No Tools Found</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ng-template #updateToolRef let-c="close" let-d="dismiss">
+                <ti-update-tool 
+                    [activeTool]="activeTool$" 
+                    (closeUpdateModal)="closeUpdateToolModal($event)" 
+                    (isLoading)="isTiUpdateToolLoading($event)"
+                    [skip]="skip" 
+                    [take]="take">
+                </ti-update-tool>
+            </ng-template>
+            <ng-template #addToolRef let-c="close" let-d="dismiss">
+                <add-tool 
+                    (closeAddToolModal)="closeAddToolModal($event)" 
+                    (isAddToolLoading)="setIsAddToolLoading($event)"
+                    [skip]="skip" 
+                    [take]="take">
+                </add-tool>
+            </ng-template>
+        </div>
+    </div>
+</div>
