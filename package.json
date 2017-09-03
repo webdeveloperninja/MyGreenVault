@@ -12,7 +12,8 @@
     "start": "node app.js",
     "test": "mocha --reporter spec",
     "postinstall": "npm rebuild node-sass",
-    "dev": "nodemon --inspect=5858 app.js"
+    "dev": "nodemon --inspect=5858 app.js",
+    "heroku-postbuild": "npm --prefix ./views/job-app run build"
   },
   "dependencies": {
     "bcrypt-nodejs": "^0.0.3",
