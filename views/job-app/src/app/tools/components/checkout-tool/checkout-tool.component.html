@@ -4,30 +4,32 @@
     Checkout
   </a>
   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" (click)="$event.stopPropagation()">
-    <h3>Checkout: {{ tool.toolName }}</h3>
-    <div class="form-group">
-      <label>Qty:</label>
-      <input class="form-control" min="1" type="number">
-    </div>
-    <div class="form-group">
-      <label>Operator Number</label>
-      <input class="form-control">
-    </div>
-    <div class="form-group">
-      <label>Job Number</label>
-      <input 
-        id="typeahead-basic" 
-        type="text" 
-        class="form-control" 
-        [(ngModel)]="model" 
-        [ngbTypeahead]="search"
-        [resultTemplate]="rt"/>
-    </div>
-    <ng-template #rt let-r="result" let-t="term">
-      <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" width="16">
-      {{ r | json}}
-    </ng-template>
-    <button class="btn btn-primary mt-2">Save</button>
-    <button class="btn btn-danger mt-2">Clear</button>
+    <form [formGroup]="checkoutToolFormGroup" #CheckoutToolForm="ngForm" (ngSubmit)="checkoutTool()">
+      <h3>Checkout: {{ tool.toolName }}</h3>
+      <div class="form-group">
+        <label>Qty:</label>
+        <input 
+          class="form-control" 
+          min="1" 
+          type="number" 
+          formControlName="toolQty">
+      </div>
+      <div class="form-group">
+        <label>Operator Number</label>
+        <input 
+          class="form-control"
+          type="number" 
+          formControlName="operatorNumber">
+      </div>
+      <div class="form-group">
+        <label>Job Number</label>
+        <input 
+          class="form-control"
+          type="number" 
+          formControlName="jobNumber"/>
+      </div>
+      <button class="btn btn-primary mt-2">Save</button>
+      <button class="btn btn-danger mt-2">Clear</button>
+    </form>
   </div>
 </div>

@@ -79,3 +79,47 @@ exports.removeTool = (req, res) => {
         res.json({"success": true});
     });
 }
+
+exports.checkoutTool = (req, res) => {
+    let toolCheckout = {
+        jobNumber: req.body.jobNumber,
+        operatorNumber: req.body.operatorNumber,
+        toolQty: req.body.toolQty,
+        tool: req.body.tool
+    }
+
+    doesToolExist();
+
+    async function doesToolExist() {
+        // TODO: Handle doesToolExist Better
+        // Return true or false for doesToolExist
+        var doesToolExist = await doesToolExist2(req.body.tool, req.user);
+    }
+    
+        
+    // does tool exist
+
+    // does operator exist
+
+    // is toolQty > checkoutToolQty
+}
+
+const doesToolExist2 = (tool, user) => {
+    return new Promise((resolve, reject) => {
+        User.findOne({ '_id': user.id }, function (err, user) {
+            if (err) return handleError(err);
+            for (var i=0; i< user.tools.length; i++) {
+                const toolId = user.tools[i].id;
+                const toolIdToCompare = tool._id;
+                if (toolId === toolIdToCompare) {
+                    resolve(user.tools[i]);
+                }
+            }
+            reject('Tool Deoes not exist');
+        });
+    }) 
+}
+
+
+
+

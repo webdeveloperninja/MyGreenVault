@@ -6,6 +6,6 @@ module.exports = function(passportConfig, toolsApiController) {
     router.post('/', passportConfig.isAuthenticated, toolsApiController.addTool);
     router.put('/', passportConfig.isAuthenticated, toolsApiController.updateTool)
     router.post('/remove', passportConfig.isAuthenticated, toolsApiController.removeTool);
-
+    router.post('/checkout', passportConfig.isAuthenticated, toolsApiController.checkoutTool)
     return router;
 }
