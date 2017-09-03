@@ -12,9 +12,7 @@
     "start": "node app.js",
     "test": "mocha --reporter spec",
     "postinstall": "npm rebuild node-sass",
-    "dev": "nodemon --inspect=5858 app.js",
-    "preinstall": "npm i && npm install -g @angular/cli",
-    "heroku-postbuild": "npm --prefix ./views/job-app run build"
+    "dev": "nodemon --inspect=5858 app.js"
   },
   "dependencies": {
     "bcrypt-nodejs": "^0.0.3",
