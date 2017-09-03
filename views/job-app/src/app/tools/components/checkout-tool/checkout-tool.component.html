@@ -15,8 +15,18 @@
     </div>
     <div class="form-group">
       <label>Job Number</label>
-      <input class="form-control">
+      <input 
+        id="typeahead-basic" 
+        type="text" 
+        class="form-control" 
+        [(ngModel)]="model" 
+        [ngbTypeahead]="search"
+        [resultTemplate]="rt"/>
     </div>
+    <ng-template #rt let-r="result" let-t="term">
+      <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" width="16">
+      {{ r | json}}
+    </ng-template>
     <button class="btn btn-primary mt-2">Save</button>
     <button class="btn btn-danger mt-2">Clear</button>
   </div>
