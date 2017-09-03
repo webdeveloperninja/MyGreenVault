@@ -13,8 +13,7 @@
     "test": "mocha --reporter spec",
     "postinstall": "npm rebuild node-sass",
     "dev": "nodemon --inspect=5858 app.js",
-    "heroku-postbuild": "cd views\\job-app && npm run build",
-    "angular-build": "npm --prefix ./views/job-app run build"
+    "heroku-postbuild": "npm --prefix ./views/job-app run build"
   },
   "dependencies": {
     "bcrypt-nodejs": "^0.0.3",
