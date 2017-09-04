@@ -81,30 +81,43 @@ exports.removeTool = (req, res) => {
 }
 
 exports.checkoutTool = (req, res) => {
-    let toolCheckout = {
-        jobNumber: req.body.jobNumber,
-        operatorNumber: req.body.operatorNumber,
-        toolQty: req.body.toolQty,
-        tool: req.body.tool
-    }
+    let toolCheckout = new ToolCheckout(req.body.tool, req.body.toolQty, req.body.operatorNumber, req.user);
 
-    doesToolExist();
-
-    async function doesToolExist() {
-        // TODO: Handle doesToolExist Better
-        // Return true or false for doesToolExist
-        var doesToolExist = await doesToolExist2(req.body.tool, req.user);
-    }
-    
-        
-    // does tool exist
-
-    // does operator exist
-
-    // is toolQty > checkoutToolQty
+    Promise.all([
+            doesToolExist(toolCheckout.tool, toolCheckout.user),
+            doesOperatorExist(toolCheckout.operatorNumber, toolCheckout.user),
+            isThereEnoughTools(toolCheckout.toolQty, toolCheckout.tool.qty)
+        ]).then(values => {
+            const tool = values[0];
+            const operator = values[1];
+            const isThereEnoughTools = values[2];
+            console.log(values);
+        }).catch(err => {
+            throw new Error('There was an error');
+        });
 }
 
-const doesToolExist2 = (tool, user) => {
+
+class ToolCheckout {
+    constructor(tool, toolQty, operatorNumber, user) {
+        this.tool = tool;
+        this.toolQty = toolQty;
+        this.operatorNumber = operatorNumber;
+        this.user = user;
+    }
+}
+
+const isThereEnoughTools = (numberToCheckout, totalToolQty) => {
+    return new Promise((resolve, reject) => {
+        if (numberToCheckout <= totalToolQty) {
+            resolve(true);
+            return;
+        }
+        resolve(false);
+    })
+}
+
+const doesToolExist = (tool, user) => {
     return new Promise((resolve, reject) => {
         User.findOne({ '_id': user.id }, function (err, user) {
             if (err) return handleError(err);
@@ -113,13 +126,30 @@ const doesToolExist2 = (tool, user) => {
                 const toolIdToCompare = tool._id;
                 if (toolId === toolIdToCompare) {
                     resolve(user.tools[i]);
+                    return;
                 }
             }
-            reject('Tool Deoes not exist');
+            resolve(null);
         });
     }) 
 }
 
+const doesOperatorExist = (operatorNumber, user) => {
+    return new Promise((resolve, reject) => {
+        User.findOne({ '_id': user.id }, function (err, user) {
+            if (err) return handleError(err);
+            for (var i=0; i< user.operators.length; i++) {
+                const actualOperatorNumber = user.operators[i].operatorNumber;
+                const operatorNumberToCompare = operatorNumber;
+                if (actualOperatorNumber === operatorNumberToCompare) {
+                    resolve(user.operators[i]);
+                    return;
+                }
+            }
+            resolve(null);
+        });
+    }) 
+}
 
 
 
