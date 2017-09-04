@@ -74,6 +74,9 @@ class ToolCheckout {
         if (!checkoutObj.operator) {
             error += 'Operator Not Found;'
         }
+        if (!checkoutObj.job) {
+            error += 'Job Not Found;'
+        }
         return {
             valid: !error,
             err: error

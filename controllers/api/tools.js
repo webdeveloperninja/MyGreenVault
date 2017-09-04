@@ -90,20 +90,28 @@ exports.checkoutTool = (req, res) => {
     Promise.all([
             toolCheckout.getTool(toolCheckout.tool, toolCheckout.user),
             toolCheckout.getOperator(toolCheckout.operatorNumber, toolCheckout.user),
-            toolCheckout.isThereEnoughTools(toolCheckout.toolQty, toolCheckout.tool.qty),
-            toolCheckout.getJob(toolCheckout.jobNumber, toolCheckout.user)
+            toolCheckout.getJob(toolCheckout.jobNumber, toolCheckout.user),          
+            toolCheckout.isThereEnoughTools(toolCheckout.toolQty, toolCheckout.tool.qty)
         ]).then(values => {
             const tool = values[0];
             const operator = values[1];
-            const isThereEnoughTools = values[2];
-            const job = values[3];
+            const job = values[2];
+            const isThereEnoughTools = values[3];
+            
             
             let isCheckoutDataValid = toolCheckout.isCheckoutDataValid({
                 tool,
                 operator,
-                isThereEnoughTools
+                isThereEnoughTools,
+                job
             });
 
+            if (!isCheckoutDataValid.valid) {
+                res.status(403);
+                res.send({errorCode:isCheckoutDataValid.err});
+            } else {
+                res.send(200);
+            }
             // TODO: Validate Checkout 
 
             // TODO: Checkout
