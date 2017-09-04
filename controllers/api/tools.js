@@ -83,10 +83,6 @@ exports.removeTool = (req, res) => {
 exports.checkoutTool = (req, res) => {
     let toolCheckout = new ToolCheckout(req);
 
-    // TODO doesToolExist to getTool validate with isCheckoutDataValid
-    // TODO doesOperatorExist to getOpeartor validate with isCheckoutDataValid
-    // TODO doesJobExist to getJob validate with isCheckoutDataValid
-
     Promise.all([
             toolCheckout.getTool(toolCheckout.tool, toolCheckout.user),
             toolCheckout.getOperator(toolCheckout.operatorNumber, toolCheckout.user),
@@ -97,8 +93,7 @@ exports.checkoutTool = (req, res) => {
             const operator = values[1];
             const job = values[2];
             const isThereEnoughTools = values[3];
-            
-            
+        
             let isCheckoutDataValid = toolCheckout.isCheckoutDataValid({
                 tool,
                 operator,
@@ -110,13 +105,10 @@ exports.checkoutTool = (req, res) => {
                 res.status(403);
                 res.send({errorCode:isCheckoutDataValid.err});
             } else {
+                // TODO: Checkout
+                // TODO: Return new toolObj
                 res.send(200);
             }
-            // TODO: Validate Checkout 
-
-            // TODO: Checkout
-
-            // TODO: Return new toolObj
 
             console.log(values);
         }).catch(err => {
