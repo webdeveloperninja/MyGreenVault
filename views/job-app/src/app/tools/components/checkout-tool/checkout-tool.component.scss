@@ -8,3 +8,31 @@
 .dropdown-toggle {
   color: white!important;
 }
+
+
+input.ng-invalid.ng-touched.ng-dirty {
+  border: 1px solid red;
+  &:focus {
+    border: 1px solid red;
+  }
+  &:active {
+    border: 1px solid red;
+  }
+}
+
+.danger {
+  color: red;
+}
+
+.form-group {
+  label {
+    display: block;
+    .alert {
+      float: right;
+      padding: 1px;
+      margin-bottom: 0;
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+  }
+}

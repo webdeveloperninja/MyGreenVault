@@ -79,3 +79,14 @@ exports.removeJob = (req, res) => {
         res.json({"success": true});
     });
 }
+
+exports.searchJobs = (req, res) => {
+  let url_parts = url.parse(req.url, true);
+  let searchQuery = url_parts.query.search;
+  
+  // search for jobs by name or job number 
+  User.find({ _id: req.user.id}, 'jobs').exec((err, data) => {
+    if (err) { return next(err); }
+      res.json(data[0].jobs);
+  })
+};

@@ -65,6 +65,16 @@ export class ToolsService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
     }
 
+    checkoutTool(tool) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this._http.post('/api/v1/tools/checkout', tool, {headers: headers})
+            .map((res: Response) => res.json())
+            .catch((error: any) => {
+                return Observable.throw(error);
+            });
+    }
+
     removeTool(tool) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');

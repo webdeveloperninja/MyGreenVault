@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { HttpModule, JsonpModule } from '@angular/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { FlashMessagesModule } from 'ngx-flash-messages';
@@ -30,6 +30,7 @@ import { routes } from './app.routing';
     ReactiveFormsModule,
     FormsModule,
     HttpModule,
+    JsonpModule,
     FlashMessagesModule,
     SharedModule,
     JobsModule,

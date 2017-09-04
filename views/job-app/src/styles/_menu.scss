@@ -148,11 +148,14 @@ File: Menu
 .content-page {
   margin-left: 250px;
   overflow: hidden;
-
+  height: 100%;
+  height: 100vh;
 
   .content {
     padding: 0 5px;
     margin-top: 73px;
+    height: 100%;
+    height: 100vh;
   }
 }
 

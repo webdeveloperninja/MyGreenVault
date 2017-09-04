@@ -12,7 +12,8 @@
     "start": "node app.js",
     "test": "mocha --reporter spec",
     "postinstall": "npm rebuild node-sass",
-    "dev": "nodemon --inspect=5858 app.js"
+    "dev": "nodemon --inspect=5858 app.js",
+    "debug": "node --nolazy --debug-brk=5858 myProgram.js"
   },
   "dependencies": {
     "bcrypt-nodejs": "^0.0.3",
