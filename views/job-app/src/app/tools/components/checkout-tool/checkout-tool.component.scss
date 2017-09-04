@@ -12,6 +12,12 @@
 
 input.ng-invalid.ng-touched.ng-dirty {
   border: 1px solid red;
+  &:focus {
+    border: 1px solid red;
+  }
+  &:active {
+    border: 1px solid red;
+  }
 }
 
 .danger {
