@@ -68,8 +68,6 @@ export class CheckoutToolComponent implements OnInit {
       .subscribe(data => {
         this._notificationService.setNotificationOn('Successfully Checked Out Tool');
       }, (err) => {
-        console.log('yay');
-
         let response = JSON.parse(err._body);
         
         if (response.operatorNumber) {
