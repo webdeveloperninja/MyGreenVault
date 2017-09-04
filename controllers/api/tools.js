@@ -81,7 +81,7 @@ exports.removeTool = (req, res) => {
 }
 
 exports.checkoutTool = (req, res) => {
-    let toolCheckout = new ToolCheckout(req.body.tool, req.body.toolQty, req.body.operatorNumber, req.user);
+    let toolCheckout = new ToolCheckout(req);
 
     Promise.all([
             doesToolExist(toolCheckout.tool, toolCheckout.user),
@@ -91,6 +91,13 @@ exports.checkoutTool = (req, res) => {
             const tool = values[0];
             const operator = values[1];
             const isThereEnoughTools = values[2];
+            
+            // TODO: Validate Checkout 
+
+            // TODO: Checkout
+
+            // TODO: Return new toolObj
+
             console.log(values);
         }).catch(err => {
             throw new Error('There was an error');
@@ -99,11 +106,11 @@ exports.checkoutTool = (req, res) => {
 
 
 class ToolCheckout {
-    constructor(tool, toolQty, operatorNumber, user) {
-        this.tool = tool;
-        this.toolQty = toolQty;
-        this.operatorNumber = operatorNumber;
-        this.user = user;
+    constructor(request) {
+        this.tool = request.body.tool;
+        this.toolQty = request.body.toolQty;
+        this.operatorNumber = request.body.operatorNumber;
+        this.user = request.user;
     }
 }
 
