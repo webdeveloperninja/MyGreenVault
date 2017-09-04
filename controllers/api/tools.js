@@ -86,12 +86,12 @@ exports.checkoutTool = (req, res) => {
     Promise.all([
             doesToolExist(toolCheckout.tool, toolCheckout.user),
             doesOperatorExist(toolCheckout.operatorNumber, toolCheckout.user),
-            isThereEnoughTools(toolCheckout.toolQty, toolCheckout.tool.qty)
+            toolCheckout.isThereEnoughTools(toolCheckout.toolQty, toolCheckout.tool.qty)
         ]).then(values => {
             const tool = values[0];
             const operator = values[1];
             const isThereEnoughTools = values[2];
-            
+
             // TODO: Validate Checkout 
 
             // TODO: Checkout
@@ -104,7 +104,6 @@ exports.checkoutTool = (req, res) => {
         });
 }
 
-
 class ToolCheckout {
     constructor(request) {
         this.tool = request.body.tool;
@@ -112,16 +111,16 @@ class ToolCheckout {
         this.operatorNumber = request.body.operatorNumber;
         this.user = request.user;
     }
-}
 
-const isThereEnoughTools = (numberToCheckout, totalToolQty) => {
-    return new Promise((resolve, reject) => {
-        if (numberToCheckout <= totalToolQty) {
-            resolve(true);
-            return;
-        }
-        resolve(false);
-    })
+    isThereEnoughTools() {
+        return new Promise((resolve, reject) => {
+            if (this.toolQty <= this.tool.qty) {
+                resolve(true);
+                return;
+            }
+            resolve(false);
+        })
+    }
 }
 
 const doesToolExist = (tool, user) => {
