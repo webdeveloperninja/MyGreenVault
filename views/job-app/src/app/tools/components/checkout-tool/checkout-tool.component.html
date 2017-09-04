@@ -13,7 +13,10 @@
               class="alert"
               [ngClass]="toolQtyInputStatus ? 'alert-' + toolQtyInputStatus : ''"
               *ngIf="toolQtyInputMessage">
-          <span class="danger"> - {{toolQtyInputMessage}}</span>
+              <span class="danger">
+                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                - {{toolQtyInputMessage}}
+              </span>
             </div>
         </label>
         <input 
@@ -29,7 +32,10 @@
               class="alert"
               [ngClass]="operatorInputStatus ? 'alert-' + operatorInputStatus : ''"
               *ngIf="operatorInputMessage">
-                <span class="danger"> - {{operatorInputMessage}}</span>
+                <span class="danger">
+                  <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                   - {{operatorInputMessage}}
+                </span>
             </div>
         </label>
         <input 
@@ -44,7 +50,10 @@
             class="alert"
             [ngClass]="jobInputStatus ? 'alert-' + jobInputStatus : ''"
             *ngIf="jobInputMessage">
-              <span class="danger"> - {{jobInputMessage}}</span>
+              <span class="danger">
+                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                 - {{jobInputMessage}}
+              </span>
           </div>
         </label>
         <input 
@@ -53,7 +62,9 @@
           formControlName="jobNumber"/>
       </div>
       <button class="btn btn-primary mt-2">Save</button>
-      <button class="btn btn-danger mt-2">Clear</button>
+      <button 
+        class="btn btn-danger mt-2"
+        (click)="clearForm()">Clear</button>
     </form>
   </div>
 </div>

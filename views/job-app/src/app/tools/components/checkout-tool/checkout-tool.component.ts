@@ -51,6 +51,10 @@ export class CheckoutToolComponent implements OnInit {
     this.toolQtyInputStatus = null;
   }
 
+  clearForm() {
+    this.checkoutToolFormGroup.reset();
+  }
+
   checkoutTool() {
     this.clearMessages();
     let toolCheckout: ToolCheckout = {
