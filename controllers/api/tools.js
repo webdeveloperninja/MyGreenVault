@@ -91,6 +91,12 @@ exports.checkoutTool = (req, res) => {
             const tool = values[0];
             const operator = values[1];
             const isThereEnoughTools = values[2];
+            
+            let isCheckoutDataValid = toolCheckout.isCheckoutDataValid({
+                tool,
+                operator,
+                isThereEnoughTools
+            });
 
             // TODO: Validate Checkout 
 
@@ -152,6 +158,21 @@ class ToolCheckout {
                 resolve(null);
             });
         }) 
+    }
+
+    isCheckoutDataValid(checkoutObj) {
+        let error = '';
+        if (!checkoutObj.isThereEnoughTools) {
+            error += 'There is not enough tools;'
+        }
+        if (!checkoutObj.operator) {
+            error += 'Operator Not Found;'
+        }
+        return {
+            valid: !error,
+            err: error
+        }
+        
     }
 }
 
