@@ -84,8 +84,8 @@ exports.checkoutTool = (req, res) => {
     let toolCheckout = new ToolCheckout(req);
 
     Promise.all([
-            doesToolExist(toolCheckout.tool, toolCheckout.user),
-            doesOperatorExist(toolCheckout.operatorNumber, toolCheckout.user),
+            toolCheckout.doesToolExist(toolCheckout.tool, toolCheckout.user),
+            toolCheckout.doesOperatorExist(toolCheckout.operatorNumber, toolCheckout.user),
             toolCheckout.isThereEnoughTools(toolCheckout.toolQty, toolCheckout.tool.qty)
         ]).then(values => {
             const tool = values[0];
@@ -121,40 +121,38 @@ class ToolCheckout {
             resolve(false);
         })
     }
-}
-
-const doesToolExist = (tool, user) => {
-    return new Promise((resolve, reject) => {
-        User.findOne({ '_id': user.id }, function (err, user) {
-            if (err) return handleError(err);
-            for (var i=0; i< user.tools.length; i++) {
-                const toolId = user.tools[i].id;
-                const toolIdToCompare = tool._id;
-                if (toolId === toolIdToCompare) {
-                    resolve(user.tools[i]);
-                    return;
+    doesToolExist() {
+        return new Promise((resolve, reject) => {
+            User.findOne({ '_id': this.user.id }, (err, user) => {
+                if (err) return handleError(err);
+                for (var i=0; i< user.tools.length; i++) {
+                    const toolId = user.tools[i].id;
+                    const toolIdToCompare = this.tool._id;
+                    if (toolId === toolIdToCompare) {
+                        resolve(user.tools[i]);
+                        return;
+                    }
                 }
-            }
-            resolve(null);
-        });
-    }) 
-}
-
-const doesOperatorExist = (operatorNumber, user) => {
-    return new Promise((resolve, reject) => {
-        User.findOne({ '_id': user.id }, function (err, user) {
-            if (err) return handleError(err);
-            for (var i=0; i< user.operators.length; i++) {
-                const actualOperatorNumber = user.operators[i].operatorNumber;
-                const operatorNumberToCompare = operatorNumber;
-                if (actualOperatorNumber === operatorNumberToCompare) {
-                    resolve(user.operators[i]);
-                    return;
+                resolve(null);
+            });
+        });     
+    }
+    doesOperatorExist() {
+        return new Promise((resolve, reject) => {
+            User.findOne({ '_id': this.user.id }, (err, user) => {
+                if (err) return handleError(err);
+                for (var i=0; i< user.operators.length; i++) {
+                    const actualOperatorNumber = user.operators[i].operatorNumber;
+                    const operatorNumberToCompare = this.operatorNumber;
+                    if (actualOperatorNumber === operatorNumberToCompare) {
+                        resolve(user.operators[i]);
+                        return;
+                    }
                 }
-            }
-            resolve(null);
-        });
-    }) 
+                resolve(null);
+            });
+        }) 
+    }
 }
 
 
