@@ -90,19 +90,41 @@ exports.checkoutTool = (req, res) => {
             toolCheckout.isThereEnoughTools(toolCheckout.toolQty, toolCheckout.tool.qty)
         ]).then(values => {
             const tool = values[0];
+
+            let getOperatorNumber = () => {
+                if (operator) {
+                    return operator.operatorNumber;
+                }
+                return false;
+            }
+
+            let getJobNumber = () => {
+                if (job) {
+                    return job.jobNumber;
+                }
+                return false;
+            }
+            
             const operator = values[1];
+            const operatorNumber = getOperatorNumber();
+
+
             const job = values[2];
+            const jobNumber = getJobNumber();
+
             const isThereEnoughTools = values[3];
         
             let isCheckoutDataValid = toolCheckout.isCheckoutDataValid({
-                tool,
-                operator,
-                isThereEnoughTools,
-                job
+                toolId: tool.id,
+                operatorNumber: operatorNumber,
+                jobNumber: jobNumber,
+                toolQty: isThereEnoughTools,
             });
 
             if (!isCheckoutDataValid.valid) {
-                res.status(400).send({validationError:isCheckoutDataValid.err});
+                res.status(400);
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify(isCheckoutDataValid));
             } else {
                 // TODO: Checkout
                 // TODO: Return new toolObj
@@ -111,7 +133,7 @@ exports.checkoutTool = (req, res) => {
 
             console.log(values);
         }).catch(err => {
-            throw new Error('There was an error');
+            throw new Error(err);
         });
 }
 

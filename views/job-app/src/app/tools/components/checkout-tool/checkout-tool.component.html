@@ -7,7 +7,15 @@
     <form [formGroup]="checkoutToolFormGroup" #CheckoutToolForm="ngForm" (ngSubmit)="checkoutTool()">
       <h3>Checkout: {{ tool.toolName }}</h3>
       <div class="form-group">
-        <label>Qty:</label>
+        <label>
+          Qty: 
+            <div 
+              class="alert"
+              [ngClass]="toolQtyInputStatus ? 'alert-' + toolQtyInputStatus : ''"
+              *ngIf="toolQtyInputMessage">
+          <span class="danger"> - {{toolQtyInputMessage}}</span>
+            </div>
+        </label>
         <input 
           class="form-control" 
           min="1" 
@@ -15,14 +23,30 @@
           formControlName="toolQty">
       </div>
       <div class="form-group">
-        <label>Operator Number <span class="danger" *ngIf="operatorInputError"> - {{operatorInputError}}</span></label>
+        <label>
+          Operator Number 
+            <div 
+              class="alert"
+              [ngClass]="operatorInputStatus ? 'alert-' + operatorInputStatus : ''"
+              *ngIf="operatorInputMessage">
+                <span class="danger"> - {{operatorInputMessage}}</span>
+            </div>
+        </label>
         <input 
           class="form-control"
           type="number" 
           formControlName="operatorNumber">
       </div>
       <div class="form-group">
-        <label>Job Number <span class="danger" *ngIf="jobInputError"> - {{jobInputError}}</span></label>
+        <label>
+          Job Number
+          <div 
+            class="alert"
+            [ngClass]="jobInputStatus ? 'alert-' + jobInputStatus : ''"
+            *ngIf="jobInputMessage">
+              <span class="danger"> - {{jobInputMessage}}</span>
+          </div>
+        </label>
         <input 
           class="form-control"
           type="number" 

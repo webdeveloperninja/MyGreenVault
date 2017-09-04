@@ -67,21 +67,38 @@ class ToolCheckout {
         }) 
     }
     isCheckoutDataValid(checkoutObj) {
-        let error = '';
-        if (!checkoutObj.isThereEnoughTools) {
-            error += 'There is not enough tools;'
+        /**
+         *      toolId: tool.id,
+                operatorNumber: operator.operatorNumber,
+                jobNumber: job.jobNumber,
+                isThereEnoughTools,
+         */
+        let error = {};
+        /*
+            formControlName : {
+                status: bootstrapClass,
+                message: messageConstant 
+            }
+        */
+        if (!checkoutObj.toolQty) {
+            error.toolQty = {
+                status: 'danger',
+                message: 'There is not enough tools'
+            }
         }
-        if (!checkoutObj.operator) {
-            error += 'Operator Not Found;'
+        if (!checkoutObj.operatorNumber) {
+            error.operatorNumber = {
+                status: 'danger',
+                message: 'Operator Not Found'
+            }
         }
-        if (!checkoutObj.job) {
-            error += 'Job Not Found;'
+        if (!checkoutObj.jobNumber) {
+            error.jobNumber = {
+                status: 'danger',
+                message: 'Job number not found'
+            }
         }
-        return {
-            valid: !error,
-            err: error
-        }
-        
+        return error;
     }
 }
 

@@ -16,6 +16,15 @@ export class CheckoutToolComponent implements OnInit {
   checkoutToolFormGroup: FormGroup;
   @Input() tool: any;
 
+  operatorInputMessage: string = null;
+  operatorInputStatus: string = null;
+
+  jobInputMessage: string = null;
+  jobInputStatus: string = null;
+
+  toolQtyInputMessage: string = null;
+  toolQtyInputStatus: string = null;
+
   constructor(
     private _formBuilder: FormBuilder,
     private _notificationService: NotificationService,
@@ -31,8 +40,19 @@ export class CheckoutToolComponent implements OnInit {
       });
   }
 
+  clearMessages() {
+    this.operatorInputMessage = null;
+    this.operatorInputStatus = null;
+
+    this.jobInputMessage = null;
+    this.jobInputStatus  = null;
+
+    this.toolQtyInputMessage = null;
+    this.toolQtyInputStatus = null;
+  }
+
   checkoutTool() {
-    this.clearErrors();
+    this.clearMessages();
     let toolCheckout: ToolCheckout = {
         toolQty: Number(this.checkoutToolFormGroup.controls['toolQty'].value),
         operatorNumber: Number(this.checkoutToolFormGroup.controls['operatorNumber'].value),
@@ -44,33 +64,25 @@ export class CheckoutToolComponent implements OnInit {
       .subscribe(data => {
         this._notificationService.setNotificationOn('Successfully Checked Out Tool');
       }, (err) => {
-        const error = JSON.parse(err._body).validationError;
-        this.setErrors(error);
+        console.log('yay');
+
+        let response = JSON.parse(err._body);
+        
+        if (response.operatorNumber) {
+          this.operatorInputMessage = response.operatorNumber.message;
+          this.operatorInputStatus = response.operatorNumber.status;
+        }
+
+        if (response.jobNumber) {
+          this.jobInputMessage = response.jobNumber.message;
+          this.jobInputStatus = response.jobNumber.status;
+        }
+
+        if (response.toolQty) {
+          this.toolQtyInputMessage = response.toolQty.message;
+          this.toolQtyInputStatus = response.toolQty.status;
+        }
       });
-  }
-
-  operatorInputError: string = null;
-  jobInputError: string = null;
-
-  clearErrors() {
-    this.operatorInputError = null;
-    this.jobInputError = null;
-  }
-
-  setErrors(error) {
-    if(error.includes('Operator')) {
-      let operatorControl = this.checkoutToolFormGroup.controls['operatorNumber'];
-      operatorControl.setErrors({backend: {notFound: "Operator Number Not Found"}});
-      this.operatorInputError = operatorControl.errors['backend'].notFound;
-    }
-    if (error.includes('Job')) {
-      let jobControl = this.checkoutToolFormGroup.controls['jobNumber'];
-      jobControl.setErrors({backend: {notFound: "Job Number Not Found"}});
-      this.jobInputError = jobControl.errors['backend'].notFound;
-    }
-    if (error.includes('tools')) {
-      console.log('Tools qty needs help')
-    }
   }
 
 }
