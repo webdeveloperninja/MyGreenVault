@@ -5,7 +5,7 @@ const LastFmNode = require('lastfm').LastFmNode;
 const clockwork = require('clockwork')({ key: process.env.CLOCKWORK_KEY });
 const User = require('../../models/User');
 const url = require('url');
-
+const ToolCheckout = require('../../services/tool');
 
 exports.getTools = (req, res) => {
   let url_parts = url.parse(req.url, true);
@@ -83,14 +83,20 @@ exports.removeTool = (req, res) => {
 exports.checkoutTool = (req, res) => {
     let toolCheckout = new ToolCheckout(req);
 
+    // TODO doesToolExist to getTool validate with isCheckoutDataValid
+    // TODO doesOperatorExist to getOpeartor validate with isCheckoutDataValid
+    // TODO doesJobExist to getJob validate with isCheckoutDataValid
+
     Promise.all([
-            toolCheckout.doesToolExist(toolCheckout.tool, toolCheckout.user),
-            toolCheckout.doesOperatorExist(toolCheckout.operatorNumber, toolCheckout.user),
-            toolCheckout.isThereEnoughTools(toolCheckout.toolQty, toolCheckout.tool.qty)
+            toolCheckout.getTool(toolCheckout.tool, toolCheckout.user),
+            toolCheckout.getOperator(toolCheckout.operatorNumber, toolCheckout.user),
+            toolCheckout.isThereEnoughTools(toolCheckout.toolQty, toolCheckout.tool.qty),
+            toolCheckout.getJob(toolCheckout.jobNumber, toolCheckout.user)
         ]).then(values => {
             const tool = values[0];
             const operator = values[1];
             const isThereEnoughTools = values[2];
+            const job = values[3];
             
             let isCheckoutDataValid = toolCheckout.isCheckoutDataValid({
                 tool,
@@ -110,71 +116,6 @@ exports.checkoutTool = (req, res) => {
         });
 }
 
-class ToolCheckout {
-    constructor(request) {
-        this.tool = request.body.tool;
-        this.toolQty = request.body.toolQty;
-        this.operatorNumber = request.body.operatorNumber;
-        this.user = request.user;
-    }
-
-    isThereEnoughTools() {
-        return new Promise((resolve, reject) => {
-            if (this.toolQty <= this.tool.qty) {
-                resolve(true);
-                return;
-            }
-            resolve(false);
-        })
-    }
-    doesToolExist() {
-        return new Promise((resolve, reject) => {
-            User.findOne({ '_id': this.user.id }, (err, user) => {
-                if (err) return handleError(err);
-                for (var i=0; i< user.tools.length; i++) {
-                    const toolId = user.tools[i].id;
-                    const toolIdToCompare = this.tool._id;
-                    if (toolId === toolIdToCompare) {
-                        resolve(user.tools[i]);
-                        return;
-                    }
-                }
-                resolve(null);
-            });
-        });     
-    }
-    doesOperatorExist() {
-        return new Promise((resolve, reject) => {
-            User.findOne({ '_id': this.user.id }, (err, user) => {
-                if (err) return handleError(err);
-                for (var i=0; i< user.operators.length; i++) {
-                    const actualOperatorNumber = user.operators[i].operatorNumber;
-                    const operatorNumberToCompare = this.operatorNumber;
-                    if (actualOperatorNumber === operatorNumberToCompare) {
-                        resolve(user.operators[i]);
-                        return;
-                    }
-                }
-                resolve(null);
-            });
-        }) 
-    }
-
-    isCheckoutDataValid(checkoutObj) {
-        let error = '';
-        if (!checkoutObj.isThereEnoughTools) {
-            error += 'There is not enough tools;'
-        }
-        if (!checkoutObj.operator) {
-            error += 'Operator Not Found;'
-        }
-        return {
-            valid: !error,
-            err: error
-        }
-        
-    }
-}
 
 
 
