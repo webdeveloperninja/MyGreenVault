@@ -70,7 +70,9 @@ export class ToolsService {
         headers.append('Content-Type', 'application/json');
         return this._http.post('/api/v1/tools/checkout', tool, {headers: headers})
             .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+            .catch((error: any) => {
+                return Observable.throw(error);
+            });
     }
 
     removeTool(tool) {

@@ -102,8 +102,7 @@ exports.checkoutTool = (req, res) => {
             });
 
             if (!isCheckoutDataValid.valid) {
-                res.status(403);
-                res.send({errorCode:isCheckoutDataValid.err});
+                res.status(400).send({validationError:isCheckoutDataValid.err});
             } else {
                 // TODO: Checkout
                 // TODO: Return new toolObj

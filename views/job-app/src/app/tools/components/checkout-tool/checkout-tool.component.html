@@ -15,7 +15,7 @@
           formControlName="toolQty">
       </div>
       <div class="form-group">
-        <label>Operator Number</label>
+        <label>Operator Number <span class="danger" *ngIf="operatorInputError"> - {{operatorInputError}}</span></label>
         <input 
           class="form-control"
           type="number" 

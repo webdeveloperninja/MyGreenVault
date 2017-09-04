@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
 import { Http, Headers, Response } from '@angular/http';
 import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angular/forms';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
@@ -31,6 +32,7 @@ export class CheckoutToolComponent implements OnInit {
   }
 
   checkoutTool() {
+    this.clearErrors();
     let toolCheckout: ToolCheckout = {
         toolQty: Number(this.checkoutToolFormGroup.controls['toolQty'].value),
         operatorNumber: Number(this.checkoutToolFormGroup.controls['operatorNumber'].value),
@@ -38,9 +40,34 @@ export class CheckoutToolComponent implements OnInit {
         tool: this.tool
     };
 
-    this._toolsService.checkoutTool(toolCheckout).subscribe(data => {
+    this._toolsService.checkoutTool(toolCheckout)
+      .subscribe(data => {
+        this._notificationService.setNotificationOn('Successfully Checked Out Tool');
+      }, (err) => {
+        const error = JSON.parse(err._body).validationError;
+        this.setErrors(error);
+      });
+  }
 
-    });
+  operatorInputError: string = null;
+
+  clearErrors() {
+    this.operatorInputError = null;
+  }
+
+  setErrors(error) {
+    if(error.includes('Operator')) {
+      console.log('Operator form needs help')
+      let operatorControl = this.checkoutToolFormGroup.controls['operatorNumber'];
+      operatorControl.setErrors({backend: {notFound: "Operator Number Not Found"}});
+      this.operatorInputError = operatorControl.errors['backend'].notFound;
+    }
+    if (error.includes('Job')) {
+      console.log('Job form needs help')
+    }
+    if (error.includes('tools')) {
+      console.log('Tools qty needs help')
+    }
   }
 
 }

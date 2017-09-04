@@ -8,3 +8,12 @@
 .dropdown-toggle {
   color: white!important;
 }
+
+
+input.ng-invalid.ng-touched.ng-dirty {
+  border: 1px solid red;
+}
+
+.danger {
+  color: red;
+}
