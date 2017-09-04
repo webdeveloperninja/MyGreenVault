@@ -50,20 +50,23 @@ export class CheckoutToolComponent implements OnInit {
   }
 
   operatorInputError: string = null;
+  jobInputError: string = null;
 
   clearErrors() {
     this.operatorInputError = null;
+    this.jobInputError = null;
   }
 
   setErrors(error) {
     if(error.includes('Operator')) {
-      console.log('Operator form needs help')
       let operatorControl = this.checkoutToolFormGroup.controls['operatorNumber'];
       operatorControl.setErrors({backend: {notFound: "Operator Number Not Found"}});
       this.operatorInputError = operatorControl.errors['backend'].notFound;
     }
     if (error.includes('Job')) {
-      console.log('Job form needs help')
+      let jobControl = this.checkoutToolFormGroup.controls['jobNumber'];
+      jobControl.setErrors({backend: {notFound: "Job Number Not Found"}});
+      this.jobInputError = jobControl.errors['backend'].notFound;
     }
     if (error.includes('tools')) {
       console.log('Tools qty needs help')

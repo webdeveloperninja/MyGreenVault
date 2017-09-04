@@ -22,7 +22,7 @@
           formControlName="operatorNumber">
       </div>
       <div class="form-group">
-        <label>Job Number</label>
+        <label>Job Number <span class="danger" *ngIf="jobInputError"> - {{jobInputError}}</span></label>
         <input 
           class="form-control"
           type="number" 
