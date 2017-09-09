@@ -74,6 +74,7 @@ class ToolCheckout {
                 isThereEnoughTools,
          */
         let error = {};
+            error.valid = true;
         /*
             formControlName : {
                 status: bootstrapClass,
@@ -85,18 +86,21 @@ class ToolCheckout {
                 status: 'danger',
                 message: 'There is not enough tools'
             }
+            error.valid = false;
         }
         if (!checkoutObj.operatorNumber) {
             error.operatorNumber = {
                 status: 'danger',
                 message: 'Operator Not Found'
             }
+            error.valid = false;
         }
         if (!checkoutObj.jobNumber) {
             error.jobNumber = {
                 status: 'danger',
                 message: 'Job number not found'
             }
+            error.valid = false;
         }
         return error;
     }

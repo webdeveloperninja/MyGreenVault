@@ -34,6 +34,7 @@ const userSchema = new mongoose.Schema({
       jobNumber: { type: String, required: true },
       jobDescription: { type: String, required: true },
       jobStatus: { type: Number, required: true },
+      toolCheckouts: { type: Array, required: false }
     }
   ],
   tools: [

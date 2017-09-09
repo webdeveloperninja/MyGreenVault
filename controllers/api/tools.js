@@ -6,6 +6,8 @@ const clockwork = require('clockwork')({ key: process.env.CLOCKWORK_KEY });
 const User = require('../../models/User');
 const url = require('url');
 const ToolCheckout = require('../../services/tool');
+const ObjectId = require('mongodb').ObjectID;
+
 
 exports.getTools = (req, res) => {
   let url_parts = url.parse(req.url, true);
@@ -107,10 +109,12 @@ exports.checkoutTool = (req, res) => {
             
             const operator = values[1];
             const operatorNumber = getOperatorNumber();
+            const operatorName = operator.operatorName;
 
 
             const job = values[2];
             const jobNumber = getJobNumber();
+            const jobName = job.jobName;
 
             const isThereEnoughTools = values[3];
         
@@ -126,12 +130,47 @@ exports.checkoutTool = (req, res) => {
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify(isCheckoutDataValid));
             } else {
-                // TODO: Checkout
-                // TODO: Return new toolObj
-                res.send(200);
+                let updatedQty = toolCheckout.tool.qty - toolCheckout.toolQty;
+                let newTool = toolCheckout.tool;
+                    newTool.qty = updatedQty;
+
+                const toolName = newTool.toolName;
+                const toolId = newTool._id;
+
+                User.findOneAndUpdate({
+                        _id: req.user._id,
+                        'tools._id': ObjectId(toolId)
+                    },
+                    {
+                    $set: {
+                        'tools.$' : newTool
+                    }
+                    }, function(err, tool) {
+                        if (err)
+                            throw new Error(err);
+                            
+                        const checkout = {
+                            operatorNumber,
+                            operatorName,
+                            jobNumber,
+                            jobName,
+                            toolName,
+                            toolId,
+                            toolCheckoutQty: toolCheckout.toolQty
+                        }
+
+                        User.update({_id:req.user._id, 'jobs._id':job._id}, {$push : 
+                            {'jobs.$.toolCheckouts' : checkout}
+                        }, {upsert: true}, function(err, docs){
+                            res.json({
+                                "success": true,
+                                "updatedTool": newTool,
+                                "checkout": checkout
+                            });
+                        });
+                    });
             }
 
-            console.log(values);
         }).catch(err => {
             throw new Error(err);
         });
