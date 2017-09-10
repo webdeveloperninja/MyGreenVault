@@ -1,17 +1,46 @@
 const User = require('../models/User');
+const ObjectId = require('mongodb').ObjectID;
+const toolQueries = require('../models/queries/tool');
+const operatorQueries = require('../models/queries/operator');
+const jobQueries = require('../models/queries/job');
 
 class ToolCheckout {
-    constructor(request) {
-        this.tool = request.body.tool;
-        this.toolQty = request.body.toolQty;
-        this.operatorNumber = request.body.operatorNumber;
+    constructor(request, response) {
         this.user = request.user;
+        this.userId = ObjectId(this.user._id);
+
+        this.tool = request.body.tool;
+        this.toolAfterCheckout = null;
+        this.toolName = this.tool.toolName;
+        this.toolId = ObjectId(this.tool._id);
+        this.toolCheckoutQty = request.body.toolQty;
+        this.toolQty = this.tool.qty;
+        this.toolQtyAfterCheckout = this.toolQty - this.toolCheckoutQty;
+
+        this.operatorNumber = request.body.operatorNumber;
+        this.operatorName = null;
+        this.operator = null;
+
         this.jobNumber = request.body.jobNumber;
+        this.jobName = null;
+        this.jobId = null;
+    }
+
+    get checkout() {
+        return {
+            operatorNumber: this.operatorNumber,
+            operatorName: this.operatorName,
+            jobNumber: this.jobNumber,
+            jobName: this.jobName,
+            toolName: this.toolName,
+            toolId: this.toolId,
+            toolCheckoutQty: this.toolCheckoutQty
+        }
     }
 
     isThereEnoughTools() {
         return new Promise((resolve, reject) => {
-            if (this.toolQty <= this.tool.qty) {
+            if (this.toolCheckoutQty <= this.toolQty) {
                 resolve(true);
                 return;
             }
@@ -19,85 +48,52 @@ class ToolCheckout {
         })
     }
     getTool() {
-        return new Promise((resolve, reject) => {
-            User.findOne({ '_id': this.user.id }, (err, user) => {
-                if (err) return handleError(err);
-                for (var i=0; i< user.tools.length; i++) {
-                    const toolId = user.tools[i].id;
-                    const toolIdToCompare = this.tool._id;
-                    if (toolId === toolIdToCompare) {
-                        resolve(user.tools[i]);
-                        return;
-                    }
-                }
-                resolve(null);
-            });
-        });     
+        return toolQueries.getTool(this.userId, this.toolId);
+    }
+    createCheckout(toolAfterCheckout, job, operator) {
+        // TODO fix all params 
+        this.toolId = toolAfterCheckout._id;
+        this.jobId = job._id;
+        this.jobName = job.jobName;
+        this.operatorName = operator.operatorName;
+
+        console.log(this.checkout);
+        return toolQueries.updateTool(this.userId, toolAfterCheckout).then(data => {
+            return jobQueries.addCheckout(this.userId, job._id, this.checkout);
+        });
     }
     getOperator() {
-        return new Promise((resolve, reject) => {
-            User.findOne({ '_id': this.user.id }, (err, user) => {
-                if (err) return handleError(err);
-                for (var i=0; i< user.operators.length; i++) {
-                    const actualOperatorNumber = user.operators[i].operatorNumber;
-                    const operatorNumberToCompare = this.operatorNumber;
-                    if (actualOperatorNumber === operatorNumberToCompare) {
-                        resolve(user.operators[i]);
-                        return;
-                    }
-                }
-                resolve(null);
-            });
-        }) 
-    }
+        return operatorQueries.getOperator(this.userId, this.operatorNumber);
+    }  
     getJob() {
-        return new Promise((resolve, reject) => {
-            User.findOne({ '_id': this.user.id }, (err, user) => {
-                if (err) return handleError(err);
-                for (var i=0; i< user.jobs.length; i++) {
-                    const actualJobNumber = Number(user.jobs[i].jobNumber);
-                    const jobNumberToCompare = this.jobNumber;
-                    if (actualJobNumber === jobNumberToCompare) {
-                        resolve(user.jobs[i]);
-                        return;
-                    }
-                }
-                resolve(null);
-            });
-        }) 
+        return jobQueries.getJob(this.userId, this.jobNumber);
     }
-    isCheckoutDataValid(checkoutObj) {
-        /**
-         *      toolId: tool.id,
-                operatorNumber: operator.operatorNumber,
-                jobNumber: job.jobNumber,
-                isThereEnoughTools,
-         */
+    isCheckoutDataValid(checkout) {
         let error = {};
-        /*
-            formControlName : {
-                status: bootstrapClass,
-                message: messageConstant 
-            }
-        */
-        if (!checkoutObj.toolQty) {
+            error.valid = true;
+
+        if (this.toolQty < this.toolCheckoutQty) {
             error.toolQty = {
                 status: 'danger',
                 message: 'There is not enough tools'
             }
+            error.valid = false;
         }
-        if (!checkoutObj.operatorNumber) {
+        if (!checkout.operator) {
             error.operatorNumber = {
                 status: 'danger',
                 message: 'Operator Not Found'
             }
+            error.valid = false;
         }
-        if (!checkoutObj.jobNumber) {
+        if (!checkout.job) {
             error.jobNumber = {
                 status: 'danger',
                 message: 'Job number not found'
             }
+            error.valid = false;
         }
+
         return error;
     }
 }

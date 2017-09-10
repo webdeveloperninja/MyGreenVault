@@ -6,6 +6,11 @@ const clockwork = require('clockwork')({ key: process.env.CLOCKWORK_KEY });
 const User = require('../../models/User');
 const url = require('url');
 const ToolCheckout = require('../../services/tool');
+const ObjectId = require('mongodb').ObjectID;
+const toolQuery = require('../../models/queries/tool');
+const asyncMiddleware = require('../../utils/async-middleware');
+
+
 
 exports.getTools = (req, res) => {
   let url_parts = url.parse(req.url, true);
@@ -81,44 +86,19 @@ exports.removeTool = (req, res) => {
 }
 
 exports.checkoutTool = (req, res) => {
-    let toolCheckout = new ToolCheckout(req);
-
+    let toolCheckout = new ToolCheckout(req, res);
+    
     Promise.all([
-            toolCheckout.getTool(toolCheckout.tool, toolCheckout.user),
-            toolCheckout.getOperator(toolCheckout.operatorNumber, toolCheckout.user),
-            toolCheckout.getJob(toolCheckout.jobNumber, toolCheckout.user),          
-            toolCheckout.isThereEnoughTools(toolCheckout.toolQty, toolCheckout.tool.qty)
+        toolCheckout.getTool(),
+        toolCheckout.getOperator(),
+        toolCheckout.getJob()
         ]).then(values => {
-            const tool = values[0];
+            const [tool, operator, job] = values;
 
-            let getOperatorNumber = () => {
-                if (operator) {
-                    return operator.operatorNumber;
-                }
-                return false;
-            }
-
-            let getJobNumber = () => {
-                if (job) {
-                    return job.jobNumber;
-                }
-                return false;
-            }
-            
-            const operator = values[1];
-            const operatorNumber = getOperatorNumber();
-
-
-            const job = values[2];
-            const jobNumber = getJobNumber();
-
-            const isThereEnoughTools = values[3];
-        
             let isCheckoutDataValid = toolCheckout.isCheckoutDataValid({
-                toolId: tool.id,
-                operatorNumber: operatorNumber,
-                jobNumber: jobNumber,
-                toolQty: isThereEnoughTools,
+                tool,
+                operator,
+                job
             });
 
             if (!isCheckoutDataValid.valid) {
@@ -126,15 +106,83 @@ exports.checkoutTool = (req, res) => {
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify(isCheckoutDataValid));
             } else {
-                // TODO: Checkout
-                // TODO: Return new toolObj
-                res.send(200);
+                // TODO Create tool after checkout clone of tool updated qty
+                const updatedTool = tool;
+                    updatedTool.qty = updatedTool.qty - toolCheckout.toolCheckoutQty;
+                toolCheckout.createCheckout(updatedTool, job, operator).then(data => {
+                    console.log(data);
+                    console.log(data);
+                    res.status(200);
+                    res.json({success: true});
+                    // TODO send success validation 
+                    // SEND Checkout Obj
+                }).catch(err => {
+                    res.send(500);
+                    res.json({success: false});
+                    throw new Error(err);
+                })
             }
 
-            console.log(values);
-        }).catch(err => {
-            throw new Error(err);
-        });
+    })
+    // TODO: Wrap req, res, next async await
+
+    // TODO: Handle promise.All with await
+    // https://medium.com/@bluepnume/learn-about-promises-before-you-start-using-async-await-eb148164a9c8
+
+    // TODO: Error Handling
+    // https://medium.com/@Abazhenov/using-async-await-in-express-with-node-8-b8af872c0016
+
+    // Promise.all([
+    //         toolCheckout.getTool(),
+    //         toolCheckout.getOperator(),
+    //         toolCheckout.getJob()
+    //     ]).then(values => {
+    //         if (toolCheckout.isNotValid) {
+    //             res.status(400);
+    //             res.setHeader('Content-Type', 'application/json');
+    //             res.send(JSON.stringify(isCheckoutDataValid));
+    //         } else {
+    //             User.findOneAndUpdate({
+    //                     _id: toolCheckout.userId,
+    //                     'tools._id': toolCheckout.toolId
+    //                 },
+    //                 {
+    //                 $set: {
+    //                     'tools.$' : toolCheckout.updatedTool
+    //                 }
+    //                 }, function(err, tool) {
+    //                     if (err)
+    //                         throw new Error(err);
+                            
+    //                     const checkout = toolCheckout.createCheckout();
+
+    //                     // const checkout = {
+    //                     //     operatorNumber,
+    //                     //     operatorName,
+    //                     //     jobNumber,
+    //                     //     jobName,
+    //                     //     toolName,
+    //                     //     toolId,
+    //                     //     toolCheckoutQty: toolCheckout.toolQty
+    //                     // }
+
+                    
+    //                     User.update({_id: toolCheckout.userId, 'jobs._id':toolCheckout.jobId}, {$push : 
+    //                         {'jobs.$.toolCheckouts' : checkout}
+    //                     }, {upsert: true}, function(err, docs){
+    //                         //SUCCESS
+    //                         // res.json({
+    //                         //     "success": true,
+    //                         //     "updatedTool": newTool,
+    //                         //     "checkout": checkout
+    //                         // });
+    //                     });
+    //                 });
+    //         }
+
+    //     }).catch(err => {
+    //         throw new Error(err);
+    //     });
 }
 
 
