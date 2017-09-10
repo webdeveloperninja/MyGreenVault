@@ -86,39 +86,17 @@ exports.removeTool = (req, res) => {
 }
 
 exports.checkoutTool = (req, res) => {
+    // TODO Pass tool checkout packaged data not req and res
     let toolCheckout = new ToolCheckout(req, res);
-    
-    Promise.all([
-        toolCheckout.getTool(),
-        toolCheckout.getOperator(),
-        toolCheckout.getJob()
-        ]).then(values => {
-            const [tool, operator, job] = values;
 
-            let isCheckoutDataValid = toolCheckout.isCheckoutDataValid({
-                tool,
-                operator,
-                job
-            });
+    toolCheckout.doCheckout().then(data => {
+        // Send success message here 
+        // Yay
+        console.log(data);
+    }).catch(err => {
+        throw new Error(err);
+    })
 
-            if (!isCheckoutDataValid.valid) {
-                res.status(400);
-                res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify(isCheckoutDataValid));
-            } else {
-                const updatedTool = tool;
-                    updatedTool.qty = updatedTool.qty - toolCheckout.toolCheckoutQty;
-                toolCheckout.createCheckout(updatedTool, job, operator).then(data => {
-                    res.status(200);
-                    res.json({success: true});
-                }).catch(err => {
-                    res.send(500);
-                    res.json({success: false});
-                    throw new Error(err);
-                })
-            }
-
-    });
 }
 
 
