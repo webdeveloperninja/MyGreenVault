@@ -94,19 +94,20 @@ exports.checkoutTool = (req, res) => {
         toolCheckout.getJob()
         ]).then(values => {
             const [tool, operator, job] = values;
-            // TODO tool,operator,job undefined 
 
             let isCheckoutDataValid = toolCheckout.isCheckoutDataValid({
                 tool,
                 operator,
                 job
             });
+            
             if (!isCheckoutDataValid.valid) {
                 res.status(400);
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify(isCheckoutDataValid));
             } else {
-                toolCheckout.createCheckout(tool).then(data => {
+                // TODO Create tool after checkout clone of tool updated qty
+                toolCheckout.createCheckout().then(data => {
                     console.log(data);
                     console.log(data);
                     // TODO send success validation 
