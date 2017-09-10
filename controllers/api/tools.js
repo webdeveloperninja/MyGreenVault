@@ -100,14 +100,16 @@ exports.checkoutTool = (req, res) => {
                 operator,
                 job
             });
-            
+
             if (!isCheckoutDataValid.valid) {
                 res.status(400);
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify(isCheckoutDataValid));
             } else {
                 // TODO Create tool after checkout clone of tool updated qty
-                toolCheckout.createCheckout().then(data => {
+                const updatedTool = tool;
+                    updatedTool.qty = updatedTool.qty - toolCheckout.toolCheckoutQty;
+                toolCheckout.createCheckout(updatedTool, job, operator).then(data => {
                     console.log(data);
                     console.log(data);
                     // TODO send success validation 

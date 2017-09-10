@@ -50,10 +50,16 @@ class ToolCheckout {
     getTool() {
         return toolQueries.getTool(this.userId, this.toolId);
     }
-    createCheckout(toolAfterCheckout) {
+    createCheckout(toolAfterCheckout, job, operator) {
         // TODO fix all params 
+        this.toolId = toolAfterCheckout._id;
+        this.jobId = job._id;
+        this.jobName = job.jobName;
+        this.operatorName = operator.operatorName;
+
+        console.log(this.checkout);
         return toolQueries.updateTool(this.userId, toolAfterCheckout).then(data => {
-            return jobQueries.addCheckout(this.userId, this.jobId, this.checkout);
+            return jobQueries.addCheckout(this.userId, job._id, this.checkout);
         });
     }
     getOperator() {
