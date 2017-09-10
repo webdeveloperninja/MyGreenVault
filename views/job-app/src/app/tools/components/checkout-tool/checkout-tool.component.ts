@@ -67,7 +67,11 @@ export class CheckoutToolComponent implements OnInit {
     this._toolsService.checkoutTool(toolCheckout)
       .subscribe(data => {
         this._notificationService.setNotificationOn('Successfully Checked Out Tool');
-      }, (err) => {
+        // TODO: Clean up subscribe;
+        this._toolsService.getTools().subscribe(data => {
+
+        });
+    }, (err) => {
         let response = JSON.parse(err._body);
         
         if (response.operatorNumber) {

@@ -112,9 +112,13 @@ exports.checkoutTool = (req, res) => {
                 toolCheckout.createCheckout(updatedTool, job, operator).then(data => {
                     console.log(data);
                     console.log(data);
+                    res.status(200);
+                    res.json({success: true});
                     // TODO send success validation 
                     // SEND Checkout Obj
                 }).catch(err => {
+                    res.send(500);
+                    res.json({success: false});
                     throw new Error(err);
                 })
             }
