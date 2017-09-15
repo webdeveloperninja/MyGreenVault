@@ -79,7 +79,6 @@ export class CheckoutToolComponent implements OnInit {
 
         });
     }, (err) => {
-        this._notificationService.setNotificationOn('Error Checking Out Tool');
         this._isCheckoutLoadingSubject$.next(false);
         let response = JSON.parse(err._body);
         
