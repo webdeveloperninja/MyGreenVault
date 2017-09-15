@@ -61,7 +61,10 @@
           type="number" 
           formControlName="jobNumber"/>
       </div>
-      <button class="btn btn-primary mt-2">Save</button>
+      <button class="btn btn-primary mt-2">
+        <i class='fa fa-spinner fa-spin ' *ngIf="isCheckoutLoading$ | async"></i> 
+        Save
+      </button>
       <button 
         class="btn btn-danger mt-2"
         (click)="clearForm()">Clear</button>

@@ -7,6 +7,7 @@ const jobQueries = require('../models/queries/job');
 class ToolCheckout {
     
     constructor(request, response) {
+        this.response = response;
         this.user = request.user;
         this.tool = request.body.tool;
 
@@ -16,7 +17,6 @@ class ToolCheckout {
     }
 
     get checkout() {
-        // TODO Validate before returning
         return {
             operatorNumber: this.operator.operatorNumber,
             operatorName: this.operator.operatorName,
@@ -27,6 +27,20 @@ class ToolCheckout {
             toolCheckoutQty: this.toolCheckoutQty
         }
     }
+    // TODO update tool after checkout on get tool return 
+    // get updatedToolAfterCheckout() {
+    //     console.log(this.tool);
+    //     let newToolQty = this.tool.qty - this.toolCheckoutQty;
+    //     this.tool.qty = newToolQty;
+    //     return this.tool;
+    // }
+
+    createUpdateToolAfterCheckout() {
+        let toolQtyAfterCheckout = Number(this.tool.qty) - Number(this.toolCheckoutQty);
+        this.updatedToolAfterCheckout = Object.assign({}, this.tool, {
+            qty: toolQtyAfterCheckout
+        });
+    }
 
     doCheckout() {
         return new Promise((resolve, reject) => { 
@@ -35,16 +49,23 @@ class ToolCheckout {
                 this.getOperator(),
                 this.getJob()
             ]).then(values => {
-                [this.tool, this.operator, this.job] = values;
-                // TODO: Package checkout object
-                console.log(this.checkout);
-                console.log(this.checkout);
-                console.log(this.checkout);
-        
-                // TODO: Create tool to save with updated qty
-  
+                this.tool.qty = values[0].qty;
+                this.operator = values[1];
+                this.job = values[2];
 
-                resolve(values);
+                // TODO: If not valid dont continue checkout
+                // Return promise .then on validate checkout
+                const checkoutValidation = this.validateCheckout();
+                if (checkoutValidation.valid) {
+                    this.createUpdateToolAfterCheckout();
+                    this.createCheckout().then(data => {
+                        console.log(data);
+                        resolve(values);
+                        console.log('success');
+                    }).catch(err => {
+                        console.log(err)
+                    });
+                }
             }).catch(err => {
                 reject(err);
             });
@@ -63,13 +84,9 @@ class ToolCheckout {
         console.log(this.tool);
         return toolQueries.getTool(this.user._id, this.tool._id);
     }
-    createCheckout(toolAfterCheckout, job, operator) {
-        this.jobId = job._id;
-        this.jobName = job.jobName;
-        this.operatorName = operator.operatorName;
-
-        return toolQueries.updateTool(this.user._id, toolAfterCheckout).then(data => {
-            return jobQueries.addCheckout(this.user._id, job._id, this.checkout);
+    createCheckout() {
+        return toolQueries.updateTool(this.user._id, this.updatedToolAfterCheckout).then(data => {
+            return jobQueries.addCheckout(this.user._id, this.job._id, this.checkout);
         });
     }
     getOperator() {
@@ -78,33 +95,37 @@ class ToolCheckout {
     getJob() {
         return jobQueries.getJob(this.user._id, this.jobNumber);
     }
-    isCheckoutDataValid(checkout) {
-        let error = {};
-            error.valid = true;
+    validateCheckout() {
+        let validationObj = {};
+            validationObj.valid = true;
 
         if (this.tool.qty < this.toolCheckoutQty) {
-            error.toolQty = {
+            validationObj.toolQty = {
                 status: 'danger',
                 message: 'There is not enough tools'
             }
-            error.valid = false;
+            validationObj.valid = false;
         }
-        if (!checkout.operator) {
-            error.operatorNumber = {
+        if (!this.operator) {
+            validationObj.operatorNumber = {
                 status: 'danger',
                 message: 'Operator Not Found'
             }
-            error.valid = false;
+            validationObj.valid = false;
         }
-        if (!checkout.job) {
-            error.jobNumber = {
+        if (!this.job) {
+            validationObj.jobNumber = {
                 status: 'danger',
                 message: 'Job number not found'
             }
-            error.valid = false;
+            validationObj.valid = false;
         }
-
-        return error;
+        if (!validationObj.valid) {
+            this.response.status(400);
+            this.response.setHeader('Content-Type', 'application/json');
+            this.response.send(JSON.stringify(validationObj));
+        }
+        return validationObj;
     }
 }
 
