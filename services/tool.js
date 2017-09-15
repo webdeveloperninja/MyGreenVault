@@ -49,7 +49,8 @@ class ToolCheckout {
                 this.getOperator(),
                 this.getJob()
             ]).then(values => {
-                this.tool.qty = values[0].qty;
+                console.log(values[0]);
+                console.log(values[0]);
                 this.operator = values[1];
                 this.job = values[2];
 
