@@ -90,7 +90,7 @@ exports.checkoutTool = (req, res) => {
     let toolCheckout = new ToolCheckout(req, res);
 
     toolCheckout.doCheckout().then(data => {
-        res.send(200);
+        res.json({"success": true});
     }).catch(err => {
         res.send(500);
         throw new Error(err);

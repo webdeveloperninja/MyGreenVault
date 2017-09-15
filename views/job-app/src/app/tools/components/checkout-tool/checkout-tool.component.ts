@@ -97,6 +97,7 @@ export class CheckoutToolComponent implements OnInit {
           this.toolQtyInputMessage = response.toolQty.message;
           this.toolQtyInputStatus = response.toolQty.status;
         }
+      
       });
   }
 
