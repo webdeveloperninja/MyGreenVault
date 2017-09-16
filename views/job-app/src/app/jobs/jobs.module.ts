@@ -15,7 +15,6 @@ import { UpdateJobComponent } from './components/update-job/update-job.component
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';
-import { JobStatusNumberToTitlePipe } from './pipes/job-status-number-to-title/job-status-number-to-status-title.pipe';
 
 import { routes } from './jobs.routing';
 import { KanbanComponent } from './components/kanban/kanban.component';
@@ -36,7 +35,6 @@ import { JobCardComponent } from './components/job-card/job-card.component';
         UpdateJobComponent,
         FilterPipe,
         JobStatusPipe,
-        JobStatusNumberToTitlePipe,
         KanbanComponent,
         JobCardComponent
     ],

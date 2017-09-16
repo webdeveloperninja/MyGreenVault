@@ -15,50 +15,48 @@
                                 <table class="table table-striped ti-table">
                                     <thead class="ti-table-header">
                                         <tr>
-                                            <th [hidden]="!displayOptions.companyName">Company Name</th>
-                                            <th [hidden]="!displayOptions.contactName">Contact Name</th>
-                                            <th [hidden]="!displayOptions.jobPhone">Phone</th>
-                                            <th [hidden]="!displayOptions.jobEmail">Email</th>
-                                            <th [hidden]="!displayOptions.jobName">Job Name</th>
-                                            <th [hidden]="!displayOptions.jobNumber">Job Number</th>
-                                            <th [hidden]="!displayOptions.jobDescription">Job Description</th>
-                                            <th [hidden]="!displayOptions.jobStatus">Status</th>
+                                            <th>Company Name</th>
+                                            <th>Job Name</th>
+                                            <th>Job Number</th>
+                                            <th class="w-25">Job Description</th>
+                                            <th>Status</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let job of jobs$ | async" >
-                                            <td [hidden]="!displayOptions.companyName">{{ job.companyName | empty }}</td>
-                                            <td [hidden]="!displayOptions.contactName">{{ job.contactName | empty }}</td>
-                                            <td [hidden]="!displayOptions.jobPhone">{{ job.contactPhoneNumber | empty }}</td>
-                                            <td [hidden]="!displayOptions.jobEmail">{{ job.contactEmail | empty }}</td>
-                                            <td [hidden]="!displayOptions.jobName">{{ job.jobName | empty }}</td>
-                                            <td [hidden]="!displayOptions.jobNumber">{{ job.jobNumber | empty }}</td>
-                                            <td [hidden]="!displayOptions.jobDescription">{{ job.jobDescription | empty }}</td>
-                                            <td [hidden]="!displayOptions.jobStatus">{{ job.jobStatus | jobStatusNumberToTitle | empty }}</td>
+                                            <td>{{ job.companyName | empty }}</td>
+                                            <td>{{ job.jobName | empty }}</td>
+                                            <td>{{ job.jobNumber | empty }}</td>
+                                            <td>{{ job.jobDescription | empty }}</td>
+                                            <td>
+                                                <ti-job-status-chip
+                                                    [jobStatus]="job.jobStatus">
+                                                </ti-job-status-chip>
+                                            </td>
                                             <td>
                                                 <button class="btn btn-outline-danger pull-right" (click)="removeJob(job)">Remove</button>
-                                                <button class="btn btn-outline-primary" (click)="openUpdateJobModal(job._id)">Edit</button>
+                                                <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdateJobModal(job._id)">Edit</button>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button (
-                                            click)="previousPage()" 
+                                        <button 
+                                            (click)="previousPage()" 
                                             *ngIf="(jobsSkip$ | async) !== 0" 
                                             class="btn btn-outline-primary mr-auto"
                                             [disabled]="isLoading">
                                             Previous Page
-                                    </button>
+                                        </button>
                                         <button 
                                             (click)="nextPage()" 
                                             *ngIf="moreJobs$ | async" 
                                             class="btn btn-outline-primary ml-auto next" 
                                             [disabled]="isLoading">
                                             Next Page
-                                    </button>
+                                        </button>
                                     </div>
                                 </div>
                             </div>

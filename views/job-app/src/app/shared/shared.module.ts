@@ -17,6 +17,8 @@ import { SideNavLinkComponent } from './components/side-nav-link/side-nav-link.c
 import { DisplayOptionsComponent } from './components/display-options/display-options.component';
 import { TokenService } from './services/token/token.service';
 import { FilterJobPipe } from './pipes/filter-job/filter-job.pipe';
+import { JobStatusChipComponent } from './components/job-status-chip/job-status-chip.component';
+import { JobStatusNumberToTitlePipe } from './pipes/job-status-number-to-title/job-status-number-to-status-title.pipe';
 
 @NgModule({
     imports: [
@@ -33,7 +35,9 @@ import { FilterJobPipe } from './pipes/filter-job/filter-job.pipe';
       SideNavComponent,
       SideNavLinkComponent,
       DisplayOptionsComponent,
-      FilterJobPipe
+      JobStatusNumberToTitlePipe,
+      FilterJobPipe,
+      JobStatusChipComponent
     ],
     providers: [
       NotificationService,
@@ -46,10 +50,12 @@ import { FilterJobPipe } from './pipes/filter-job/filter-job.pipe';
       LoadingComponent,
       KeysPipe,
       CamelCaseToRegularPipe,
+      JobStatusNumberToTitlePipe,
       EmptyPipe,
       ToasterComponent,
       SideNavComponent,
       DisplayOptionsComponent,
+      JobStatusChipComponent,
       FilterJobPipe
     ]
 })
