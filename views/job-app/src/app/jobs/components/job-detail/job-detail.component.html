@@ -1,7 +1,52 @@
 <div class="row">
-  <div class="col">
+  <div class="col-md-8">
+    <div class="row">
+      <div class="col">
+        <div class="card-box">
+          <p class="card-title">Job Details</p>
+          <p><strong>Job Name:</strong> {{ job.jobName | empty }}</p>
+          <p><strong>Job Number:</strong> {{ job.jobNumber | empty }}</p>
+          <p><strong>Job Description:</strong> {{ job.jobDescription | empty }}</p>
+          <p><strong>Job Status:</strong> {{ job.jobStatus | jobStatusNumberToTitle | empty }}</p>
+          <p><strong>Company Name:</strong> {{ job.companyName | empty }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="card-box">
+          <p class="card-title">Checkouts</p>
+          <table class="table table-striped ti-table mb-0">
+              <thead class="ti-table-header">
+                  <tr>
+                      <th>Tool Name</th>
+                      <th>Job Name</th>
+                      <th>Job Number</th>
+                      <th>Operator Name</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let checkout of job.toolCheckouts" >
+                      <td>
+                          {{ checkout.toolName | empty }}
+                      </td>
+                      <td>{{ checkout.jobName | empty }}</td>
+                      <td>{{ checkout.jobNumber | empty }}</td>
+                      <td>{{ checkout.operatorName | empty }}</td>
+                  </tr>
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-md-4">
     <div class="card-box">
-      <h1>Job Details</h1>
+      <p class="card-title">Contacts</p>
+      <p><strong>Contact Name:</strong> {{ job.contactName | empty }}</p>
+      <p><strong>Contact Email:</strong> {{ job.contactEmail | empty }}</p>
+      <p><strong>Contact Phone:</strong> {{ job.contactPhoneNumber | empty }}</p>      
     </div>
   </div>
 </div>

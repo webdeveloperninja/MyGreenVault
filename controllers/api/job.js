@@ -1,5 +1,5 @@
 'use strict';
-
+const jobQuery = require('../../models/queries/job');
 const cheerio = require('cheerio');
 const LastFmNode = require('lastfm').LastFmNode;
 const clockwork = require('clockwork')({ key: process.env.CLOCKWORK_KEY });
@@ -43,7 +43,14 @@ exports.getJobs = (req, res) => {
 
 exports.getJob = (req, res) => {
   const jobNumber = req.params.jobNumber;
-  console.log('get job by job number', jobNumber);
+  const userId = req.user._id;
+  jobQuery.getJob(userId, jobNumber).then(job => {
+    res.json(job);
+  }).catch(err => {
+
+    res.send(500);
+    throw new Error(err);
+  })
 }
 
 exports.addJob = (req, res) => {
