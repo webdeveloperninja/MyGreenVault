@@ -4,7 +4,11 @@
             <ti-loading [isLoading]="isToolsLoading$ | async"></ti-loading>            
             <div class="row mt-3">
                 <div class="col-md-12">
-                    <button class="btn btn-outline-primary mb-2 pull-right" (click)="addTool()">Add tool</button>
+                    <button 
+                        class="btn btn-outline-primary mb-2 pull-right" 
+                        (click)="addTool()">
+                            <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add tool
+                    </button>
                 </div>
             </div>
             <div class="row">

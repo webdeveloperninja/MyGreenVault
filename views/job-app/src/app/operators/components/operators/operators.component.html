@@ -4,7 +4,11 @@
             <ti-loading [isLoading]="isLoading$ | async"></ti-loading>            
             <div class="row mt-3">
                 <div class="col-md-12">
-                    <button class="btn btn-outline-primary pull-right mb-2" (click)="addOperator()">Add Operator</button>
+                    <button 
+                        class="btn btn-outline-primary pull-right mb-2" 
+                        (click)="addOperator()">
+                            <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Operator
+                    </button>
                 </div>
             </div>
             <div class="row">
