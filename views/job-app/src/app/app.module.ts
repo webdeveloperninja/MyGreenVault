@@ -40,7 +40,6 @@ import { routes } from './app.routing';
     NgbModule.forRoot(),
   ],
   providers: [
-    {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   exports: [
     FlashMessagesModule,
