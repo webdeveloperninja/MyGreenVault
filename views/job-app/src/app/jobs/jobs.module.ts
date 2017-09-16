@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ChartsModule } from 'ng2-charts';
 
 import { AddJobComponent } from './components/add-job/add-job.component';
 import { JobsComponent } from './components/jobs/jobs.component';
@@ -27,6 +28,7 @@ import { JobDetailComponent } from './components/job-detail/job-detail.component
         FormsModule,
         SharedModule,
         ReactiveFormsModule,
+        ChartsModule,
         RouterModule.forChild(routes),
         NgbModule.forRoot()
     ],

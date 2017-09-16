@@ -42,11 +42,45 @@
 
   </div>
   <div class="col-md-4">
-    <div class="card-box">
-      <p class="card-title">Contacts</p>
-      <p><strong>Contact Name:</strong> {{ job.contactName | empty }}</p>
-      <p><strong>Contact Email:</strong> {{ job.contactEmail | empty }}</p>
-      <p><strong>Contact Phone:</strong> {{ job.contactPhoneNumber | empty }}</p>      
+    <div class="row">
+      <div class="col">
+        <div class="card-box">
+          <p class="card-title">Contacts</p>
+          <p><strong>Contact Name:</strong> {{ job.contactName | empty }}</p>
+          <p><strong>Contact Email:</strong> {{ job.contactEmail | empty }}</p>
+          <p><strong>Contact Phone:</strong> {{ job.contactPhoneNumber | empty }}</p>      
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="card-box">
+          <p class="card-title">Tools</p>
+          <div style="display: block">
+            <canvas baseChart
+                        [data]="doughnutChartData"
+                        [labels]="doughnutChartLabels"
+                        [chartType]="doughnutChartType"
+                        (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="card-box">
+          <p class="card-title">Operators</p>
+          <div style="display: block">
+            <canvas baseChart
+                        [data]="doughnutChartData"
+                        [labels]="doughnutChartLabels"
+                        [chartType]="doughnutChartType"
+                        (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)"></canvas>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
