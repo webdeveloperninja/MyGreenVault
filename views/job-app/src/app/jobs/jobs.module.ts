@@ -19,6 +19,7 @@ import { SharedModule } from '../shared/shared.module';
 import { routes } from './jobs.routing';
 import { KanbanComponent } from './components/kanban/kanban.component';
 import { JobCardComponent } from './components/job-card/job-card.component';
+import { JobDetailComponent } from './components/job-detail/job-detail.component';
 
 @NgModule({
     imports: [
@@ -36,7 +37,8 @@ import { JobCardComponent } from './components/job-card/job-card.component';
         FilterPipe,
         JobStatusPipe,
         KanbanComponent,
-        JobCardComponent
+        JobCardComponent,
+        JobDetailComponent
     ],
     providers: [
         JobsService,

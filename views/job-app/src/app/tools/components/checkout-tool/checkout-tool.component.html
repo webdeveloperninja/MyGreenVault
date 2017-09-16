@@ -1,6 +1,11 @@
 
 <div class="pull-right mr-2" ngbDropdown placement="bottom-right" #myDrop="ngbDropdown">
-  <button class="btn btn-outline-success" id="dropdownManual" ngbDropdownToggle>Checkout</button>
+  <button 
+    class="btn btn-outline-primary" 
+    id="dropdownManual" 
+    ngbDropdownToggle>
+      <i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i>Checkout
+  </button>
   <div ngbDropdownMenu aria-labelledby="dropdownManual" (click)="$event.stopPropagation()">
     <form [formGroup]="checkoutToolFormGroup" #CheckoutToolForm="ngForm" (ngSubmit)="checkoutTool()">
       <h3>Checkout: {{ tool.toolName }}</h3>

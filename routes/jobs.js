@@ -9,5 +9,10 @@ module.exports = function(passportConfig, jobsApiController) {
     router.post('/remove', passportConfig.isAuthenticated, jobsApiController.removeJob);
     router.get('/search', passportConfig.isAuthenticated, jobsApiController.searchJobs);
 
+    router.get('/:jobNumber', passportConfig.isAuthenticated, jobsApiController.getJob);
+    
+    // TODO: Remove /all-jobs route
+    // TODO Create return single job route
+
     return router;
 }

@@ -25,7 +25,9 @@
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let job of jobs$ | async" >
-                                            <td>{{ job.companyName | empty }}</td>
+                                            <td>
+                                                {{ job.companyName | empty }}
+                                            </td>
                                             <td>{{ job.jobName | empty }}</td>
                                             <td>{{ job.jobNumber | empty }}</td>
                                             <td>{{ job.jobDescription | empty }}</td>
@@ -35,8 +37,21 @@
                                                 </ti-job-status-chip>
                                             </td>
                                             <td>
-                                                <button class="btn btn-outline-danger pull-right" (click)="removeJob(job)">Remove</button>
-                                                <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdateJobModal(job._id)">Edit</button>
+                                                <button 
+                                                    class="btn btn-outline-danger pull-right" 
+                                                    (click)="removeJob(job)">
+                                                        <i class="fa fa-trash mr-2" aria-hidden="true"></i>Remove
+                                                </button>
+                                                <button 
+                                                    class="btn btn-outline-primary pull-right mr-2" 
+                                                    (click)="openUpdateJobModal(job._id)">
+                                                        <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
+                                                </button>
+                                                <button 
+                                                    class="btn btn-outline-primary pull-right mr-2" 
+                                                    routerLink="/jobs/{{job.jobNumber}}">
+                                                        <i class="fa fa-eye mr-2" aria-hidden="true"></i>View
+                                                </button>
                                             </td>
                                         </tr>
                                     </tbody>

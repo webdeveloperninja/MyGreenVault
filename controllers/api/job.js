@@ -39,8 +39,12 @@ exports.getJobs = (req, res) => {
       }
       res.json(resObj);
   })
-  
 };
+
+exports.getJob = (req, res) => {
+  const jobNumber = req.params.jobNumber;
+  console.log('get job by job number', jobNumber);
+}
 
 exports.addJob = (req, res) => {
   User.findOneAndUpdate(

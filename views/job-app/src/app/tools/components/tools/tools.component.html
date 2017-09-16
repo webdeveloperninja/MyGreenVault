@@ -28,18 +28,18 @@
                                         <td>{{ tool.idealAmount | empty }}</td>
                                         <td>{{ tool.autoOrderQty | empty }}</td>
                                         <th scope="row">
-                                                <button 
+                                            <button 
                                                 class="btn btn-outline-danger pull-right"
                                                 (click)="removeTool(tool)">
-                                                Remove
+                                                    <i class="fa fa-trash mr-2" aria-hidden="true"></i>Remove
                                             </button>
                                             <ti-checkout-tool
                                                 [tool]="tool">
                                             </ti-checkout-tool>
                                             <button 
-                                                class="btn btn-outline-success pull-right mr-2"
+                                                class="btn btn-outline-primary pull-right mr-2"
                                                 (click)="openUpdateToolModal(tool._id)">
-                                                Edit
+                                                    <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
                                             </button>
 
                                             <ti-add-tool-qty
