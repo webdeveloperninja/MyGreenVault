@@ -1,5 +1,5 @@
 
-<div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
+<div class="pull-right mr-2" ngbDropdown placement="bottom-right" #myDrop="ngbDropdown">
   <button class="btn btn-outline-success" id="dropdownManual" ngbDropdownToggle>Checkout</button>
   <div ngbDropdownMenu aria-labelledby="dropdownManual" (click)="$event.stopPropagation()">
     <form [formGroup]="checkoutToolFormGroup" #CheckoutToolForm="ngForm" (ngSubmit)="checkoutTool()">

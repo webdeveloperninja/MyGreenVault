@@ -4,7 +4,7 @@
             <ti-loading [isLoading]="isJobsLoading$ | async"></ti-loading>            
             <div class="row mt-3">
                 <div class="col-md-12">
-                    <button class="btn btn-primary pull-right" (click)="addJob()">Add Job</button>        
+                    <button class="btn btn-outline-primary mb-2 pull-right" (click)="addJob()">Add Job</button>        
                 </div>
             </div>
             <div class="row" *ngIf="!isJobNotFound">
@@ -12,8 +12,8 @@
                     <div class="card">
                         <div class="row" *ngIf="!(jobs$ | async)?.length === false">
                             <div class="col-md-12">
-                                <table class="table table-striped">
-                                    <thead class="thead-inverse">
+                                <table class="table table-striped ti-table">
+                                    <thead class="ti-table-header">
                                         <tr>
                                             <th [hidden]="!displayOptions.companyName">Company Name</th>
                                             <th [hidden]="!displayOptions.contactName">Contact Name</th>
@@ -37,18 +37,26 @@
                                             <td [hidden]="!displayOptions.jobDescription">{{ job.jobDescription | empty }}</td>
                                             <td [hidden]="!displayOptions.jobStatus">{{ job.jobStatus | jobStatusNumberToTitle | empty }}</td>
                                             <td>
-                                                <button class="btn btn-danger pull-right" (click)="removeJob(job)">Remove</button>
-                                                <button class="btn btn-primary" (click)="openUpdateJobModal(job._id)">Edit</button>
+                                                <button class="btn btn-outline-danger pull-right" (click)="removeJob(job)">Remove</button>
+                                                <button class="btn btn-outline-primary" (click)="openUpdateJobModal(job._id)">Edit</button>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button (click)="previousPage()" *ngIf="(jobsSkip$ | async) !== 0" class="btn btn-info mr-auto" [disabled]="isLoading">
+                                        <button (
+                                            click)="previousPage()" 
+                                            *ngIf="(jobsSkip$ | async) !== 0" 
+                                            class="btn btn-outline-primary mr-auto"
+                                            [disabled]="isLoading">
                                             Previous Page
                                     </button>
-                                        <button (click)="nextPage()" *ngIf="moreJobs$ | async" class="btn btn-info ml-auto next" [disabled]="isLoading">
+                                        <button 
+                                            (click)="nextPage()" 
+                                            *ngIf="moreJobs$ | async" 
+                                            class="btn btn-outline-primary ml-auto next" 
+                                            [disabled]="isLoading">
                                             Next Page
                                     </button>
                                     </div>

@@ -4,7 +4,7 @@
             <ti-loading [isLoading]="isLoading$ | async"></ti-loading>            
             <div class="row mt-3">
                 <div class="col-md-12">
-                    <button class="btn btn-primary pull-right" (click)="addOperator()">Add operator</button>
+                    <button class="btn btn-outline-primary pull-right mb-2" (click)="addOperator()">Add Operator</button>
                 </div>
             </div>
             <div class="row">
@@ -12,8 +12,8 @@
                     <div class="card">
                         <div class="row" *ngIf="!(operators$ | async)?.length === false">
                             <div class="col-md-12">
-                                <table class="table table-striped">
-                                    <thead class="thead-inverse">
+                                <table class="table table-striped ti-table">
+                                    <thead class="ti-table-header">
                                         <tr>
                                             <th>Operator Name</th>
                                             <th>Operator Number</th>
@@ -25,9 +25,15 @@
                                             <td>{{ operator.operatorName | empty }}</td>
                                             <td>{{ operator.operatorNumber | empty }}</td>
                                             <td>
-                                                <button class="btn btn-danger pull-right" (click)="removeOperator(operator)">Remove</button>
-                                                <button class="btn btn-primary pull-right mr-2" (click)="openUpdateOperatorModal(operator._id)">
-                                                    Edit
+                                                <button 
+                                                    class="btn btn-outline-danger pull-right" 
+                                                    (click)="removeOperator(operator)">
+                                                        Remove
+                                                </button>
+                                                <button 
+                                                    class="btn btn-outline-primary pull-right mr-2" 
+                                                    (click)="openUpdateOperatorModal(operator._id)">
+                                                        Edit
                                                 </button>
                                             </td>
                                         </tr>
@@ -35,10 +41,18 @@
                                 </table>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button (click)="previousPage()" *ngIf="(operatorsSkip$ | async) !== 0" class="btn btn-info mr-auto" [disabled]="isLoading$ | async">
+                                        <button 
+                                            (click)="previousPage()" 
+                                            *ngIf="(operatorsSkip$ | async) !== 0" 
+                                            class="btn btn-outline-primary mr-auto" 
+                                            [disabled]="isLoading$ | async">
                                             Previous Page
                                         </button>
-                                        <button (click)="nextPage()" *ngIf="moreOperators$ | async" class="btn btn-info ml-auto next" [disabled]="isLoading$ | async">
+                                        <button 
+                                            (click)="nextPage()" 
+                                            *ngIf="moreOperators$ | async" 
+                                            class="btn btn-outline-primary ml-auto next" 
+                                            [disabled]="isLoading$ | async">
                                             Next Page
                                         </button>
                                     </div>
