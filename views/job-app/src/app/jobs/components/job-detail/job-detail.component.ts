@@ -13,6 +13,8 @@ export class JobDetailComponent implements OnInit {
     jobName: null
   };
 
+  isJobLoading: boolean;
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -23,8 +25,10 @@ export class JobDetailComponent implements OnInit {
 
 
   ngOnInit() {
+    this.isJobLoading = true;
     const jobNumber = this._route.snapshot.paramMap.get('jobNumber');
     this._jobsService.getJob(jobNumber).subscribe(job => {
+      this.isJobLoading = false;
       this._headerService.setHeaderText(`${job.companyName} - ${job.jobName}`)
       this.job = job;
     });
