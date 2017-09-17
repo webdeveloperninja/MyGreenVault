@@ -19,6 +19,7 @@ import { TokenService } from './services/token/token.service';
 import { FilterJobPipe } from './pipes/filter-job/filter-job.pipe';
 import { JobStatusChipComponent } from './components/job-status-chip/job-status-chip.component';
 import { JobStatusNumberToTitlePipe } from './pipes/job-status-number-to-title/job-status-number-to-status-title.pipe';
+import { LocalStorageService } from './services/local-storage/local-storage.service';
 
 @NgModule({
     imports: [
@@ -43,7 +44,8 @@ import { JobStatusNumberToTitlePipe } from './pipes/job-status-number-to-title/j
       NotificationService,
       SideNavService,
       TokenService,
-      HeaderService
+      HeaderService,
+      LocalStorageService
     ],
     exports: [
       HeaderComponent,
