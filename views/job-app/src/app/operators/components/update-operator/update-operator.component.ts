@@ -57,7 +57,7 @@ export class UpdateOperatorComponent implements OnInit {
 
   updateOperator(activeOperator) {
     this.activeOperatorSubscription$ = this._operatorsService.updateOperator(this.activeOperatorFormGroup.value).subscribe(data => {
-      this._operatorsService.getOperators().finally(() => {
+      this._operatorsService.getOperators(0, 1).finally(() => {
         this._notificationService.setNotificationOn('Successfully updated operator');
         Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
           this._notificationService.setNotificationOff();

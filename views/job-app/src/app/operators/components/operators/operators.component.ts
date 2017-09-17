@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
 import { HeaderService } from '../../../shared/services/header/header.service';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 const REMOVE_TOOL_SUCCESS_MESSAGE: string = 'Successfully Removed Operator';
 const MODAL_SIZE = 'lg';
@@ -16,6 +17,9 @@ const PAGE_TITLE: string = 'Operators';
   styleUrls: ['./operators.component.scss']
 })
 export class OperatorsComponent implements OnInit {
+  skip: number;
+  take: number;
+
   @ViewChild('updateOperatorRef') updateOperatorRef: ElementRef;
   @ViewChild('addOperatorRef') addOperatorRef: ElementRef;
 
@@ -37,25 +41,49 @@ export class OperatorsComponent implements OnInit {
     private _operatorsService: OperatorsService,
     private _modalService: NgbModal,
     private _notificationService: NotificationService,
-    private _headerService: HeaderService
+    private _headerService: HeaderService,
+    private _route: ActivatedRoute,
+    private _router: Router
   ) { }
 
   ngOnInit() {
     this.setInitialSubscriptions();
     this._headerService.setHeaderText(PAGE_TITLE);
-    this.doSearch();
+    let skip = this._route.snapshot.queryParams["skip"];
+    let take = this._route.snapshot.queryParams["take"];
+  
+    if (skip && take) {
+      this.skip = Number(skip);
+      this.take = Number(take);
+    } else {
+      this.skip = 0;
+      this.take = 5;
+    }
+
+    this.navigate();
+    // this.doSearch();
   }
 
   nextPage() {
-    this._operatorsService.nextPage();
+    this.skip = this.skip + this.take;
+    this.navigate();
   }
 
   previousPage() {
-    this._operatorsService.previousPage();
+    if (this.skip >= this.take) {
+      this.skip = this.skip - this.take;
+      this.navigate();
+    }
+  }
+
+  navigate() {
+    this._router.navigate([`/operators`], { queryParams: { skip: this.skip, take: this.take }});
+    this.doSearch();
+    console.log('navigate', this.skip)
   }
 
   doSearch() {
-    this._operatorsService.getOperators().subscribe(response => {});
+    this._operatorsService.getOperators(this.skip, this.take).subscribe(response => {});
   }
 
   openUpdateOperatorModal(operatorId) {
@@ -77,6 +105,7 @@ export class OperatorsComponent implements OnInit {
 
   removeOperator(operator) {
     this._operatorsService.removeOperator(operator).subscribe(() => {
+      this.navigate();
       this._notificationService.setNotificationOn(REMOVE_TOOL_SUCCESS_MESSAGE);
     });
   }

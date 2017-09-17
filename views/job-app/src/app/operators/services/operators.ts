@@ -36,18 +36,17 @@ export class OperatorsService {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         return this._http.post('/api/v1/operators/', operator, {headers: headers}) // ...using post request
-            .map((res: Response) => { 
-                this.getOperators().subscribe();
+            .map((res: Response) => {
                 res.json()
             })
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); //...
     }
 
-    getOperators() {
+    getOperators(skip, take) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         this._isLoadingSubject$.next(true);
-        return this._http.get(`/api/v1/operators?skip=${this._operatorsSkipSubject$.value}&take=${this._operatorsTakeSubject$.value}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
+        return this._http.get(`/api/v1/operators?skip=${skip}&take=${take}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
             this._isLoadingSubject$.next(false);
             this._operatorsSubject$.next(res.json().data)
             this._moreOperatorsSubject$.next(res.json().more);
@@ -79,24 +78,20 @@ export class OperatorsService {
         this._isLoadingSubject$.next(true);
         return this._http.post('/api/v1/operators/remove', operator, {headers: headers})
             .map((res: Response) =>  {
-                if(this._operatorsSubject$.value.length === 1) {
-                    this.previousPage();
-                }
-                this.getOperators().subscribe();
                 return res.json() 
             })
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
     }
 
-    nextPage() {
+    nextPage(skip, take) {
         this._operatorsSkipSubject$.next(this._operatorsSkipSubject$.value + this._operatorsTakeSubject$.value);
-        this.getOperators().first().subscribe();
+        this.getOperators(skip, take).first().subscribe();
     }
 
-    previousPage() {
+    previousPage(skip, take) {
         if(this._operatorsSkipSubject$.value >= this._operatorsTakeSubject$.value) {
             this._operatorsSkipSubject$.next(this._operatorsSkipSubject$.value - this._operatorsTakeSubject$.value);
-            this.getOperators().first().subscribe();
+            this.getOperators(skip, take).first().subscribe();
         }
     }
 
