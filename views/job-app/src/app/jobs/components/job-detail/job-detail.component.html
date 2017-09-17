@@ -16,39 +16,23 @@
       <div class="col">
         <div class="card-box">
           <p class="card-title">Checkouts</p>
-          <table class="table table-striped ti-table mb-0">
-              <thead class="ti-table-header">
-                  <tr>
-                      <th>Tool Name</th>
-                      <th>Job Name</th>
-                      <th>Job Number</th>
-                      <th>Operator Name</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr *ngFor="let checkout of job.toolCheckouts" >
-                      <td>
-                          {{ checkout.toolName | empty }}
-                      </td>
-                      <td>{{ checkout.jobName | empty }}</td>
-                      <td>{{ checkout.jobNumber | empty }}</td>
-                      <td>{{ checkout.operatorName | empty }}</td>
-                  </tr>
-              </tbody>
-          </table>
+          <ti-job-checkouts
+            [checkouts]="job.toolCheckouts">
+          </ti-job-checkouts>
         </div>
       </div>
     </div>
-
   </div>
   <div class="col-md-4">
     <div class="row">
       <div class="col">
         <div class="card-box">
           <p class="card-title">Contacts</p>
-          <p><strong>Contact Name:</strong> {{ job.contactName | empty }}</p>
-          <p><strong>Contact Email:</strong> {{ job.contactEmail | empty }}</p>
-          <p><strong>Contact Phone:</strong> {{ job.contactPhoneNumber | empty }}</p>      
+          <ti-job-contact
+            [name]="job.contactName"
+            [email]="job.contactEmail"
+            [phone]="job.contactPhoneNumber">
+          </ti-job-contact>
         </div>
       </div>
     </div>
@@ -56,29 +40,9 @@
       <div class="col">
         <div class="card-box">
           <p class="card-title">Tools</p>
-          <div style="display: block">
-            <canvas baseChart
-                        [data]="doughnutChartData"
-                        [labels]="doughnutChartLabels"
-                        [chartType]="doughnutChartType"
-                        (chartHover)="chartHovered($event)"
-                        (chartClick)="chartClicked($event)"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <div class="card-box">
-          <p class="card-title">Operators</p>
-          <div style="display: block">
-            <canvas baseChart
-                        [data]="doughnutChartData"
-                        [labels]="doughnutChartLabels"
-                        [chartType]="doughnutChartType"
-                        (chartHover)="chartHovered($event)"
-                        (chartClick)="chartClicked($event)"></canvas>
-          </div>
+          <ti-tool-usage-graph
+            [checkouts]="job.toolCheckouts">
+          </ti-tool-usage-graph>
         </div>
       </div>
     </div>

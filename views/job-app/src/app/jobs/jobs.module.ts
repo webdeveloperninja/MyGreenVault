@@ -21,6 +21,9 @@ import { routes } from './jobs.routing';
 import { KanbanComponent } from './components/kanban/kanban.component';
 import { JobCardComponent } from './components/job-card/job-card.component';
 import { JobDetailComponent } from './components/job-detail/job-detail.component';
+import { JobCheckoutsComponent } from './components/job-detail/job-checkouts/job-checkouts.component';
+import { ToolUsageGraphComponent } from './components/job-detail/tool-usage-graph/tool-usage-graph.component';
+import { JobContactComponent } from './components/job-detail/job-contact/job-contact.component';
 
 @NgModule({
     imports: [
@@ -40,7 +43,10 @@ import { JobDetailComponent } from './components/job-detail/job-detail.component
         JobStatusPipe,
         KanbanComponent,
         JobCardComponent,
-        JobDetailComponent
+        JobDetailComponent,
+        JobCheckoutsComponent,
+        ToolUsageGraphComponent,
+        JobContactComponent
     ],
     providers: [
         JobsService,
