@@ -61,14 +61,14 @@ export class UpdateJobComponent implements OnInit {
   updateJob(activeJob) {
     this.activeJobSubscription$ = this._jobsService.updateJob(activeJob.value).subscribe(data => {
       
-      this._jobsService.getJobs().finally(() => {
+      // this._jobsService.getJobs().finally(() => {
      
-      }).subscribe(() => {
-        /*
-          1) Todo Remove somehow breaks REMOVE
-         */
-        console.log('fuck');
-      })
+      // }).subscribe(() => {
+      //   /*
+      //     1) Todo Remove somehow breaks REMOVE
+      //    */
+      //   console.log('fuck');
+      // })
       this.closeModal();
     });
   }

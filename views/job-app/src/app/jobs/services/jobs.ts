@@ -44,11 +44,11 @@ export class JobsService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); //...
     }
 
-    getJobs(skip = 0, take = 8) {
+    getJobs(skip, take) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         this._isJobsLoadingSubject$.next(true);
-        return this._http.get(`/api/v1/jobs?skip=${this._jobsSkipSubject$.value}&take=${this._jobsTakeSubject$.value}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
+        return this._http.get(`/api/v1/jobs?skip=${skip}&take=${take}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
             this._isJobsLoadingSubject$.next(false);
             this._jobsSubject$.next(res.json().data)
             this._moreJobsSubject$.next(res.json().more);
@@ -99,7 +99,7 @@ export class JobsService {
                 if(this._jobsSubject$.value.length === 1) {
                     this.previousPage();
                 }
-                this.getJobs().subscribe();
+                this.getJobs(this._jobsSkipSubject$.value, this._jobsTakeSubject$.value).subscribe();
                 return res.json() 
             })
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
@@ -113,13 +113,13 @@ export class JobsService {
 
     nextPage() {
         this._jobsSkipSubject$.next(this._jobsSkipSubject$.value + this._jobsTakeSubject$.value);
-        this.getJobs().first().subscribe();
+        this.getJobs(this._jobsSkipSubject$.value, this._jobsSkipSubject$.value).first().subscribe();
     }
 
     previousPage() {
         if(this._jobsSkipSubject$.value >= this._jobsTakeSubject$.value) {
             this._jobsSkipSubject$.next(this._jobsSkipSubject$.value - this._jobsTakeSubject$.value);
-            this.getJobs().first().subscribe();
+            this.getJobs(this._jobsSkipSubject$.value, this._jobsTakeSubject$.value).first().subscribe();
         }
     }
 
