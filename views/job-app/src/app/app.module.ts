@@ -5,6 +5,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { FlashMessagesModule } from 'ngx-flash-messages';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { ChartsModule } from 'ng2-charts';
 
 import { AppComponent } from './app.component';
 
@@ -31,6 +32,7 @@ import { routes } from './app.routing';
     FormsModule,
     HttpModule,
     JsonpModule,
+    ChartsModule,
     FlashMessagesModule,
     SharedModule,
     JobsModule,

@@ -1,0 +1,12 @@
+<div style="display: block" *ngIf="isCheckoutDataValid()">
+  <canvas baseChart
+    [data]="checkoutData.data"
+    [labels]="checkoutData.labels"
+    [chartType]="doughnutChartType"
+    (chartHover)="chartHovered($event)"
+    (chartClick)="chartClicked($event)">
+  </canvas>
+</div>
+<div class="alert alert-info" role="alert" *ngIf="isCheckoutEmptyAndNotLoading()">
+  <strong>No Checkouts</strong>
+</div>

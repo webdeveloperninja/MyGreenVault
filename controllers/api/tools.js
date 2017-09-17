@@ -86,103 +86,16 @@ exports.removeTool = (req, res) => {
 }
 
 exports.checkoutTool = (req, res) => {
+    // TODO Pass tool checkout packaged data not req and res
     let toolCheckout = new ToolCheckout(req, res);
-    
-    Promise.all([
-        toolCheckout.getTool(),
-        toolCheckout.getOperator(),
-        toolCheckout.getJob()
-        ]).then(values => {
-            const [tool, operator, job] = values;
 
-            let isCheckoutDataValid = toolCheckout.isCheckoutDataValid({
-                tool,
-                operator,
-                job
-            });
-
-            if (!isCheckoutDataValid.valid) {
-                res.status(400);
-                res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify(isCheckoutDataValid));
-            } else {
-                // TODO Create tool after checkout clone of tool updated qty
-                const updatedTool = tool;
-                    updatedTool.qty = updatedTool.qty - toolCheckout.toolCheckoutQty;
-                toolCheckout.createCheckout(updatedTool, job, operator).then(data => {
-                    console.log(data);
-                    console.log(data);
-                    res.status(200);
-                    res.json({success: true});
-                    // TODO send success validation 
-                    // SEND Checkout Obj
-                }).catch(err => {
-                    res.send(500);
-                    res.json({success: false});
-                    throw new Error(err);
-                })
-            }
-
+    toolCheckout.doCheckout().then(data => {
+        res.json({"success": true});
+    }).catch(err => {
+        res.send(500);
+        throw new Error(err);
     })
-    // TODO: Wrap req, res, next async await
 
-    // TODO: Handle promise.All with await
-    // https://medium.com/@bluepnume/learn-about-promises-before-you-start-using-async-await-eb148164a9c8
-
-    // TODO: Error Handling
-    // https://medium.com/@Abazhenov/using-async-await-in-express-with-node-8-b8af872c0016
-
-    // Promise.all([
-    //         toolCheckout.getTool(),
-    //         toolCheckout.getOperator(),
-    //         toolCheckout.getJob()
-    //     ]).then(values => {
-    //         if (toolCheckout.isNotValid) {
-    //             res.status(400);
-    //             res.setHeader('Content-Type', 'application/json');
-    //             res.send(JSON.stringify(isCheckoutDataValid));
-    //         } else {
-    //             User.findOneAndUpdate({
-    //                     _id: toolCheckout.userId,
-    //                     'tools._id': toolCheckout.toolId
-    //                 },
-    //                 {
-    //                 $set: {
-    //                     'tools.$' : toolCheckout.updatedTool
-    //                 }
-    //                 }, function(err, tool) {
-    //                     if (err)
-    //                         throw new Error(err);
-                            
-    //                     const checkout = toolCheckout.createCheckout();
-
-    //                     // const checkout = {
-    //                     //     operatorNumber,
-    //                     //     operatorName,
-    //                     //     jobNumber,
-    //                     //     jobName,
-    //                     //     toolName,
-    //                     //     toolId,
-    //                     //     toolCheckoutQty: toolCheckout.toolQty
-    //                     // }
-
-                    
-    //                     User.update({_id: toolCheckout.userId, 'jobs._id':toolCheckout.jobId}, {$push : 
-    //                         {'jobs.$.toolCheckouts' : checkout}
-    //                     }, {upsert: true}, function(err, docs){
-    //                         //SUCCESS
-    //                         // res.json({
-    //                         //     "success": true,
-    //                         //     "updatedTool": newTool,
-    //                         //     "checkout": checkout
-    //                         // });
-    //                     });
-    //                 });
-    //         }
-
-    //     }).catch(err => {
-    //         throw new Error(err);
-    //     });
 }
 
 

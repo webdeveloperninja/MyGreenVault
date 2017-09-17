@@ -1,9 +1,12 @@
-<div class="dropdown inline pull-right">
-  <a class="btn btn-success dropdown-toggle mr-2 clickable" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-    aria-expanded="false">
-    Checkout
-  </a>
-  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" (click)="$event.stopPropagation()">
+
+<div class="pull-right mr-2" ngbDropdown placement="bottom-right" #myDrop="ngbDropdown">
+  <button 
+    class="btn btn-outline-primary" 
+    id="dropdownManual" 
+    ngbDropdownToggle>
+      <i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i>Checkout
+  </button>
+  <div ngbDropdownMenu aria-labelledby="dropdownManual" (click)="$event.stopPropagation()">
     <form [formGroup]="checkoutToolFormGroup" #CheckoutToolForm="ngForm" (ngSubmit)="checkoutTool()">
       <h3>Checkout: {{ tool.toolName }}</h3>
       <div class="form-group">
@@ -61,10 +64,10 @@
           type="number" 
           formControlName="jobNumber"/>
       </div>
-      <button class="btn btn-primary mt-2">Save</button>
-      <button 
-        class="btn btn-danger mt-2"
-        (click)="clearForm()">Clear</button>
+      <button class="btn btn-primary mt-2">
+        <i class='fa fa-spinner fa-spin ' *ngIf="isCheckoutLoading$ | async"></i> 
+        Save
+      </button>
     </form>
   </div>
 </div>

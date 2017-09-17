@@ -6,7 +6,7 @@ exports.getJob = (userId, jobNumber) => {
           if (err) return handleError(err);
           for (var i=0; i< user.jobs.length; i++) {
               const actualJobNumber = Number(user.jobs[i].jobNumber);
-              const jobNumberToCompare = jobNumber;
+              const jobNumberToCompare = Number(jobNumber);
               if (actualJobNumber === jobNumberToCompare) {
                   resolve(user.jobs[i]);
                   return;

@@ -69,7 +69,9 @@ export class ToolsService {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         return this._http.post('/api/v1/tools/checkout', tool, {headers: headers})
-            .map((res: Response) => res.json())
+            .map((res: Response) => {
+                return res.json()
+            })
             .catch((error: any) => {
                 return Observable.throw(error);
             });

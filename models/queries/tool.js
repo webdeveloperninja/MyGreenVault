@@ -1,13 +1,16 @@
 const User = require('../../models/User');
+const ObjectId = require('mongodb').ObjectID;
 
 exports.getTool = (userId, toolId) => {
+  console.log(toolId);
+  console.log(toolId);
   return new Promise((resolve, reject) => { 
     User.findOne({ '_id': userId }, (err, user) => {
       if (err) return handleError(err);
       for (var i=0; i< user.tools.length; i++) {
           const toolId = user.tools[i]._id;
           const toolIdToCompare = toolId
-          if (toolId === toolIdToCompare) {
+          if (ObjectId(toolId) == ObjectId(toolIdToCompare)) {
               resolve(user.tools[i]);
               return;
           }

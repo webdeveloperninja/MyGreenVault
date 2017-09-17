@@ -1,3 +1,12 @@
+.ti-table {
+  border: 1px solid $ti-grey;
+  .ti-table-header {
+    background-color: $ti-green;
+    color: white;
+  }
+}
+
+
 table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before,
 table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before,
 table.dataTable thead .sorting_desc_disabled:before {

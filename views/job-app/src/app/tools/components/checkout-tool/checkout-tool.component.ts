@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
+import { BehaviorSubject } from 'rxjs';
 import { Http, Headers, Response } from '@angular/http';
 import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angular/forms';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
@@ -24,6 +25,9 @@ export class CheckoutToolComponent implements OnInit {
 
   toolQtyInputMessage: string = null;
   toolQtyInputStatus: string = null;
+
+  private _isCheckoutLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public readonly isCheckoutLoading$: Observable<boolean> = this._isCheckoutLoadingSubject$.asObservable();
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -55,7 +59,9 @@ export class CheckoutToolComponent implements OnInit {
     this.checkoutToolFormGroup.reset();
   }
 
+
   checkoutTool() {
+    this._isCheckoutLoadingSubject$.next(true);
     this.clearMessages();
     let toolCheckout: ToolCheckout = {
         toolQty: Number(this.checkoutToolFormGroup.controls['toolQty'].value),
@@ -66,12 +72,14 @@ export class CheckoutToolComponent implements OnInit {
 
     this._toolsService.checkoutTool(toolCheckout)
       .subscribe(data => {
+        this._isCheckoutLoadingSubject$.next(false);
         this._notificationService.setNotificationOn('Successfully Checked Out Tool');
         // TODO: Clean up subscribe;
         this._toolsService.getTools().subscribe(data => {
 
         });
     }, (err) => {
+        this._isCheckoutLoadingSubject$.next(false);
         let response = JSON.parse(err._body);
         
         if (response.operatorNumber) {
@@ -88,6 +96,7 @@ export class CheckoutToolComponent implements OnInit {
           this.toolQtyInputMessage = response.toolQty.message;
           this.toolQtyInputStatus = response.toolQty.status;
         }
+      
       });
   }
 

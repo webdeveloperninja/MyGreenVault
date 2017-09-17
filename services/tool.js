@@ -5,97 +5,161 @@ const operatorQueries = require('../models/queries/operator');
 const jobQueries = require('../models/queries/job');
 
 class ToolCheckout {
+    
     constructor(request, response) {
+        this.response = response;
         this.user = request.user;
-        this.userId = ObjectId(this.user._id);
-
         this.tool = request.body.tool;
-        this.toolAfterCheckout = null;
-        this.toolName = this.tool.toolName;
-        this.toolId = ObjectId(this.tool._id);
+
         this.toolCheckoutQty = request.body.toolQty;
-        this.toolQty = this.tool.qty;
-        this.toolQtyAfterCheckout = this.toolQty - this.toolCheckoutQty;
-
         this.operatorNumber = request.body.operatorNumber;
-        this.operatorName = null;
-        this.operator = null;
-
         this.jobNumber = request.body.jobNumber;
-        this.jobName = null;
-        this.jobId = null;
     }
 
     get checkout() {
         return {
-            operatorNumber: this.operatorNumber,
-            operatorName: this.operatorName,
-            jobNumber: this.jobNumber,
-            jobName: this.jobName,
-            toolName: this.toolName,
-            toolId: this.toolId,
+            operatorNumber: this.operator.operatorNumber,
+            operatorName: this.operator.operatorName,
+            jobNumber: this.job.jobNumber,
+            jobName: this.job.jobName,
+            toolName: this.tool.toolName,
+            toolId: this.tool._id,
             toolCheckoutQty: this.toolCheckoutQty
         }
     }
+    // TODO update tool after checkout on get tool return 
+    // get updatedToolAfterCheckout() {
+    //     console.log(this.tool);
+    //     let newToolQty = this.tool.qty - this.toolCheckoutQty;
+    //     this.tool.qty = newToolQty;
+    //     return this.tool;
+    // }
+
+    createUpdateToolAfterCheckout() {
+        let toolQtyAfterCheckout = Number(this.tool.qty) - Number(this.toolCheckoutQty);
+        this.updatedToolAfterCheckout = Object.assign({}, this.tool, {
+            qty: toolQtyAfterCheckout
+        });
+    }
+
+    doCheckout() {
+        return new Promise((resolve, reject) => { 
+            Promise.all([
+                this.getTool(),
+                this.getOperator(),
+                this.getJob()
+            ]).then(values => {
+                console.log(values[0]);
+                console.log(values[0]);
+                this.operator = values[1];
+                this.job = values[2];
+
+                // TODO: If not valid dont continue checkout
+                // Return promise .then on validate checkout
+                const checkoutValidation = this.validateCheckout();
+                if (checkoutValidation.valid) {
+                    this.createUpdateToolAfterCheckout();
+                    this.createCheckout().then(data => {
+                        console.log(data);
+                        resolve(values);
+                        console.log('success');
+                    }).catch(err => {
+                        console.log(err)
+                    });
+                }
+            }).catch(err => {
+                reject(err);
+            });
+        });
+    }
+
 
     isThereEnoughTools() {
-        return new Promise((resolve, reject) => {
-            if (this.toolCheckoutQty <= this.toolQty) {
-                resolve(true);
-                return;
-            }
-            resolve(false);
-        })
+        if (this.toolCheckoutQty <= this.tool.qty) {
+            return true;
+        }
+        return false;
     }
     getTool() {
-        return toolQueries.getTool(this.userId, this.toolId);
+        console.log(this.tool);
+        console.log(this.tool);
+        return toolQueries.getTool(this.user._id, this.tool._id);
     }
-    createCheckout(toolAfterCheckout, job, operator) {
-        // TODO fix all params 
-        this.toolId = toolAfterCheckout._id;
-        this.jobId = job._id;
-        this.jobName = job.jobName;
-        this.operatorName = operator.operatorName;
-
-        console.log(this.checkout);
-        return toolQueries.updateTool(this.userId, toolAfterCheckout).then(data => {
-            return jobQueries.addCheckout(this.userId, job._id, this.checkout);
+    createCheckout() {
+        return toolQueries.updateTool(this.user._id, this.updatedToolAfterCheckout).then(data => {
+            return jobQueries.addCheckout(this.user._id, this.job._id, this.checkout);
         });
     }
     getOperator() {
-        return operatorQueries.getOperator(this.userId, this.operatorNumber);
+        return operatorQueries.getOperator(this.user._id, this.operatorNumber);
     }  
     getJob() {
-        return jobQueries.getJob(this.userId, this.jobNumber);
+        return jobQueries.getJob(this.user._id, this.jobNumber);
     }
-    isCheckoutDataValid(checkout) {
-        let error = {};
-            error.valid = true;
+    validateCheckout() {
+        let validationObj = {};
+            validationObj.valid = true;
 
-        if (this.toolQty < this.toolCheckoutQty) {
-            error.toolQty = {
+        if (this.tool.qty < this.toolCheckoutQty) {
+            validationObj.toolQty = {
                 status: 'danger',
                 message: 'There is not enough tools'
             }
-            error.valid = false;
+            validationObj.valid = false;
         }
-        if (!checkout.operator) {
-            error.operatorNumber = {
+        if (!this.operator) {
+            validationObj.operatorNumber = {
                 status: 'danger',
                 message: 'Operator Not Found'
             }
-            error.valid = false;
+            validationObj.valid = false;
         }
-        if (!checkout.job) {
-            error.jobNumber = {
+        if (!this.job) {
+            validationObj.jobNumber = {
                 status: 'danger',
                 message: 'Job number not found'
             }
-            error.valid = false;
+            validationObj.valid = false;
         }
-
-        return error;
+        if (!validationObj.valid) {
+            this.response.status(400);
+            this.response.setHeader('Content-Type', 'application/json');
+            this.response.send(JSON.stringify(validationObj));
+        }
+        return validationObj;
     }
 }
 
 module.exports = ToolCheckout;
+
+    // Promise.all([
+    //     toolCheckout.getTool(),
+    //     toolCheckout.getOperator(),
+    //     toolCheckout.getJob()
+    //     ]).then(values => {
+    //         const [tool, operator, job] = values;
+
+    //         let isCheckoutDataValid = toolCheckout.isCheckoutDataValid({
+    //             tool,
+    //             operator,
+    //             job
+    //         });
+
+    //         if (!isCheckoutDataValid.valid) {
+    //             res.status(400);
+    //             res.setHeader('Content-Type', 'application/json');
+    //             res.send(JSON.stringify(isCheckoutDataValid));
+    //         } else {
+    //             const updatedTool = tool;
+    //                 updatedTool.qty = updatedTool.qty - toolCheckout.toolCheckoutQty;
+    //             toolCheckout.createCheckout(updatedTool, job, operator).then(data => {
+    //                 res.status(200);
+    //                 res.json({success: true});
+    //             }).catch(err => {
+    //                 res.send(500);
+    //                 res.json({success: false});
+    //                 throw new Error(err);
+    //             })
+    //         }
+
+    // });

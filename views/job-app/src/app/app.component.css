@@ -5,3 +5,7 @@
 .app-wrapper.side-nav-open {
   margin-left: 250px;
 }
+
+a, button {
+  cursor: pointer;
+}

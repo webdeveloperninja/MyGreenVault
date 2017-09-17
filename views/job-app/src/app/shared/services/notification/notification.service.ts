@@ -13,11 +13,16 @@ export class NotificationService {
   private _notificationTextSubject$: BehaviorSubject<string> = new BehaviorSubject<any>('');
   public readonly notificationText$: Observable<string> = this._notificationTextSubject$.asObservable();
 
+  private _notificationBootstrapClassSubject: BehaviorSubject<string> = new BehaviorSubject<string>('success');
+  public readonly notificationBootstrapClass$: Observable<string> = this._notificationBootstrapClassSubject.asObservable();
+
   constructor() { }
 
-  setNotificationOn(notificationText: string = '') {
+  setNotificationOn(notificationText: string = '', notificationBootstrapClass:string = 'success') {
     this._notificationTextSubject$.next(notificationText);
     this._isNotificationOnSubject$.next(true);
+    this._notificationBootstrapClassSubject.next(notificationBootstrapClass);
+    
     Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
       this._isNotificationOnSubject$.next(false);
     });

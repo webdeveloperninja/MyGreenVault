@@ -58,6 +58,15 @@ export class JobsService {
         });
     }
 
+    getJob(jobNumber: string) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        this._isJobsLoadingSubject$.next(true);
+        return this._http.get(`/api/v1/jobs/${jobNumber}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
+            return res.json();
+        });    
+    }
+
     getAllJobs() {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');

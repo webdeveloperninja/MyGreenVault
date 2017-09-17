@@ -1,0 +1,23 @@
+<table class="table table-striped ti-table mb-0">
+    <thead class="ti-table-header">
+        <tr>
+            <th>Tool Name</th>
+            <th>Job Name</th>
+            <th>Job Number</th>
+            <th>Operator Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let checkout of checkouts" >
+            <td>
+                {{ checkout.toolName | empty }}
+            </td>
+            <td>{{ checkout.jobName | empty }}</td>
+            <td>{{ checkout.jobNumber | empty }}</td>
+            <td>{{ checkout.operatorName | empty }}</td>
+        </tr>
+    </tbody>
+</table>
+<div class="alert alert-info" role="alert" *ngIf="isCheckoutEmptyAndNotLoading()">
+  <strong>No Checkouts</strong>
+</div>

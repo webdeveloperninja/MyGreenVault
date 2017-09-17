@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-md-8">
+    <div class="row">
+      <div class="col">
+        <div class="card-box">
+          <p class="card-title">Job Details</p>
+          <p><strong>Job Name:</strong> {{ job.jobName | empty }}</p>
+          <p><strong>Job Number:</strong> {{ job.jobNumber | empty }}</p>
+          <p><strong>Job Description:</strong> {{ job.jobDescription | empty }}</p>
+          <p><strong>Job Status:</strong> {{ job.jobStatus | jobStatusNumberToTitle | empty }}</p>
+          <p><strong>Company Name:</strong> {{ job.companyName | empty }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="card-box">
+          <p class="card-title">Checkouts</p>
+          <ti-job-checkouts
+            [checkouts]="job.toolCheckouts">
+          </ti-job-checkouts>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="row">
+      <div class="col">
+        <div class="card-box">
+          <p class="card-title">Contacts</p>
+          <ti-job-contact
+            [name]="job.contactName"
+            [email]="job.contactEmail"
+            [phone]="job.contactPhoneNumber">
+          </ti-job-contact>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="card-box">
+          <p class="card-title">Tools</p>
+          <ti-tool-usage-graph
+            [checkouts]="job.toolCheckouts">
+          </ti-tool-usage-graph>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
