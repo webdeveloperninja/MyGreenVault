@@ -24,6 +24,7 @@ import { JobDetailComponent } from './components/job-detail/job-detail.component
 import { JobCheckoutsComponent } from './components/job-detail/job-checkouts/job-checkouts.component';
 import { ToolUsageGraphComponent } from './components/job-detail/tool-usage-graph/tool-usage-graph.component';
 import { JobContactComponent } from './components/job-detail/job-contact/job-contact.component';
+import { SetupDocComponent } from './components/setup-doc/setup-doc.component';
 
 @NgModule({
     imports: [
@@ -46,7 +47,8 @@ import { JobContactComponent } from './components/job-detail/job-contact/job-con
         JobDetailComponent,
         JobCheckoutsComponent,
         ToolUsageGraphComponent,
-        JobContactComponent
+        JobContactComponent,
+        SetupDocComponent
     ],
     providers: [
         JobsService,
