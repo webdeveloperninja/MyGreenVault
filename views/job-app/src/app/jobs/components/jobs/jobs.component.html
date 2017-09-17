@@ -64,7 +64,7 @@
                                     <div class="col-md-12">
                                         <button 
                                             (click)="previousPage()" 
-                                            *ngIf="(jobsSkip$ | async) !== 0" 
+                                            *ngIf="skip !== 0" 
                                             class="btn btn-outline-primary mr-auto"
                                             [disabled]="isLoading">
                                             Previous Page

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter, 
 import { JobsService, Job } from '../../services/jobs';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription, Subject } from 'rxjs';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'ti-update-job',
@@ -36,11 +37,18 @@ export class UpdateJobComponent implements OnInit {
 
   constructor(
     private _fb: FormBuilder,
-    private _jobsService: JobsService
+    private _jobsService: JobsService,
+    private _route: ActivatedRoute,
+    private _router: Router
   ) { }
 
   ngOnInit() {
     this.activeJobFormGroup = this.createGroup();
+
+    let skip = this._route.snapshot.queryParams["skip"];
+    let take = this._route.snapshot.queryParams["take"];
+
+
   }
 
   ngOnDestroy() {
@@ -60,15 +68,17 @@ export class UpdateJobComponent implements OnInit {
 
   updateJob(activeJob) {
     this.activeJobSubscription$ = this._jobsService.updateJob(activeJob.value).subscribe(data => {
-      
-      this._jobsService.getJobs().finally(() => {
+      this._jobsService.getJobs(this.skip, this.take).subscribe(response => {
+
+      }); 
+      // this._jobsService.getJobs().finally(() => {
      
-      }).subscribe(() => {
-        /*
-          1) Todo Remove somehow breaks REMOVE
-         */
-        console.log('fuck');
-      })
+      // }).subscribe(() => {
+      //   /*
+      //     1) Todo Remove somehow breaks REMOVE
+      //    */
+      //   console.log('fuck');
+      // })
       this.closeModal();
     });
   }
