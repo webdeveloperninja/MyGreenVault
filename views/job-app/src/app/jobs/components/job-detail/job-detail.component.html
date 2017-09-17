@@ -3,6 +3,7 @@
     <div class="row">
       <div class="col">
         <div class="card-box">
+          <i class='fa fa-spinner fa-spin pull-right ti-spin' *ngIf="isJobLoading"></i>
           <p class="card-title">Job Details</p>
           <p><strong>Job Name:</strong> {{ job.jobName | empty }}</p>
           <p><strong>Job Number:</strong> {{ job.jobNumber | empty }}</p>
@@ -15,6 +16,7 @@
     <div class="row">
       <div class="col">
         <div class="card-box">
+          <i class='fa fa-spinner fa-spin pull-right ti-spin' *ngIf="isJobLoading"></i>
           <p class="card-title">Checkouts</p>
           <ti-job-checkouts
             [checkouts]="job.toolCheckouts">
@@ -27,6 +29,7 @@
     <div class="row">
       <div class="col">
         <div class="card-box">
+          <i class='fa fa-spinner fa-spin pull-right ti-spin' *ngIf="isJobLoading"></i>
           <p class="card-title">Contacts</p>
           <ti-job-contact
             [name]="job.contactName"
@@ -39,6 +42,7 @@
     <div class="row">
       <div class="col">
         <div class="card-box">
+          <i class='fa fa-spinner fa-spin pull-right ti-spin' *ngIf="isJobLoading"></i>
           <p class="card-title">Tools</p>
           <ti-tool-usage-graph
             [checkouts]="job.toolCheckouts">

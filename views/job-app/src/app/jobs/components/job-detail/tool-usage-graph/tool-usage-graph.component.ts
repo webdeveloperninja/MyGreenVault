@@ -14,7 +14,6 @@ export class ToolUsageGraphComponent implements OnInit {
   @Input('checkouts')
   set checkouts(value: any) {
     if (value) {
-      console.log('inside graph component', value);
       this._checkouts = value;
       this.createGraphData();
     }
@@ -40,9 +39,9 @@ export class ToolUsageGraphComponent implements OnInit {
         labels: [],
         data: []
       });
-      console.log(this.checkoutData);
     }
   }
+  
   // Doughnut
   public doughnutChartLabels:string[] = ['Download Sales', 'In-Store Sales', 'Mail-Order Sales'];
   public doughnutChartData:number[] = [350, 450, 100];
