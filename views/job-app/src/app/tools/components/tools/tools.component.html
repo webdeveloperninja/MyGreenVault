@@ -22,6 +22,7 @@
                                         <th>Qty</th>
                                         <th>Ideal Amount</th>
                                         <th>Auto Order Qty</th>
+                                        <th>Qty Status</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -31,6 +32,12 @@
                                         <td>{{ tool.qty | empty }}</td>
                                         <td>{{ tool.idealAmount | empty }}</td>
                                         <td>{{ tool.autoOrderQty | empty }}</td>
+                                        <td>
+                                            <ti-tool-qty-status
+                                                [toolQty]="tool.qty"
+                                                [idealToolQty]="tool.idealAmount">
+                                            </ti-tool-qty-status>
+                                        </td>
                                         <th scope="row">
                                             <button 
                                                 class="btn btn-outline-danger pull-right"
@@ -38,7 +45,9 @@
                                                     <i class="fa fa-trash mr-2" aria-hidden="true"></i>Remove
                                             </button>
                                             <ti-checkout-tool
-                                                [tool]="tool">
+                                                [tool]="tool"
+                                                [skip]="skip"
+                                                [take]="take">
                                             </ti-checkout-tool>
                                             <button 
                                                 class="btn btn-outline-primary pull-right mr-2"
@@ -57,7 +66,7 @@
                                 <div class="col-md-12">
                                     <button 
                                         (click)="previousPage()" 
-                                        *ngIf="(toolsSkip$ | async) !== 0" 
+                                        *ngIf="skip !== 0" 
                                         class="btn btn-outline-primary mr-auto" 
                                         [disabled]="isLoading">
                                         Previous Page

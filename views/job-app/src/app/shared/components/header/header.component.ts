@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'ti-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
   @Input() isSideBarOpen: boolean; 

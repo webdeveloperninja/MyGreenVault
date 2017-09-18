@@ -11,6 +11,8 @@ import { Observable } from 'rxjs';
 export class AddToolQtyComponent implements OnInit {
 
   qtyToAdd: number;
+  isAddToolQtyLoading: boolean = false;
+
   @Input() tool: any;
 
   constructor(
@@ -22,9 +24,7 @@ export class AddToolQtyComponent implements OnInit {
   }
 
   saveQty() {
-    console.log(this.tool);
-    console.log(this.qtyToAdd);
-
+    this.isAddToolQtyLoading = true;
     this.tool.qty += this.qtyToAdd;
 
     this._toolsService.updatetool(this.tool).subscribe(() => {
@@ -33,6 +33,7 @@ export class AddToolQtyComponent implements OnInit {
       Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
         this._notificationService.setNotificationOff()
       });
+      this.isAddToolQtyLoading = false;
     })
   }
 

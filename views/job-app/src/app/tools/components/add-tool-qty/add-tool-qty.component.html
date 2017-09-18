@@ -9,7 +9,10 @@
     <div class="form-group">
       <label>Add qty to: {{ tool.toolName }}</label>
       <input [(ngModel)]="qtyToAdd" class="form-control" min="1" type="number">
-      <button (click)="saveQty()" class="btn btn-primary mt-2">Save</button>
+      <button (click)="saveQty()" class="btn btn-primary mt-2">
+        <i class='fa fa-spinner fa-spin ' *ngIf="isAddToolQtyLoading"></i> 
+        Save
+      </button>
     </div>
   </div>
 </div>
