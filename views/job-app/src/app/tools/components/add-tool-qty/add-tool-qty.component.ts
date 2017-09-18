@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ToolsService } from '../../services/tools';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
 import { Observable } from 'rxjs';
+import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'ti-add-tool-qty',
@@ -9,6 +10,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./add-tool-qty.component.scss']
 })
 export class AddToolQtyComponent implements OnInit {
+  addToolQtyForm: FormGroup;
 
   qtyToAdd: number;
   isAddToolQtyLoading: boolean = false;
@@ -17,15 +19,19 @@ export class AddToolQtyComponent implements OnInit {
 
   constructor(
     private _toolsService: ToolsService,
-    private _notificationService: NotificationService
+    private _notificationService: NotificationService,
+    private _formBuilder: FormBuilder,
   ) { }
 
   ngOnInit() {
+    this.addToolQtyForm = this._formBuilder.group({
+        qtyToAdd: ['', Validators.required]
+    });
   }
 
   saveQty() {
     this.isAddToolQtyLoading = true;
-    this.tool.qty += this.qtyToAdd;
+    this.tool.qty += Number(this.addToolQtyForm.controls['qtyToAdd'].value)
 
     this._toolsService.updatetool(this.tool).subscribe(() => {
       this._notificationService.setNotificationOn('successfully added tools')

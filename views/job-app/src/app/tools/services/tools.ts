@@ -94,9 +94,6 @@ export class ToolsService {
         this._istoolsLoadingSubject$.next(true);
         return this._http.post('/api/v1/tools/remove', tool, {headers: headers})
             .map((res: Response) =>  {
-                if(this._toolsSubject$.value.length === 1) {
-                    this.previousPage();
-                }
                 this.getQueryParams();
                 this.getTools(this.skip, this.take).subscribe();
                 return res.json();
@@ -115,9 +112,19 @@ export class ToolsService {
     }
 
     previousPage() {
-        if(this.skip >= this.take) {
-            this._router.navigate([`/tools`], { queryParams: { skip: (this.skip - this.take), take: this.take }});
+        let skip = Number(this.skip);
+        let take = Number(this.take);
+
+        let updatedSkip = skip - take;
+        console.log('//// Previous Page //////');
+        console.log(skip);
+        console.log(take);
+        console.log(updatedSkip);
+        if(Number(this.skip) >= Number(this.take)) {
+            this._router.navigate([`/tools`], { queryParams: { skip: (Number(this.skip) - Number(this.take)), take: Number(this.take) }});
         }
+        this.getQueryParams();
+        this.getTools(this.skip,this.take).first().subscribe();
     }   
 }
 
