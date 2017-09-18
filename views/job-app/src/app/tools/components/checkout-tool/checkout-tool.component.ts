@@ -16,6 +16,8 @@ import { ToolsService, Tool } from '../../services/tools';
 export class CheckoutToolComponent implements OnInit {
   checkoutToolFormGroup: FormGroup;
   @Input() tool: any;
+  @Input() skip: number;
+  @Input() take: number;
 
   operatorInputMessage: string = null;
   operatorInputStatus: string = null;
@@ -74,10 +76,7 @@ export class CheckoutToolComponent implements OnInit {
       .subscribe(data => {
         this._isCheckoutLoadingSubject$.next(false);
         this._notificationService.setNotificationOn('Successfully Checked Out Tool');
-        // TODO: Clean up subscribe;
-        this._toolsService.getTools().subscribe(data => {
-
-        });
+        this._toolsService.getTools(this.skip, this.take).first().subscribe();
     }, (err) => {
         this._isCheckoutLoadingSubject$.next(false);
         let response = JSON.parse(err._body);

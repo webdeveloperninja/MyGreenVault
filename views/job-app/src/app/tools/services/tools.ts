@@ -3,12 +3,16 @@ import {Http, Headers, Response} from '@angular/http';
 import {Observable, BehaviorSubject} from 'rxjs'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 export const DEFAULT_SKIP: number = 0;
 export const DEFAULT_TAKE: number = 8;
 
 @Injectable()
 export class ToolsService {
+
+    skip: number = 0;
+    take: number = 5;
     
     private _toolsSubject$: BehaviorSubject<Tool[]> = new BehaviorSubject<Tool[]>(null);
     public readonly tools$: Observable<Tool[]> = this._toolsSubject$.asObservable();
@@ -30,10 +34,17 @@ export class ToolsService {
 
 
     constructor(
-        private _http: Http
-        ) {
+        private _http: Http,
+        private _route: ActivatedRoute,
+        private _router: Router) {
     }
 
+    getQueryParams() {
+        this.skip = this._route.snapshot.queryParams["skip"];
+        this.take = this._route.snapshot.queryParams["take"];
+        console.log('inside get query params of the tools service - skip value', this.skip);
+        console.log('inside of the getQueyrParams service - take value', this.take);        
+    }
     addTool(tool) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -42,11 +53,11 @@ export class ToolsService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); //...
     }
 
-    getTools() {
+    getTools(skip: number, take: number) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         this._istoolsLoadingSubject$.next(true);
-        return this._http.get(`/api/v1/tools?skip=${this._toolsSkipSubject$.value}&take=${this._toolsTakeSubject$.value}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
+        return this._http.get(`/api/v1/tools?skip=${skip}&take=${take}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
             this._istoolsLoadingSubject$.next(false);
             this._moreToolsSubject$.next(res.json().more);
             this._toolsSkipSubject$.next(res.json().skip);
@@ -83,11 +94,9 @@ export class ToolsService {
         this._istoolsLoadingSubject$.next(true);
         return this._http.post('/api/v1/tools/remove', tool, {headers: headers})
             .map((res: Response) =>  {
-                if(this._toolsSubject$.value.length === 1) {
-                    this.previousPage();
-                }
-                this.getTools().subscribe();
-                return res.json() 
+                this.getQueryParams();
+                this.getTools(this.skip, this.take).subscribe();
+                return res.json();
             })
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
     }
@@ -99,15 +108,23 @@ export class ToolsService {
     }
 
      nextPage() {
-        this._toolsSkipSubject$.next(this._toolsSkipSubject$.value + this._toolsTakeSubject$.value);
-        this.getTools().first().subscribe();
+        this._router.navigate([`/tools`], { queryParams: { skip: this.skip, take: this.take }});
     }
 
     previousPage() {
-        if(this._toolsSkipSubject$.value >= this._toolsTakeSubject$.value) {
-            this._toolsSkipSubject$.next(this._toolsSkipSubject$.value - this._toolsTakeSubject$.value);
-            this.getTools().first().subscribe();
+        let skip = Number(this.skip);
+        let take = Number(this.take);
+
+        let updatedSkip = skip - take;
+        console.log('//// Previous Page //////');
+        console.log(skip);
+        console.log(take);
+        console.log(updatedSkip);
+        if(Number(this.skip) >= Number(this.take)) {
+            this._router.navigate([`/tools`], { queryParams: { skip: (Number(this.skip) - Number(this.take)), take: Number(this.take) }});
         }
+        this.getQueryParams();
+        this.getTools(this.skip,this.take).first().subscribe();
     }   
 }
 

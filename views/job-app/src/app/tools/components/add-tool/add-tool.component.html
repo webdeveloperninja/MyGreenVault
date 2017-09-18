@@ -27,7 +27,6 @@
                 <input class="form-control" formControlName="autoOrderQty">
             </div>
 
-
         </div>
     </div>
     <div class="modal-footer">
@@ -35,6 +34,7 @@
             [disabled]="toolFormGroup.invalid" 
             class="btn btn-primary pull-right" 
             type="submit">
+            <i class='fa fa-spinner fa-spin ' *ngIf="isAddToolLoading"></i>
                 Add Tool
         </button>
     </div>

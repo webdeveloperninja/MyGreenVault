@@ -12,14 +12,12 @@ import { Observable } from 'rxjs';
 })
 export class AddToolComponent implements OnInit {
     toolFormGroup: FormGroup;
+    isAddToolLoading: boolean = false;
 
     @ViewChild('toolForm') toolForm: NgForm;
 
     @Output('closeAddToolModal')
     closeAddToolModal: EventEmitter<boolean> = new EventEmitter<boolean>();
-
-    @Output('isAddToolLoading')
-    isAddToolLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     @Input('skip') skip: number;
     @Input('take') take: number;
@@ -40,6 +38,7 @@ export class AddToolComponent implements OnInit {
     }
 
     addTool(toolFormGroup) {
+        this.isAddToolLoading = true;
         let toolObj = {
             toolName: this.toolFormGroup.controls['toolName'].value,
             qty: this.toolFormGroup.controls['qty'].value,
@@ -54,14 +53,10 @@ export class AddToolComponent implements OnInit {
                 });
 
                 this.toolFormGroup.reset();
-                this._toolsService.getTools().subscribe(() => {
-                  // this.isAddToolLoading.emit(false);
-                  // this.closeModal();
-                }, () => {
-                
-                });
-
+                this._toolsService.getTools(this.skip, this.take).first().subscribe();
+                this.isAddToolLoading = false;
             } else {
+              this.isAddToolLoading = false;
             }
         })
     }
