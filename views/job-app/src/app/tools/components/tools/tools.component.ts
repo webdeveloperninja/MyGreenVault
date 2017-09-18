@@ -9,7 +9,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 const REMOVE_TOOL_SUCCESS_MESSAGE: string = 'Successfully Removed Tool';
 const MODAL_SIZE = 'lg';
-const DEFAULT_TAKE: number = 8;
+const DEFAULT_TAKE: number = 10;
 const PAGE_TITLE: string = 'Tools';
 
 @Component({
@@ -55,7 +55,7 @@ export class ToolsComponent implements OnInit {
       this.take = Number(take);
     } else {
       this.skip = 0;
-      this.take = 5;
+      this.take = DEFAULT_TAKE;
     }
     this.navigate();
   }
