@@ -10,6 +10,7 @@ class ToolCheckout {
         this.response = response;
         this.user = request.user;
         this.tool = request.body.tool;
+        this.checkoutCost = request.body.cost;
 
         this.toolCheckoutQty = request.body.toolQty;
         this.operatorNumber = request.body.operatorNumber;
@@ -24,6 +25,7 @@ class ToolCheckout {
             jobName: this.job.jobName,
             toolName: this.tool.toolName,
             toolId: this.tool._id,
+            cost: this.checkoutCost,
             toolCheckoutQty: this.toolCheckoutQty
         }
     }

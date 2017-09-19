@@ -22,6 +22,7 @@
                                         <th>Qty</th>
                                         <th>Ideal Amount</th>
                                         <th>Auto Order Qty</th>
+                                        <th>Price</th>
                                         <th>Qty Status</th>
                                         <th></th>
                                     </tr>
@@ -32,6 +33,7 @@
                                         <td>{{ tool.qty | empty }}</td>
                                         <td>{{ tool.idealAmount | empty }}</td>
                                         <td>{{ tool.autoOrderQty | empty }}</td>
+                                        <td>{{ tool.toolCost | empty }}</td>
                                         <td>
                                             <ti-tool-qty-status
                                                 [toolQty]="tool.qty"

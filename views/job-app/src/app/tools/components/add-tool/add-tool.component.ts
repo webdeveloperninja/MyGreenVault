@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, ViewContainerRef, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angular/forms';
-import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
 import { ToolsService } from '../../services/tools';
 import { Observable } from 'rxjs';
 
@@ -13,6 +12,7 @@ import { Observable } from 'rxjs';
 export class AddToolComponent implements OnInit {
     toolFormGroup: FormGroup;
     isAddToolLoading: boolean = false;
+    addToolSuccess: boolean = false;
 
     @ViewChild('toolForm') toolForm: NgForm;
 
@@ -24,8 +24,7 @@ export class AddToolComponent implements OnInit {
 
     constructor(
         private _formBuilder: FormBuilder,
-        private _toolsService: ToolsService,
-        private _notificationService: NotificationService
+        private _toolsService: ToolsService
     ) { }
     
     ngOnInit() {
@@ -34,6 +33,7 @@ export class AddToolComponent implements OnInit {
             qty: ['', Validators.required],
             idealAmount: ['', Validators.required],
             autoOrderQty: ['', Validators.required],
+            toolCost: ['', Validators.required],
         });
     }
 
@@ -44,17 +44,17 @@ export class AddToolComponent implements OnInit {
             qty: this.toolFormGroup.controls['qty'].value,
             idealAmount: this.toolFormGroup.controls['idealAmount'].value,
             autoOrderQty: this.toolFormGroup.controls['autoOrderQty'].value,
+            toolCost: this.toolFormGroup.controls['toolCost'].value,
         };
         this._toolsService.addTool(toolObj).subscribe((tool) => {
             if(tool.success) {
-                this._notificationService.setNotificationOn('Successfully added tool');
-                Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
-                  this._notificationService.setNotificationOff();
-                });
-
                 this.toolFormGroup.reset();
                 this._toolsService.getTools(this.skip, this.take).first().subscribe();
                 this.isAddToolLoading = false;
+                this.addToolSuccess = true;
+                Observable.timer(5000).first().subscribe(data => {
+                  this.addToolSuccess = false;
+                });
             } else {
               this.isAddToolLoading = false;
             }

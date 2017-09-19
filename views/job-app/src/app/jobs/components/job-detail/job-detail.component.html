@@ -17,8 +17,7 @@
       <div class="col">
         <div class="card-box">
           <i class='fa fa-spinner fa-spin pull-right ti-spin' *ngIf="isJobLoading"></i>
-          <p class="card-title">Checkouts</p>
-          
+          <p class="card-title">{{ job.jobName }} Checkouts</p>
           <ti-job-checkouts
             [checkouts]="job.toolCheckouts">
           </ti-job-checkouts>

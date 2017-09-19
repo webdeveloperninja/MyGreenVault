@@ -26,10 +26,20 @@
                 <label>Auto Order Qty</label>
                 <input class="form-control" formControlName="autoOrderQty">
             </div>
+            <div class="form-group col-md-6">
+                <label>Tool Cost</label>
+                <input class="form-control" formControlName="toolCost">
+            </div>
 
         </div>
     </div>
     <div class="modal-footer">
+        <div class="container bootstrap snippet">
+            <div class="alert alert-success alert-white rounded" *ngIf="addToolSuccess"> 
+                <i class="fa fa-check"></i> <strong>Success!</strong> Your tool has been added!
+            </div>
+        </div>
+
         <button 
             [disabled]="toolFormGroup.invalid" 
             class="btn btn-primary pull-right" 

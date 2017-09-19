@@ -69,7 +69,8 @@ export class CheckoutToolComponent implements OnInit {
         toolQty: Number(this.checkoutToolFormGroup.controls['toolQty'].value),
         operatorNumber: Number(this.checkoutToolFormGroup.controls['operatorNumber'].value),
         jobNumber: Number(this.checkoutToolFormGroup.controls['jobNumber'].value),
-        tool: this.tool
+        tool: this.tool,
+        cost: (this.tool.toolCost * Number(this.checkoutToolFormGroup.controls['toolQty'].value))
     };
 
     this._toolsService.checkoutTool(toolCheckout)
@@ -105,5 +106,6 @@ export interface ToolCheckout {
   toolQty: Number;
   operatorNumber: Number;
   jobNumber: Number;
-  tool: Tool
+  tool: Tool;
+  cost: Number;
 }
