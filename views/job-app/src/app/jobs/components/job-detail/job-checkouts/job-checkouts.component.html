@@ -1,23 +1,23 @@
-<table class="table table-striped ti-table mb-0">
+<table class="table table-striped ti-table mb-0" *ngIf="checkouts.toolNames">
     <thead class="ti-table-header">
         <tr>
             <th>Tool Name</th>
-            <th>Job Name</th>
-            <th>Job Number</th>
-            <th>Operator Name</th>
+            <th>Cost</th>
+            <th>Qty</th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let checkout of checkouts" >
+        <tr *ngFor="let checkout of checkouts.toolNames; let i = index" >
+            <td>{{checkout}}</td>
+            <td>{{ checkouts.toolCost[i] }}</td>
+            <td>{{ checkouts.qty[i] }}</td>
+        </tr>
+        <tr>
             <td>
-                {{ checkout.toolName | empty }}
+                <strong>Total</strong>
             </td>
-            <td>{{ checkout.jobName | empty }}</td>
-            <td>{{ checkout.jobNumber | empty }}</td>
-            <td>{{ checkout.operatorName | empty }}</td>
+            <td><strong>{{ checkouts.combineCost }}</strong></td>
+            <td></td>
         </tr>
     </tbody>
 </table>
-<div class="alert alert-info" role="alert" *ngIf="isCheckoutEmptyAndNotLoading()">
-  <strong>No Checkouts</strong>
-</div>
