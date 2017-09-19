@@ -24,17 +24,18 @@ export class ToolUsageGraphComponent implements OnInit {
 
   private createGraphData()  {
      if (this.checkouts) {
+
       this.checkoutData = this.checkouts.reduce((chartData, checkout) => {  
         if (!chartData.labels.includes(checkout.toolName)) {
           chartData.labels.push(checkout.toolName);
-        }
-
-        let labelIndex = chartData.labels.indexOf(checkout.toolName);
-        if (chartData.data[labelIndex]) {
-          chartData.data[labelIndex] += checkout.toolCheckoutQty;
-        } 
-        chartData.data[labelIndex] = checkout.toolCheckoutQty;
-        return chartData;
+          chartData.data.push(checkout.toolCheckoutQty);
+        } else {
+            let labelIndex = chartData.labels.indexOf(checkout.toolName);
+            if (chartData.data[labelIndex]) {
+              chartData.data[labelIndex] = Number(chartData.data[labelIndex]) + Number(checkout.toolCheckoutQty);
+            } 
+          }
+          return chartData;
       }, {
         labels: [],
         data: []

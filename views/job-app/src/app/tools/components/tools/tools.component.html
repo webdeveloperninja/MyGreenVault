@@ -33,7 +33,7 @@
                                         <td>{{ tool.qty | empty }}</td>
                                         <td>{{ tool.idealAmount | empty }}</td>
                                         <td>{{ tool.autoOrderQty | empty }}</td>
-                                        <td>{{ tool.toolCost | empty }}</td>
+                                        <td>{{ tool.toolCost | currency:'USD':true | empty }}</td>
                                         <td>
                                             <ti-tool-qty-status
                                                 [toolQty]="tool.qty"
