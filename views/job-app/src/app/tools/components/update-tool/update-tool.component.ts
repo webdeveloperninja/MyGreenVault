@@ -57,6 +57,7 @@ export class UpdateToolComponent implements OnInit {
         qty: [this.activetool.qty, Validators.required],
         idealAmount: [this.activetool.idealAmount, Validators.required],
         autoOrderQty: [this.activetool.autoOrderQty, Validators.required],
+        toolCost: [this.activetool.toolCost, Validators.required],
         _id: [this.activetool._id, Validators.required]
     });
     return group;
