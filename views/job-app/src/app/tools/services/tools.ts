@@ -95,7 +95,7 @@ export class ToolsService {
         return this._http.post('/api/v1/tools/remove', tool, {headers: headers})
             .map((res: Response) =>  {
                 this.getQueryParams();
-                this.getTools(this.skip, this.take).subscribe();
+                this.getTools(this.skip, this.take).first().subscribe();
                 return res.json();
             })
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 

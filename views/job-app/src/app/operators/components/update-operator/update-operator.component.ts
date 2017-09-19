@@ -11,6 +11,9 @@ import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/
 })
 export class UpdateOperatorComponent implements OnInit {
 
+  @Input() skip: number;
+  @Input() take: number;
+
   activeOperatorFormGroup: FormGroup;
   activeOperatorSubscription$: Subscription;
 
@@ -57,12 +60,7 @@ export class UpdateOperatorComponent implements OnInit {
 
   updateOperator(activeOperator) {
     this.activeOperatorSubscription$ = this._operatorsService.updateOperator(this.activeOperatorFormGroup.value).subscribe(data => {
-      this._operatorsService.getOperators(0, 1).finally(() => {
-        this._notificationService.setNotificationOn('Successfully updated operator');
-        Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
-          this._notificationService.setNotificationOff();
-        });
-      }).subscribe(() => {})
+      this._operatorsService.getOperators(this.skip, this.take).first().subscribe();
       this.closeModal();
     });
   }

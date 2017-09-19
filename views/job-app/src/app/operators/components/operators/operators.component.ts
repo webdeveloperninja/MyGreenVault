@@ -105,8 +105,15 @@ export class OperatorsComponent implements OnInit {
 
   removeOperator(operator) {
     this._operatorsService.removeOperator(operator).subscribe(() => {
-      this.navigate();
+    
       this._notificationService.setNotificationOn(REMOVE_TOOL_SUCCESS_MESSAGE);
+      this._operatorsService.getOperators(this.skip, this.take).first().subscribe(data => {
+        this.operators$.first().subscribe(tools => {
+          if (tools.length == 0) {
+            this.previousPage();
+          }
+        });
+      });
     });
   }
 

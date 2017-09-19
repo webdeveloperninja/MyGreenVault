@@ -75,7 +75,9 @@
                 <ti-update-operator 
                     [activeOperator]="activeOperator$" 
                     (closeUpdateModal)="closeUpdateOperatorModal($event)" 
-                    (isLoading)="isTiUpdateOperatorLoading($event)">
+                    (isLoading)="isTiUpdateOperatorLoading($event)"
+                    [skip]="skip"
+                    [take]="take">
                 </ti-update-operator>
             </ng-template>
             <ng-template #addOperatorRef let-c="close" let-d="dismiss">
