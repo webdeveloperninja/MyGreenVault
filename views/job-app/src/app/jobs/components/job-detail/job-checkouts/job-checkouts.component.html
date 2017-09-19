@@ -9,14 +9,14 @@
     <tbody>
         <tr *ngFor="let checkout of checkouts.toolNames; let i = index" >
             <td>{{checkout}}</td>
-            <td>{{ checkouts.toolCost[i] }}</td>
+            <td>{{ checkouts.toolCost[i] | currency:'USD':true }}</td>
             <td>{{ checkouts.qty[i] }}</td>
         </tr>
         <tr>
             <td>
                 <strong>Total</strong>
             </td>
-            <td><strong>{{ checkouts.combineCost }}</strong></td>
+            <td><strong>{{ checkouts.combineCost | currency:'USD':true }}</strong></td>
             <td></td>
         </tr>
     </tbody>
