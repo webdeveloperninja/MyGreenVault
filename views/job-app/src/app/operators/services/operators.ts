@@ -3,6 +3,7 @@ import {Http, Headers, Response} from '@angular/http';
 import {Observable, BehaviorSubject} from 'rxjs'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 export const DEFAULT_SKIP: number = 0;
 export const DEFAULT_TAKE: number = 8;
@@ -10,7 +11,9 @@ export const DEFAULT_TAKE: number = 8;
 
 @Injectable()
 export class OperatorsService {
-    
+    skip: number = 0;
+    take: number = 5;
+
     private _operatorsSubject$: BehaviorSubject<Operator[]> = new BehaviorSubject<Operator[]>(null);
     public readonly operators$: Observable<Operator[]> = this._operatorsSubject$.asObservable();
 
@@ -30,7 +33,11 @@ export class OperatorsService {
     public readonly activeOperator$: Observable<Operator> = this._activeOperatorSubject$.asObservable();
 
 
-    constructor(private _http: Http) {}
+    constructor(
+        private _http: Http,
+        private _route: ActivatedRoute,
+        private _router: Router
+        ) {}
 
     addOperator(operator) {
         let headers = new Headers();
@@ -78,6 +85,7 @@ export class OperatorsService {
         this._isLoadingSubject$.next(true);
         return this._http.post('/api/v1/operators/remove', operator, {headers: headers})
             .map((res: Response) =>  {
+                this._isLoadingSubject$.next(false);
                 return res.json() 
             })
             .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
@@ -93,6 +101,13 @@ export class OperatorsService {
             this._operatorsSkipSubject$.next(this._operatorsSkipSubject$.value - this._operatorsTakeSubject$.value);
             this.getOperators(skip, take).first().subscribe();
         }
+    }
+
+    getQueryParams() {
+        this.skip = this._route.snapshot.queryParams["skip"];
+        this.take = this._route.snapshot.queryParams["take"];
+        console.log('inside get query params of the tools service - skip value', this.skip);
+        console.log('inside of the getQueyrParams service - take value', this.take);        
     }
 
 }
