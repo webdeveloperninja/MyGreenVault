@@ -12,6 +12,9 @@ import { Observable } from 'rxjs';
 export class AddOperatorComponent implements OnInit {
     operatorFormGroup: FormGroup;
 
+    @Input() skip;
+    @Input() take;
+
     @ViewChild('operatorForm') operatorForm: NgForm;
     
     @Output('closeAddoperatorModal')
@@ -35,11 +38,11 @@ export class AddOperatorComponent implements OnInit {
             operatorNumber: this.operatorFormGroup.controls['operatorNumber'].value
         };
         this._operatorsService.addOperator(operatorObj).subscribe((operator) => {
-            if(operator && operator.success) {
-                this.operatorFormGroup.reset();
-                Observable.timer(5000).subscribe(() => {
-                })
-            }
+            console.log('in here');
+            this._operatorsService.getOperators(this.skip, this.take).first().subscribe(data => {
+                console.log('deeper in ');
+            })
+         
         })
     }
 
