@@ -104,14 +104,6 @@ export class ToolsService {
         return this._http.post('/api/v1/tools/checkout', tool, {headers: headers})
             .map((res: Response) => {
                 return res.json()
-            }).catch(err => {
-                if (Number(err.status) === Number(403)) {
-                    const urlOrigin = window.location.origin;
-                    const urlPathName = window.location.pathname;
-                    const loginUrl = 'login';
-                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-                }
-                return err;
             });
     }
 
