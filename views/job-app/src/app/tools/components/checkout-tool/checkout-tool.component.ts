@@ -76,7 +76,6 @@ export class CheckoutToolComponent implements OnInit {
     this._toolsService.checkoutTool(toolCheckout)
       .subscribe(data => {
         this._isCheckoutLoadingSubject$.next(false);
-        this._notificationService.setNotificationOn('Successfully Checked Out Tool');
         this._toolsService.getTools(this.skip, this.take).first().subscribe();
     }, (err) => {
         this._isCheckoutLoadingSubject$.next(false);
