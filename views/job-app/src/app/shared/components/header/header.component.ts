@@ -9,14 +9,15 @@ import { Observable } from 'rxjs';
 })
 export class HeaderComponent implements OnInit {
   @Input() isSideBarOpen: boolean; 
+  
 
   isSideNavOpen$: Observable<boolean>;
   constructor(private _sideNavService: SideNavService) { }
 
   ngOnInit() {
         this.isSideNavOpen$ = this._sideNavService.isSideNavOpen$;
-
   }
+
   toggleSideBar() {
     if(this.isSideBarOpen) {
       this._sideNavService.shutSideNav();

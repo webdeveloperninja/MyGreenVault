@@ -45,8 +45,15 @@ export class OperatorsService {
         return this._http.post('/api/v1/operators/', operator, {headers: headers}) // ...using post request
             .map((res: Response) => {
                 res.json()
-            })
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error')); //...
+            }).catch(err => {
+                if (Number(err.status) === Number(403)) {
+                    const urlOrigin = window.location.origin;
+                    const urlPathName = window.location.pathname;
+                    const loginUrl = 'login';
+                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+                }
+                return err;
+            });
     }
 
     getOperators(skip, take) {
@@ -59,7 +66,15 @@ export class OperatorsService {
             this._moreOperatorsSubject$.next(res.json().more);
             this._operatorsSkipSubject$.next(res.json().skip);
             this._operatorsTakeSubject$.next(res.json().take);
-        });
+        }).catch(err => {
+                if (Number(err.status) === Number(403)) {
+                    const urlOrigin = window.location.origin;
+                    const urlPathName = window.location.pathname;
+                    const loginUrl = 'login';
+                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+                }
+                return err;
+            });
     }
 
 
@@ -69,8 +84,15 @@ export class OperatorsService {
         return this._http.put('/api/v1/operators', operator, {headers: headers})
             .map((res: Response) =>  {
                 return res.json() 
-        })
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
+        }).catch(err => {
+                if (Number(err.status) === Number(403)) {
+                    const urlOrigin = window.location.origin;
+                    const urlPathName = window.location.pathname;
+                    const loginUrl = 'login';
+                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+                }
+                return err;
+            });
     }
 
     setActiveOperator(operatorId: string): void {
@@ -87,8 +109,15 @@ export class OperatorsService {
             .map((res: Response) =>  {
                 this._isLoadingSubject$.next(false);
                 return res.json() 
-            })
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
+            }).catch(err => {
+                if (Number(err.status) === Number(403)) {
+                    const urlOrigin = window.location.origin;
+                    const urlPathName = window.location.pathname;
+                    const loginUrl = 'login';
+                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+                }
+                return err;
+            });
     }
 
     nextPage(skip, take) {
