@@ -49,8 +49,15 @@ export class ToolsService {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         return this._http.post('/api/v1/tools/', tool, {headers: headers}) // ...using post request
-            .map((res: Response) => res.json()) // ...and callingls .json() on the response to return data
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error')); //...
+            .map((res: Response) => res.json()).catch(err => {
+                if (Number(err.status) === Number(403)) {
+                    const urlOrigin = window.location.origin;
+                    const urlPathName = window.location.pathname;
+                    const loginUrl = 'login';
+                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+                }
+                return err;
+            });
     }
 
     getTools(skip: number, take: number) {
@@ -63,7 +70,15 @@ export class ToolsService {
             this._toolsSkipSubject$.next(res.json().skip);
             this._toolsTakeSubject$.next(res.json().take);
             this._toolsSubject$.next(res.json().data)
-        });
+        }).catch(err => {
+                if (Number(err.status) === Number(403)) {
+                    const urlOrigin = window.location.origin;
+                    const urlPathName = window.location.pathname;
+                    const loginUrl = 'login';
+                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+                }
+                return err;
+            });
     }
 
     updatetool(tool) {
@@ -72,8 +87,15 @@ export class ToolsService {
         return this._http.put('/api/v1/tools', tool, {headers: headers})
             .map((res: Response) =>  {
                 return res.json() 
-        })
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
+        }).catch(err => {
+                if (Number(err.status) === Number(403)) {
+                    const urlOrigin = window.location.origin;
+                    const urlPathName = window.location.pathname;
+                    const loginUrl = 'login';
+                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+                }
+                return err;
+            });
     }
 
     checkoutTool(tool) {
@@ -82,9 +104,14 @@ export class ToolsService {
         return this._http.post('/api/v1/tools/checkout', tool, {headers: headers})
             .map((res: Response) => {
                 return res.json()
-            })
-            .catch((error: any) => {
-                return Observable.throw(error);
+            }).catch(err => {
+                if (Number(err.status) === Number(403)) {
+                    const urlOrigin = window.location.origin;
+                    const urlPathName = window.location.pathname;
+                    const loginUrl = 'login';
+                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+                }
+                return err;
             });
     }
 
@@ -97,8 +124,15 @@ export class ToolsService {
                 this.getQueryParams();
                 this.getTools(this.skip, this.take).first().subscribe();
                 return res.json();
-            })
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
+            }).catch(err => {
+                if (Number(err.status) === Number(403)) {
+                    const urlOrigin = window.location.origin;
+                    const urlPathName = window.location.pathname;
+                    const loginUrl = 'login';
+                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+                }
+                return err;
+            });
     }
 
     setActivetool(toolId: string): void {

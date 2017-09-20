@@ -40,8 +40,16 @@ export class JobsService {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         return this._http.post('/api/v1/jobs/', job, {headers: headers}) // ...using post request
-            .map((res: Response) => res.json()) // ...and callingls .json() on the response to return data
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error')); //...
+            .map((res: Response) => res.json())
+            .catch(err => {
+                if (Number(err.status) === Number(403)) {
+                    const urlOrigin = window.location.origin;
+                    const urlPathName = window.location.pathname;
+                    const loginUrl = 'login';
+                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+                }
+                return err;
+            });
     }
 
     getJobs(skip, take) {
@@ -55,6 +63,14 @@ export class JobsService {
             this._jobsSkipSubject$.next(res.json().skip);
             this._jobsTakeSubject$.next(res.json().take);
             return res.json();
+        }).catch(err => {
+            if (Number(err.status) === Number(403)) {
+                const urlOrigin = window.location.origin;
+                const urlPathName = window.location.pathname;
+                const loginUrl = 'login';
+                window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+            }
+            return err;
         });
     }
 
@@ -64,7 +80,15 @@ export class JobsService {
         this._isJobsLoadingSubject$.next(true);
         return this._http.get(`/api/v1/jobs/${jobNumber}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
             return res.json();
-        });    
+        }).catch(err => {
+            if (Number(err.status) === Number(403)) {
+                const urlOrigin = window.location.origin;
+                const urlPathName = window.location.pathname;
+                const loginUrl = 'login';
+                window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+            }
+            return err;
+        });  
     }
 
     getAllJobs() {
@@ -76,6 +100,14 @@ export class JobsService {
             console.log(res);
             this._allJobsSubject$.next(res.json())
             return res.json();
+        }).catch(err => {
+            if (Number(err.status) === Number(403)) {
+                const urlOrigin = window.location.origin;
+                const urlPathName = window.location.pathname;
+                const loginUrl = 'login';
+                window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+            }
+            return err;
         });
     }
 
@@ -86,8 +118,15 @@ export class JobsService {
         return this._http.put('/api/v1/jobs', job, {headers: headers})
             .map((res: Response) =>  {
                 return res.json() 
-        })
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
+        }).catch(err => {
+            if (Number(err.status) === Number(403)) {
+                const urlOrigin = window.location.origin;
+                const urlPathName = window.location.pathname;
+                const loginUrl = 'login';
+                window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+            }
+            return err;
+        });
     }
 
     removeJob(job) {
@@ -101,8 +140,15 @@ export class JobsService {
                 }
                 this.getJobs(this._jobsSkipSubject$.value, this._jobsTakeSubject$.value).subscribe();
                 return res.json() 
-            })
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error')); 
+            }).catch(err => {
+                if (Number(err.status) === Number(403)) {
+                    const urlOrigin = window.location.origin;
+                    const urlPathName = window.location.pathname;
+                    const loginUrl = 'login';
+                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+                }
+            return err;
+        });
     }
 
     setActiveJob(jobId: string): void {
