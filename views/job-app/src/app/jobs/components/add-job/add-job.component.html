@@ -56,7 +56,13 @@
             </div>
         </div>
     </div>
-    <div class="modal-footer">
-        <button [disabled]="jobFormGroup.invalid" class="btn btn-primary pull-right" type="submit">Add Job</button>
+    <div class="modal-footer"> 
+        <button 
+            [disabled]="jobFormGroup.invalid" 
+            class="btn btn-primary pull-right" 
+            type="submit">
+                <i class='fa fa-spinner fa-spin ' *ngIf="isAddJobLoading"></i>
+                Add Job
+        </button>
     </div>
 </form>

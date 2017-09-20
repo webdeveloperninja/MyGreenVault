@@ -50,6 +50,7 @@ export class JobsComponent implements OnInit {
   ngOnInit() {
 
     this.jobs$ = this._jobsService.jobs$;
+
     this.isJobsLoading$ = this._jobsService.isJobsLoading$;
     this.activeJob$ = this._jobsService.activeJob$;
     this.moreJobs$ = this._jobsService.moreJobs$;
@@ -90,11 +91,7 @@ export class JobsComponent implements OnInit {
 
   doSearch() {
     this.isJobNotFound = false;
-    this._jobsService.getJobs(this.skip, this.take).subscribe(response => {
-      if(response.data.length === 0) {
-        this.isJobNotFound = true;
-      }
-    })
+    this._jobsService.getJobs(this.skip, this.take).first().subscribe();
   }
 
   openUpdateJobModal(jobId) {

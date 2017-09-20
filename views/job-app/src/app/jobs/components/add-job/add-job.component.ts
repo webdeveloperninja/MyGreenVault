@@ -13,6 +13,7 @@ export class AddJobComponent implements OnInit {
     jobFormGroup: FormGroup;
 
     jobSuccessfullyAdded: boolean = false;
+    isAddJobLoading: boolean = false;
 
     @ViewChild('jobForm') jobForm: NgForm;
 
@@ -42,6 +43,7 @@ export class AddJobComponent implements OnInit {
     }
 
     addJob(jobFormGroup) {
+        this.isAddJobLoading = true;
         let jobObj = {
             companyName: this.jobFormGroup.controls['companyName'].value,
             contactName: this.jobFormGroup.controls['contactName'].value,
@@ -56,12 +58,8 @@ export class AddJobComponent implements OnInit {
             if(job.success) {
                 this.jobFormGroup.reset();
                 this.jobSuccessfullyAdded = true;
-                this._jobsService.getJobs(this.skip, this.take).subscribe(() => {
-                  /*
-                    Todo 
-                    1) This doesnt work unless I have console.log
-                  */
-                  console.log('asodifosadjf');
+                this._jobsService.getJobs(this.skip, this.take).first().subscribe(() => {
+                  this.isAddJobLoading = false;
                 });
                 Observable.timer(5000).subscribe(() => {
                     this.jobSuccessfullyAdded = false;

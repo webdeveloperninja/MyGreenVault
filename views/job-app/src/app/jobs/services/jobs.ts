@@ -62,7 +62,6 @@ export class JobsService {
             this._moreJobsSubject$.next(res.json().more);
             this._jobsSkipSubject$.next(res.json().skip);
             this._jobsTakeSubject$.next(res.json().take);
-            return res.json();
         }).catch(err => {
             if (Number(err.status) === Number(403)) {
                 const urlOrigin = window.location.origin;
