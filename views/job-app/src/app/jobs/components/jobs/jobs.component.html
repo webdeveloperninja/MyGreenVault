@@ -11,11 +11,8 @@
                     </button>        
                 </div>
             </div>
-            <div class="row" *ngIf="!isJobNotFound">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="row" *ngIf="!(jobs$ | async)?.length === false">
-                            <div class="col-md-12">
+            <div class="row">
+                            <div class="col-md-12" *ngIf="!(jobs$ | async)?.length === false">
                                 <table class="table table-striped ti-table">
                                     <thead class="ti-table-header">
                                         <tr>
@@ -78,15 +75,12 @@
                                         </button>
                                     </div>
                                 </div>
-                            </div>
                         </div>
-                    </div>
-                    <div class="mt-3" *ngIf="(jobs$ | async)?.length==0">
+                    <div class="col-12 mt-3" *ngIf="(jobs$ | async)?.length==0">
                         <div class="alert alert-info" role="alert">
                         <strong>No Jobs Found</strong>
                         </div>
                     </div>
-                </div>
             </div>
             <ng-template #updateJobRef let-c="close" let-d="dismiss">
                 <ti-update-job 
