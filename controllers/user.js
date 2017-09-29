@@ -122,6 +122,16 @@ exports.getAccount = (req, res) => {
 };
 
 /**
+ * GET /roadmap
+ * Roadmap page.
+ */
+exports.getRoadmap = (req, res) => {
+  res.render('roadmap', {
+    title: 'Product Roadmap'
+  });
+};
+
+/**
  * POST /account/profile
  * Update profile information.
  */

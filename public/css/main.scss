@@ -73,3 +73,33 @@ textarea {
 .fa {
   margin-right: 6px;
 }
+
+.road-map-header {
+  background-color: rgb(67, 190, 161);
+  text-align: center;
+  padding: 10px;
+  border: 1px solid black;
+  color: white;
+  .fa {
+    font-size: 35px;
+  }
+  .h1 {
+    font-size: 32px;
+    display: inline;
+  }
+}
+
+.road-map-label {
+  background-color: #d9d9d9;
+  color: #202020;
+  text-align: center;
+  padding-top: 1px;
+  padding-bottom: 10px;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  .h1 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}
