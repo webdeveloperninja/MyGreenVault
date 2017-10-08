@@ -1,11 +1,21 @@
-.enlarged {
-  .small-logo {
-    display: block;
-  }
-}
-.small-logo {
-  display: none;
-}
-.side-menu {
-  box-shadow: 1px 3px 7px 1px #888;
+.forced {
+    .small-logo {
+        display: none;
+        height: 31px;
+    }
+    .long-logo {
+        height: 28px;
+    }
+    .side-menu {
+        box-shadow: 1px 3px 7px 1px #888;
+    }
+
+    &.enlarged {
+        .small-logo {
+            display: flex;
+        }
+        .long-logo {
+            display: none;
+        }
+    }
 }
