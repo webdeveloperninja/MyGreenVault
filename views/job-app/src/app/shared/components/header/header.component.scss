@@ -1,19 +1,8 @@
-.navbar-brand img {
-  max-width: 200px;
-}
 
 .navbar {
   border-bottom: 1px solid black;
 }
 
-.logo {
-  width: 225px;
-}
-.small-logo {
-  width: 45px;
-  margin: auto;
-  margin-top: 15px;
-}
 .search {
   position: absolute;
   top: 0;
@@ -23,4 +12,9 @@
   left: 0;
   right: 0;
   margin: auto;
+}
+
+.user {
+    font-size: 25px;
+    color: #4dbca1;
 }
