@@ -1,8 +1,7 @@
 <div class="topbar">
     <div class="topbar-left d-flex justify-content-center align-items-center">
-            <img src="./assets/logo.png" class="small-logo">
-            
-            <img src="./assets/long-logo.png" class="long-logo">
+        <img src="./assets/logo.png" class="small-logo">
+        <img src="./assets/long-logo.png" class="long-logo">
     </div>
     <nav class="navbar-custom">
         <div class="row">
@@ -15,10 +14,28 @@
                 <div class="row mt-3">
                     <input class="form-control col-lg-3 col-md-4" placeholder="Search">
                     <div class="button-group col-md-6 col-lg-6" role="group">
-                        <button role="button" class="btn btn-outline-success">Search</button>
-                        <button role="button" class="btn btn-outline-primary">Tools</button>
-                        <button role="button" class="btn btn-outline-primary">Jobs</button>
-                        <button role="button" class="btn btn-outline-primary">Operators</button>
+                        <button role="button" class="btn btn-outline-success">
+                            <i aria-hidden="true" class="fa fa-search"></i>
+                            Search
+                        </button>
+                        <button 
+                            role="button" 
+                            class="btn btn-outline-primary"
+                            [ngClass]="searchTypeClass('tools')">
+                                Tools
+                        </button>
+                        <button 
+                            role="button" 
+                            class="btn btn-outline-primary"
+                            [ngClass]="searchTypeClass('jobs')">
+                                Jobs
+                        </button>
+                        <button 
+                            role="button" 
+                            class="btn btn-outline-primary"
+                            [ngClass]="searchTypeClass('operators')">
+                                Operators
+                        </button>
                     </div>
                 </div>
             </div>
