@@ -43,13 +43,23 @@ exports.getTools = (userId, skip, take) => {
         Tool.find({
             userId: userId
         })
-        .limit(take)
+        .limit(take + 1)
         .skip(skip)
         .exec((err, results) => {
             if (err) {
                 reject(err);
             }
-            resolve(results);
+            if (!!results.length) {
+
+                const resObj = {
+                    skip: skip,
+                    take: take,
+                    more: (results.length === take + 1),
+                    data: results.slice(0, -1)
+                }
+                resolve(resObj);
+            }
+            
         });
     });
 }
