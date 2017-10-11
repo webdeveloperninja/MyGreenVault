@@ -55,7 +55,7 @@ const userSchema = new mongoose.Schema({
       operatorNumber: {type: Number, require: true}
     }
   ]
-}, { timestamps: true });
+}, { timestamps: true, collection: 'users' });
 
 /**
  * Password hash middleware.
