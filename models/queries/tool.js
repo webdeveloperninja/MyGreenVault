@@ -2,31 +2,8 @@ const User = require('../../models/User');
 const Tool = require('../../models/Tool');
 const ObjectId = require('mongodb').ObjectID;
 
-// TODO: Update get tool using Tool collection
-exports.getTool = (userId, toolId) => {
-    return new Promise((resolve, reject) => { 
-        User.findOne({ '_id': userId }, (err, user) => {
-            if (err) return handleError(err);
-            for (var i=0; i< user.tools.length; i++) {
-                const toolId = user.tools[i]._id;
-                const toolIdToCompare = toolId
-                if (ObjectId(toolId) == ObjectId(toolIdToCompare)) {
-                    resolve(user.tools[i]);
-                    return;
-                }
-            }
-            resolve(null);
-        });
-    });
-}
-
-
-exports.addTool = (userId, tool) => {
-    const toolWithUserId = Object.assign({
-        userId
-    }, tool);
-
-    const newTool = new Tool(toolWithUserId);
+exports.addTool = (tool) => {
+    const newTool = new Tool(tool);
 
     return new Promise((resolve, reject) => {
         newTool.save((err, results) => {
@@ -38,10 +15,24 @@ exports.addTool = (userId, tool) => {
     });
 }
 
+exports.removeTool = (tool) => {
+    return new Promise((resolve, reject) => {
+        Tool.find({
+            _id: ObjectId(tool._id),
+            userId: tool.userId
+        }).remove().exec((err, result) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(result);
+        });
+    });
+}
+
 exports.getTools = (userId, skip, take) => {
     return new Promise((resolve, reject) => {
         Tool.find({
-            userId: userId
+            userId: ObjectId(userId)
         })
         .limit(take + 1)
         .skip(skip)
@@ -49,17 +40,16 @@ exports.getTools = (userId, skip, take) => {
             if (err) {
                 reject(err);
             }
-            if (!!results.length) {
 
+            if (!!results.length) {
                 const resObj = {
                     skip: skip,
                     take: take,
                     more: (results.length === take + 1),
-                    data: results.slice(0, -1)
+                    data: (results.length > take) ? results.slice(0, -1) : results
                 }
                 resolve(resObj);
             }
-            
         });
     });
 }

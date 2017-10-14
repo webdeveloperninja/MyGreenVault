@@ -99,7 +99,7 @@ export class ToolsComponent implements OnInit {
   }
 
   removeTool(tool) {
-    this._toolsService.removeTool(tool).subscribe(() => {
+    this._toolsService.removeTool(tool).first().subscribe(() => {
       this._notificationService.setNotificationOn(REMOVE_TOOL_SUCCESS_MESSAGE);
       this.tools$.first().subscribe(tools => {
         if ((tools.length - 1) == 0) {

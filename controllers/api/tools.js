@@ -10,8 +10,6 @@ const ObjectId = require('mongodb').ObjectID;
 const toolQuery = require('../../models/queries/tool');
 const asyncMiddleware = require('../../utils/async-middleware');
 
-
-
 exports.getTools = (req, res) => {
     const userId = req.user._id;
     let url_parts = url.parse(req.url, true);
@@ -24,39 +22,17 @@ exports.getTools = (req, res) => {
         res.send(500);
         throw new Error(error);
     });
-
-//   User.find({ _id: req.user.id},{'tools':{$slice:[skip, take + 1]}}).exec((err, data) => {
-//     if (err) { return next(err); }
-
-//         let tools = data[0]._doc.tools;
-//         let toolsArrLength = tools.length;
-//         let more = false;
-
-//         if(tools.length === take + 1) {
-//           more = true;
-//           tools = tools.slice(0, -1); 
-//         }
-        
-//         let resObj = {
-//           skip: skip,
-//           take: take,
-//           more: more,
-//           data: tools
-//       }
-//       res.json(resObj);
-//   })
-  
 };
-
-  
 
 exports.addTool = (req, res) => {
     const userId = req.user.id;
-    Number(req.body.qty);
-    Number(req.body.idealAmount);
-    Number(req.body.autoOrderQty);
+    let tool = req.body;
 
-    toolQuery.addTool(req.user.id, req.body).then(data => {
+    const toolWithUserId = Object.assign({
+        userId: ObjectId(userId)
+    }, tool);
+
+    toolQuery.addTool(toolWithUserId).then(data => { 
         res.send(data._doc);
     }).catch(error => {
         res.send(500);
@@ -80,13 +56,14 @@ exports.updateTool = (req, res) => {
 }
 
 exports.removeTool = (req, res) => {
-  User.findOneAndUpdate({
-         _id: req.user.id,
-        'tools._id': req.body._id
-    },
-    {$pull: {'tools': {'_id': req.body._id}}}, function() {
-        res.json({"success": true});
-    });
+    const tool = req.body;
+
+    toolQuery.removeTool(tool).then(data => {
+        res.send(200);
+    }).catch(err => {
+        res.send(500);
+        throw new Error(err);
+    })
 }
 
 exports.checkoutTool = (req, res) => {
@@ -99,7 +76,6 @@ exports.checkoutTool = (req, res) => {
         res.send(500);
         throw new Error(error);
     })
-
 }
 
 
