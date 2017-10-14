@@ -49,27 +49,24 @@ exports.getTools = (userId, skip, take) => {
                     data: (results.length > take) ? results.slice(0, -1) : results
                 }
                 resolve(resObj);
+            } else {
+                resolve([]);
             }
+            
         });
     });
 }
 
-// TODO: update with the Tool collection
-exports.updateTool = (userId, updatedTool) => {
-  return new Promise((resolve, reject) => {
-    User.findOneAndUpdate({
-          _id: userId,
-          'tools._id': updatedTool._id
-      },
-      {
-      $set: {
-          'tools.$' : updatedTool
-      }
-      }, (err, tool) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(tool);
-      });
-  });
+exports.updateTool = (updatedTool) => {
+    return new Promise((resolve, reject) => {
+        Tool.findOneAndUpdate({
+            _id: ObjectId(updatedTool._id),
+            userId: ObjectId(updatedTool.userId)
+        }, updatedTool).exec(err => {
+            if (err) {
+                reject(err);
+            }
+            resolve('successfully updated tool');
+        })
+    });
 }

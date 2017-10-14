@@ -66,28 +66,35 @@ export class ToolsService {
         this._istoolsLoadingSubject$.next(true);
         return this._http.get(`/api/v1/tools?skip=${skip}&take=${take}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
             this._istoolsLoadingSubject$.next(false);
+
+            if (res.json().length === 0 && this._toolsSkipSubject$.value != 0) {
+                console.log('working', res.json().data);
+                this.previousPage();
+                return Observable.of([]);
+            }
+
             this._moreToolsSubject$.next(res.json().more);
             this._toolsSkipSubject$.next(res.json().skip);
             this._toolsTakeSubject$.next(res.json().take);
             this._toolsSubject$.next(res.json().data)
         }).catch(err => {
-                if (Number(err.status) === Number(403)) {
-                    const urlOrigin = window.location.origin;
-                    const urlPathName = window.location.pathname;
-                    const loginUrl = 'login';
-                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-                }
-                return err;
-            });
+            if (Number(err.status) === Number(403)) {
+                const urlOrigin = window.location.origin;
+                const urlPathName = window.location.pathname;
+                const loginUrl = 'login';
+                window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+            }
+            return err;
+        });
     }
 
-    updatetool(tool) {
+    updateTool(tool) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         return this._http.put('/api/v1/tools', tool, {headers: headers})
             .map((res: Response) =>  {
-                return res.json() 
-        }).catch(err => {
+                return Observable.of(res);
+            }).catch(err => {
                 if (Number(err.status) === Number(403)) {
                     const urlOrigin = window.location.origin;
                     const urlPathName = window.location.pathname;
@@ -114,8 +121,11 @@ export class ToolsService {
         return this._http.post('/api/v1/tools/remove', tool, {headers: headers})
             .map((res: Response) =>  {
                 this.getQueryParams();
+                if (this._toolsSubject$.value.length === 0) {
+                    this.previousPage()
+                } 
                 this.getTools(this.skip, this.take).first().subscribe();
-                return res.json();
+                return res;
             }).catch(err => {
                 if (Number(err.status) === Number(403)) {
                     const urlOrigin = window.location.origin;
@@ -140,31 +150,28 @@ export class ToolsService {
     previousPage() {
         let skip = Number(this.skip);
         let take = Number(this.take);
-
         let updatedSkip = skip - take;
-        console.log('//// Previous Page //////');
-        console.log(skip);
-        console.log(take);
-        console.log(updatedSkip);
+
         if(Number(this.skip) >= Number(this.take)) {
             this._router.navigate([`/tools`], { queryParams: { skip: (Number(this.skip) - Number(this.take)), take: Number(this.take) }});
         }
+
         this.getQueryParams();
         this.getTools(this.skip,this.take).first().subscribe();
     }   
 }
 
 export interface Tool {
-  companyName: string;
-  contactEmail: string;
-  contactName: string;
-  toolId: number;
-  toolName: string;
-  process: number;
-  toolNumber: string;
-  userId: string;
-  __v: number;
-  _id: string;
+    companyName: string;
+    contactEmail: string;
+    contactName: string;
+    toolId: number;
+    toolName: string;
+    process: number;
+    toolNumber: string;
+    userId: string;
+    __v: number;
+    _id: string;
 }
 
 export interface PagedList {

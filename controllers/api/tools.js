@@ -42,16 +42,17 @@ exports.addTool = (req, res) => {
 }
 
 exports.updateTool = (req, res) => {
-    User.findOneAndUpdate({
-        _id: req.user.id,
-        'tools._id': req.body._id
-    },
-    {
-        $set: {
-            'tools.$' : req.body
-        }
-    }, (err, tool) => {
-        res.json({"success": true});
+    const tool = req.body;
+    
+    if (!tool.userId) {
+        tool.userId = req.user._id;
+    }
+
+    toolQuery.updateTool(tool).then(data => {
+        res.send(200);
+    }).catch(err => {
+        res.send(500);
+        throw new Error(err);
     });
 }
 
@@ -65,19 +66,6 @@ exports.removeTool = (req, res) => {
         throw new Error(err);
     })
 }
-
-exports.checkoutTool = (req, res) => {
-    // TODO Pass tool checkout packaged data not req and res
-    let toolCheckout = new ToolCheckout(req, res);
-
-    toolCheckout.doCheckout().then(data => {
-        res.json({"success": true});
-    }).catch(error => {
-        res.send(500);
-        throw new Error(error);
-    })
-}
-
 
 
 

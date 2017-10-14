@@ -58,6 +58,7 @@ export class ToolsComponent implements OnInit {
       this.take = DEFAULT_TAKE;
     }
     this.navigate();
+
   }
 
   navigate() {
