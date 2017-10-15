@@ -19,94 +19,87 @@ const PAGE_TITLE: string = 'Tools';
 })
 export class ToolsComponent implements OnInit {
 
-  skip: number;
-  take: number;
+    skip: number;
+    take: number;
 
-  @ViewChild('updateToolRef') updateToolRef: ElementRef;
-  @ViewChild('addToolRef') addToolRef: ElementRef;
+    @ViewChild('updateToolRef') updateToolRef: ElementRef;
+    @ViewChild('addToolRef') addToolRef: ElementRef;
 
-  private _addToolModalRef: NgbModalRef;
-  private _updateToolModalRef: NgbModalRef;
+    private _addToolModalRef: NgbModalRef;
+    private _updateToolModalRef: NgbModalRef;
 
-  updateToolModal: any;
-  tools$: Observable<Tool[]> = this._toolsService.tools$;
-  isToolsLoading$: Observable<boolean> = this._toolsService.istoolsLoading$;
-  moreTools$: Observable<boolean> = this._toolsService.moreTools$;
-  activeTool$: Observable<Tool> = this._toolsService.activetool$;
+    updateToolModal: any;
+    tools$: Observable<Tool[]> = this._toolsService.tools$;
+    isToolsLoading$: Observable<boolean> = this._toolsService.istoolsLoading$;
+    moreTools$: Observable<boolean> = this._toolsService.moreTools$;
+    activeTool$: Observable<Tool> = this._toolsService.activetool$;
 
-  constructor(
-    private _toolsService: ToolsService,
-    private _modalService: NgbModal,
-    private _notificationService: NotificationService,
-    private _headerService: HeaderService,
-    private _route: ActivatedRoute,
-    private _router: Router
-  ) { }
+    skip$ = this._route.snapshot.queryParams["skip"];
+    take$ = this._route.snapshot.queryParams["take"];
+    sort$ = this._route.snapshot.queryParams['sort'];
+    query$ = this._route.snapshot.queryParams["query"];
+    category$ = this._route.snapshot.queryParams['category'];
 
-  ngOnInit() {
-    this._headerService.setHeaderText(PAGE_TITLE);
+    constructor(
+        private _toolsService: ToolsService,
+        private _modalService: NgbModal,
+        private _notificationService: NotificationService,
+        private _headerService: HeaderService,
+        private _route: ActivatedRoute,
+        private _router: Router
+    ) { }
 
-    let skip = this._route.snapshot.queryParams["skip"];
-    let take = this._route.snapshot.queryParams["take"];
+    ngOnInit() {
+        this._headerService.setHeaderText(PAGE_TITLE);
 
-    if (skip && take) {
-      this.skip = Number(skip);
-      this.take = Number(take);
-    } else {
-      this.skip = 0;
-      this.take = DEFAULT_TAKE;
     }
-    this.navigate();
 
-  }
-
-  navigate() {
-    this._router.navigate([`/tools`], { queryParams: { skip: this.skip, take: this.take }});
-    this.doSearch();
-  }
-
-  nextPage() {
-    this.skip = this.skip + this.take;
-    this.navigate();
-  }
-
-  previousPage() {
-    if (this.skip >= this.take) {
-      this.skip = this.skip - this.take;
-      this.navigate();
+    navigate() {
+        this._router.navigate([`/tools`], { queryParams: { skip: this.skip, take: this.take }});
+        this.doSearch();
     }
-  }
 
-  doSearch() {
-    this._toolsService.getTools(this.skip, this.take).first().subscribe(response => {});
-  }
+    nextPage() {
+        this.skip = this.skip + this.take;
+        this.navigate();
+    }
 
-  openUpdateToolModal(toolId) {
-    this._toolsService.setActivetool(toolId);
-    this._updateToolModalRef = this._modalService.open(this.updateToolRef, { size: MODAL_SIZE });
-  }
-
-  closeUpdateToolModal() {
-    this._updateToolModalRef.close();
-  }
-
-  closeAddToolModal() {
-    this._addToolModalRef.close();
-  }
-
-  addTool() {
-    this._addToolModalRef = this._modalService.open(this.addToolRef, { size: MODAL_SIZE });
-  }
-
-  removeTool(tool) {
-    this._toolsService.removeTool(tool).first().subscribe(() => {
-      this._notificationService.setNotificationOn(REMOVE_TOOL_SUCCESS_MESSAGE);
-      this.tools$.first().subscribe(tools => {
-        if ((tools.length - 1) == 0) {
-          this.previousPage();
+    previousPage() {
+        if (this.skip >= this.take) {
+            this.skip = this.skip - this.take;
+            this.navigate();
         }
-      });
-    });
-  }
+    }
+
+    doSearch() {
+    }
+
+    openUpdateToolModal(toolId) {
+        this._toolsService.setActivetool(toolId);
+        this._updateToolModalRef = this._modalService.open(this.updateToolRef, { size: MODAL_SIZE });
+    }
+
+    closeUpdateToolModal() {
+        this._updateToolModalRef.close();
+    }
+
+    closeAddToolModal() {
+        this._addToolModalRef.close();
+    }
+
+    addTool() {
+        this._addToolModalRef = this._modalService.open(this.addToolRef, { size: MODAL_SIZE });
+    }
+
+    removeTool(tool) {
+        this._toolsService.removeTool(tool).first().subscribe(() => {
+            this._notificationService.setNotificationOn(REMOVE_TOOL_SUCCESS_MESSAGE);
+            this.tools$.first().subscribe(tools => {
+                if ((tools.length - 1) == 0) {
+                    this.previousPage();
+                }
+            });
+        });
+    }
 
 }

@@ -50,7 +50,7 @@ export class AddToolComponent implements OnInit {
             console.log(tool);
             if(tool._id) {
                 this.toolFormGroup.reset();
-                this._toolsService.getTools(this.skip, this.take).first().subscribe();
+                // this._toolsService.getTools(this.skip, this.take).first().subscribe();
                 this.isAddToolLoading = false;
                 this.addToolSuccess = true;
                 Observable.timer(5000).first().subscribe(data => {

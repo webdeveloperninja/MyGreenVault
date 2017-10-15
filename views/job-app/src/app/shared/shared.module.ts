@@ -20,11 +20,14 @@ import { FilterJobPipe } from './pipes/filter-job/filter-job.pipe';
 import { JobStatusChipComponent } from './components/job-status-chip/job-status-chip.component';
 import { JobStatusNumberToTitlePipe } from './pipes/job-status-number-to-title/job-status-number-to-status-title.pipe';
 import { LocalStorageService } from './services/local-storage/local-storage.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SearchService } from './services/search/search.service';
 
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule
+        RouterModule,
+        ReactiveFormsModule
     ],
     declarations: [
       HeaderComponent,
@@ -45,7 +48,8 @@ import { LocalStorageService } from './services/local-storage/local-storage.serv
       SideNavService,
       TokenService,
       HeaderService,
-      LocalStorageService
+      LocalStorageService,
+      SearchService
     ],
     exports: [
       HeaderComponent,

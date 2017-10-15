@@ -70,3 +70,9 @@ exports.updateTool = (updatedTool) => {
         })
     });
 }
+
+exports.searchTools = (userId, query, category) => {
+    return new Promise((resolve, reject) => {
+        // Search Query Here
+    });
+}
