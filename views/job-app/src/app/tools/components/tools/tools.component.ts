@@ -29,10 +29,10 @@ export class ToolsComponent implements OnInit {
   private _updateToolModalRef: NgbModalRef;
 
   updateToolModal: any;
-  tools$: Observable<Tool[]>
-  isToolsLoading$: Observable<boolean>;
-  moreTools$: Observable<boolean>;
-  activeTool$: Observable<Tool>;
+  tools$: Observable<Tool[]> = this._toolsService.tools$;
+  isToolsLoading$: Observable<boolean> = this._toolsService.istoolsLoading$;
+  moreTools$: Observable<boolean> = this._toolsService.moreTools$;
+  activeTool$: Observable<Tool> = this._toolsService.activetool$;
 
   constructor(
     private _toolsService: ToolsService,
@@ -44,7 +44,6 @@ export class ToolsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.setInitialSubscriptions();
     this._headerService.setHeaderText(PAGE_TITLE);
 
     let skip = this._route.snapshot.queryParams["skip"];
@@ -108,13 +107,6 @@ export class ToolsComponent implements OnInit {
         }
       });
     });
-  }
-
-  setInitialSubscriptions() {
-    this.tools$ = this._toolsService.tools$;
-    this.isToolsLoading$ = this._toolsService.istoolsLoading$;
-    this.activeTool$ = this._toolsService.activetool$;
-    this.moreTools$ = this._toolsService.moreTools$;
   }
 
 }
