@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SideNavService } from '../../services/side-nav/side-nav.service';
 import { Observable } from 'rxjs';
+import { DEFAULT_SKIP, DEFAULT_TAKE } from '../../../tools/services/tools';
 
 @Component({
   selector: 'ti-side-nav',
@@ -11,6 +12,9 @@ export class SideNavComponent implements OnInit {
   @Input() isSideBarOpen: boolean; 
 
   isSideNavOpen$: Observable<boolean>;
+
+  defaultSkip: number = DEFAULT_SKIP;
+  defaultTake: number = DEFAULT_TAKE;
 
   constructor(private _sideNavService: SideNavService) { }
 

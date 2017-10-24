@@ -10,7 +10,7 @@
                     <a routerLink="/operators" class="waves-effect" routerLinkActive="active"><i class="fa fa-user-circle" aria-hidden="true"></i><span> Operators </span> </a>
                 </li>
                 <li class="has_sub" routerLinkActive="active">
-                    <a routerLink="/tools" class="waves-effect" routerLinkActive="active"><i class="fa fa-plug" aria-hidden="true"></i><span> Tools </span> </a>
+                    <a routerLink="/tools" [queryParams]="{skip:defaultSkip, take:defaultTake}" class="waves-effect" routerLinkActive="active"><i class="fa fa-plug" aria-hidden="true"></i><span> Tools </span> </a>
                 </li>
             </ul>
             <div class="clearfix"></div>
