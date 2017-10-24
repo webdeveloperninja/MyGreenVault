@@ -69,7 +69,7 @@
                                     <button 
                                         (click)="nextPage()" 
                                         class="btn btn-outline-primary next pull-right" 
-                                        [disabled]="isLoading">
+                                        [disabled]="!(moreTools$ | async)">
                                             Next Page
                                     </button>
                                     <button 

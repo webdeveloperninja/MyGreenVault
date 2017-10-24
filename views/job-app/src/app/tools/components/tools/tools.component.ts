@@ -64,6 +64,8 @@ export class ToolsComponent implements OnInit {
     }
 
 
+
+
     openUpdateToolModal(toolId) {
         this._toolsService.setActivetool(toolId);
         this._updateToolModalRef = this._modalService.open(this.updateToolRef, { size: MODAL_SIZE });

@@ -68,7 +68,9 @@ export class ToolsService {
 
         return this._http.get(url, {headers: headers, withCredentials: true}).map((res: Response) => {
             const tools = res.json().data;
+            const moreTools = res.json().more;
             this._toolsSubject$.next(tools);
+            this._moreToolsSubject$.next(moreTools);
             return tools;
         }).catch(err => {
             throw new Error(err);
@@ -79,7 +81,11 @@ export class ToolsService {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         return this._http.post('/api/v1/tools/', tool, {headers: headers}) // ...using post request
-            .map((res: Response) => res.json()).catch(err => {
+            .map((res: Response) => {
+                res.json();
+                this._moreToolsSubject$.next(res.json().more);
+            })
+            .catch(err => {
                 if (Number(err.status) === Number(403)) {
                     const urlOrigin = window.location.origin;
                     const urlPathName = window.location.pathname;

@@ -48,7 +48,7 @@ export class AddToolComponent implements OnInit {
         };
         this._toolsService.addTool(toolObj).subscribe((tool) => {
             console.log(tool);
-            if(tool._id) {
+            if(1 === 1) {
                 this.toolFormGroup.reset();
                 // this._toolsService.getTools(this.skip, this.take).first().subscribe();
                 this.isAddToolLoading = false;
