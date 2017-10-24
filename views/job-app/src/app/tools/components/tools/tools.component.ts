@@ -54,25 +54,15 @@ export class ToolsComponent implements OnInit {
 
     }
 
-    navigate() {
-        this._router.navigate([`/tools`], { queryParams: { skip: this.skip, take: this.take }});
-        this.doSearch();
-    }
 
     nextPage() {
-        this.skip = this.skip + this.take;
-        this.navigate();
+        this._toolsService.nextPage();
     }
 
     previousPage() {
-        if (this.skip >= this.take) {
-            this.skip = this.skip - this.take;
-            this.navigate();
-        }
+        this._toolsService.previousPage();
     }
 
-    doSearch() {
-    }
 
     openUpdateToolModal(toolId) {
         this._toolsService.setActivetool(toolId);

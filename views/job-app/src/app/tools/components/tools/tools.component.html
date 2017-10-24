@@ -68,14 +68,12 @@
                                 <div class="col-6">
                                     <button 
                                         (click)="nextPage()" 
-                                        *ngIf="moreTools$ | async" 
                                         class="btn btn-outline-primary next pull-right" 
                                         [disabled]="isLoading">
                                             Next Page
                                     </button>
                                     <button 
                                         (click)="previousPage()" 
-                                        *ngIf="skip !== 0" 
                                         class="btn btn-outline-primary pull-right mr-2" 
                                         [disabled]="isLoading">
                                         Previous Page

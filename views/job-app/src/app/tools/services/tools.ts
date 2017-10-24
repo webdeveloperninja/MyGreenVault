@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable, BehaviorSubject } from 'rxjs'
-import { Router, ActivatedRoute, Params, Event } from '@angular/router';
+import { Router, ActivatedRoute, Params, Event, NavigationEnd } from '@angular/router';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
@@ -18,10 +18,10 @@ export class ToolsService {
     private _moreToolsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public readonly moreTools$: Observable<boolean> = this._moreToolsSubject$.asObservable();
 
-    private _toolsSkipSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(DEFAULT_SKIP);
+    private _toolsSkipSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
     public readonly toolsSkip$: Observable<number> = this._toolsSkipSubject$.asObservable();
 
-    private _toolsTakeSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(DEFAULT_TAKE);
+    private _toolsTakeSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
     public readonly toolsTake$: Observable<number> = this._toolsSkipSubject$.asObservable();
 
     private _istoolsLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
@@ -41,12 +41,12 @@ export class ToolsService {
         private _http: Http,
         private _route: ActivatedRoute,
         private _router: Router) {
-            _router.events.subscribe((event: Event) => {
-                this.doSearch();
-            })
+        _router.events.filter(event => event instanceof NavigationEnd).subscribe(event =>  this.doSearch());    
+
     }
 
     public doSearch() {
+        console.log('do search');
         if (this._router.navigated) {
             this._toolsSkipSubject$.next(this._route.snapshot.queryParams["skip"]);
             this._toolsTakeSubject$.next(this._route.snapshot.queryParams["take"]);
@@ -87,7 +87,9 @@ export class ToolsService {
                     window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
                 }
                 return err;
-            });
+            }).finally(() => {
+                this.doSearch();
+            })
     }
 
 
@@ -149,19 +151,13 @@ export class ToolsService {
     }
 
     public nextPage() {
+        this._router.navigate([`/tools`], { queryParams: { skip: (Number(this._toolsSkipSubject$.value) + Number(this._toolsTakeSubject$.value)), take: Number(this._toolsTakeSubject$.value) }});
     }
 
     public previousPage() {
-        // let skip = Number(this.skip);
-        // let take = Number(this.take);
-        // let updatedSkip = skip - take;
-
-        // if(Number(this.skip) >= Number(this.take)) {
-        //     this._router.navigate([`/tools`], { queryParams: { skip: (Number(this.skip) - Number(this.take)), take: Number(this.take) }});
-        // }
-
-        // this.getQueryParams();
-        // this.getTools(this.skip,this.take).first().subscribe();
+        if(Number(this._toolsSkipSubject$.value) >= Number(this._toolsTakeSubject$.value)) {
+            this._router.navigate([`/tools`], { queryParams: { skip: (Number(this._toolsSkipSubject$.value) - Number(this._toolsTakeSubject$.value)), take: Number(this._toolsTakeSubject$.value) }});
+        }
     }   
 }
 
