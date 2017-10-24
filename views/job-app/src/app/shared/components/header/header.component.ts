@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit {
     doSearch() {
         console.log('working');
         const searchQuery = this.searchForm.controls['search'].value;
-        const skip = this._route.snapshot.queryParams["skip"]
+        const skip = 0;
         const take = this._route.snapshot.queryParams["take"];
         this._router.navigate([`/tools`], 
             { queryParams: 
