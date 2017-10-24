@@ -33,12 +33,8 @@ export class ToolsComponent implements OnInit {
     isToolsLoading$: Observable<boolean> = this._toolsService.istoolsLoading$;
     moreTools$: Observable<boolean> = this._toolsService.moreTools$;
     activeTool$: Observable<Tool> = this._toolsService.activetool$;
+    hasPreviousTools$: Observable<boolean> = this._toolsService.hasPreviousTools$;
 
-    skip$ = this._route.snapshot.queryParams["skip"];
-    take$ = this._route.snapshot.queryParams["take"];
-    sort$ = this._route.snapshot.queryParams['sort'];
-    query$ = this._route.snapshot.queryParams["query"];
-    category$ = this._route.snapshot.queryParams['category'];
 
     constructor(
         private _toolsService: ToolsService,
@@ -51,7 +47,6 @@ export class ToolsComponent implements OnInit {
 
     ngOnInit() {
         this._headerService.setHeaderText(PAGE_TITLE);
-
     }
 
 
@@ -62,9 +57,6 @@ export class ToolsComponent implements OnInit {
     previousPage() {
         this._toolsService.previousPage();
     }
-
-
-
 
     openUpdateToolModal(toolId) {
         this._toolsService.setActivetool(toolId);

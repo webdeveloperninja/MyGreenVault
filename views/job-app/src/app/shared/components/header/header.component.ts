@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { SideNavService } from '../../services/side-nav/side-nav.service';
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SearchService } from '../../services/search/search.service';
 
 @Component({
   selector: 'ti-header',
@@ -11,6 +10,8 @@ import { SearchService } from '../../services/search/search.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+    category: string = '';
+
     @Input() isSideBarOpen: boolean; 
     searchForm: FormGroup;
 
@@ -19,8 +20,8 @@ export class HeaderComponent implements OnInit {
     constructor(
         private _sideNavService: SideNavService,
         private _router: Router,
-        private _formBuilder: FormBuilder,
-        private _searchService: SearchService ) { 
+        private _route: ActivatedRoute,
+        private _formBuilder: FormBuilder) { 
             this.createForm();
         }
 
@@ -36,10 +37,18 @@ export class HeaderComponent implements OnInit {
 
     doSearch() {
         console.log('working');
-        console.log(this.searchForm.controls['search'].value);
-        this._searchService.doSearch(this.searchForm.controls['search'].value, 'tools').subscribe(data => {
-            
-        });
+        const searchQuery = this.searchForm.controls['search'].value;
+        const skip = this._route.snapshot.queryParams["skip"]
+        const take = this._route.snapshot.queryParams["take"];
+        this._router.navigate([`/tools`], 
+            { queryParams: 
+                { 
+                    skip: skip, 
+                    take: take,
+                    category: this.category,
+                    query: searchQuery
+                }
+            });
     }
 
     toggleSideBar() {
@@ -50,8 +59,12 @@ export class HeaderComponent implements OnInit {
         }
     }
 
-    searchTypeClass(route: string) {
+    searchTypeClass(route: string): string {
         // TODO: parse route to determine active class for search type
-        return 'active';
+        return (route === this.category) ? 'active' : '';
+    }
+
+    setSearchCategory(route: string): void {
+        this.category = route;
     }
 }

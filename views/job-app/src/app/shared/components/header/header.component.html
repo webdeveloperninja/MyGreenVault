@@ -16,26 +16,29 @@
                         <div class="row">
                             <input formControlName="search" class="form-control col-lg-3 col-md-4" placeholder="Search">
                             <div class="button-group col-md-6 col-lg-6" role="group">
-                                <button role="button" class="btn btn-outline-success">
+                                <button type="submit" role="button" class="btn btn-outline-success">
                                     <i aria-hidden="true" class="fa fa-search"></i>
                                     Search
                                 </button>
                                 <button 
                                     role="button" 
                                     class="btn btn-outline-primary"
-                                    [ngClass]="searchTypeClass('tools')">
+                                    [ngClass]="searchTypeClass('tools')"
+                                    (click)="setSearchCategory('tools')">
                                         Tools
                                 </button>
                                 <button 
                                     role="button" 
                                     class="btn btn-outline-primary"
-                                    [ngClass]="searchTypeClass('jobs')">
+                                    [ngClass]="searchTypeClass('jobs')"
+                                    (click)="setSearchCategory('jobs')">
                                         Jobs
                                 </button>
                                 <button 
                                     role="button" 
                                     class="btn btn-outline-primary"
-                                    [ngClass]="searchTypeClass('operators')">
+                                    [ngClass]="searchTypeClass('operators')"
+                                    (click)="setSearchCategory('operators')">
                                         Operators
                                 </button>
                             </div>

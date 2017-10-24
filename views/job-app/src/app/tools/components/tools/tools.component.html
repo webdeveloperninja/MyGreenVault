@@ -75,7 +75,7 @@
                                     <button 
                                         (click)="previousPage()" 
                                         class="btn btn-outline-primary pull-right mr-2" 
-                                        [disabled]="isLoading">
+                                        [disabled]="!(hasPreviousTools$ | async)">
                                         Previous Page
                                 </button>
                                 </div>

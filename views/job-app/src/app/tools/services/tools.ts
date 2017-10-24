@@ -18,6 +18,9 @@ export class ToolsService {
     private _moreToolsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public readonly moreTools$: Observable<boolean> = this._moreToolsSubject$.asObservable();
 
+    private _hasPreviousToolsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public readonly hasPreviousTools$: Observable<boolean> = this._hasPreviousToolsSubject$.asObservable();
+
     private _toolsSkipSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
     public readonly toolsSkip$: Observable<number> = this._toolsSkipSubject$.asObservable();
 
@@ -47,12 +50,14 @@ export class ToolsService {
 
     public doSearch() {
         console.log('do search');
+        this._istoolsLoadingSubject$.next(true);
         if (this._router.navigated) {
             this._toolsSkipSubject$.next(this._route.snapshot.queryParams["skip"]);
             this._toolsTakeSubject$.next(this._route.snapshot.queryParams["take"]);
             this._categorySubject$.next(this._route.snapshot.queryParams['category'] || null);
             this._toolsQuerySubject$.next(this._route.snapshot.queryParams['query'] || null);
             this.getTools().first().subscribe();
+            this._istoolsLoadingSubject$.next(false);
         }
     }
 
@@ -66,11 +71,19 @@ export class ToolsService {
             url += `&query=${this._toolsQuerySubject$.value}`;
         }
 
+        if (this._categorySubject$.value) {
+            url += `&category=${this._categorySubject$.value}`
+        }
+
         return this._http.get(url, {headers: headers, withCredentials: true}).map((res: Response) => {
             const tools = res.json().data;
             const moreTools = res.json().more;
+            const hasPreviousTools = this._toolsSkipSubject$.value != 0;
+
             this._toolsSubject$.next(tools);
             this._moreToolsSubject$.next(moreTools);
+            this._hasPreviousToolsSubject$.next(hasPreviousTools);
+
             return tools;
         }).catch(err => {
             throw new Error(err);
@@ -105,7 +118,8 @@ export class ToolsService {
         headers.append('Content-Type', 'application/json');
         return this._http.put('/api/v1/tools', tool, {headers: headers})
             .map((res: Response) =>  {
-                return Observable.of(res);
+                this.doSearch();
+                return res;
             }).catch(err => {
                 if (Number(err.status) === Number(403)) {
                     const urlOrigin = window.location.origin;
