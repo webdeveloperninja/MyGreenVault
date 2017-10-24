@@ -15,8 +15,10 @@ exports.getTools = (req, res) => {
     let url_parts = url.parse(req.url, true);
     let skip = Number(url_parts.query.skip);
     let take = Number(url_parts.query.take);
+    let category = url_parts.query.category;
+    let query = url_parts.query.query;
 
-    toolQuery.getTools(userId, skip, take).then(tools => {
+    toolQuery.getTools(userId, skip, take, query).then(tools => {
         res.send(tools)
     }).catch(error => {
         res.send(500);

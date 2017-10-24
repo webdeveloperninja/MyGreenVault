@@ -29,11 +29,17 @@ exports.removeTool = (tool) => {
     });
 }
 
-exports.getTools = (userId, skip, take) => {
+exports.getTools = (userId, skip, take, query = null) => {
     return new Promise((resolve, reject) => {
-        Tool.find({
+        let queryObj = {
             userId: ObjectId(userId)
-        })
+        }
+
+        if (query) {
+            queryObj.toolName = {'$regex': query, '$options' : 'i'};
+        }
+
+        Tool.find(queryObj)
         .limit(take + 1)
         .skip(skip)
         .exec((err, results) => {
@@ -41,7 +47,7 @@ exports.getTools = (userId, skip, take) => {
                 reject(err);
             }
 
-            if (!!results.length) {
+            if (!!results && !!results.length) {
                 const resObj = {
                     skip: skip,
                     take: take,
