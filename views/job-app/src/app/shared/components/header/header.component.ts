@@ -45,7 +45,6 @@ export class HeaderComponent implements OnInit {
                 { 
                     skip: skip, 
                     take: take,
-                    category: this.category,
                     query: searchQuery
                 }
             });

@@ -33,9 +33,6 @@ export class ToolsService {
     private _toolsQuerySubject$: BehaviorSubject<string> = new BehaviorSubject<string>('');
     public readonly toolsQuery$: Observable<string> = this._toolsQuerySubject$.asObservable();
 
-    private _categorySubject$: BehaviorSubject<string> = new BehaviorSubject<string>('');
-    public readonly category$: Observable<string> = this._categorySubject$.asObservable();
-
     private _activetoolSubject$: BehaviorSubject<Tool> = new BehaviorSubject<Tool>(null);
     public readonly activetool$: Observable<Tool> = this._activetoolSubject$.asObservable();
 
@@ -54,7 +51,6 @@ export class ToolsService {
         if (this._router.navigated) {
             this._toolsSkipSubject$.next(this._route.snapshot.queryParams["skip"]);
             this._toolsTakeSubject$.next(this._route.snapshot.queryParams["take"]);
-            this._categorySubject$.next(this._route.snapshot.queryParams['category'] || null);
             this._toolsQuerySubject$.next(this._route.snapshot.queryParams['query'] || null);
             this.getTools().first().subscribe();
             this._istoolsLoadingSubject$.next(false);
@@ -69,10 +65,6 @@ export class ToolsService {
 
         if (this._toolsQuerySubject$.value) {
             url += `&query=${this._toolsQuerySubject$.value}`;
-        }
-
-        if (this._categorySubject$.value) {
-            url += `&category=${this._categorySubject$.value}`
         }
 
         return this._http.get(url, {headers: headers, withCredentials: true}).map((res: Response) => {
@@ -171,12 +163,26 @@ export class ToolsService {
     }
 
     public nextPage() {
-        this._router.navigate([`/tools`], { queryParams: { skip: (Number(this._toolsSkipSubject$.value) + Number(this._toolsTakeSubject$.value)), take: Number(this._toolsTakeSubject$.value) }});
+        this._router.navigate([`/tools`], 
+            { queryParams: 
+                { 
+                    skip: (Number(this._toolsSkipSubject$.value) + Number(this._toolsTakeSubject$.value)), 
+                    take: Number(this._toolsTakeSubject$.value),
+                    query: this._toolsQuerySubject$.value
+                }
+            });
     }
 
     public previousPage() {
-        if(Number(this._toolsSkipSubject$.value) >= Number(this._toolsTakeSubject$.value)) {
-            this._router.navigate([`/tools`], { queryParams: { skip: (Number(this._toolsSkipSubject$.value) - Number(this._toolsTakeSubject$.value)), take: Number(this._toolsTakeSubject$.value) }});
+        if (Number(this._toolsSkipSubject$.value) >= Number(this._toolsTakeSubject$.value)) {
+            this._router.navigate([`/tools`], 
+                { queryParams: 
+                    { 
+                        skip: (Number(this._toolsSkipSubject$.value) - Number(this._toolsTakeSubject$.value)), 
+                        take: Number(this._toolsTakeSubject$.value),
+                        query: this._toolsQuerySubject$.value
+                    }
+                });
         }
     }   
 }
