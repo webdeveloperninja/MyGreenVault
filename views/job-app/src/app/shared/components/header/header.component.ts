@@ -40,7 +40,7 @@ export class HeaderComponent implements OnInit {
         const searchQuery = this.searchForm.controls['search'].value;
         const skip = 0;
         const take = this._route.snapshot.queryParams["take"];
-        this._router.navigate([`/tools`], 
+        this._router.navigate([`/${this.category}`], 
             { queryParams: 
                 { 
                     skip: skip, 
@@ -65,5 +65,6 @@ export class HeaderComponent implements OnInit {
 
     setSearchCategory(route: string): void {
         this.category = route;
+        this.doSearch();
     }
 }

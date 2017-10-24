@@ -26,19 +26,6 @@ exports.getTools = (req, res) => {
     });
 };
 
-exports.searchTools = (req, res) => {
-    const urlParts = url.parse(req.url, true);
-    const query = urlParts.query.query;
-    const category = urlParts.query.category;
-    const userId = req.user._id;
-
-    toolQuery.searchTools(userId, query, category).then(tools => {
-        res.send(tools)
-    }).catch(error => {
-        res.send(500);
-        throw new Error(error);
-    });
-};
 
 exports.addTool = (req, res) => {
     const userId = req.user.id;

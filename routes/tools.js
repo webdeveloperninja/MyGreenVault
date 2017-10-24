@@ -3,7 +3,6 @@ module.exports = function(passportConfig, toolsApiController) {
     const router = require('express').Router();
 
     router.get('/', passportConfig.isAuthenticated, toolsApiController.getTools);
-    router.get('/search', passportConfig.isAuthenticated, toolsApiController.searchTools);
     router.post('/', passportConfig.isAuthenticated, toolsApiController.addTool);
     router.put('/', passportConfig.isAuthenticated, toolsApiController.updateTool);
     router.post('/remove', passportConfig.isAuthenticated, toolsApiController.removeTool);
