@@ -134,26 +134,26 @@ export class ToolsService {
     }
 
     public removeTool(tool) {
-        // let headers = new Headers();
-        // headers.append('Content-Type', 'application/json');
-        // this._istoolsLoadingSubject$.next(true);
-        // return this._http.post('/api/v1/tools/remove', tool, {headers: headers})
-        //     .map((res: Response) =>  {
-        //         this.getQueryParams();
-        //         if (this._toolsSubject$.value.length === 0) {
-        //             this.previousPage()
-        //         } 
-        //         return res;
-        //     }).catch(err => {
-        //         if (Number(err.status) === Number(403)) {
-        //             const urlOrigin = window.location.origin;
-        //             const urlPathName = window.location.pathname;
-        //             const loginUrl = 'login';
-        //             window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-        //         }
-        //         return err;
-        //     });
-        return Observable.of([]);
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        this._istoolsLoadingSubject$.next(true);
+        return this._http.post('/api/v1/tools/remove', tool, {headers: headers})
+            .map((res: Response) =>  {
+                if (this._toolsSubject$.value.length === 0) {
+                    this.previousPage();
+                } else {
+                    this.doSearch();
+                }
+                return res;
+            }).catch(err => {
+                if (Number(err.status) === Number(403)) {
+                    const urlOrigin = window.location.origin;
+                    const urlPathName = window.location.pathname;
+                    const loginUrl = 'login';
+                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+                }
+                return err;
+            });
     }
 
     public setActivetool(toolId: string): void {
