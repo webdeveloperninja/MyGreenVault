@@ -4,6 +4,7 @@ const cheerio = require('cheerio');
 const LastFmNode = require('lastfm').LastFmNode;
 const clockwork = require('clockwork')({ key: process.env.CLOCKWORK_KEY });
 const User = require('../../models/User');
+const operatorQuery = require('../../models/queries/operator');
 const url = require('url');
 
 
@@ -34,26 +35,41 @@ exports.getOperators = (req, res) => {
   
 };
 
-  
+exports.getOperator = (userId, operatorNumber) => {
+    operatorQuery.getOperator(userId, operatorNumber).then(operator => {
+
+    }).catch(err => {
+        res.send(500);
+        throw new Error(err);
+    })
+}
+
 
 exports.addOperator = (req, res) => {
-  Number(req.body.qty)
-  Number(req.body.idealAmount)
-  Number(req.body.autoOrderQty)
-  User.findOneAndUpdate(
-      {_id: req.user.id},
-      {$push: {operators: req.body}},
-      {safe: true, upsert: true},
-      function(err, model) {
-        if(err) {
-            console.log(err);
-            res.json({"error": true})
-        } else {
-            res.json({"success": true})
-        }
-           
-      }
-  );  
+  let operator = {};
+
+  // validate that operator id doesnt exist
+
+  if (req.body._id) {
+    operator = req.body;
+  } else {
+    operator = req.body;
+    operator.userId = req.user._id;
+  }
+
+  doesOperatorExist(operator).then(doesOperatorExist => {
+    if (doesOperatorExist) {
+        res.json({"operator exists": true})
+    } else {
+        operatorQuery.addOperator(operator).then(operatorResponse => {
+            res.send(200);
+        }).catch(err => {
+            res.send(500);
+            throw new Error(err);
+        });
+    }
+  });
+
 }
 
 exports.updateOperator = (req, res) => {
@@ -79,4 +95,20 @@ exports.removeOperator = (req, res) => {
     {$pull: {'operators': {'_id': req.body._id}}}, function() {
         res.json({"success": true});
     });
+}
+
+
+function doesOperatorExist(operator) {
+    return new Promise((reject, resolve) => {
+        operatorQuery.getOperator(operator.userId, operator.operatorNumber).then(operator => {
+            if (operator.length > 0) {
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        }).catch(err => {
+            reject(err);
+            throw new Error(err);
+        })
+    })
 }

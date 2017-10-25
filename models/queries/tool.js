@@ -1,4 +1,3 @@
-const User = require('../../models/User');
 const Tool = require('../../models/Tool');
 const ObjectId = require('mongodb').ObjectID;
 
