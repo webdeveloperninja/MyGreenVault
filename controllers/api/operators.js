@@ -47,7 +47,7 @@ exports.addOperator = (req, res) => {
     }
 
     operatorQuery.addOperator(operator).then(operatorResponse => {
-        res.send(200);
+        res.send(operatorResponse._doc);
     }).catch(err => {
         res.send(500);
         throw new Error(err);
@@ -56,28 +56,29 @@ exports.addOperator = (req, res) => {
 }
 
 exports.updateOperator = (req, res) => {
-  Number(req.body.operatorNumber);
-  User.findOneAndUpdate({
-         _id: req.user.id,
-        'operators._id': req.body._id
-    },
-    {
-        $set: {
-            'operators.$' : req.body
-        }
-    }, function(err, tool) {
-        res.json({"success": true});
+    const operator = req.body;
+    
+    if (!operator.userId) {
+        operator.userId = req.user._id;
+    }
+
+    operatorQuery.updateOperator(operator).then(data => {
+        res.send(200);
+    }).catch(err => {
+        res.send(500);
+        throw new Error(err);
     });
 }
 
 exports.removeOperator = (req, res) => {
-  User.findOneAndUpdate({
-         _id: req.user.id,
-        'operators._id': req.body._id
-    },
-    {$pull: {'operators': {'_id': req.body._id}}}, function() {
-        res.json({"success": true});
-    });
+    const operator = req.body;
+
+    operatorQuery.removeOperator(operator).then(data => {
+        res.send(200);
+    }).catch(err => {
+        res.send(500);
+        throw new Error(err);
+    })
 }
 
 

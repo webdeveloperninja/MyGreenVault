@@ -17,112 +17,70 @@ const PAGE_TITLE: string = 'Operators';
   styleUrls: ['./operators.component.scss']
 })
 export class OperatorsComponent implements OnInit {
-  skip: number;
-  take: number;
 
-  @ViewChild('updateOperatorRef') updateOperatorRef: ElementRef;
-  @ViewChild('addOperatorRef') addOperatorRef: ElementRef;
+    skip: number;
+    take: number;
 
-  private _addOperatorModalRef: NgbModalRef;
-  private _updateOperatorModalRef: NgbModalRef;
-  
-  title: string = PAGE_TITLE;
-  updateOperatorModal: any;
-  operators$: Observable<Operator[]>;
-  moreOperators$: Observable<boolean>;
-  operatorsSkip$: Observable<number>;
-  operatorsTake$: Observable<number>;
-  isOperatorsLoading$: Observable<boolean>;
-  activeOperatorSub$: Subscription;
-  activeOperator$: Observable<Operator>;
-  isLoading$: Observable<boolean>;
+    @ViewChild('updateOperatorRef') updateOperatorRef: ElementRef;
+    @ViewChild('addOperatorRef') addOperatorRef: ElementRef;
 
-  constructor(
-    private _operatorsService: OperatorsService,
-    private _modalService: NgbModal,
-    private _notificationService: NotificationService,
-    private _headerService: HeaderService,
-    private _route: ActivatedRoute,
-    private _router: Router
-  ) { }
+    private _addOperatorModalRef: NgbModalRef;
+    private _updateOperatorModalRef: NgbModalRef;
 
-  ngOnInit() {
-    this.setInitialSubscriptions();
-    this._headerService.setHeaderText(PAGE_TITLE);
-    let skip = this._route.snapshot.queryParams["skip"];
-    let take = this._route.snapshot.queryParams["take"];
-  
-    if (skip && take) {
-      this.skip = Number(skip);
-      this.take = Number(take);
-    } else {
-      this.skip = 0;
-      this.take = 5;
+    updateOperatorModal: any;
+    operators$: Observable<Operator[]> = this._operatorsService.operators$;
+    isOperatorsLoading$: Observable<boolean> = this._operatorsService.isOperatorsLoading$;
+    moreOperators$: Observable<boolean> = this._operatorsService.moreOperators$;
+    activeOperator$: Observable<Operator> = this._operatorsService.activeOperator$;
+    hasPreviousOperators$: Observable<boolean> = this._operatorsService.hasPreviousOperators$;
+
+    constructor(
+        private _operatorsService: OperatorsService,
+        private _modalService: NgbModal,
+        private _notificationService: NotificationService,
+        private _headerService: HeaderService,
+        private _route: ActivatedRoute,
+        private _router: Router
+    ) { }
+
+    ngOnInit() {
+        this._headerService.setHeaderText(PAGE_TITLE);
     }
 
-    this.navigate();
-    // this.doSearch();
-  }
-
-  nextPage() {
-    this.skip = this.skip + this.take;
-    this.navigate();
-  }
-
-  previousPage() {
-    if (this.skip >= this.take) {
-      this.skip = this.skip - this.take;
-      this.navigate();
+    nextPage() {
+        this._operatorsService.nextPage();
     }
-  }
 
-  navigate() {
-    this._router.navigate([`/operators`], { queryParams: { skip: this.skip, take: this.take }});
-    this.doSearch();
-    console.log('navigate', this.skip)
-  }
+    previousPage() {
+        this._operatorsService.previousPage();
+    }
 
-  doSearch() {
-    this._operatorsService.getOperators(this.skip, this.take).subscribe(response => {});
-  }
+    openUpdateOperatorModal(operatorId) {
+        this._operatorsService.setActiveOperator(operatorId);
+        this._updateOperatorModalRef = this._modalService.open(this.updateOperatorRef, { size: MODAL_SIZE });
+    }
 
-  openUpdateOperatorModal(operatorId) {
-    this._operatorsService.setActiveOperator(operatorId);
-    this._updateOperatorModalRef = this._modalService.open(this.updateOperatorRef, { size: MODAL_SIZE });
-  }
+    closeUpdateOperatorModal() {
+        this._updateOperatorModalRef.close();
+    }
 
-  closeUpdateOperatorModal() {
-    this._updateOperatorModalRef.close();
-  }
+    closeAddOperatorModal() {
+        this._addOperatorModalRef.close();
+    }
 
-  closeAddOperatorModal() {
-    this._addOperatorModalRef.close();
-  }
+    addOperator() {
+        this._addOperatorModalRef = this._modalService.open(this.addOperatorRef, { size: MODAL_SIZE });
+    }
 
-  addOperator() {
-    this._addOperatorModalRef = this._modalService.open(this.addOperatorRef, { size: MODAL_SIZE });
-  }
-
-  removeOperator(operator) {
-    this._operatorsService.removeOperator(operator).subscribe(() => {
-    
-      this._notificationService.setNotificationOn(REMOVE_TOOL_SUCCESS_MESSAGE);
-      this._operatorsService.getOperators(this.skip, this.take).first().subscribe(data => {
-        this.operators$.first().subscribe(tools => {
-          if (tools.length == 0) {
-            this.previousPage();
-          }
+    removeOperator(operator) {
+        this._operatorsService.removeOperator(operator).first().subscribe(() => {
+            this._notificationService.setNotificationOn(REMOVE_TOOL_SUCCESS_MESSAGE);
+            this.operators$.first().subscribe(operators => {
+                if ((operators.length - 1) == 0) {
+                    this.previousPage();
+                }
+            });
         });
-      });
-    });
-  }
+    }
 
-  setInitialSubscriptions() {
-    this.operators$ = this._operatorsService.operators$;
-    this.activeOperator$ = this._operatorsService.activeOperator$;
-    this.moreOperators$ = this._operatorsService.moreOperators$;
-    this.operatorsSkip$ = this._operatorsService.operatorsSkip$;
-    this.operatorsTake$ = this._operatorsService.operatorsTake$;
-    this.isLoading$ = this._operatorsService.isLoading$;
-  }
 }

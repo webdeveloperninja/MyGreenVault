@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col">
         <div class="card-box">
-            <i class='fa fa-spinner fa-spin card-spin' *ngIf="isLoading$ | async"></i>          
+            <i class='fa fa-spinner fa-spin card-spin' *ngIf="isOperatorsLoading$ | async"></i>          
             <div class="row mt-3">
                 <div class="col-md-12">
                     <button 
@@ -43,18 +43,16 @@
                     <div class="row">
                         <div class="col-md-12">
                             <button 
-                                (click)="previousPage()" 
-                                *ngIf="(operatorsSkip$ | async) !== 0" 
-                                class="btn btn-outline-primary mr-auto" 
-                                [disabled]="isLoading$ | async">
-                                Previous Page
-                            </button>
-                            <button 
                                 (click)="nextPage()" 
                                 *ngIf="moreOperators$ | async" 
-                                class="btn btn-outline-primary ml-auto next" 
-                                [disabled]="isLoading$ | async">
+                                class="btn btn-outline-primary next pull-right">
                                 Next Page
+                            </button>
+                            <button 
+                                (click)="previousPage()" 
+                                *ngIf="(operatorsSkip$ | async) !== 0" 
+                                class="btn btn-outline-primary pull-right mr-2">
+                                Previous Page
                             </button>
                         </div>
                     </div>

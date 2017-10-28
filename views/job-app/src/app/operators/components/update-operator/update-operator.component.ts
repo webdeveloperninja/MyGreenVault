@@ -59,10 +59,11 @@ export class UpdateOperatorComponent implements OnInit {
   }
 
   updateOperator(activeOperator) {
-    this.activeOperatorSubscription$ = this._operatorsService.updateOperator(this.activeOperatorFormGroup.value).subscribe(data => {
-      this._operatorsService.getOperators(this.skip, this.take).first().subscribe();
-      this.closeModal();
-    });
+      console.log(this.activeOperatorFormGroup.value);
+        this.activeOperatorSubscription$ = this._operatorsService.updateOperator(this.activeOperatorFormGroup.value).subscribe(data => {
+            this._operatorsService.doSearch();
+            this.closeModal();
+        });
   }
 
   closeModal() {

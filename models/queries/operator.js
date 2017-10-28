@@ -41,7 +41,7 @@ exports.getOperators = (userId, skip, take, query = null) => {
         }
 
         if (query) {
-            queryObj.toolName = {'$regex': query, '$options' : 'i'};
+            queryObj.operatorName = {'$regex': query, '$options' : 'i'};
         }
 
         Operator.find(queryObj)
@@ -77,6 +77,34 @@ exports.addOperator = operator => {
                 reject(err);
             }
             resolve(results);
+        });
+    });
+}
+
+exports.removeOperator = (operator) => {
+    return new Promise((resolve, reject) => {
+        Operator.find({
+            _id: ObjectId(operator._id),
+            userId: operator.userId
+        }).remove().exec((err, result) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(result);
+        });
+    });
+}
+
+exports.updateOperator = (updatedOperator) => {
+    return new Promise((resolve, reject) => {
+        Operator.findOneAndUpdate({
+            _id: ObjectId(updatedOperator._id),
+            userId: ObjectId(updatedOperator.userId)
+        }, updatedOperator).exec(err => {
+            if (err) {
+                reject(err);
+            }
+            resolve('successfully updated tool');
         });
     });
 }
