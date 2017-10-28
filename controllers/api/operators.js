@@ -9,30 +9,19 @@ const url = require('url');
 
 
 exports.getOperators = (req, res) => {
-  let url_parts = url.parse(req.url, true);
-  let skip = Number(url_parts.query.skip);
-  let take = Number(url_parts.query.take);
-  User.find({ _id: req.user.id},{'operators':{$slice:[skip, take + 1]}}).exec((err, data) => {
-    if (err) { return next(err); }
+    const userId = req.user._id;
+    let url_parts = url.parse(req.url, true);
+    let skip = Number(url_parts.query.skip);
+    let take = Number(url_parts.query.take);
+    let category = url_parts.query.category;
+    let query = url_parts.query.query;
 
-        let operators = data[0]._doc.operators;
-        let operatorsArrLength = operators.length;
-        let more = false;
-
-        if(operators.length === take + 1) {
-          more = true;
-          operators = operators.slice(0, -1); 
-        }
-        
-        let resObj = {
-          skip: skip,
-          take: take,
-          more: more,
-          data: operators
-      }
-      res.json(resObj);
-  })
-  
+    operatorQuery.getOperators(userId, skip, take, query).then(operators => {
+        res.send(operators)
+    }).catch(error => {
+        res.send(500);
+        throw new Error(error);
+    });
 };
 
 exports.getOperator = (userId, operatorNumber) => {
@@ -46,29 +35,23 @@ exports.getOperator = (userId, operatorNumber) => {
 
 
 exports.addOperator = (req, res) => {
-  let operator = {};
+    let operator = {};
 
-  // validate that operator id doesnt exist
+    // validate that operator id doesnt exist
 
-  if (req.body._id) {
-    operator = req.body;
-  } else {
-    operator = req.body;
-    operator.userId = req.user._id;
-  }
-
-  doesOperatorExist(operator).then(doesOperatorExist => {
-    if (doesOperatorExist) {
-        res.json({"operator exists": true})
+    if (req.body._id) {
+        operator = req.body;
     } else {
-        operatorQuery.addOperator(operator).then(operatorResponse => {
-            res.send(200);
-        }).catch(err => {
-            res.send(500);
-            throw new Error(err);
-        });
+        operator = req.body;
+        operator.userId = req.user._id;
     }
-  });
+
+    operatorQuery.addOperator(operator).then(operatorResponse => {
+        res.send(200);
+    }).catch(err => {
+        res.send(500);
+        throw new Error(err);
+    });
 
 }
 
