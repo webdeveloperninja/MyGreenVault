@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers, Response} from '@angular/http';
 import {Observable, BehaviorSubject} from 'rxjs'
+import { Router, ActivatedRoute, Params, Event, NavigationEnd } from '@angular/router';
+
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 
@@ -13,35 +15,103 @@ export class JobsService {
     private _jobsSubject$: BehaviorSubject<Job[]> = new BehaviorSubject<Job[]>(null);
     public readonly jobs$: Observable<Job[]> = this._jobsSubject$.asObservable();
 
-    private _isJobsLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
-    public readonly isJobsLoading$: Observable<boolean> = this._isJobsLoadingSubject$.asObservable();
-
     private _moreJobsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public readonly moreJobs$: Observable<boolean> = this._moreJobsSubject$.asObservable();
 
-    private _jobsSkipSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(DEFAULT_SKIP);
+    private _hasPreviousJobsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public readonly hasPreviousJobs$: Observable<boolean> = this._hasPreviousJobsSubject$.asObservable();
+
+    private _jobsSkipSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
     public readonly jobsSkip$: Observable<number> = this._jobsSkipSubject$.asObservable();
 
-    private _jobsTakeSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(DEFAULT_TAKE);
+    private _jobsTakeSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
     public readonly jobsTake$: Observable<number> = this._jobsSkipSubject$.asObservable();
+
+    private _isJobsLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
+    public readonly isJobsLoading$: Observable<boolean> = this._isJobsLoadingSubject$.asObservable();
+
+    private _jobsQuerySubject$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+    public readonly jobsQuery$: Observable<string> = this._jobsQuerySubject$.asObservable();
 
     private _activeJobSubject$: BehaviorSubject<Job> = new BehaviorSubject<Job>(null);
     public readonly activeJob$: Observable<Job> = this._activeJobSubject$.asObservable();
 
-    /// KANBAN TODO: REFACTOR ALL JOBS AND JOBS
 
-    private _allJobsSubject$: BehaviorSubject<Job[]> = new BehaviorSubject<Job[]>(null);
-    public readonly allJobs$: Observable<Job[]> = this._allJobsSubject$.asObservable();
+    constructor(
+        private _http: Http,
+        private _route: ActivatedRoute,
+        private _router: Router) {
+        _router.events.filter(event => event instanceof NavigationEnd).subscribe(event =>  this.doSearch());    
+    }
 
+    public doSearch() {
+        console.log('do search');
+        this._isJobsLoadingSubject$.next(true);
+        if (this._router.navigated) {
+            this._jobsSkipSubject$.next(this._route.snapshot.queryParams["skip"]);
+            this._jobsTakeSubject$.next(this._route.snapshot.queryParams["take"]);
+            this._jobsQuerySubject$.next(this._route.snapshot.queryParams['query'] || null);
+            this.getJobs().first().subscribe();
+            this._isJobsLoadingSubject$.next(false);
+        }
+    }
 
-    constructor(private _http: Http,) {}
-
-    addJob(job) {
+    private getJobs() {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('/api/v1/jobs/', job, {headers: headers}) // ...using post request
-            .map((res: Response) => res.json())
+
+        let url = `/api/v1/jobs?skip=${this._jobsSkipSubject$.value}&take=${this._jobsTakeSubject$.value}`;
+
+        if (this._jobsQuerySubject$.value) {
+            url += `&query=${this._jobsQuerySubject$.value}`;
+        }
+
+        return this._http.get(url, {headers: headers, withCredentials: true}).map((res: Response) => {
+            const jobs = res.json().data;
+            const moreJobs = res.json().more;
+            const hasPreviousJobs = this._jobsSkipSubject$.value != 0;
+
+            this._jobsSubject$.next(jobs);
+            this._moreJobsSubject$.next(moreJobs);
+            this._hasPreviousJobsSubject$.next(hasPreviousJobs);
+
+            return jobs;
+        }).catch(err => {
+            throw new Error(err);
+        });
+    }
+
+    public addJob(job) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this._http.post('/api/v1/jobs/', job, {headers: headers})
+            .map((res: Response) => {
+                res.json();
+                this._moreJobsSubject$.next(res.json().more);
+            })
             .catch(err => {
+                if (Number(err.status) === Number(403)) {
+                    const urlOrigin = window.location.origin;
+                    const urlPathName = window.location.pathname;
+                    const loginUrl = 'login';
+                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+                }
+                return err;
+            }).finally(() => {
+                this.doSearch();
+            })
+    }
+
+
+
+    public updateJob(job) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this._http.put('/api/v1/jobs', job, {headers: headers})
+            .map((res: Response) =>  {
+                this.doSearch();
+                return res;
+            }).catch(err => {
                 if (Number(err.status) === Number(403)) {
                     const urlOrigin = window.location.origin;
                     const urlPathName = window.location.pathname;
@@ -52,93 +122,19 @@ export class JobsService {
             });
     }
 
-    getJobs(skip, take) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        this._isJobsLoadingSubject$.next(true);
-        return this._http.get(`/api/v1/jobs?skip=${skip}&take=${take}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
-            this._isJobsLoadingSubject$.next(false);
-            this._jobsSubject$.next(res.json().data)
-            this._moreJobsSubject$.next(res.json().more);
-            this._jobsSkipSubject$.next(res.json().skip);
-            this._jobsTakeSubject$.next(res.json().take);
-        }).catch(err => {
-            if (Number(err.status) === Number(403)) {
-                const urlOrigin = window.location.origin;
-                const urlPathName = window.location.pathname;
-                const loginUrl = 'login';
-                window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-            }
-            return err;
-        });
-    }
 
-    getJob(jobNumber: string) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        this._isJobsLoadingSubject$.next(true);
-        return this._http.get(`/api/v1/jobs/${jobNumber}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
-            return res.json();
-        }).catch(err => {
-            if (Number(err.status) === Number(403)) {
-                const urlOrigin = window.location.origin;
-                const urlPathName = window.location.pathname;
-                const loginUrl = 'login';
-                window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-            }
-            return err;
-        });  
-    }
-
-    getAllJobs() {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        this._isJobsLoadingSubject$.next(true);
-        return this._http.get(`/api/v1/jobs/all-jobs`, {headers: headers, withCredentials: true}).map((res: Response) => { 
-            this._isJobsLoadingSubject$.next(false);
-            console.log(res);
-            this._allJobsSubject$.next(res.json())
-            return res.json();
-        }).catch(err => {
-            if (Number(err.status) === Number(403)) {
-                const urlOrigin = window.location.origin;
-                const urlPathName = window.location.pathname;
-                const loginUrl = 'login';
-                window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-            }
-            return err;
-        });
-    }
-
-
-    updateJob(job) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        return this._http.put('/api/v1/jobs', job, {headers: headers})
-            .map((res: Response) =>  {
-                return res.json() 
-        }).catch(err => {
-            if (Number(err.status) === Number(403)) {
-                const urlOrigin = window.location.origin;
-                const urlPathName = window.location.pathname;
-                const loginUrl = 'login';
-                window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-            }
-            return err;
-        });
-    }
-
-    removeJob(job) {
+    public removeJob(job) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         this._isJobsLoadingSubject$.next(true);
         return this._http.post('/api/v1/jobs/remove', job, {headers: headers})
             .map((res: Response) =>  {
-                if(this._jobsSubject$.value.length === 1) {
+                if (this._jobsSubject$.value.length === 0) {
                     this.previousPage();
+                } else {
+                    this.doSearch();
                 }
-                this.getJobs(this._jobsSkipSubject$.value, this._jobsTakeSubject$.value).subscribe();
-                return res.json() 
+                return res;
             }).catch(err => {
                 if (Number(err.status) === Number(403)) {
                     const urlOrigin = window.location.origin;
@@ -146,28 +142,39 @@ export class JobsService {
                     const loginUrl = 'login';
                     window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
                 }
-            return err;
-        });
+                return err;
+            });
     }
 
-    setActiveJob(jobId: string): void {
+    public setActiveJob(jobId: string): void {
         let activeJob = this.jobs$.map(jobs => jobs.filter(job => job._id === jobId)[0]).subscribe(activeJob => {
             this._activeJobSubject$.next(activeJob);
         });
     }
 
-    nextPage() {
-        this._jobsSkipSubject$.next(this._jobsSkipSubject$.value + this._jobsTakeSubject$.value);
-        this.getJobs(this._jobsSkipSubject$.value, this._jobsSkipSubject$.value).first().subscribe();
+    public nextPage() {
+        this._router.navigate([`/jobs`], 
+            { queryParams: 
+                { 
+                    skip: (Number(this._jobsSkipSubject$.value) + Number(this._jobsTakeSubject$.value)), 
+                    take: Number(this._jobsTakeSubject$.value),
+                    query: this._jobsQuerySubject$.value
+                }
+            });
     }
 
-    previousPage() {
-        if(this._jobsSkipSubject$.value >= this._jobsTakeSubject$.value) {
-            this._jobsSkipSubject$.next(this._jobsSkipSubject$.value - this._jobsTakeSubject$.value);
-            this.getJobs(this._jobsSkipSubject$.value, this._jobsTakeSubject$.value).first().subscribe();
+    public previousPage() {
+        if (Number(this._jobsSkipSubject$.value) >= Number(this._jobsTakeSubject$.value)) {
+            this._router.navigate([`/jobs`], 
+                { queryParams: 
+                    { 
+                        skip: (Number(this._jobsSkipSubject$.value) - Number(this._jobsTakeSubject$.value)), 
+                        take: Number(this._jobsTakeSubject$.value),
+                        query: this._jobsQuerySubject$.value
+                    }
+                });
         }
-    }
-
+    }   
 }
 
 export interface Job {

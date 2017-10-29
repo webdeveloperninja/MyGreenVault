@@ -72,15 +72,11 @@ export class JobsComponent implements OnInit {
   }
 
   nextPage() {
-    this.skip = this.skip + this.take;
-    this.navigate();
+    this._jobsService.nextPage();
   }
 
   previousPage() {
-    if (this.skip >= this.take) {
-      this.skip = this.skip - this.take;
-      this.navigate();
-    }
+    this._jobsService.previousPage();
   }
 
   navigate() {
@@ -91,7 +87,7 @@ export class JobsComponent implements OnInit {
 
   doSearch() {
     this.isJobNotFound = false;
-    this._jobsService.getJobs(this.skip, this.take).first().subscribe();
+    this._jobsService.doSearch();
   }
 
   openUpdateJobModal(jobId) {
@@ -117,6 +113,11 @@ export class JobsComponent implements OnInit {
 
   removeJob(job) {
     this._jobsService.removeJob(job).subscribe(() => {
+            this.jobs$.first().subscribe(jobs => {
+                if ((jobs.length - 1) == 0) {
+                    this.previousPage();
+                }
+            });
       this._notificationService.setNotificationOn(REMOVE_JOB_SUCCESS_MESSAGE);
     });
   }

@@ -1,10 +1,10 @@
 'use strict';
-const jobQuery = require('../../models/queries/job');
 const cheerio = require('cheerio');
 const LastFmNode = require('lastfm').LastFmNode;
 const clockwork = require('clockwork')({ key: process.env.CLOCKWORK_KEY });
 const User = require('../../models/User');
 const url = require('url');
+const jobQuery = require('../../models/queries/job');
 
 
 exports.getAllJobs = (req, res) => {
@@ -16,29 +16,18 @@ exports.getAllJobs = (req, res) => {
 };
 
 exports.getJobs = (req, res) => {
-  let url_parts = url.parse(req.url, true);
-  let skip = Number(url_parts.query.skip);
-  let take = Number(url_parts.query.take);
-  User.find({ _id: req.user.id},{'jobs':{$slice:[skip, take + 1]}}).exec((err, data) => {
-    if (err) { return next(err); }
+    const userId = req.user._id;
+    let url_parts = url.parse(req.url, true);
+    let skip = Number(url_parts.query.skip);
+    let take = Number(url_parts.query.take);
+    let query = url_parts.query.query;
 
-        let jobs = data[0]._doc.jobs;
-        let jobsArrLength = jobs.length;
-        let more = false;
-
-        if(jobs.length === take + 1) {
-          more = true;
-          jobs = jobs.slice(0, -1); 
-        }
-        
-        let resObj = {
-          skip: skip,
-          take: take,
-          more: more,
-          data: jobs
-      }
-      res.json(resObj);
-  })
+    jobQuery.getJobs(userId, skip, take, query).then(jobs => {
+        res.send(jobs)
+    }).catch(error => {
+        res.send(500);
+        throw new Error(error);
+    });
 };
 
 exports.getJob = (req, res) => {
@@ -54,40 +43,49 @@ exports.getJob = (req, res) => {
 }
 
 exports.addJob = (req, res) => {
-  User.findOneAndUpdate(
-      {_id: req.user.id},
-      {$push: {jobs: req.body}},
-      {safe: true, upsert: true},
-      function(err, model) {
-          if(err)
-            res.json({"error": true})
-          else 
-            res.json({"success": true})
-      }
-  );  
+    let job = {};
+
+    // validate that operator id doesnt exist
+
+    if (req.body._id) {
+        job = req.body;
+    } else {
+        job = req.body;
+        job.userId = req.user._id;
+    }
+
+    jobQuery.addJob(job).then(jobResponse => {
+        res.send(jobResponse._doc);
+    }).catch(err => {
+        res.send(500);
+        throw new Error(err);
+    });
+
 }
 
 exports.updateJob = (req, res) => {
-  User.findOneAndUpdate({
-         _id: req.user.id,
-        'jobs._id': req.body._id
-    },
-    {
-        $set: {
-            'jobs.$' : req.body
-        }
-    }, function(err, job) {
-        res.json({"success": true});
+    const job = req.body;
+    
+    if (!job.userId) {
+        job.userId = req.user._id;
+    }
+
+    jobQuery.updateJob(job).then(data => {
+        res.send(200);
+    }).catch(err => {
+        res.send(500);
+        throw new Error(err);
     });
 }
 
 exports.removeJob = (req, res) => {
-  User.findOneAndUpdate({
-         _id: req.user.id,
-        'jobs._id': req.body._id
-    },
-    {$pull: {'jobs': {'_id': req.body._id}}}, function() {
-        res.json({"success": true});
+    const job = req.body;
+
+    jobQuery.removeJob(job).then(data => {
+        res.send(200);
+    }).catch(err => {
+        res.send(500);
+        throw new Error(err);
     });
 }
 

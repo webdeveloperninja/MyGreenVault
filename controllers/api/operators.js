@@ -78,7 +78,7 @@ exports.removeOperator = (req, res) => {
     }).catch(err => {
         res.send(500);
         throw new Error(err);
-    })
+    });
 }
 
 

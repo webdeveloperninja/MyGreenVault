@@ -68,9 +68,7 @@ export class UpdateJobComponent implements OnInit {
 
   updateJob(activeJob) {
     this.activeJobSubscription$ = this._jobsService.updateJob(activeJob.value).subscribe(data => {
-      this._jobsService.getJobs(this.skip, this.take).subscribe(response => {
-
-      }); 
+        this._jobsService.doSearch();
       // this._jobsService.getJobs().finally(() => {
      
       // }).subscribe(() => {
