@@ -48,7 +48,7 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {
         // set cat and buttons on init
         this.isSideNavOpen$ = this._sideNavService.isSideNavOpen$;
-        this._router.events.filter(event => event instanceof NavigationEnd).first().subscribe(event => {
+        this._router.events.filter(event => event instanceof NavigationEnd).subscribe(event => {
             let url = event as NavigationEnd;
           
             if (url.url.includes('operators')) {
@@ -92,9 +92,4 @@ export class HeaderComponent implements OnInit {
         return (route === this.category) ? 'active' : '';
     }
 
-    setSearchCategory(route: string): void {
-        console.log('route', route);
-        this.category = route;
-        this.doSearch();
-    }
 }
