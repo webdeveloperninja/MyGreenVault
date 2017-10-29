@@ -20,7 +20,6 @@ export class KanbanComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.jobs$ = this._jobsService.allJobs$;
     this._headerService.setHeaderText('Kanban');
     this.isJobsLoading$ = this._jobsService.isJobsLoading$;
     
@@ -38,8 +37,7 @@ export class KanbanComponent implements OnInit {
 
   doSearch() {
     this.isJobNotFound = false;
-    this._jobsService.getAllJobs().subscribe(response => {
-    })
+
   }
 
 }

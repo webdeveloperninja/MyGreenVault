@@ -48,7 +48,19 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {
         // set cat and buttons on init
         this.isSideNavOpen$ = this._sideNavService.isSideNavOpen$;
+        this._router.events.filter(event => event instanceof NavigationEnd).first().subscribe(event => {
+            let url = event as NavigationEnd;
+          
+            if (url.url.includes('operators')) {
+                this.category = 'operators';
+            } else if (url.url.includes('tools')) {
+                this.category = 'tools';
+            } else if (url.url.includes('jobs')) {
+                this.category = 'jobs';
+            } 
 
+            console.log('category', this.category);
+        });
     }
 
     doSearch() {
@@ -64,6 +76,7 @@ export class HeaderComponent implements OnInit {
                     query: searchQuery
                 }
             });
+        this.searchForm.patchValue({search: ''});
     }
 
     toggleSideBar() {
@@ -82,7 +95,6 @@ export class HeaderComponent implements OnInit {
     setSearchCategory(route: string): void {
         console.log('route', route);
         this.category = route;
-        this.searchForm.patchValue({search: ''});
         this.doSearch();
     }
 }
