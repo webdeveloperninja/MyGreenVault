@@ -59,7 +59,6 @@ export class HeaderComponent implements OnInit {
                 this.category = 'jobs';
             } 
 
-            console.log('category', this.category);
         });
     }
 
@@ -92,4 +91,8 @@ export class HeaderComponent implements OnInit {
         return (route === this.category) ? 'active' : '';
     }
 
+    // setSearchCategory(route: string): void {
+    //     console.log('route', route);
+    //     this.category = route;
+    // }
 }
