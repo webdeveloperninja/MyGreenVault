@@ -5,6 +5,7 @@ const clockwork = require('clockwork')({ key: process.env.CLOCKWORK_KEY });
 const url = require('url');
 const checkoutQuery = require('../../models/queries/checkout');
 const jobQuery = require('../../models/queries/job');
+const operatorQuery = require('../../models/queries/operator');
 
 exports.addCheckout = (req, res) => {
     let checkout = {};
@@ -19,7 +20,32 @@ exports.addCheckout = (req, res) => {
 
     doesJobExist(checkout).then(doesJobExist => {
         if (doesJobExist) {
-            res.send(200);
+            doesOperatorExist(checkout.userId, checkout.operatorNumber).then(doesOperatorExist => {
+                if (doesOperatorExist) {
+                    isThereEnoughTools(checkout).then(isThereEnoughTools => {
+                        if (isThereEnoughTools) {
+                            res.send(200);
+                        } else {
+                            res.status(400).send({
+                                toolQty: {
+                                    message: 'Not Enough Tools',
+                                    status: 'danger'
+                                }
+                            })
+                        }
+                    });
+                } else {
+                    res.status(400).send({
+                        operatorNumber: {
+                            message: 'Operator Not Found',
+                            status: 'danger'
+                        }
+                    });
+                }
+            }).catch(err => {
+                throw new Error(err);
+                res.send(500);
+            });
         } else {
             res.status(400).send({ 
                 jobNumber: {
@@ -57,5 +83,29 @@ function doesJobExist(checkout) {
         }).catch(err => {
             reject(err);
         });
+    });
+}
+
+function doesOperatorExist(userId, operatorNumber) {
+    return new Promise((resolve, reject) => {
+        operatorQuery.getOperator(userId, operatorNumber).then(operator => {
+            if (operator && operator.operatorNumber) {
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}
+
+function isThereEnoughTools(checkout) {
+    return new Promise((resolve, reject) => {
+        if (checkout.toolQty > checkout.tool.qty) {
+            resolve(false);
+        } else {
+            resolve(true);
+        }
     });
 }

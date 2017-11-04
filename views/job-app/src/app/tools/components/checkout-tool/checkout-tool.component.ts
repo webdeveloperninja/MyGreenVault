@@ -88,20 +88,20 @@ export class CheckoutToolComponent implements OnInit {
 
                 let response = JSON.parse(err._body);
                 
-                // if (response.operatorNumber) {
-                //     this.operatorInputMessage = response.operatorNumber.message;
-                //     this.operatorInputStatus = response.operatorNumber.status;
-                // }
+                if (response.operatorNumber) {
+                    this.operatorInputMessage = response.operatorNumber.message;
+                    this.operatorInputStatus = response.operatorNumber.status;
+                }
 
                 if (response.jobNumber) {
                     this.jobInputMessage = response.jobNumber.message;
                     this.jobInputStatus = response.jobNumber.status;
                 }
 
-                // if (response.toolQty) {
-                //     this.toolQtyInputMessage = response.toolQty.message;
-                //     this.toolQtyInputStatus = response.toolQty.status;
-                // }
+                if (response.toolQty) {
+                    this.toolQtyInputMessage = response.toolQty.message;
+                    this.toolQtyInputStatus = response.toolQty.status;
+                }
             
             });
     }
