@@ -30,6 +30,7 @@ const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const jobsApiController = require('./controllers/api/job');
 const toolsApiController = require('./controllers/api/tools');
+const checkoutsApiController = require('./controllers/api/checkout');
 const operatorsApiController = require('./controllers/api/operators');
 const contactController = require('./controllers/contact');
 const toolingInventorySPA = require('./controllers/toolingInventorySpa');
@@ -47,6 +48,7 @@ const app = express();
 const toolsRoutes = require('./routes/tools')(passportConfig, toolsApiController);
 const operatorsRoutes = require('./routes/operators')(passportConfig, operatorsApiController);
 const jobsRoutes = require('./routes/jobs')(passportConfig, jobsApiController);
+const checkoutsRoutes = require('./routes/checkouts')(passportConfig, checkoutsApiController);
 
 app.use(function(req, res, next) {
 res.header('Access-Control-Allow-Credentials', true);
@@ -143,6 +145,7 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
 app.use('/api/v1/tools', toolsRoutes);
 app.use('/api/v1/operators', operatorsRoutes);
 app.use('/api/v1/jobs', jobsRoutes);
+app.use('/api/v1/checkouts', checkoutsRoutes);
 
 
 

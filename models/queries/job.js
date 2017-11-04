@@ -3,34 +3,29 @@ const Job = require('../../models/Job');
 const ObjectId = require('mongodb').ObjectID;
 
 exports.getJob = (userId, jobNumber) => {
-  return new Promise((resolve, reject) => {
-      User.findOne({ '_id': userId }, (err, user) => {
-          if (err) return handleError(err);
-          for (var i=0; i< user.jobs.length; i++) {
-              const actualJobNumber = Number(user.jobs[i].jobNumber);
-              const jobNumberToCompare = Number(jobNumber);
-              if (actualJobNumber === jobNumberToCompare) {
-                  resolve(user.jobs[i]);
-                  return;
-              }
-          }
-          resolve(null);
-      });
-  }) 
+    return new Promise((resolve, reject) => {
+        let queryObj = {
+            userId: ObjectId(userId),
+            jobNumber: jobNumber
+        }
+
+        Job.find(queryObj)
+        .limit(1)
+        .exec((err, results) => {
+            if (err) {
+                reject(err);
+            }
+
+            if (!!results && !!results.length) {
+                resolve(results[0]);
+            } else {
+                resolve([]);
+            }
+            
+        });
+    });
 }
 
-exports.addCheckout = (userId, jobId, checkout) => {
-  return new Promise((resolve, reject) => {
-    User.update({_id: userId, 'jobs._id': jobId}, {$push : 
-        {'jobs.$.toolCheckouts' : checkout}
-    }, {upsert: true}, function(err, user){ 
-      if (err) {
-        reject(err);
-      }
-      resolve(user)
-    });
-  });
-}
 
 exports.addJob = job => {
     const newJob = new Job(job);

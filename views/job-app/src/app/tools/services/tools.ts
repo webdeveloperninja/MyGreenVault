@@ -123,11 +123,11 @@ export class ToolsService {
             });
     }
 
-    public checkoutTool(tool) {
+    public checkoutTool(checkout) {
         // This will be string of async to checkout. 
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('/api/v1/tools/checkout', tool, {headers: headers})
+        return this._http.post('/api/v1/checkouts', checkout, {headers: headers})
             .map((res: Response) => {
                 return res.json()
             });

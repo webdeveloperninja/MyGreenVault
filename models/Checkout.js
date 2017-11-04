@@ -5,9 +5,11 @@ const checkoutSchema = new mongoose.Schema({
     operatorNumber: {type: Number, require: true},
     jobNumber: {type: Number, require: true},
     toolName: {type: Number, require: true},
-    checkoutQty: {type: Number, require: true} 
+    toolQty: {type: Number, require: true},
+    cost: {type: String, require: false},
+    tool: {type: Object, require: true }
 }, { collection: 'checkout'});
 
-const Operator = mongoose.model('Checkout', operatorSchema);
+const Operator = mongoose.model('Checkout', checkoutSchema);
 
 module.exports = Operator;
