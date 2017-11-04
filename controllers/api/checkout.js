@@ -17,22 +17,21 @@ exports.addCheckout = (req, res) => {
         checkout.userId = req.user._id;
     }
 
-    jobQuery.getJob(checkout.userId, checkout.jobNumber).then(job => {
-        
-        if (job.jobNumber) {
-            console.log('yeah job', job);
-            res.sstatus(200);
+    doesJobExist(checkout).then(doesJobExist => {
+        if (doesJobExist) {
+            res.send(200);
         } else {
             res.status(400).send({ 
                 jobNumber: {
-                    message: 'Job Not Found '
+                    message: 'Job Not Found',
+                    status: 'danger'
                 } 
             });
         }
     }).catch(err => {
         throw new Error(err);
-    })
-
+        res.send(500);
+    });
 
     // Make sure job number exists 
 
@@ -45,4 +44,18 @@ exports.addCheckout = (req, res) => {
     //     throw new Error(err);
     // });
 
+}
+
+function doesJobExist(checkout) {
+    return new Promise((resolve, reject) => {
+        jobQuery.getJob(checkout.userId, checkout.jobNumber).then(job => {   
+            if (job.jobNumber) {
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        }).catch(err => {
+            reject(err);
+        });
+    });
 }
