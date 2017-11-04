@@ -12,31 +12,41 @@
             </div>
             <div class="col-10">
                 <div class="row mt-3">
-                    <input class="form-control col-lg-3 col-md-4" placeholder="Search">
-                    <div class="button-group col-md-6 col-lg-6" role="group">
-                        <button role="button" class="btn btn-outline-success">
-                            <i aria-hidden="true" class="fa fa-search"></i>
-                            Search
-                        </button>
-                        <button 
-                            role="button" 
-                            class="btn btn-outline-primary"
-                            [ngClass]="searchTypeClass('tools')">
-                                Tools
-                        </button>
-                        <button 
-                            role="button" 
-                            class="btn btn-outline-primary"
-                            [ngClass]="searchTypeClass('jobs')">
-                                Jobs
-                        </button>
-                        <button 
-                            role="button" 
-                            class="btn btn-outline-primary"
-                            [ngClass]="searchTypeClass('operators')">
-                                Operators
-                        </button>
-                    </div>
+                    <form [formGroup]="searchForm" class="w-100" (ngSubmit)="doSearch()"> 
+                        <div class="row">
+                            <input formControlName="search" class="form-control col-lg-3 col-md-4" placeholder="Search">
+                            <div class="button-group col-md-6 col-lg-6" role="group">
+                                <button type="submit" role="button" class="btn btn-outline-success">
+                                    <i aria-hidden="true" class="fa fa-search"></i>
+                                    Search
+                                </button>
+                                <a 
+                                    role="button" 
+                                    class="btn btn-outline-primary"
+                                    [ngClass]="searchTypeClass('tools')"
+                                    routerLink="/tools" [queryParams]="{skip:defaultToolSkip, take:defaultToolTake}"
+                                    routerLinkActive="active">
+                                        Tools
+                                </a>
+                                <a 
+                                    role="button" 
+                                    class="btn btn-outline-primary"
+                                    [ngClass]="searchTypeClass('jobs')"
+                                    routerLink="/jobs" [queryParams]="{skip:defaultJobSkip, take:defaultJobTake}"
+                                    routerLinkActive="active">
+                                        Jobs
+                                </a>
+                                <a
+                                    role="button" 
+                                    class="btn btn-outline-primary"
+                                    [ngClass]="searchTypeClass('operators')"
+                                    routerLink="/operators" [queryParams]="{skip:defaultOperatorSkip, take:defaultOperatorTake}"
+                                    routerLinkActive="active">
+                                        Operators
+                                </a>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="col-1 ml-auto d-flex justify-content-center align-items-center">

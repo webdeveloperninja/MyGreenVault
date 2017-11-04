@@ -1,18 +1,16 @@
-import {Injectable} from '@angular/core';
-import {Http, Headers, Response} from '@angular/http';
-import {Observable, BehaviorSubject} from 'rxjs'
+import { Injectable } from '@angular/core';
+import { Http, Headers, Response } from '@angular/http';
+import { Observable, BehaviorSubject } from 'rxjs'
+import { Router, ActivatedRoute, Params, Event, NavigationEnd } from '@angular/router';
+
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
-import { Router, ActivatedRoute, Params } from '@angular/router';
 
 export const DEFAULT_SKIP: number = 0;
 export const DEFAULT_TAKE: number = 8;
 
 @Injectable()
 export class ToolsService {
-
-    skip: number = 0;
-    take: number = 5;
     
     private _toolsSubject$: BehaviorSubject<Tool[]> = new BehaviorSubject<Tool[]>(null);
     public readonly tools$: Observable<Tool[]> = this._toolsSubject$.asObservable();
@@ -20,14 +18,20 @@ export class ToolsService {
     private _moreToolsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public readonly moreTools$: Observable<boolean> = this._moreToolsSubject$.asObservable();
 
-    private _toolsSkipSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(DEFAULT_SKIP);
+    private _hasPreviousToolsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public readonly hasPreviousTools$: Observable<boolean> = this._hasPreviousToolsSubject$.asObservable();
+
+    private _toolsSkipSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
     public readonly toolsSkip$: Observable<number> = this._toolsSkipSubject$.asObservable();
 
-    private _toolsTakeSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(DEFAULT_TAKE);
+    private _toolsTakeSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
     public readonly toolsTake$: Observable<number> = this._toolsSkipSubject$.asObservable();
 
     private _istoolsLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
     public readonly istoolsLoading$: Observable<boolean> = this._istoolsLoadingSubject$.asObservable();
+
+    private _toolsQuerySubject$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+    public readonly toolsQuery$: Observable<string> = this._toolsQuerySubject$.asObservable();
 
     private _activetoolSubject$: BehaviorSubject<Tool> = new BehaviorSubject<Tool>(null);
     public readonly activetool$: Observable<Tool> = this._activetoolSubject$.asObservable();
@@ -37,19 +41,56 @@ export class ToolsService {
         private _http: Http,
         private _route: ActivatedRoute,
         private _router: Router) {
+        _router.events.filter(event => event instanceof NavigationEnd).subscribe(event =>  this.doSearch());    
+
     }
 
-    getQueryParams() {
-        this.skip = this._route.snapshot.queryParams["skip"];
-        this.take = this._route.snapshot.queryParams["take"];
-        console.log('inside get query params of the tools service - skip value', this.skip);
-        console.log('inside of the getQueyrParams service - take value', this.take);        
+    public doSearch() {
+        console.log('do search');
+        this._istoolsLoadingSubject$.next(true);
+        if (this._router.navigated) {
+            this._toolsSkipSubject$.next(this._route.snapshot.queryParams["skip"]);
+            this._toolsTakeSubject$.next(this._route.snapshot.queryParams["take"]);
+            this._toolsQuerySubject$.next(this._route.snapshot.queryParams['query'] || null);
+            this.getTools().first().subscribe();
+            this._istoolsLoadingSubject$.next(false);
+        }
     }
-    addTool(tool) {
+
+    private getTools() {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
+        let url = `/api/v1/tools?skip=${this._toolsSkipSubject$.value}&take=${this._toolsTakeSubject$.value}`;
+
+        if (this._toolsQuerySubject$.value) {
+            url += `&query=${this._toolsQuerySubject$.value}`;
+        }
+
+        return this._http.get(url, {headers: headers, withCredentials: true}).map((res: Response) => {
+            const tools = res.json().data;
+            const moreTools = res.json().more;
+            const hasPreviousTools = this._toolsSkipSubject$.value != 0;
+
+            this._toolsSubject$.next(tools);
+            this._moreToolsSubject$.next(moreTools);
+            this._hasPreviousToolsSubject$.next(hasPreviousTools);
+
+            return tools;
+        }).catch(err => {
+            throw new Error(err);
+        });
+    }
+
+    public addTool(tool) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         return this._http.post('/api/v1/tools/', tool, {headers: headers}) // ...using post request
-            .map((res: Response) => res.json()).catch(err => {
+            .map((res: Response) => {
+                res.json();
+                this._moreToolsSubject$.next(res.json().more);
+            })
+            .catch(err => {
                 if (Number(err.status) === Number(403)) {
                     const urlOrigin = window.location.origin;
                     const urlPathName = window.location.pathname;
@@ -57,65 +98,20 @@ export class ToolsService {
                     window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
                 }
                 return err;
-            });
+            }).finally(() => {
+                this.doSearch();
+            })
     }
 
-    getTools(skip: number, take: number) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        this._istoolsLoadingSubject$.next(true);
-        return this._http.get(`/api/v1/tools?skip=${skip}&take=${take}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
-            this._istoolsLoadingSubject$.next(false);
-            this._moreToolsSubject$.next(res.json().more);
-            this._toolsSkipSubject$.next(res.json().skip);
-            this._toolsTakeSubject$.next(res.json().take);
-            this._toolsSubject$.next(res.json().data)
-        }).catch(err => {
-                if (Number(err.status) === Number(403)) {
-                    const urlOrigin = window.location.origin;
-                    const urlPathName = window.location.pathname;
-                    const loginUrl = 'login';
-                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-                }
-                return err;
-            });
-    }
 
-    updatetool(tool) {
+
+    public updateTool(tool) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         return this._http.put('/api/v1/tools', tool, {headers: headers})
             .map((res: Response) =>  {
-                return res.json() 
-        }).catch(err => {
-                if (Number(err.status) === Number(403)) {
-                    const urlOrigin = window.location.origin;
-                    const urlPathName = window.location.pathname;
-                    const loginUrl = 'login';
-                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-                }
-                return err;
-            });
-    }
-
-    checkoutTool(tool) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        return this._http.post('/api/v1/tools/checkout', tool, {headers: headers})
-            .map((res: Response) => {
-                return res.json()
-            });
-    }
-
-    removeTool(tool) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        this._istoolsLoadingSubject$.next(true);
-        return this._http.post('/api/v1/tools/remove', tool, {headers: headers})
-            .map((res: Response) =>  {
-                this.getQueryParams();
-                this.getTools(this.skip, this.take).first().subscribe();
-                return res.json();
+                this.doSearch();
+                return res;
             }).catch(err => {
                 if (Number(err.status) === Number(403)) {
                     const urlOrigin = window.location.origin;
@@ -127,44 +123,81 @@ export class ToolsService {
             });
     }
 
-    setActivetool(toolId: string): void {
+    public checkoutTool(tool) {
+        // This will be string of async to checkout. 
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this._http.post('/api/v1/tools/checkout', tool, {headers: headers})
+            .map((res: Response) => {
+                return res.json()
+            });
+    }
+
+    public removeTool(tool) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        this._istoolsLoadingSubject$.next(true);
+        return this._http.post('/api/v1/tools/remove', tool, {headers: headers})
+            .map((res: Response) =>  {
+                if (this._toolsSubject$.value.length === 0) {
+                    this.previousPage();
+                } else {
+                    this.doSearch();
+                }
+                return res;
+            }).catch(err => {
+                if (Number(err.status) === Number(403)) {
+                    const urlOrigin = window.location.origin;
+                    const urlPathName = window.location.pathname;
+                    const loginUrl = 'login';
+                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+                }
+                return err;
+            });
+    }
+
+    public setActivetool(toolId: string): void {
         let activetool = this.tools$.map(tools => tools.filter(tool => tool._id === toolId)[0]).subscribe(activetool => {
             this._activetoolSubject$.next(activetool);
         });
     }
 
-     nextPage() {
-        this._router.navigate([`/tools`], { queryParams: { skip: this.skip, take: this.take }});
+    public nextPage() {
+        this._router.navigate([`/tools`], 
+            { queryParams: 
+                { 
+                    skip: (Number(this._toolsSkipSubject$.value) + Number(this._toolsTakeSubject$.value)), 
+                    take: Number(this._toolsTakeSubject$.value),
+                    query: this._toolsQuerySubject$.value
+                }
+            });
     }
 
-    previousPage() {
-        let skip = Number(this.skip);
-        let take = Number(this.take);
-
-        let updatedSkip = skip - take;
-        console.log('//// Previous Page //////');
-        console.log(skip);
-        console.log(take);
-        console.log(updatedSkip);
-        if(Number(this.skip) >= Number(this.take)) {
-            this._router.navigate([`/tools`], { queryParams: { skip: (Number(this.skip) - Number(this.take)), take: Number(this.take) }});
+    public previousPage() {
+        if (Number(this._toolsSkipSubject$.value) >= Number(this._toolsTakeSubject$.value)) {
+            this._router.navigate([`/tools`], 
+                { queryParams: 
+                    { 
+                        skip: (Number(this._toolsSkipSubject$.value) - Number(this._toolsTakeSubject$.value)), 
+                        take: Number(this._toolsTakeSubject$.value),
+                        query: this._toolsQuerySubject$.value
+                    }
+                });
         }
-        this.getQueryParams();
-        this.getTools(this.skip,this.take).first().subscribe();
     }   
 }
 
 export interface Tool {
-  companyName: string;
-  contactEmail: string;
-  contactName: string;
-  toolId: number;
-  toolName: string;
-  process: number;
-  toolNumber: string;
-  userId: string;
-  __v: number;
-  _id: string;
+    companyName: string;
+    contactEmail: string;
+    contactName: string;
+    toolId: number;
+    toolName: string;
+    process: number;
+    toolNumber: string;
+    userId: string;
+    __v: number;
+    _id: string;
 }
 
 export interface PagedList {

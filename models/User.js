@@ -26,36 +26,8 @@ const userSchema = new mongoose.Schema({
     location: String,
     website: String,
     picture: String
-  },
-  jobs: [
-    {
-      companyName: { type: String, required: true },
-      contactName: { type: String, required: true },
-      contactPhoneNumber: { type: String, required: true },
-      contactEmail: { type: String, required: true },
-      jobName: { type: String, required: true },
-      jobNumber: { type: String, required: true },
-      jobDescription: { type: String, required: true },
-      jobStatus: { type: Number, required: true },
-      toolCheckouts: { type: Array, required: false }
-    }
-  ],
-  tools: [
-    {
-      toolName: {type: String, require: true },
-      qty: { type: Number, required: true },
-      toolCost: { type: String, require: false },
-      idealAmount: { type: Number, required: true },
-      autoOrderQty: { type: Number, required: true }
-    }
-  ],
-  operators: [
-    {
-      operatorName: {type: String, require: true},
-      operatorNumber: {type: Number, require: true}
-    }
-  ]
-}, { timestamps: true });
+  }
+}, { timestamps: true, collection: 'users' });
 
 /**
  * Password hash middleware.

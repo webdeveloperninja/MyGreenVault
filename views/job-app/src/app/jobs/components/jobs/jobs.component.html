@@ -59,19 +59,17 @@
                                 </table>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button 
-                                            (click)="previousPage()" 
-                                            *ngIf="skip !== 0" 
-                                            class="btn btn-outline-primary mr-auto"
-                                            [disabled]="isLoading">
-                                            Previous Page
+                                       <button 
+                                            (click)="nextPage()" 
+                                            class="btn btn-outline-primary next pull-right" 
+                                            [disabled]="!(moreJobs$ | async)">
+                                            Next Page
                                         </button>
                                         <button 
-                                            (click)="nextPage()" 
-                                            *ngIf="moreJobs$ | async" 
-                                            class="btn btn-outline-primary ml-auto next" 
+                                            (click)="previousPage()" 
+                                            class="btn btn-outline-primary pull-right mr-2"
                                             [disabled]="isLoading">
-                                            Next Page
+                                            Previous Page
                                         </button>
                                     </div>
                                 </div>

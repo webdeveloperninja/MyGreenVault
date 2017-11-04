@@ -33,7 +33,7 @@ export class AddToolQtyComponent implements OnInit {
     this.isAddToolQtyLoading = true;
     this.tool.qty += Number(this.addToolQtyForm.controls['qtyToAdd'].value)
 
-    this._toolsService.updatetool(this.tool).subscribe(() => {
+    this._toolsService.updateTool(this.tool).subscribe(() => {
       this._notificationService.setNotificationOn('successfully added tools')
       this.qtyToAdd = null;
       Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {

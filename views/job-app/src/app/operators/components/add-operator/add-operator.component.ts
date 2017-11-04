@@ -38,11 +38,7 @@ export class AddOperatorComponent implements OnInit {
             operatorNumber: this.operatorFormGroup.controls['operatorNumber'].value
         };
         this._operatorsService.addOperator(operatorObj).subscribe((operator) => {
-            console.log('in here');
-            this._operatorsService.getOperators(this.skip, this.take).first().subscribe(data => {
-                console.log('deeper in ');
-            })
-         
+            this._operatorsService.doSearch();
         })
     }
 

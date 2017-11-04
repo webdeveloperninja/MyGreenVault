@@ -55,17 +55,8 @@ export class AddJobComponent implements OnInit {
             jobStatus: this.jobFormGroup.controls['jobStatus'].value
         };
         this._jobsService.addJob(jobObj).subscribe((job) => {
-            if(job.success) {
-                this.jobFormGroup.reset();
-                this.jobSuccessfullyAdded = true;
-                this._jobsService.getJobs(this.skip, this.take).first().subscribe(() => {
-                  this.isAddJobLoading = false;
-                });
-                Observable.timer(5000).subscribe(() => {
-                    this.jobSuccessfullyAdded = false;
-                })
-            } else {
-            }
+            this.isAddJobLoading = false;
+            this._jobsService.doSearch();
         })
     }
 

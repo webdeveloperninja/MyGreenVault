@@ -68,22 +68,20 @@
                                 <div class="col-6">
                                     <button 
                                         (click)="nextPage()" 
-                                        *ngIf="moreTools$ | async" 
                                         class="btn btn-outline-primary next pull-right" 
-                                        [disabled]="isLoading">
+                                        [disabled]="!(moreTools$ | async)">
                                             Next Page
                                     </button>
                                     <button 
                                         (click)="previousPage()" 
-                                        *ngIf="skip !== 0" 
                                         class="btn btn-outline-primary pull-right mr-2" 
-                                        [disabled]="isLoading">
+                                        [disabled]="!(hasPreviousTools$ | async)">
                                         Previous Page
                                 </button>
                                 </div>
                             </div>
                         </div>
-                    <div class="col-12 mt-3" *ngIf="(tools$ | async)?.length==0">
+                    <div class="col-12 mt-3" *ngIf="!(tools$ | async)">
                         <div class="alert alert-info" role="alert">
                         <strong>No Tools Found</strong>
                         </div>

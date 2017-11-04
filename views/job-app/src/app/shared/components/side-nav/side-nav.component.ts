@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SideNavService } from '../../services/side-nav/side-nav.service';
 import { Observable } from 'rxjs';
+import { DEFAULT_SKIP as TOOL_DEFAULT_SKIP, DEFAULT_TAKE as TOOL_DEFAULT_TAKE } from '../../../tools/services/tools';
+import { DEFAULT_SKIP as OPERATOR_DEFAULT_SKIP, DEFAULT_TAKE as OPERATOR_DEFAULT_TAKE } from '../../../operators/services/operators';
+import { DEFAULT_SKIP as JOB_DEFAULT_SKIP, DEFAULT_TAKE as JOB_DEFAULT_TAKE } from '../../../jobs/services/jobs';
 
 @Component({
   selector: 'ti-side-nav',
@@ -11,6 +14,16 @@ export class SideNavComponent implements OnInit {
   @Input() isSideBarOpen: boolean; 
 
   isSideNavOpen$: Observable<boolean>;
+
+  defaultToolSkip: number = TOOL_DEFAULT_SKIP;
+  defaultToolTake: number = TOOL_DEFAULT_TAKE;
+
+  defaultOperatorSkip: number = OPERATOR_DEFAULT_SKIP;
+  defaultOperatorTake: number = OPERATOR_DEFAULT_TAKE;
+
+  defaultJobSkip: number = JOB_DEFAULT_SKIP;
+  defaultJobTake: number = JOB_DEFAULT_TAKE;
+
 
   constructor(private _sideNavService: SideNavService) { }
 

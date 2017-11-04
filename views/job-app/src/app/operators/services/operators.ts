@@ -1,72 +1,94 @@
-import {Injectable} from '@angular/core';
-import {Http, Headers, Response} from '@angular/http';
-import {Observable, BehaviorSubject} from 'rxjs'
+import { Injectable } from '@angular/core';
+import { Http, Headers, Response } from '@angular/http';
+import { Observable, BehaviorSubject } from 'rxjs'
+import { Router, ActivatedRoute, Params, Event, NavigationEnd } from '@angular/router';
+
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
-import { Router, ActivatedRoute, Params } from '@angular/router';
 
 export const DEFAULT_SKIP: number = 0;
 export const DEFAULT_TAKE: number = 8;
 
-
 @Injectable()
 export class OperatorsService {
-    skip: number = 0;
-    take: number = 5;
-
+    
     private _operatorsSubject$: BehaviorSubject<Operator[]> = new BehaviorSubject<Operator[]>(null);
     public readonly operators$: Observable<Operator[]> = this._operatorsSubject$.asObservable();
 
     private _moreOperatorsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public readonly moreOperators$: Observable<boolean> = this._moreOperatorsSubject$.asObservable();
 
-    private _operatorsSkipSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(DEFAULT_SKIP);
+    private _hasPreviousOperatorsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public readonly hasPreviousOperators$: Observable<boolean> = this._hasPreviousOperatorsSubject$.asObservable();
+
+    private _operatorsSkipSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
     public readonly operatorsSkip$: Observable<number> = this._operatorsSkipSubject$.asObservable();
 
-    private _operatorsTakeSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(DEFAULT_TAKE);
-    public readonly operatorsTake$: Observable<number> = this._operatorsSkipSubject$.asObservable();
+    private _operatorsTakeSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+    public readonly operatorsTake$: Observable<number> = this._operatorsTakeSubject$.asObservable();
 
-    private _isLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    public readonly isLoading$: Observable<boolean> = this._isLoadingSubject$.asObservable();
+    private _isOperatorsLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
+    public readonly isOperatorsLoading$: Observable<boolean> = this._isOperatorsLoadingSubject$.asObservable();
+
+    private _operatorsQuerySubject$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+    public readonly operatorsQuery$: Observable<string> = this._operatorsQuerySubject$.asObservable();
 
     private _activeOperatorSubject$: BehaviorSubject<Operator> = new BehaviorSubject<Operator>(null);
     public readonly activeOperator$: Observable<Operator> = this._activeOperatorSubject$.asObservable();
 
-
     constructor(
         private _http: Http,
         private _route: ActivatedRoute,
-        private _router: Router
-        ) {}
-
-    addOperator(operator) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        return this._http.post('/api/v1/operators/', operator, {headers: headers}) // ...using post request
-            .map((res: Response) => {
-                res.json()
-            }).catch(err => {
-                if (Number(err.status) === Number(403)) {
-                    const urlOrigin = window.location.origin;
-                    const urlPathName = window.location.pathname;
-                    const loginUrl = 'login';
-                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-                }
-                return err;
-            });
+        private _router: Router) {
+        _router.events.filter(event => event instanceof NavigationEnd).subscribe(event =>  this.doSearch());    
     }
 
-    getOperators(skip, take) {
+    public doSearch() {
+        console.log('do search');
+        this._isOperatorsLoadingSubject$.next(true);
+        if (this._router.navigated) {
+            this._operatorsSkipSubject$.next(this._route.snapshot.queryParams["skip"]);
+            this._operatorsTakeSubject$.next(this._route.snapshot.queryParams["take"]);
+            this._operatorsQuerySubject$.next(this._route.snapshot.queryParams['query'] || null);
+            this.getOperators().first().subscribe();
+            this._isOperatorsLoadingSubject$.next(false);
+        }
+    }
+
+    private getOperators() {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        this._isLoadingSubject$.next(true);
-        return this._http.get(`/api/v1/operators?skip=${skip}&take=${take}`, {headers: headers, withCredentials: true}).map((res: Response) => { 
-            this._isLoadingSubject$.next(false);
-            this._operatorsSubject$.next(res.json().data)
-            this._moreOperatorsSubject$.next(res.json().more);
-            this._operatorsSkipSubject$.next(res.json().skip);
-            this._operatorsTakeSubject$.next(res.json().take);
+
+        let url = `/api/v1/operators?skip=${this._operatorsSkipSubject$.value}&take=${this._operatorsTakeSubject$.value}`;
+
+        if (this._operatorsQuerySubject$.value) {
+            url += `&query=${this._operatorsQuerySubject$.value}`;
+        }
+
+        return this._http.get(url, {headers: headers, withCredentials: true}).map((res: Response) => {
+            const operators = res.json().data;
+            const moreOperators = res.json().more;
+            const hasPreviousOperators = this._operatorsSkipSubject$.value != 0;
+
+            this._operatorsSubject$.next(operators);
+            this._moreOperatorsSubject$.next(moreOperators);
+            this._hasPreviousOperatorsSubject$.next(hasPreviousOperators);
+
+            return operators;
         }).catch(err => {
+            throw new Error(err);
+        });
+    }
+
+    public addOperator(operator) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this._http.post('/api/v1/operators/', operator, {headers: headers})
+            .map((res: Response) => {
+                this._moreOperatorsSubject$.next(res.json().more);
+                return res.json();
+            })
+            .catch(err => {
                 if (Number(err.status) === Number(403)) {
                     const urlOrigin = window.location.origin;
                     const urlPathName = window.location.pathname;
@@ -74,41 +96,20 @@ export class OperatorsService {
                     window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
                 }
                 return err;
-            });
+            }).finally(() => {
+                this.doSearch();
+            })
     }
 
 
-    updateOperator(operator) {
+
+    public updateOperator(operator) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         return this._http.put('/api/v1/operators', operator, {headers: headers})
             .map((res: Response) =>  {
-                return res.json() 
-        }).catch(err => {
-                if (Number(err.status) === Number(403)) {
-                    const urlOrigin = window.location.origin;
-                    const urlPathName = window.location.pathname;
-                    const loginUrl = 'login';
-                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-                }
-                return err;
-            });
-    }
-
-    setActiveOperator(operatorId: string): void {
-        let activeoperator = this.operators$.map(operators => operators.filter(operator => operator._id === operatorId)[0]).subscribe(activeoperator => {
-            this._activeOperatorSubject$.next(activeoperator);
-        });
-    }
-
-    removeOperator(operator) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        this._isLoadingSubject$.next(true);
-        return this._http.post('/api/v1/operators/remove', operator, {headers: headers})
-            .map((res: Response) =>  {
-                this._isLoadingSubject$.next(false);
-                return res.json() 
+                this.doSearch();
+                return res;
             }).catch(err => {
                 if (Number(err.status) === Number(403)) {
                     const urlOrigin = window.location.origin;
@@ -120,25 +121,59 @@ export class OperatorsService {
             });
     }
 
-    nextPage(skip, take) {
-        this._operatorsSkipSubject$.next(this._operatorsSkipSubject$.value + this._operatorsTakeSubject$.value);
-        this.getOperators(skip, take).first().subscribe();
+
+    public removeOperator(operator) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        this._isOperatorsLoadingSubject$.next(true);
+        return this._http.post('/api/v1/operators/remove', operator, {headers: headers})
+            .map((res: Response) =>  {
+                if (this._operatorsSubject$.value.length === 0) {
+                    this.previousPage();
+                } else {
+                    this.doSearch();
+                }
+                return res;
+            }).catch(err => {
+                if (Number(err.status) === Number(403)) {
+                    const urlOrigin = window.location.origin;
+                    const urlPathName = window.location.pathname;
+                    const loginUrl = 'login';
+                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
+                }
+                return err;
+            });
+    }
+    
+    public setActiveOperator(operatorId: string): void {
+        let activeOperator = this.operators$.map(operators => operators.filter(operator => operator._id === operatorId)[0]).subscribe(activeOperator => {
+            this._activeOperatorSubject$.next(activeOperator);
+        });
     }
 
-    previousPage(skip, take) {
-        if(this._operatorsSkipSubject$.value >= this._operatorsTakeSubject$.value) {
-            this._operatorsSkipSubject$.next(this._operatorsSkipSubject$.value - this._operatorsTakeSubject$.value);
-            this.getOperators(skip, take).first().subscribe();
+    public nextPage() {
+        this._router.navigate([`/operators`], 
+            { queryParams: 
+                { 
+                    skip: (Number(this._operatorsSkipSubject$.value) + Number(this._operatorsTakeSubject$.value)), 
+                    take: Number(this._operatorsTakeSubject$.value),
+                    query: this._operatorsQuerySubject$.value
+                }
+            });
+    }
+
+    public previousPage() {
+        if (Number(this._operatorsSkipSubject$.value) >= Number(this._operatorsTakeSubject$.value)) {
+            this._router.navigate([`/operators`], 
+                { queryParams: 
+                    { 
+                        skip: (Number(this._operatorsSkipSubject$.value) - Number(this._operatorsTakeSubject$.value)), 
+                        take: Number(this._operatorsTakeSubject$.value),
+                        query: this._operatorsQuerySubject$.value
+                    }
+                });
         }
-    }
-
-    getQueryParams() {
-        this.skip = this._route.snapshot.queryParams["skip"];
-        this.take = this._route.snapshot.queryParams["take"];
-        console.log('inside get query params of the tools service - skip value', this.skip);
-        console.log('inside of the getQueyrParams service - take value', this.take);        
-    }
-
+    }   
 }
 
 export interface Operator {
