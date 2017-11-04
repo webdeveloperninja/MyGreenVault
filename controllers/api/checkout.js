@@ -24,7 +24,15 @@ exports.addCheckout = (req, res) => {
                 if (doesOperatorExist) {
                     isThereEnoughTools(checkout).then(isThereEnoughTools => {
                         if (isThereEnoughTools) {
-                            res.send(200);
+                        
+                            checkoutQuery.addCheckout(checkout).then(checkoutResponse => {
+                                // res.send(checkoutResponse._doc);
+                                res.send(200);
+                            }).catch(err => {
+                                res.send(500);
+                                throw new Error(err);
+                            });
+
                         } else {
                             res.status(400).send({
                                 toolQty: {
@@ -62,13 +70,6 @@ exports.addCheckout = (req, res) => {
     // Make sure job number exists 
 
     // Make sure operator number exists
-
-    // checkoutQuery.addCheckout(checkout).then(checkoutResponse => {
-    //     res.send(checkoutResponse._doc);
-    // }).catch(err => {
-    //     res.send(500);
-    //     throw new Error(err);
-    // });
 
 }
 
