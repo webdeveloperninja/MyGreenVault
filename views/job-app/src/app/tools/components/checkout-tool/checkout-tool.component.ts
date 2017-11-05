@@ -32,9 +32,9 @@ export class CheckoutToolComponent implements OnInit {
     public readonly isCheckoutLoading$: Observable<boolean> = this._isCheckoutLoadingSubject$.asObservable();
 
     constructor(
-    private _formBuilder: FormBuilder,
-    private _notificationService: NotificationService,
-    private _toolsService: ToolsService
+        private _formBuilder: FormBuilder,
+        private _notificationService: NotificationService,
+        private _toolsService: ToolsService
     ) {}
 
 

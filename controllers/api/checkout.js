@@ -6,10 +6,11 @@ const url = require('url');
 const checkoutQuery = require('../../models/queries/checkout');
 const jobQuery = require('../../models/queries/job');
 const operatorQuery = require('../../models/queries/operator');
+const toolQuery = require('../../models/queries/tool');
+
 
 exports.addCheckout = (req, res) => {
     let checkout = {};
-    // validate that operator id doesnt exist
 
     if (req.body._id) {
         checkout = req.body;
@@ -79,12 +80,18 @@ function doCheckout(checkout) {
             const doesJobExist = values[2];
             let validationReturnObj;
 
+            const toolAfterCheckout = createToolAfterCheckout(checkout);
+
             if (!isThereEnoughTools || !doesOperatorExist || !doesJobExist) {
                 validationReturnObj = validateCheckout(doesOperatorExist, doesJobExist, isThereEnoughTools);
                 reject(validationReturnObj);
             } else {
                 checkoutQuery.addCheckout(checkout).then(checkoutResponse => {
-                    resolve(true);
+                    toolQuery.updateTool(toolAfterCheckout).then(data => {
+                        resolve(true);
+                    }).catch(err => {
+                        reject(err);
+                    });
                 }).catch(err => {
                     reject(err);
                 });
@@ -126,4 +133,13 @@ function validateCheckout(doesOperatorExist, doesJobExist, isThereEnoughTools) {
     }
 
     return validationObj;
+}
+
+
+function createToolAfterCheckout(checkout) {
+    const updatedTool = Object.assign(checkout.tool, {
+        qty: Number(checkout.tool.qty) - Number(checkout.toolQty)
+    });
+
+    return updatedTool;
 }

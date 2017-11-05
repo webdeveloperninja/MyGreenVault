@@ -129,6 +129,7 @@ export class ToolsService {
         headers.append('Content-Type', 'application/json');
         return this._http.post('/api/v1/checkouts', checkout, {headers: headers})
             .map((res: Response) => {
+                this.doSearch();
                 return res.json()
             });
     }
