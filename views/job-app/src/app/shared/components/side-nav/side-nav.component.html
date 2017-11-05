@@ -4,14 +4,18 @@
         <div id="sidebar-menu">
             <ul>
                 <li class="has_sub" routerLinkActive="active">
+                    <a routerLink="/tools" [queryParams]="{skip:defaultToolSkip, take:defaultToolTake}" class="waves-effect" routerLinkActive="active"><i class="fa fa-plug" aria-hidden="true"></i><span> Tools </span> </a>
+                </li>
+                <li class="has_sub" routerLinkActive="active">
+                    <a routerLink="/kanban" class="waves-effect" routerLinkActive="active"><i class="fa fa-desktop" aria-hidden="true"></i><span> Kanban </span> </a>
+                </li>
+                <li class="has_sub" routerLinkActive="active">
                     <a routerLink="/jobs" [queryParams]="{skip:defaultJobSkip, take:defaultJobTake}" class="waves-effect" routerLinkActive="active"><i class="fa fa-truck" aria-hidden="true"></i><span> Jobs </span> </a>
                 </li>
                 <li class="has_sub" routerLinkActive="active">
                     <a routerLink="/operators" [queryParams]="{skip:defaultOperatorSkip, take:defaultOperatorTake}" class="waves-effect" routerLinkActive="active"><i class="fa fa-user-circle" aria-hidden="true"></i><span> Operators </span> </a>
                 </li>
-                <li class="has_sub" routerLinkActive="active">
-                    <a routerLink="/tools" [queryParams]="{skip:defaultToolSkip, take:defaultToolTake}" class="waves-effect" routerLinkActive="active"><i class="fa fa-plug" aria-hidden="true"></i><span> Tools </span> </a>
-                </li>
+
             </ul>
             <div class="clearfix"></div>
         </div>

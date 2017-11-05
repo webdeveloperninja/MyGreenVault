@@ -10,9 +10,11 @@ import { HeaderService } from '../../../shared/services/header/header.service';
 })
 export class KanbanComponent implements OnInit {
 
-  jobs$: Observable<Job[]>
+//   jobs$: Observable<Job[]>
   isJobNotFound: boolean = false;
   isJobsLoading$: Observable<boolean>;
+
+  jobs$ = this._jobsService.jobs$;
 
   constructor(
      private _jobsService: JobsService,

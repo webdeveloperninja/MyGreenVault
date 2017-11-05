@@ -30,33 +30,8 @@ exports.addCheckout = (req, res) => {
 
 }
 
-function doesJobExist(userId, jobNumber) {
-    return new Promise((resolve, reject) => {
-        jobQuery.getJob(userId, jobNumber).then(job => {   
-            if (job.jobNumber) {
-                resolve(true);
-            } else {
-                resolve(false);
-            }
-        }).catch(err => {
-            reject(err);
-        });
-    });
-}
 
-function doesOperatorExist(userId, operatorNumber) {
-    return new Promise((resolve, reject) => {
-        operatorQuery.getOperator(userId, operatorNumber).then(operator => {
-            if (operator && operator.operatorNumber) {
-                resolve(true);
-            } else {
-                resolve(false);
-            }
-        }).catch(err => {
-            reject(err);
-        })
-    })
-}
+
 
 function isThereEnoughTools(checkout) {
     return new Promise((resolve, reject) => {
@@ -72,8 +47,8 @@ function doCheckout(checkout) {
     return new Promise((resolve, reject) => {
         Promise.all([
             isThereEnoughTools(checkout),
-            doesOperatorExist(checkout.userId, checkout.operatorNumber),
-            doesJobExist(checkout.userId, checkout.jobNumber)
+            operatorQuery.doesOperatorExist(checkout.userId, checkout.operatorNumber),
+            jobQuery.doesJobExist(checkout.userId, checkout.jobNumber)
         ]).then(values => {
             const isThereEnoughTools = values[0];
             const doesOperatorExist = values[1];

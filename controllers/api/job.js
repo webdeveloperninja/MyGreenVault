@@ -7,14 +7,6 @@ const url = require('url');
 const jobQuery = require('../../models/queries/job');
 
 
-exports.getAllJobs = (req, res) => {
-  User.find({ _id: req.user.id}, 'jobs').exec((err, data) => {
-    if (err) { return next(err); }
-      res.json(data[0].jobs);
-  })
-  
-};
-
 exports.getJobs = (req, res) => {
     const userId = req.user._id;
     let url_parts = url.parse(req.url, true);
@@ -31,15 +23,15 @@ exports.getJobs = (req, res) => {
 };
 
 exports.getJob = (req, res) => {
-  const jobNumber = req.params.jobNumber;
-  const userId = req.user._id;
-  jobQuery.getJob(userId, jobNumber).then(job => {
-    res.json(job);
-  }).catch(err => {
+    const jobNumber = req.params.jobNumber;
+    const userId = req.user._id;
 
-    res.send(500);
-    throw new Error(err);
-  })
+    jobQuery.getJob(userId, jobNumber).then(job => {
+        res.json(job);
+    }).catch(err => {
+        res.send(500);
+        throw new Error(err);
+    });
 }
 
 exports.addJob = (req, res) => {
@@ -88,14 +80,3 @@ exports.removeJob = (req, res) => {
         throw new Error(err);
     });
 }
-
-exports.searchJobs = (req, res) => {
-  let url_parts = url.parse(req.url, true);
-  let searchQuery = url_parts.query.search;
-  
-  // search for jobs by name or job number 
-  User.find({ _id: req.user.id}, 'jobs').exec((err, data) => {
-    if (err) { return next(err); }
-      res.json(data[0].jobs);
-  })
-};
