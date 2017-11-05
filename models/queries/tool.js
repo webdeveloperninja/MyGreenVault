@@ -1,7 +1,7 @@
 const Tool = require('../../models/Tool');
 const ObjectId = require('mongodb').ObjectID;
 
-exports.addTool = (tool) => {
+let addTool = exports.addTool = (tool) => {
     const newTool = new Tool(tool);
 
     return new Promise((resolve, reject) => {
@@ -14,7 +14,7 @@ exports.addTool = (tool) => {
     });
 }
 
-exports.removeTool = (tool) => {
+let removeTool = exports.removeTool = (tool) => {
     return new Promise((resolve, reject) => {
         Tool.find({
             _id: ObjectId(tool._id),
@@ -28,7 +28,7 @@ exports.removeTool = (tool) => {
     });
 }
 
-exports.getTools = (userId, skip, take, query = null) => {
+let getTools = exports.getTools = (userId, skip, take, query = null) => {
     return new Promise((resolve, reject) => {
         let queryObj = {
             userId: ObjectId(userId)
@@ -62,7 +62,7 @@ exports.getTools = (userId, skip, take, query = null) => {
     });
 }
 
-exports.updateTool = (updatedTool) => {
+let updateTool = exports.updateTool = (updatedTool) => {
     return new Promise((resolve, reject) => {
         Tool.findOneAndUpdate({
             _id: ObjectId(updatedTool._id),
@@ -73,11 +73,5 @@ exports.updateTool = (updatedTool) => {
             }
             resolve('successfully updated tool');
         })
-    });
-}
-
-exports.searchTools = (userId, query, category) => {
-    return new Promise((resolve, reject) => {
-        // Search Query Here
     });
 }

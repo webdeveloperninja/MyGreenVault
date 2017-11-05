@@ -1,52 +1,15 @@
 <div class="row">
-  <div class="col-md-8">
+  <div class="col-md-12">
     <div class="row">
       <div class="col">
         <div class="card-box">
-          <i class='fa fa-spinner fa-spin pull-right ti-spin' *ngIf="isJobLoading"></i>
+          <i class='fa fa-spinner fa-spin pull-right ti-spin' *ngIf="isJobDetailLoading$ | async"></i>
           <p class="card-title">Job Details</p>
-          <p><strong>Job Name:</strong> {{ job.jobName | empty }}</p>
-          <p><strong>Job Number:</strong> {{ job.jobNumber | empty }}</p>
-          <p><strong>Job Description:</strong> {{ job.jobDescription | empty }}</p>
-          <p><strong>Job Status:</strong> {{ job.jobStatus | jobStatusNumberToTitle | empty }}</p>
-          <p><strong>Company Name:</strong> {{ job.companyName | empty }}</p>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <div class="card-box">
-          <i class='fa fa-spinner fa-spin pull-right ti-spin' *ngIf="isJobLoading"></i>
-          <p class="card-title">{{ job.jobName }} Checkouts</p>
-          <ti-job-checkouts
-            [checkouts]="job.toolCheckouts">
-          </ti-job-checkouts>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="row">
-      <div class="col">
-        <div class="card-box">
-          <i class='fa fa-spinner fa-spin pull-right ti-spin' *ngIf="isJobLoading"></i>
-          <p class="card-title">Contacts</p>
-          <ti-job-contact
-            [name]="job.contactName"
-            [email]="job.contactEmail"
-            [phone]="job.contactPhoneNumber">
-          </ti-job-contact>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <div class="card-box">
-          <i class='fa fa-spinner fa-spin pull-right ti-spin' *ngIf="isJobLoading"></i>
-          <p class="card-title">Tool usage by qty</p>
-          <ti-tool-usage-graph
-            [checkouts]="job.toolCheckouts">
-          </ti-tool-usage-graph>
+          <p><strong>Job Name:</strong> {{ (job$ | async)?.jobName | empty }}</p>
+          <p><strong>Job Number:</strong> {{ (job$ | async)?.jobNumber | empty }}</p>
+          <p><strong>Job Description:</strong> {{ (job$ | async)?.jobDescription | empty }}</p>
+          <p><strong>Job Status:</strong> {{ (job$ | async)?.jobStatus | jobStatusNumberToTitle | empty }}</p>
+          <p><strong>Company Name:</strong> {{ (job$ | async)?.companyName | empty }}</p>
         </div>
       </div>
     </div>

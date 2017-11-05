@@ -15,6 +15,13 @@ export class JobsService {
     private _jobsSubject$: BehaviorSubject<Job[]> = new BehaviorSubject<Job[]>(null);
     public readonly jobs$: Observable<Job[]> = this._jobsSubject$.asObservable();
 
+    private _jobDetailSubject$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    public readonly jobDetail$: Observable<any> = this._jobDetailSubject$.asObservable();
+
+    private _isJobDetailLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public readonly isJobDetailLoading$: Observable<any> = this._isJobDetailLoading$.asObservable();
+
+
     private _moreJobsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public readonly moreJobs$: Observable<boolean> = this._moreJobsSubject$.asObservable();
 
@@ -56,7 +63,51 @@ export class JobsService {
         }
     }
 
+    public getJobDetail(jobId: any) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
+        let url = `/api/v1/jobs/${jobId}`;
+
+        this._isJobDetailLoading$.next(true);
+
+        return this._http.get(url, {headers: headers, withCredentials: true})
+            .map((res: Response) => {
+                return res.json();
+            }).catch(err => {
+                throw new Error(err);
+            }).first().subscribe(data => {
+                this._isJobDetailLoading$.next(false);
+                this._jobDetailSubject$.next(data);
+            });
+    }
+
     private getJobs() {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
+        let url = `/api/v1/jobs?skip=${this._jobsSkipSubject$.value}&take=${this._jobsTakeSubject$.value}`;
+
+        if (this._jobsQuerySubject$.value) {
+            url += `&query=${this._jobsQuerySubject$.value}`;
+        }
+
+        return this._http.get(url, {headers: headers, withCredentials: true}).map((res: Response) => {
+            const jobs = res.json().data;
+            const moreJobs = res.json().more;
+            const hasPreviousJobs = this._jobsSkipSubject$.value != 0;
+
+            this._jobsSubject$.next(jobs);
+            this._moreJobsSubject$.next(moreJobs);
+            this._hasPreviousJobsSubject$.next(hasPreviousJobs);
+
+            return jobs;
+        }).catch(err => {
+            throw new Error(err);
+        });
+    }
+
+    private getJob() {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
 

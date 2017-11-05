@@ -2,24 +2,8 @@ const User = require('../../models/User');
 const Operator = require('../../models/Operator');
 const ObjectId = require('mongodb').ObjectID;
 
-// exports.getOperator = (userId, operatorNumber) => {
-//     return new Promise((resolve, reject) => {
-//         User.findOne({ '_id': userId }, (err, user) => {
-//             if (err) return handleError(err);
-//             for (var i=0; i< user.operators.length; i++) {
-//                 const actualOperatorNumber = user.operators[i].operatorNumber;
-//                 const operatorNumberToCompare = operatorNumber;
-//                 if (actualOperatorNumber === operatorNumberToCompare) {
-//                     resolve(user.operators[i]);
-//                     return;
-//                 }
-//             }
-//             resolve(null);
-//         });
-//     }) 
-// }
 
-exports.getOperator = (userId, operatorNumber) => {
+let getOperator = exports.getOperator = (userId, operatorNumber) => {
     return new Promise((resolve, reject) => {
         Operator.find({
             operatorNumber: Number(operatorNumber),
@@ -34,7 +18,7 @@ exports.getOperator = (userId, operatorNumber) => {
     });
 }
 
-exports.getOperators = (userId, skip, take, query = null) => {
+let getOperators = exports.getOperators = (userId, skip, take, query = null) => {
     return new Promise((resolve, reject) => {
         let queryObj = {
             userId: ObjectId(userId)
@@ -68,7 +52,7 @@ exports.getOperators = (userId, skip, take, query = null) => {
     });
 }
 
-exports.addOperator = operator => {
+let addOperator = exports.addOperator = operator => {
     const newOperator = new Operator(operator);
 
     return new Promise((resolve, reject) => {
@@ -81,7 +65,7 @@ exports.addOperator = operator => {
     });
 }
 
-exports.removeOperator = (operator) => {
+let removeOperator = exports.removeOperator = (operator) => {
     return new Promise((resolve, reject) => {
         Operator.find({
             _id: ObjectId(operator._id),
@@ -95,7 +79,7 @@ exports.removeOperator = (operator) => {
     });
 }
 
-exports.updateOperator = (updatedOperator) => {
+let updateOperator = exports.updateOperator = (updatedOperator) => {
     return new Promise((resolve, reject) => {
         Operator.findOneAndUpdate({
             _id: ObjectId(updatedOperator._id),
@@ -107,4 +91,18 @@ exports.updateOperator = (updatedOperator) => {
             resolve('successfully updated tool');
         });
     });
+}
+
+let doesOperatorExist = exports.doesOperatorExist = (userId, operatorNumber) => {
+    return new Promise((resolve, reject) => {
+        getOperator(userId, operatorNumber).then(operator => {
+            if (operator && operator.operatorNumber) {
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        }).catch(err => {
+            reject(err);
+        })
+    })
 }

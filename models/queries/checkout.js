@@ -2,7 +2,7 @@ const Checkout = require('../../models/Checkout');
 const ObjectId = require('mongodb').ObjectID;
 
 
-exports.addCheckout = (checkout) => {
+let addCheckout = exports.addCheckout = (checkout) => {
     const newCheckout = new Checkout(checkout);
 
     return new Promise((resolve, reject) => {

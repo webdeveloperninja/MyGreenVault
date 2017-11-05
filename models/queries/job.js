@@ -2,7 +2,7 @@ const User = require('../../models/User');
 const Job = require('../../models/Job');
 const ObjectId = require('mongodb').ObjectID;
 
-exports.getJob = (userId, jobNumber) => {
+let getJob = exports.getJob = (userId, jobNumber) => {
     return new Promise((resolve, reject) => {
         let queryObj = {
             userId: ObjectId(userId),
@@ -27,7 +27,7 @@ exports.getJob = (userId, jobNumber) => {
 }
 
 
-exports.addJob = job => {
+let addJob = exports.addJob = job => {
     const newJob = new Job(job);
 
     return new Promise((resolve, reject) => {
@@ -40,7 +40,7 @@ exports.addJob = job => {
     });
 }
 
-exports.getJobs = (userId, skip, take, query = null) => {
+let getJobs = exports.getJobs = (userId, skip, take, query = null) => {
     return new Promise((resolve, reject) => {
         let queryObj = {
             userId: ObjectId(userId)
@@ -74,7 +74,7 @@ exports.getJobs = (userId, skip, take, query = null) => {
     });
 }
 
-exports.updateJob = (updatedJob) => {
+let updateJob = exports.updateJob = (updatedJob) => {
     return new Promise((resolve, reject) => {
         Job.findOneAndUpdate({
             _id: ObjectId(updatedJob._id),
@@ -88,7 +88,7 @@ exports.updateJob = (updatedJob) => {
     });
 }
 
-exports.removeJob = (job) => {
+let removeJob = exports.removeJob = (job) => {
     return new Promise((resolve, reject) => {
         Job.find({
             _id: ObjectId(job._id),
@@ -98,6 +98,20 @@ exports.removeJob = (job) => {
                 reject(err);
             }
             resolve(result);
+        });
+    });
+}
+
+let doesJobExist = exports.doesJobExist = (userId, jobNumber) => {
+    return new Promise((resolve, reject) => {
+        getJob(userId, jobNumber).then(job => {   
+            if (job.jobNumber) {
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        }).catch(err => {
+            reject(err);
         });
     });
 }

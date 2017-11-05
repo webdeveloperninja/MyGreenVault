@@ -9,10 +9,10 @@ import { HeaderService } from '../../../shared/services/header/header.service';
   styleUrls: ['./job-detail.component.scss']
 })
 export class JobDetailComponent implements OnInit {
-  job: any = {
-    jobName: null
-  };
 
+  job$: any = this._jobsService.jobDetail$;
+  isJobDetailLoading$ = this._jobsService.isJobDetailLoading$;
+  
   isJobLoading: boolean;
 
   constructor(
@@ -27,6 +27,8 @@ export class JobDetailComponent implements OnInit {
   ngOnInit() {
     this.isJobLoading = true;
     const jobNumber = this._route.snapshot.paramMap.get('jobNumber');
+
+    this._jobsService.getJobDetail(jobNumber);
     // this._jobsService.getJob(jobNumber).subscribe(job => {
     //   this.isJobLoading = false;
     //   this._headerService.setHeaderText(`${job.companyName} - ${job.jobName}`)
