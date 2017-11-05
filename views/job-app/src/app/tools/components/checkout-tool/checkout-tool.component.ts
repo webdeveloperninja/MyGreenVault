@@ -14,89 +14,97 @@ import { ToolsService, Tool } from '../../services/tools';
   providers: []
 })
 export class CheckoutToolComponent implements OnInit {
-  checkoutToolFormGroup: FormGroup;
-  @Input() tool: any;
-  @Input() skip: number;
-  @Input() take: number;
+    checkoutToolFormGroup: FormGroup;
+    @Input() tool: any;
+    @Input() skip: number;
+    @Input() take: number;
 
-  operatorInputMessage: string = null;
-  operatorInputStatus: string = null;
+    operatorInputMessage: string = null;
+    operatorInputStatus: string = null;
 
-  jobInputMessage: string = null;
-  jobInputStatus: string = null;
+    jobInputMessage: string = null;
+    jobInputStatus: string = null;
 
-  toolQtyInputMessage: string = null;
-  toolQtyInputStatus: string = null;
+    toolQtyInputMessage: string = null;
+    toolQtyInputStatus: string = null;
 
-  private _isCheckoutLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public readonly isCheckoutLoading$: Observable<boolean> = this._isCheckoutLoadingSubject$.asObservable();
+    private _isCheckoutLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public readonly isCheckoutLoading$: Observable<boolean> = this._isCheckoutLoadingSubject$.asObservable();
 
-  constructor(
-    private _formBuilder: FormBuilder,
-    private _notificationService: NotificationService,
-    private _toolsService: ToolsService
-  ) {}
-
-
-  ngOnInit() {
-      this.checkoutToolFormGroup = this._formBuilder.group({
-          toolQty: ['', Validators.required],
-          operatorNumber: ['', Validators.required],
-          jobNumber: ['', Validators.required]
-      });
-  }
-
-  clearMessages() {
-    this.operatorInputMessage = null;
-    this.operatorInputStatus = null;
-
-    this.jobInputMessage = null;
-    this.jobInputStatus  = null;
-
-    this.toolQtyInputMessage = null;
-    this.toolQtyInputStatus = null;
-  }
-
-  clearForm() {
-    this.checkoutToolFormGroup.reset();
-  }
+    constructor(
+        private _formBuilder: FormBuilder,
+        private _notificationService: NotificationService,
+        private _toolsService: ToolsService
+    ) {}
 
 
-  checkoutTool() {
-    this._isCheckoutLoadingSubject$.next(true);
-    this.clearMessages();
-    let toolCheckout: ToolCheckout = {
-        toolQty: Number(this.checkoutToolFormGroup.controls['toolQty'].value),
-        operatorNumber: Number(this.checkoutToolFormGroup.controls['operatorNumber'].value),
-        jobNumber: Number(this.checkoutToolFormGroup.controls['jobNumber'].value),
-        tool: this.tool,
-        cost: (this.tool.toolCost * Number(this.checkoutToolFormGroup.controls['toolQty'].value))
-    };
+    ngOnInit() {
+        this.checkoutToolFormGroup = this._formBuilder.group({
+            toolQty: ['', Validators.required],
+            operatorNumber: ['', Validators.required],
+            jobNumber: ['', Validators.required]
+        });
+    }
 
-    this._toolsService.checkoutTool(toolCheckout)
-      .subscribe(data => {
-        this._isCheckoutLoadingSubject$.next(false);
-    }, (err) => {
-        this._isCheckoutLoadingSubject$.next(false);
-        let response = JSON.parse(err._body);
+    clearMessages() {
+        this.operatorInputMessage = null;
+        this.operatorInputStatus = null;
+
+        this.jobInputMessage = null;
+        this.jobInputStatus  = null;
+
+        this.toolQtyInputMessage = null;
+        this.toolQtyInputStatus = null;
+    }
+
+    clearForm() {
+        this.checkoutToolFormGroup.reset();
+    }
+
+
+    checkoutTool() {
+
+        this._isCheckoutLoadingSubject$.next(true);
+        this.clearMessages();
         
-        if (response.operatorNumber) {
-          this.operatorInputMessage = response.operatorNumber.message;
-          this.operatorInputStatus = response.operatorNumber.status;
-        }
+        let toolCheckout: ToolCheckout = {
+            toolQty: Number(this.checkoutToolFormGroup.controls['toolQty'].value),
+            operatorNumber: Number(this.checkoutToolFormGroup.controls['operatorNumber'].value),
+            jobNumber: Number(this.checkoutToolFormGroup.controls['jobNumber'].value),
+            tool: this.tool,
+            cost: (this.tool.toolCost * Number(this.checkoutToolFormGroup.controls['toolQty'].value))
+        };
 
-        if (response.jobNumber) {
-          this.jobInputMessage = response.jobNumber.message;
-          this.jobInputStatus = response.jobNumber.status;
-        }
+        console.log('checkout tool', toolCheckout);
 
-        if (response.toolQty) {
-          this.toolQtyInputMessage = response.toolQty.message;
-          this.toolQtyInputStatus = response.toolQty.status;
-        }
-      
-      });
-  }
+        this._toolsService.checkoutTool(toolCheckout)
+            .first()
+            .subscribe(data => {
+                console.log('yay');
+                this._isCheckoutLoadingSubject$.next(false);
+            }, (err) => {
+
+                this._isCheckoutLoadingSubject$.next(false);
+
+                let response = JSON.parse(err._body);
+                
+                if (response.operatorNumber) {
+                    this.operatorInputMessage = response.operatorNumber.message;
+                    this.operatorInputStatus = response.operatorNumber.status;
+                }
+
+                if (response.jobNumber) {
+                    this.jobInputMessage = response.jobNumber.message;
+                    this.jobInputStatus = response.jobNumber.status;
+                }
+
+                if (response.toolQty) {
+                    this.toolQtyInputMessage = response.toolQty.message;
+                    this.toolQtyInputStatus = response.toolQty.status;
+                }
+            
+            });
+    }
 
 }
 

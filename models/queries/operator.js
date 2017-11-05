@@ -28,7 +28,7 @@ exports.getOperator = (userId, operatorNumber) => {
             if (err) {
                 reject(err);
             } else {
-                resolve(results);
+                resolve(results[0]);
             }
         });
     });

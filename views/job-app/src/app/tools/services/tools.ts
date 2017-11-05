@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable, BehaviorSubject } from 'rxjs'
 import { Router, ActivatedRoute, Params, Event, NavigationEnd } from '@angular/router';
+import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../shared/services/notification/notification.service';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
@@ -40,7 +41,8 @@ export class ToolsService {
     constructor(
         private _http: Http,
         private _route: ActivatedRoute,
-        private _router: Router) {
+        private _router: Router,
+        private _notificationService: NotificationService) {
         _router.events.filter(event => event instanceof NavigationEnd).subscribe(event =>  this.doSearch());    
 
     }
@@ -123,12 +125,14 @@ export class ToolsService {
             });
     }
 
-    public checkoutTool(tool) {
+    public checkoutTool(checkout) {
         // This will be string of async to checkout. 
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('/api/v1/tools/checkout', tool, {headers: headers})
+        return this._http.post('/api/v1/checkouts', checkout, {headers: headers})
             .map((res: Response) => {
+                this.doSearch();
+                this.setNotification('Successfully checked out tool');
                 return res.json()
             });
     }
@@ -185,7 +189,15 @@ export class ToolsService {
                 });
         }
     }   
+
+    public setNotification(message) {
+        this._notificationService.setNotificationOn(message);
+        Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
+            this._notificationService.setNotificationOff();
+        });
+    }
 }
+
 
 export interface Tool {
     companyName: string;

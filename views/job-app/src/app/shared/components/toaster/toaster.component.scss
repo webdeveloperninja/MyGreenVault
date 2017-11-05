@@ -1,7 +1,8 @@
 .ti-toast {
-  position: absolute;
-  z-index: 2;
+  position: fixed;
+  z-index: 2000;
   right: 0;
+  top: 75px;
   overflow: hidden;
   margin: 0 0 6px;
   cursor: pointer;
