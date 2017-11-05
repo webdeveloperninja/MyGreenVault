@@ -18,64 +18,20 @@ exports.addCheckout = (req, res) => {
         checkout.userId = req.user._id;
     }
 
-    doesJobExist(checkout).then(doesJobExist => {
-        if (doesJobExist) {
-            doesOperatorExist(checkout.userId, checkout.operatorNumber).then(doesOperatorExist => {
-                if (doesOperatorExist) {
-                    isThereEnoughTools(checkout).then(isThereEnoughTools => {
-                        if (isThereEnoughTools) {
-                        
-                            checkoutQuery.addCheckout(checkout).then(checkoutResponse => {
-                                // res.send(checkoutResponse._doc);
-                                res.send(200);
-                            }).catch(err => {
-                                res.send(500);
-                                throw new Error(err);
-                            });
-
-                        } else {
-                            res.status(400).send({
-                                toolQty: {
-                                    message: 'Not Enough Tools',
-                                    status: 'danger'
-                                }
-                            })
-                        }
-                    });
-                } else {
-                    res.status(400).send({
-                        operatorNumber: {
-                            message: 'Operator Not Found',
-                            status: 'danger'
-                        }
-                    });
-                }
-            }).catch(err => {
-                throw new Error(err);
-                res.send(500);
-            });
-        } else {
-            res.status(400).send({ 
-                jobNumber: {
-                    message: 'Job Not Found',
-                    status: 'danger'
-                } 
-            });
+    doCheckout(checkout).then(isCheckedOut => {
+        if(isCheckedOut) {
+            res.status(200).send('checkout successfull');
         }
     }).catch(err => {
-        throw new Error(err);
-        res.send(500);
+        res.status(400).send(err);
     });
 
-    // Make sure job number exists 
-
-    // Make sure operator number exists
 
 }
 
-function doesJobExist(checkout) {
+function doesJobExist(userId, jobNumber) {
     return new Promise((resolve, reject) => {
-        jobQuery.getJob(checkout.userId, checkout.jobNumber).then(job => {   
+        jobQuery.getJob(userId, jobNumber).then(job => {   
             if (job.jobNumber) {
                 resolve(true);
             } else {
@@ -109,4 +65,65 @@ function isThereEnoughTools(checkout) {
             resolve(true);
         }
     });
+}
+
+function doCheckout(checkout) {
+    return new Promise((resolve, reject) => {
+        Promise.all([
+            isThereEnoughTools(checkout),
+            doesOperatorExist(checkout.userId, checkout.operatorNumber),
+            doesJobExist(checkout.userId, checkout.jobNumber)
+        ]).then(values => {
+            const isThereEnoughTools = values[0];
+            const doesOperatorExist = values[1];
+            const doesJobExist = values[2];
+            let validationReturnObj;
+
+            if (!isThereEnoughTools || !doesOperatorExist || !doesJobExist) {
+                validationReturnObj = validateCheckout(doesOperatorExist, doesJobExist, isThereEnoughTools);
+                reject(validationReturnObj);
+            } else {
+                checkoutQuery.addCheckout(checkout).then(checkoutResponse => {
+                    resolve(true);
+                }).catch(err => {
+                    reject(err);
+                });
+            }
+        
+
+
+        }).catch(err => {
+            reject(err);
+        });
+    });
+}
+
+
+function validateCheckout(doesOperatorExist, doesJobExist, isThereEnoughTools) {
+    let validationObj = {};
+        validationObj.valid = true;
+
+    if (!isThereEnoughTools) {
+        validationObj.toolQty = {
+            status: 'danger',
+            message: 'There is not enough tools'
+        }
+        validationObj.valid = false;
+    }
+    if (!doesOperatorExist) {
+        validationObj.operatorNumber = {
+            status: 'danger',
+            message: 'Operator Not Found'
+        }
+        validationObj.valid = false;
+    }
+    if (!doesJobExist) {
+        validationObj.jobNumber = {
+            status: 'danger',
+            message: 'Job number not found'
+        }
+        validationObj.valid = false;
+    }
+
+    return validationObj;
 }
