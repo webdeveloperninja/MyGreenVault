@@ -67,10 +67,10 @@ export class UpdateToolComponent implements OnInit {
     this.activetoolSubscription$ = this._toolsService.updateTool(activetool.value).first().subscribe(data => {
       
     //   this._toolsService.getTools(this.skip, this.take).finally(() => {
-    //     this._notificationService.setNotificationOn(`Successfully updated ${this.activetool.toolName}`);
-    //     Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
-    //       this._notificationService.setNotificationOff();
-    //     })
+        // this._notificationService.setNotificationOn(`Successfully updated ${this.activetool.toolName}`);
+        // Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {
+        //   this._notificationService.setNotificationOff();
+        // })
         
     //   }).subscribe(() => {
         
