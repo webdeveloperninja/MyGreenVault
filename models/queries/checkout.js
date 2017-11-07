@@ -15,4 +15,21 @@ let addCheckout = exports.addCheckout = (checkout) => {
     });
 }
 
+let getCheckoutsForJob = exports.getCheckoutsForJob = (userId, jobNumber) => {
+    return new Promise((resolve, reject) => {
+        let queryObj = {
+            userId: ObjectId(userId),
+            jobNumber: jobNumber
+        } 
+
+        Checkout.find(queryObj).exec((err, results) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+}
+
 

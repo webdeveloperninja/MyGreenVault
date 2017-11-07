@@ -3,6 +3,7 @@ module.exports = function(passportConfig, checkoutsApiController) {
     const router = require('express').Router();
 
     router.post('/', passportConfig.isAuthenticated, checkoutsApiController.addCheckout);
+    router.get('/:jobNumber', passportConfig.isAuthenticated, checkoutsApiController.getCheckoutsForJob);
 
     return router;
 }
