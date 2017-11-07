@@ -15,3 +15,13 @@
     </div>
   </div>
 </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-box">
+            <i class='fa fa-spinner fa-spin pull-right ti-spin' *ngIf="isJobCheckoutsLoading$ | async"></i>
+            <ti-job-checkouts
+                [checkouts]="jobCheckouts$ | async">
+            </ti-job-checkouts>
+        </div>
+    </div>
+</div>

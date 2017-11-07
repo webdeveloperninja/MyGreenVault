@@ -18,9 +18,14 @@ export class JobsService {
     private _jobDetailSubject$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     public readonly jobDetail$: Observable<any> = this._jobDetailSubject$.asObservable();
 
+    private _jobCheckoutsSubject$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>(null);
+    public readonly jobCheckouts$: Observable<any[]> = this._jobCheckoutsSubject$.asObservable(); 
+
+    private _isJobCheckoutsLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public readonly isJobCheckoutsLoading$: Observable<any> = this._isJobCheckoutsLoading$.asObservable();
+
     private _isJobDetailLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public readonly isJobDetailLoading$: Observable<any> = this._isJobDetailLoading$.asObservable();
-
 
     private _moreJobsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public readonly moreJobs$: Observable<boolean> = this._moreJobsSubject$.asObservable();
@@ -62,6 +67,27 @@ export class JobsService {
             this._isJobsLoadingSubject$.next(false);
         }
     }
+
+    public getJobCheckouts(jobId: any) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
+        let url = `/api/v1/checkouts/${jobId}`;
+
+        this._isJobCheckoutsLoading$.next(true);
+
+        return this._http.get(url, {headers: headers, withCredentials: true})
+            .map((res: Response) => {
+                console.log(res.json());
+                return res.json();
+            }).catch(err => {
+                throw new Error(err);
+            }).first().subscribe(data => {
+                this._isJobCheckoutsLoading$.next(false);
+                this._jobCheckoutsSubject$.next(data);
+            });
+    }
+
 
     public getJobDetail(jobId: any) {
         let headers = new Headers();

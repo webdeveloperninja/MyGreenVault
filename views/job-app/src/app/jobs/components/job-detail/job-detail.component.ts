@@ -12,6 +12,9 @@ export class JobDetailComponent implements OnInit {
 
   job$: any = this._jobsService.jobDetail$;
   isJobDetailLoading$ = this._jobsService.isJobDetailLoading$;
+
+  isJobCheckoutsLoading$ = this._jobsService.isJobCheckoutsLoading$;
+  jobCheckouts$ = this._jobsService.jobCheckouts$;
   
   isJobLoading: boolean;
 
@@ -29,6 +32,7 @@ export class JobDetailComponent implements OnInit {
     const jobNumber = this._route.snapshot.paramMap.get('jobNumber');
 
     this._jobsService.getJobDetail(jobNumber);
+    this._jobsService.getJobCheckouts(jobNumber);
     // this._jobsService.getJob(jobNumber).subscribe(job => {
     //   this.isJobLoading = false;
     //   this._headerService.setHeaderText(`${job.companyName} - ${job.jobName}`)

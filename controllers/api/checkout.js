@@ -26,10 +26,20 @@ exports.addCheckout = (req, res) => {
     }).catch(err => {
         res.status(400).send(err);
     });
-
-
 }
 
+exports.getCheckoutsForJob = (req, res) => {
+    const jobNumber = req.params.jobNumber;
+    const userId = req.user._id;
+
+    checkoutQuery.getCheckoutsForJob(userId, jobNumber).then(data => {
+        res.json(data);
+    }).catch(err => {
+        throw new Error(err);
+        res.send(500);
+    });
+
+}
 
 
 

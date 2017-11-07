@@ -1,23 +1,18 @@
-<table class="table table-striped ti-table mb-0" *ngIf="checkouts.toolNames">
-    <thead class="ti-table-header">
-        <tr>
-            <th>Tool Name</th>
-            <th>Cost</th>
-            <th>Qty</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let checkout of checkouts.toolNames; let i = index" >
-            <td>{{checkout}}</td>
-            <td>{{ checkouts.toolCost[i] | currency:'USD':true }}</td>
-            <td>{{ checkouts.qty[i] }}</td>
-        </tr>
-        <tr>
-            <td>
-                <strong>Total</strong>
-            </td>
-            <td><strong>{{ checkouts.combineCost | currency:'USD':true }}</strong></td>
-            <td></td>
-        </tr>
-    </tbody>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Job Number</th>
+      <th scope="col">Operator Number</th>
+      <th scope="col">Qty</th>
+      <th scope="col">Username</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let checkout of checkouts">
+      <th scope="row">{{ checkout.jobNumber}}</th>
+      <td>{{ checkout.operatorNumber }}</td>
+      <td>{{ checkout.toolQty }}</td>
+      <td>{{ checkout.tool.toolName }}</td>
+    </tr>
+  </tbody>
 </table>
