@@ -20,7 +20,8 @@
         <div class="card-box">
             <i class='fa fa-spinner fa-spin pull-right ti-spin' *ngIf="isJobCheckoutsLoading$ | async"></i>
             <ti-job-checkouts
-                [checkouts]="jobCheckouts$ | async">
+                [checkouts]="jobCheckouts$ | async"
+                [isCheckoutsLoading]="isJobCheckoutsLoading$ | async">
             </ti-job-checkouts>
         </div>
     </div>

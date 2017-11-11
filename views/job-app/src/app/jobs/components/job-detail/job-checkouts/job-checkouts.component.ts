@@ -1,9 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Input
+} from '@angular/core';
 
 @Component({
-  selector: 'ti-job-checkouts',
-  templateUrl: './job-checkouts.component.html',
-  styleUrls: ['./job-checkouts.component.scss']
+    selector: 'ti-job-checkouts',
+    templateUrl: './job-checkouts.component.html',
+    styleUrls: ['./job-checkouts.component.scss']
 })
 export class JobCheckoutsComponent implements OnInit {
     private _checkouts;
@@ -12,8 +16,7 @@ export class JobCheckoutsComponent implements OnInit {
     set checkouts(checkouts: any) {
 
         if (!!checkouts) {
-
-        let updatedCheckouts = checkouts.reduce((checkoutData, checkout) => {
+            let updatedCheckouts = checkouts.reduce((checkoutData, checkout) => {
                 if (!checkoutData.toolNames.includes(checkout.tool.toolName)) {
                     checkoutData.toolNames.push(checkout.tool.toolName);
                     checkoutData.toolCost.push(Number(checkout.tool.toolCost) * Number(checkout.toolQty));
@@ -34,12 +37,9 @@ export class JobCheckoutsComponent implements OnInit {
                 combineCost: 0
             });
 
-            // this.checkouts = updatedCheckouts;
             this._checkouts = updatedCheckouts;
         }
-        
-
-        }
+    }
 
 
     get checkouts() {
@@ -49,7 +49,7 @@ export class JobCheckoutsComponent implements OnInit {
     @Input() isCheckoutsLoading;
 
     ngOnInit() {
-        
-    }
-}
 
+    }
+
+}
