@@ -47,6 +47,7 @@ export class ToolsComponent implements OnInit {
 
     ngOnInit() {
         this._headerService.setHeaderText(PAGE_TITLE);
+        window.scrollTo(0, 0);
     }
 
 

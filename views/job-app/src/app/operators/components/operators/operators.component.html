@@ -58,9 +58,10 @@
                     </div>
                 </div>
                 <div class="col-12 mt-3" *ngIf="(operators$ | async)?.length==0">
-                    <div class="alert alert-info" role="alert">
-                    <strong>No Operators Found</strong>
-                    </div>
+                        <div class="alert alert-warning alert-white rounded"> 
+                            <div class="icon"> 
+                                <i class="fa fa-warning"></i></div> <strong>Info</strong> There are no operators
+                        </div>
                 </div>
                 </div>
     

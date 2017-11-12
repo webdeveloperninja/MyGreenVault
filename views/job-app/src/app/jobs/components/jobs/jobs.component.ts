@@ -48,7 +48,6 @@ export class JobsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.jobs$ = this._jobsService.jobs$;
 
     this.isJobsLoading$ = this._jobsService.isJobsLoading$;
