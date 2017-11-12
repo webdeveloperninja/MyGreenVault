@@ -10,8 +10,15 @@ import { HeaderService } from '../../../shared/services/header/header.service';
   styleUrls: ['./job-detail.component.scss']
 })
 export class JobDetailComponent implements OnInit {
+    job;
 
-    job$: any = this._jobsService.jobDetail$;
+    job$: any = this._jobsService.jobDetail$.do(job => {
+        if (job && job.jobName) {
+            this.job = job;
+            this._headerService.setHeaderText(`${this.job.jobName} - ${this.job.jobNumber}`);
+        }
+    });
+
     isJobDetailLoading$ = this._jobsService.isJobDetailLoading$;
 
     isJobCheckoutsLoading$ = this._jobsService.isJobCheckoutsLoading$;
@@ -51,11 +58,14 @@ export class JobDetailComponent implements OnInit {
 
         this._jobsService.getJobDetail(jobNumber);
         this._jobsService.getJobCheckouts(jobNumber);
+
+        this._headerService.setHeaderText('------');
         // this._jobsService.getJob(jobNumber).subscribe(job => {
         //   this.isJobLoading = false;
         //   this._headerService.setHeaderText(`${job.companyName} - ${job.jobName}`)
         //   this.job = job;
         // });
+
     }
 
 

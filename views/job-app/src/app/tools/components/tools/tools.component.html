@@ -82,8 +82,9 @@
                             </div>
                         </div>
                     <div class="col-12 mt-3" *ngIf="!(tools$ | async)">
-                        <div class="alert alert-info" role="alert">
-                        <strong>No Tools Found</strong>
+                        <div class="alert alert-warning alert-white rounded"> 
+                            <div class="icon"> 
+                                <i class="fa fa-warning"></i></div> <strong>Info</strong> There are no tools
                         </div>
                     </div>
             </div>
