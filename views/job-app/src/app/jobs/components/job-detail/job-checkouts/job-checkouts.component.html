@@ -14,7 +14,8 @@
     </tr>
     <tr>
         <td></td>
-        <th>Total: {{ checkouts.combineCost | currency:'USD':true | empty }}</th>
+        <th>{{ checkouts.combineCost | currency:'USD':true | empty }}</th>
+        <th>{{totalCheckoutQty}}</th>
     </tr>
   </tbody>
 </table>

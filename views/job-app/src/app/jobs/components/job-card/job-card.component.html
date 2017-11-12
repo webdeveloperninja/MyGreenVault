@@ -1,9 +1,10 @@
 <div class="card m-b-20" ngClass="{{status}}">
     <h3 class="card-header">
-        {{job.jobName | empty}} - {{ job.jobNumber | empty }}
+        {{job.jobName | empty}}
     </h3>
     <div class="card-block">
         <h4 class="card-title">Contact: {{ job.contactName | empty }}</h4>
+        <h4 class="card-title">Job Id: {{ job.jobNumber | empty }}</h4>
         <p class="card-text">
             <ti-job-status-chip
                 [jobStatus]="job.jobStatus">
