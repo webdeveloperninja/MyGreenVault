@@ -1,25 +1,30 @@
-<p class="page-title">Tool Usage</p>
+<p class="card-title">Tool Usage</p>
 <table class="table" *ngIf="checkouts && checkouts.toolNames.length != 0">
-  <thead>
-    <tr>
-      <th scope="col">Tool Name</th>
-      <th>Cost</th>
-      <th>Qty</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let checkout of checkouts.toolNames; let i = index">
-      <th scope="row">{{ checkouts.toolNames[i]}}</th>
-      <td>{{ checkouts.toolCost[i] | currency:'USD':true | empty  }}</td>
-      <td>{{ checkouts.qty[i] }}</td>
-    </tr>
-    <tr>
-        <td></td>
-        <th>{{ checkouts.combineCost | currency:'USD':true | empty }}</th>
-        <th>{{totalCheckoutQty}}</th>
-    </tr>
-  </tbody>
+   <thead>
+      <tr>
+         <th scope="col">Tool Name</th>
+         <th>Cost</th>
+         <th>Qty</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr *ngFor="let checkout of checkouts.toolNames; let i = index">
+         <th scope="row">{{ checkouts.toolNames[i]}}</th>
+         <td>{{ checkouts.toolCost[i] | currency:'USD':true | empty  }}</td>
+         <td>{{ checkouts.qty[i] }}</td>
+      </tr>
+      <tr>
+         <td></td>
+         <th>{{ checkouts.combineCost | currency:'USD':true | empty }}</th>
+         <th>{{totalCheckoutQty}}</th>
+      </tr>
+   </tbody>
 </table>
-<div class="alert alert-info" role="alert" *ngIf="!checkouts || checkouts.toolNames.length == 0">
-  <strong>There are no checkouts for this job yet</strong>
-</div>
+<ng-container class="alert alert-info" role="alert" *ngIf="!checkouts || checkouts.toolNames.length == 0">
+   <div _ngcontent-c4="" class="alert alert-warning alert-white rounded">
+      <div _ngcontent-c4="" class="icon"> 
+         <i _ngcontent-c4="" class="fa fa-warning"></i>
+      </div>
+      <strong _ngcontent-c4="">Info</strong> There are no checkoust for this job
+   </div>
+</ng-container>

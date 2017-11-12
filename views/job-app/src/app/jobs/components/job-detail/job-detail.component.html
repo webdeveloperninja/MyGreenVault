@@ -2,7 +2,6 @@
   <div class="col-md-12">
     <div class="row">
       <div class="col">
-
         <div class="card-box">
         <div class="row">
             <div class="col-md-6">
@@ -16,9 +15,17 @@
             </div>
             <div class="col-md-6">
                 <div class="row">
-                    <ti-tool-usage-graph
-                        [checkouts]="jobCheckouts$ | async">
-                    </ti-tool-usage-graph>
+                    <ng-container *ngIf="hasCheckouts">
+                        <ti-tool-usage-graph
+                            [checkouts]="jobCheckouts$ | async">
+                        </ti-tool-usage-graph>
+                    </ng-container>
+                    <ng-container *ngIf="!hasCheckouts">
+                        <div class="alert alert-warning alert-white rounded"> 
+                            <div class="icon"> 
+                                <i class="fa fa-warning"></i></div> <strong>Info</strong> There are no checkoust for this job
+                        </div>
+                    </ng-container>
                 </div>
             </div>
         </div>

@@ -11,38 +11,53 @@ import { HeaderService } from '../../../shared/services/header/header.service';
 })
 export class JobDetailComponent implements OnInit {
 
+    job$: any = this._jobsService.jobDetail$;
+    isJobDetailLoading$ = this._jobsService.isJobDetailLoading$;
 
-  job$: any = this._jobsService.jobDetail$;
-  isJobDetailLoading$ = this._jobsService.isJobDetailLoading$;
+    isJobCheckoutsLoading$ = this._jobsService.isJobCheckoutsLoading$;
+    jobCheckouts$ = this._jobsService.jobCheckouts$.do(jobCheckouts => {
+        this.hasCheckouts = false;
 
-  isJobCheckoutsLoading$ = this._jobsService.isJobCheckoutsLoading$;
-  jobCheckouts$ = this._jobsService.jobCheckouts$;
-  
-  isJobLoading: boolean;
+        if (jobCheckouts && jobCheckouts.length) {
+            this.hasCheckouts = true;
+        }
+    });
 
-  constructor(
-    private _route: ActivatedRoute,
-    private _router: Router,
-    private _jobsService: JobsService,
-    private _headerService: HeaderService
-  ) { 
-   
-  }
+    isJobLoading: boolean;
+
+    constructor(
+        private _route: ActivatedRoute,
+        private _router: Router,
+        private _jobsService: JobsService,
+        private _headerService: HeaderService
+    ) { 
+
+    }
+
+    private _hasCheckouts: boolean = false;
+
+    set hasCheckouts(hasCheckouts: boolean) {
+        this._hasCheckouts = hasCheckouts;
+    }
+
+    get hasCheckouts(): boolean {
+        return this._hasCheckouts;
+    }
 
 
+    ngOnInit() {
+        this.isJobLoading = true;
+        const jobNumber = this._route.snapshot.paramMap.get('jobNumber');
 
-  ngOnInit() {
-    this.isJobLoading = true;
-    const jobNumber = this._route.snapshot.paramMap.get('jobNumber');
+        this._jobsService.getJobDetail(jobNumber);
+        this._jobsService.getJobCheckouts(jobNumber);
+        // this._jobsService.getJob(jobNumber).subscribe(job => {
+        //   this.isJobLoading = false;
+        //   this._headerService.setHeaderText(`${job.companyName} - ${job.jobName}`)
+        //   this.job = job;
+        // });
+    }
 
-    this._jobsService.getJobDetail(jobNumber);
-    this._jobsService.getJobCheckouts(jobNumber);
-    // this._jobsService.getJob(jobNumber).subscribe(job => {
-    //   this.isJobLoading = false;
-    //   this._headerService.setHeaderText(`${job.companyName} - ${job.jobName}`)
-    //   this.job = job;
-    // });
-  }
 
 
 }
