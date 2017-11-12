@@ -14,7 +14,13 @@
                 <p><strong>Job Status:</strong> {{ (job$ | async)?.jobStatus | jobStatusNumberToTitle | empty }}</p>
                 <p><strong>Company Name:</strong> {{ (job$ | async)?.companyName | empty }}</p>
             </div>
-            <div class="col-md-6"></div>
+            <div class="col-md-6">
+                <div class="row">
+                    <ti-tool-usage-graph
+                        [checkouts]="jobCheckouts$ | async">
+                    </ti-tool-usage-graph>
+                </div>
+            </div>
         </div>
         </div>
       </div>

@@ -3,12 +3,14 @@ import { JobsService } from '../../services/jobs';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { HeaderService } from '../../../shared/services/header/header.service';
 
+
 @Component({
   selector: 'ti-job-detail',
   templateUrl: './job-detail.component.html',
   styleUrls: ['./job-detail.component.scss']
 })
 export class JobDetailComponent implements OnInit {
+
 
   job$: any = this._jobsService.jobDetail$;
   isJobDetailLoading$ = this._jobsService.isJobDetailLoading$;
@@ -23,7 +25,9 @@ export class JobDetailComponent implements OnInit {
     private _router: Router,
     private _jobsService: JobsService,
     private _headerService: HeaderService
-  ) { }
+  ) { 
+   
+  }
 
 
 
@@ -39,5 +43,6 @@ export class JobDetailComponent implements OnInit {
     //   this.job = job;
     // });
   }
+
 
 }
