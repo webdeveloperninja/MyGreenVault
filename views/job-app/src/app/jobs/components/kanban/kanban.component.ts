@@ -39,7 +39,6 @@ export class KanbanComponent implements OnInit {
 
   doSearch() {
     this.isJobNotFound = false;
-
   }
 
 }

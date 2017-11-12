@@ -6,6 +6,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { FlashMessagesModule } from 'ngx-flash-messages';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { ChartsModule } from 'ng2-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 import { AppComponent } from './app.component';
 
@@ -27,6 +29,7 @@ import { routes } from './app.routing';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(routes),
     ReactiveFormsModule,
     FormsModule,

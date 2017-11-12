@@ -16,6 +16,7 @@ import { UpdateJobComponent } from './components/update-job/update-job.component
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { routes } from './jobs.routing';
 import { KanbanComponent } from './components/kanban/kanban.component';
@@ -33,6 +34,7 @@ import { SetupDocComponent } from './components/setup-doc/setup-doc.component';
         SharedModule,
         ReactiveFormsModule,
         ChartsModule,
+        NgxChartsModule,
         RouterModule.forChild(routes),
         NgbModule.forRoot()
     ],

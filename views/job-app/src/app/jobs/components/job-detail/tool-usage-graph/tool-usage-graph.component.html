@@ -1,12 +1,16 @@
-<div style="display: block" *ngIf="isCheckoutDataValid()">
-  <canvas baseChart
-    [data]="checkoutData.data"
-    [labels]="checkoutData.labels"
-    [chartType]="doughnutChartType"
-    (chartHover)="chartHovered($event)"
-    (chartClick)="chartClicked($event)">
-  </canvas>
-</div>
-<div class="alert alert-info" role="alert" *ngIf="isCheckoutEmptyAndNotLoading()">
-  <strong>No Checkouts</strong>
-</div>
+<ng-container *ngIf="checkouts">
+    <ngx-charts-bar-vertical
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="checkouts"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        (select)="onSelect($event)">
+    </ngx-charts-bar-vertical>
+</ng-container>

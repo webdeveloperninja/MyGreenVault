@@ -12,6 +12,7 @@ import {
 export class JobCheckoutsComponent implements OnInit {
     private _checkouts;
 
+    totalCheckoutQty: number = 0;
     @Input('checkouts')
     set checkouts(checkouts: any) {
 
@@ -28,16 +29,21 @@ export class JobCheckoutsComponent implements OnInit {
                 }
 
                 checkoutData.combineCost = Number(checkoutData.combineCost) + (Number(checkout.tool.toolCost) * Number(checkout.toolQty));
-
                 return checkoutData;
             }, {
                 toolNames: [],
                 toolCost: [],
                 qty: [],
-                combineCost: 0
+                combineCost: 0,
+                combineQty: 0
             });
 
             this._checkouts = updatedCheckouts;
+        
+
+            for (let i = 0; i < updatedCheckouts.qty.length; i ++ ) {
+                this.totalCheckoutQty += updatedCheckouts.qty[i];
+            }
         }
     }
 

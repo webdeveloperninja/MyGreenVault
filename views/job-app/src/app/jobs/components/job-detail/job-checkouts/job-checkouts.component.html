@@ -1,3 +1,4 @@
+<p class="page-title">Tool Usage</p>
 <table class="table" *ngIf="checkouts && checkouts.toolNames.length != 0">
   <thead>
     <tr>
@@ -14,7 +15,8 @@
     </tr>
     <tr>
         <td></td>
-        <th>Total: {{ checkouts.combineCost | currency:'USD':true | empty }}</th>
+        <th>{{ checkouts.combineCost | currency:'USD':true | empty }}</th>
+        <th>{{totalCheckoutQty}}</th>
     </tr>
   </tbody>
 </table>
