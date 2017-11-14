@@ -4,43 +4,6 @@ import {
     Input
 } from '@angular/core';
 
-const single = [{
-        "name": "Germany",
-        "value": 8940000
-    },
-    {
-        "name": "USA",
-        "value": 5000000
-    },
-    {
-        "name": "France",
-        "value": 7200000
-    },
-    {
-        "name": "oisdafjosdfaij",
-        "value": 8940000
-    },
-    {
-        "name": "oafdsijsdofij",
-        "value": 5000000
-    },
-    {
-        "name": "France",
-        "value": 7200000
-    },
-    {
-        "name": "Germany",
-        "value": 8940000
-    },
-    {
-        "name": "USA",
-        "value": 5000000
-    },
-    {
-        "name": "France",
-        "value": 7200000
-    }
-];
 
 @Component({
     selector: 'ti-tool-usage-graph',
@@ -60,7 +23,7 @@ export class ToolUsageGraphComponent implements OnInit {
     gradient = false;
     showLegend = true;
     showXAxisLabel = true;
-    xAxisLabel = 'Tooling Cost Per Tool';
+    xAxisLabel = 'Tool';
     showYAxisLabel = true;
     yAxisLabel = 'Cost';
 
@@ -68,6 +31,8 @@ export class ToolUsageGraphComponent implements OnInit {
         domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
     };
 
+    @Input() isCheckoutsLoading: boolean = true;
+    
     private _checkouts: any;
 
     @Input('checkouts')
@@ -90,7 +55,6 @@ export class ToolUsageGraphComponent implements OnInit {
 
                 return checkoutData;
             }, []);
-            console.log('updated checkouts', updatedCheckouts);
             this._checkouts = updatedCheckouts;
         
         }
@@ -132,17 +96,13 @@ export class ToolUsageGraphComponent implements OnInit {
 
     // events
     public chartClicked(e: any): void {
-        console.log(e);
     }
 
     public chartHovered(e: any): void {
-        console.log(e);
     }
 
     constructor() {
-        Object.assign(this, {
-            single
-        });
+   
     }
 
     ngOnInit() {}
@@ -150,7 +110,6 @@ export class ToolUsageGraphComponent implements OnInit {
 
 
     onSelect(event) {
-        console.log(event);
     }
 
 }

@@ -57,7 +57,6 @@ export class JobsService {
     }
 
     public doSearch() {
-        console.log('do search');
         this._isJobsLoadingSubject$.next(true);
         if (this._router.navigated) {
             this._jobsSkipSubject$.next(this._route.snapshot.queryParams["skip"]);
@@ -78,7 +77,6 @@ export class JobsService {
 
         return this._http.get(url, {headers: headers, withCredentials: true})
             .map((res: Response) => {
-                console.log(res.json());
                 return res.json();
             }).catch(err => {
                 throw new Error(err);

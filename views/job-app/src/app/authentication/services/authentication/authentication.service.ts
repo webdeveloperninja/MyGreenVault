@@ -16,8 +16,6 @@ export class AuthenticationService {
     headers.append('Content-Type', 'application/json');
     return this._http.post('/login', userAuthenticationObject, {headers: headers}) // ...using post request
         .map(response => {
-          console.log(response.json())
-          // todo: save token 
           return response.json();
         })
         .catch(error => Observable.throw(error));

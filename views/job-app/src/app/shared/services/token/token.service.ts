@@ -6,6 +6,5 @@ export class TokenService {
   constructor() { }
 
   getToken() {
-    console.log('token');
   }
 }

@@ -12,8 +12,6 @@ export class SearchService {
     ) { }
 
     doSearch(query: string, category: string) {
-        console.log('query', query);        
-        console.log('category', category);    
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         return this._http.get(`/api/v1/tools/search?query=${query}&category=${category}`, {headers: headers, withCredentials: true}).map((res: Response) => { 

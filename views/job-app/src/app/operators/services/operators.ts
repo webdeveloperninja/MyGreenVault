@@ -44,7 +44,6 @@ export class OperatorsService {
     }
 
     public doSearch() {
-        console.log('do search');
         this._isOperatorsLoadingSubject$.next(true);
         if (this._router.navigated) {
             this._operatorsSkipSubject$.next(this._route.snapshot.queryParams["skip"]);

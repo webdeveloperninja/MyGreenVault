@@ -1,0 +1,10 @@
+<div class="row" *ngIf="showAlert && !isLoading">
+    <div class="col-md-12">
+        <div class="alert alert-{{ alert[status] }} alert-white rounded"> 
+            <div class="icon"> 
+                <i class="fa fa-{{ alert[status] }}"></i>
+            </div>
+            <strong>{{ message }}</strong> 
+        </div>
+    </div>
+</div>

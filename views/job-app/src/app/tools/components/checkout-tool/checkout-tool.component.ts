@@ -75,12 +75,10 @@ export class CheckoutToolComponent implements OnInit {
             cost: (this.tool.toolCost * Number(this.checkoutToolFormGroup.controls['toolQty'].value))
         };
 
-        console.log('checkout tool', toolCheckout);
 
         this._toolsService.checkoutTool(toolCheckout)
             .first()
             .subscribe(data => {
-                console.log('yay');
                 this._isCheckoutLoadingSubject$.next(false);
             }, (err) => {
 

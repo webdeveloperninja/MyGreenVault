@@ -63,7 +63,6 @@ export class HeaderComponent implements OnInit {
     }
 
     doSearch() {
-        console.log('working');
         const searchQuery = this.searchForm.controls['search'].value;
         const skip = 0;
         const take = this._route.snapshot.queryParams["take"];
@@ -87,12 +86,7 @@ export class HeaderComponent implements OnInit {
     }
 
     searchTypeClass(route: string): string {
-        // TODO: parse route to determine active class for search type
         return (route === this.category) ? 'active' : '';
     }
 
-    // setSearchCategory(route: string): void {
-    //     console.log('route', route);
-    //     this.category = route;
-    // }
 }
