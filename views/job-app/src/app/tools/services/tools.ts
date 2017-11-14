@@ -48,7 +48,6 @@ export class ToolsService {
     }
 
     public doSearch() {
-        console.log('do search');
         this._istoolsLoadingSubject$.next(true);
         if (this._router.navigated) {
             this._toolsSkipSubject$.next(this._route.snapshot.queryParams["skip"]);

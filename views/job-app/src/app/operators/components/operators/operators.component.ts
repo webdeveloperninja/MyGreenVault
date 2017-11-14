@@ -3,8 +3,10 @@ import { OperatorsService, PagedList, Operator } from '../../services/operators'
 import { Pipe, PipeTransform } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
-import { HeaderService } from '../../../shared/services/header/header.service';
+import { NotificationService, DEFAULT_NOTIFICATION_TIME } from 'app/shared/services/notification/notification.service';
+import { HeaderService } from 'app/shared/services/header/header.service';
+import { alert } from 'app/shared/components/alert/alert.component';
+
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 const REMOVE_TOOL_SUCCESS_MESSAGE: string = 'Successfully Removed Operator';
@@ -17,7 +19,9 @@ const PAGE_TITLE: string = 'Operators';
   styleUrls: ['./operators.component.scss']
 })
 export class OperatorsComponent implements OnInit {
+    hasOperators: boolean = false;
 
+    alert = alert;
     skip: number;
     take: number;
 
@@ -28,7 +32,19 @@ export class OperatorsComponent implements OnInit {
     private _updateOperatorModalRef: NgbModalRef;
 
     updateOperatorModal: any;
-    operators$: Observable<Operator[]> = this._operatorsService.operators$;
+
+    operators$: Observable<Operator[]> = this._operatorsService.operators$.do(operators => {
+        if (operators) {
+            if (operators.length > 0) {
+                this.hasOperators = true;
+            } else {
+                this.hasOperators = false;
+            }
+        } else {
+            this.hasOperators = false;
+        }
+    });
+
     isOperatorsLoading$: Observable<boolean> = this._operatorsService.isOperatorsLoading$;
     moreOperators$: Observable<boolean> = this._operatorsService.moreOperators$;
     activeOperator$: Observable<Operator> = this._operatorsService.activeOperator$;

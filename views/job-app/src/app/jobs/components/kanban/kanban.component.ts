@@ -1,44 +1,104 @@
 import { Component, OnInit } from '@angular/core';
 import { JobsService, PagedList, Job } from '../../services/jobs';
 import { Observable, Subscription } from 'rxjs';
-import { HeaderService } from '../../../shared/services/header/header.service';
+import { HeaderService } from 'app/shared/services/header/header.service';
+import { alert } from 'app/shared/components/alert/alert.component';
 
 @Component({
-  selector: 'ti-kanban',
-  templateUrl: './kanban.component.html',
-  styleUrls: ['./kanban.component.scss']
+    selector: 'ti-kanban',
+    templateUrl: './kanban.component.html',
+    styleUrls: ['./kanban.component.scss']
 })
 export class KanbanComponent implements OnInit {
 
-//   jobs$: Observable<Job[]>
-  isJobNotFound: boolean = false;
-  isJobsLoading$: Observable<boolean>;
+    private _hasStaging: boolean;;
 
-  jobs$ = this._jobsService.jobs$;
+    get hasStaging(): boolean {
+        return this._hasStaging;
+    }
 
-  constructor(
-     private _jobsService: JobsService,
-     private _headerService: HeaderService
-  ) { }
+    set hasStaging(value: boolean) {
+        this._hasStaging = value;
+    }
 
-  ngOnInit() {
-    this._headerService.setHeaderText('Kanban');
-    this.isJobsLoading$ = this._jobsService.isJobsLoading$;
+    private _hasMachining: boolean = false;
+
+    get hasMachining(): boolean {
+        return this._hasMachining;
+    }
+
+    private _hasQuality: boolean = false;
+
+    get hasQuality(): boolean {
+        return this._hasQuality;
+    }
+
+    private _hasShipping: boolean = false;
+
+    get hasShipping(): boolean {
+        return this._hasShipping;
+    }
+
+    private _hasCompleted: boolean = false;
+
+    get hasCompleted(): boolean {
+        return this._hasCompleted;
+    }
+
+    private _hasWaiting: boolean = false;
     
-    this.doSearch();
-  }
+    get hasWaiting(): boolean {
+        return this._hasWaiting;
+    }
 
-  nextPage() {
-    this._jobsService.nextPage();
-  }
+    alert = alert;
 
-  previousPage() {
-    this._jobsService.previousPage();
-  }
+    isJobNotFound: boolean = false;
+    isJobsLoading$: Observable<boolean> = this._jobsService.isJobsLoading$;
+
+    jobs$ = this._jobsService.jobs$.do(jobs => {
+        if (jobs) {
+            jobs.forEach(job => {
+                if (job.jobStatus === 0) {
+                    this.hasStaging = true;
+                } else if (job.jobStatus === 1) {
+                    this._hasMachining = true;
+                } else if (job.jobStatus === 2) {
+                    this._hasQuality = true;
+                } else if (job.jobStatus === 3) {
+                    this._hasShipping = true;
+                } else if (job.jobStatus === 4) {
+                    this._hasCompleted = true;
+                } else if (job.jobStatus === 5) {
+                    this._hasWaiting = true;
+                }
+            });
+        }
+        
+    });
+
+    constructor(
+        private _jobsService: JobsService,
+        private _headerService: HeaderService
+    ) { }
+
+    ngOnInit() {
+        this._headerService.setHeaderText('Kanban');
+
+        this.doSearch();
+    }
+
+    nextPage() {
+        this._jobsService.nextPage();
+    }
+
+    previousPage() {
+        this._jobsService.previousPage();
+    }
 
 
-  doSearch() {
-    this.isJobNotFound = false;
-  }
+    doSearch() {
+        this.isJobNotFound = false;
+    }
 
 }

@@ -4,8 +4,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
-import { HeaderService } from '../../../shared/services/header/header.service';
+import { HeaderService } from 'app/shared/services/header/header.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { alert } from 'app/shared/components/alert/alert.component';
 
 const REMOVE_TOOL_SUCCESS_MESSAGE: string = 'Successfully Removed Tool';
 const MODAL_SIZE = 'lg';
@@ -19,6 +20,9 @@ const PAGE_TITLE: string = 'Tools';
 })
 export class ToolsComponent implements OnInit {
 
+    hasTools: boolean = false;
+    
+    alert = alert;
     skip: number;
     take: number;
 
@@ -29,7 +33,17 @@ export class ToolsComponent implements OnInit {
     private _updateToolModalRef: NgbModalRef;
 
     updateToolModal: any;
-    tools$: Observable<Tool[]> = this._toolsService.tools$;
+    tools$: Observable<Tool[]> = this._toolsService.tools$.do(tools => {
+        if (tools) {
+            if (tools.length > 0) {
+                this.hasTools = true;
+            } else {
+                this.hasTools = false;
+            }
+        } else {
+            this.hasTools = false;
+        }
+    });
     isToolsLoading$: Observable<boolean> = this._toolsService.istoolsLoading$;
     moreTools$: Observable<boolean> = this._toolsService.moreTools$;
     activeTool$: Observable<Tool> = this._toolsService.activetool$;

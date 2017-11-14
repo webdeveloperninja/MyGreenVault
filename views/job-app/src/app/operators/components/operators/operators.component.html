@@ -1,12 +1,10 @@
 <div class="row">
     <div class="col">
         <div class="card-box">
-            <i class='fa fa-spinner fa-spin card-spin' *ngIf="isOperatorsLoading$ | async"></i>          
+            <i class='fa fa-spinner fa-spin card-spin' *ngIf="isOperatorsLoading$ | async"></i>
             <div class="row mt-3">
                 <div class="col-md-12">
-                    <button 
-                        class="btn btn-outline-primary pull-right mb-2" 
-                        (click)="addOperator()">
+                    <button class="btn btn-outline-primary pull-right mb-2" (click)="addOperator()">
                             <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Operator
                     </button>
                 </div>
@@ -22,18 +20,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let operator of operators$ | async" >
+                            <tr *ngFor="let operator of operators$ | async">
                                 <td>{{ operator.operatorName | empty }}</td>
                                 <td>{{ operator.operatorNumber | empty }}</td>
                                 <td>
-                                    <button 
-                                        class="btn btn-outline-danger pull-right" 
-                                        (click)="removeOperator(operator)">
+                                    <button class="btn btn-outline-danger pull-right" (click)="removeOperator(operator)">
                                             <i class="fa fa-trash mr-2" aria-hidden="true"></i>Remove
                                     </button>
-                                    <button 
-                                        class="btn btn-outline-primary pull-right mr-2" 
-                                        (click)="openUpdateOperatorModal(operator._id)">
+                                    <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdateOperatorModal(operator._id)">
                                             <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
                                     </button>
                                 </td>
@@ -42,43 +36,29 @@
                     </table>
                     <div class="row">
                         <div class="col-md-12">
-                            <button 
-                                (click)="nextPage()" 
-                                *ngIf="moreOperators$ | async" 
-                                class="btn btn-outline-primary next pull-right">
+                            <button (click)="nextPage()" *ngIf="moreOperators$ | async" class="btn btn-outline-primary next pull-right">
                                 Next Page
                             </button>
-                            <button 
-                                (click)="previousPage()" 
-                                *ngIf="(operatorsSkip$ | async) !== 0" 
-                                class="btn btn-outline-primary pull-right mr-2">
+                            <button (click)="previousPage()" *ngIf="(operatorsSkip$ | async) !== 0" class="btn btn-outline-primary pull-right mr-2">
                                 Previous Page
                             </button>
                         </div>
                     </div>
                 </div>
-                <div class="col-12 mt-3" *ngIf="(operators$ | async)?.length==0">
-                        <div class="alert alert-warning alert-white rounded"> 
-                            <div class="icon"> 
-                                <i class="fa fa-warning"></i></div> <strong>Info</strong> There are no operators
-                        </div>
-                </div>
-                </div>
-    
+            </div>
+            <ti-alert 
+                [status]="alert.info" 
+                message="There are no operators" 
+                [showAlert]="!hasOperators"
+                [isLoading]="isOperatorsLoading$ | async">
+            </ti-alert>
             <ng-template #updateOperatorRef let-c="close" let-d="dismiss">
-                <ti-update-operator 
-                    [activeOperator]="activeOperator$" 
-                    (closeUpdateModal)="closeUpdateOperatorModal($event)" 
-                    (isLoading)="isTiUpdateOperatorLoading($event)"
-                    [skip]="skip"
-                    [take]="take">
+                <ti-update-operator [activeOperator]="activeOperator$" (closeUpdateModal)="closeUpdateOperatorModal($event)" (isLoading)="isTiUpdateOperatorLoading($event)"
+                    [skip]="skip" [take]="take">
                 </ti-update-operator>
             </ng-template>
             <ng-template #addOperatorRef let-c="close" let-d="dismiss">
-                <add-operator 
-                    (closeAddOperatorModal)="closeAddOperatorModal($event)"
-                    [skip]="skip"
-                    [take]="take">
+                <add-operator (closeAddOperatorModal)="closeAddOperatorModal($event)" [skip]="skip" [take]="take">
                 </add-operator>
             </ng-template>
         </div>

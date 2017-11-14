@@ -47,7 +47,6 @@ export class AddToolComponent implements OnInit {
             toolCost: this.toolFormGroup.controls['toolCost'].value,
         };
         this._toolsService.addTool(toolObj).subscribe((tool) => {
-            console.log(tool);
             if(1 === 1) {
                 this.toolFormGroup.reset();
                 // this._toolsService.getTools(this.skip, this.take).first().subscribe();

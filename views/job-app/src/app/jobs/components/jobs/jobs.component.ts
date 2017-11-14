@@ -4,8 +4,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
-import { HeaderService } from '../../../shared/services/header/header.service';
+import { HeaderService } from 'app/shared/services/header/header.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { alert } from 'app/shared/components/alert/alert.component';
 
 
 const DEFAULT_TAKE: number = 8;
@@ -14,110 +15,121 @@ const MODAL_SIZE = 'lg';
 const PAGE_TITLE: string = 'Jobs';
 
 @Component({
-  selector: 'ti-jobs',
-  templateUrl: './jobs.component.html',
-  styleUrls: ['./jobs.component.scss']
+    selector: 'ti-jobs',
+    templateUrl: './jobs.component.html',
+    styleUrls: ['./jobs.component.scss']
 })
 export class JobsComponent implements OnInit {
+    alert = alert;
+    skip: number;
+    take: number;
 
-  skip: number;
-  take: number;
+    hasJobs: boolean = false;
 
-  @ViewChild('updateJobRef') updateJobRef: ElementRef;
-  @ViewChild('addJobRef') addJobRef: ElementRef;
+    @ViewChild('updateJobRef') updateJobRef: ElementRef;
+    @ViewChild('addJobRef') addJobRef: ElementRef;
 
-  private _addJobModalRef: NgbModalRef;
-  private _updateJobModalRef: NgbModalRef;
-  
-  updateJobModal: any;
-  isJobNotFound: boolean = false;
-  jobs$: Observable<Job[]>
-  isJobsLoading$: Observable<boolean>;
-  activeJob: Job = null;
-  activeJobSub$: Subscription;
-  activeJob$: Observable<Job>;
-  moreJobs$: Observable<boolean>;
+    private _addJobModalRef: NgbModalRef;
+    private _updateJobModalRef: NgbModalRef;
 
-  constructor(
-    private _jobsService: JobsService,
-    private _modalService: NgbModal,
-    private _notificationService: NotificationService,
-    private _headerService: HeaderService,
-    private _route: ActivatedRoute,
-    private _router: Router
-  ) { }
+    updateJobModal: any;
+    isJobNotFound: boolean = false;
+    jobs$: Observable<Job[]>
+    isJobsLoading$: Observable<boolean>;
+    activeJob: Job = null;
+    activeJobSub$: Subscription;
+    activeJob$: Observable<Job>;
+    moreJobs$: Observable<boolean>;
 
-  ngOnInit() {
-    this.jobs$ = this._jobsService.jobs$;
+    constructor(
+        private _jobsService: JobsService,
+        private _modalService: NgbModal,
+        private _notificationService: NotificationService,
+        private _headerService: HeaderService,
+        private _route: ActivatedRoute,
+        private _router: Router
+    ) { }
 
-    this.isJobsLoading$ = this._jobsService.isJobsLoading$;
-    this.activeJob$ = this._jobsService.activeJob$;
-    this.moreJobs$ = this._jobsService.moreJobs$;
-    this._headerService.setHeaderText(PAGE_TITLE);
+    ngOnInit() {
+        this.jobs$ = this._jobsService.jobs$.do(jobs => {
+            if (jobs) {
+                if (jobs.length > 0) {
+                    this.hasJobs = true;
+                } else {
+                    this.hasJobs = false;
+                }
+            } else {
+                this.hasJobs = false;
+            }
+        });
 
-    let skip = this._route.snapshot.queryParams["skip"];
-    let take = this._route.snapshot.queryParams["take"];
+        this.isJobsLoading$ = this._jobsService.isJobsLoading$;
+        this.activeJob$ = this._jobsService.activeJob$;
+        this.moreJobs$ = this._jobsService.moreJobs$;
+        this._headerService.setHeaderText(PAGE_TITLE);
 
-    if (skip && take) {
-      this.skip = Number(skip);
-      this.take = Number(take);
-    } else {
-      this.skip = 0;
-      this.take = 5;
+        let skip = this._route.snapshot.queryParams["skip"];
+        let take = this._route.snapshot.queryParams["take"];
+
+        if (skip && take) {
+            this.skip = Number(skip);
+            this.take = Number(take);
+        } else {
+            this.skip = 0;
+            this.take = 5;
+        }
+
+        this.navigate();
+
     }
 
-    this.navigate();
+    nextPage() {
+        this._jobsService.nextPage();
+    }
 
-  }
+    previousPage() {
+        this._jobsService.previousPage();
+    }
 
-  nextPage() {
-    this._jobsService.nextPage();
-  }
+    navigate() {
+        this._router.navigate([`/jobs`], { queryParams: { skip: this.skip, take: this.take } });
+        this.doSearch();
+    }
 
-  previousPage() {
-    this._jobsService.previousPage();
-  }
+    doSearch() {
+        this.isJobNotFound = false;
+        this._jobsService.doSearch();
+    }
 
-  navigate() {
-    this._router.navigate([`/jobs`], { queryParams: { skip: this.skip, take: this.take }});
-    this.doSearch();
-    console.log('navigate', this.skip)
-  }
+    openUpdateJobModal(jobId) {
+        this._jobsService.setActiveJob(jobId);
+        this._updateJobModalRef = this._modalService.open(this.updateJobRef, { size: MODAL_SIZE });
+    }
 
-  doSearch() {
-    this.isJobNotFound = false;
-    this._jobsService.doSearch();
-  }
+    closeUpdateJobModal() {
+        this._updateJobModalRef.close();
+    }
 
-  openUpdateJobModal(jobId) {
-    this._jobsService.setActiveJob(jobId);
-    this._updateJobModalRef = this._modalService.open(this.updateJobRef, { size: MODAL_SIZE });
-  }
+    closeAddJobModal() {
+        this._addJobModalRef.close();
+    }
 
-  closeUpdateJobModal() {
-    this._updateJobModalRef.close();
-  }
+    addJob() {
+        this._addJobModalRef = this._modalService.open(this.addJobRef, { size: MODAL_SIZE });
+    }
 
-  closeAddJobModal() {
-    this._addJobModalRef.close();
-  }
+    stopPropogation(event) {
 
-  addJob() {
-    this._addJobModalRef = this._modalService.open(this.addJobRef, { size: MODAL_SIZE });
-  }
+    }
 
-  stopPropogation(event) {
-
-  }
-
-  removeJob(job) {
-    this._jobsService.removeJob(job).subscribe(() => {
+    removeJob(job) {
+        this._jobsService.removeJob(job).subscribe(() => {
             this.jobs$.first().subscribe(jobs => {
                 if ((jobs.length - 1) == 0) {
                     this.previousPage();
                 }
             });
-      this._notificationService.setNotificationOn(REMOVE_JOB_SUCCESS_MESSAGE);
-    });
-  }
+            this._notificationService.setNotificationOn(REMOVE_JOB_SUCCESS_MESSAGE);
+        });
+    }
 }

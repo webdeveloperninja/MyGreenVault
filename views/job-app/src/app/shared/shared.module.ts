@@ -22,6 +22,7 @@ import { JobStatusNumberToTitlePipe } from './pipes/job-status-number-to-title/j
 import { LocalStorageService } from './services/local-storage/local-storage.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SearchService } from './services/search/search.service';
+import { AlertComponent } from './components/alert/alert.component';
 
 @NgModule({
     imports: [
@@ -41,7 +42,8 @@ import { SearchService } from './services/search/search.service';
       DisplayOptionsComponent,
       JobStatusNumberToTitlePipe,
       FilterJobPipe,
-      JobStatusChipComponent
+      JobStatusChipComponent,
+      AlertComponent
     ],
     providers: [
       NotificationService,
@@ -62,7 +64,8 @@ import { SearchService } from './services/search/search.service';
       SideNavComponent,
       DisplayOptionsComponent,
       JobStatusChipComponent,
-      FilterJobPipe
+      FilterJobPipe,
+      AlertComponent
     ]
 })
 export class SharedModule {}

@@ -22,6 +22,7 @@ export class JobDetailComponent implements OnInit {
     isJobDetailLoading$ = this._jobsService.isJobDetailLoading$;
 
     isJobCheckoutsLoading$ = this._jobsService.isJobCheckoutsLoading$;
+    
     jobCheckouts$ = this._jobsService.jobCheckouts$.do(jobCheckouts => {
         this.hasCheckouts = false;
 
