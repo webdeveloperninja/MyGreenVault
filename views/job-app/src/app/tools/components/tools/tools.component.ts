@@ -21,7 +21,7 @@ const PAGE_TITLE: string = 'Tools';
 export class ToolsComponent implements OnInit {
 
     hasTools: boolean = false;
-    
+
     alert = alert;
     skip: number;
     take: number;
@@ -44,8 +44,9 @@ export class ToolsComponent implements OnInit {
             this.hasTools = false;
         }
     });
+
     isToolsLoading$: Observable<boolean> = this._toolsService.istoolsLoading$;
-    moreTools$: Observable<boolean> = this._toolsService.moreTools$;
+    moreTools$: Observable<boolean> = this._toolsService.moreTools$;x
     activeTool$: Observable<Tool> = this._toolsService.activetool$;
     hasPreviousTools$: Observable<boolean> = this._toolsService.hasPreviousTools$;
 

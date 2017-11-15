@@ -49,8 +49,9 @@ export class OperatorsService {
             this._operatorsSkipSubject$.next(this._route.snapshot.queryParams["skip"]);
             this._operatorsTakeSubject$.next(this._route.snapshot.queryParams["take"]);
             this._operatorsQuerySubject$.next(this._route.snapshot.queryParams['query'] || null);
-            this.getOperators().first().subscribe();
-            this._isOperatorsLoadingSubject$.next(false);
+            this.getOperators().first().subscribe(data => {
+                this._isOperatorsLoadingSubject$.next(false);
+            });
         }
     }
 

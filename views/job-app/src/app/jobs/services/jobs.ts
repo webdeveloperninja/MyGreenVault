@@ -62,8 +62,10 @@ export class JobsService {
             this._jobsSkipSubject$.next(this._route.snapshot.queryParams["skip"]);
             this._jobsTakeSubject$.next(this._route.snapshot.queryParams["take"]);
             this._jobsQuerySubject$.next(this._route.snapshot.queryParams['query'] || null);
-            this.getJobs().first().subscribe();
-            this._isJobsLoadingSubject$.next(false);
+            this.getJobs().first().subscribe(data => {
+                this._isJobsLoadingSubject$.next(false);
+            });
+            
         }
     }
 
