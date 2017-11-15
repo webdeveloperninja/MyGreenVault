@@ -53,8 +53,9 @@ export class ToolsService {
             this._toolsSkipSubject$.next(this._route.snapshot.queryParams["skip"]);
             this._toolsTakeSubject$.next(this._route.snapshot.queryParams["take"]);
             this._toolsQuerySubject$.next(this._route.snapshot.queryParams['query'] || null);
-            this.getTools().first().subscribe();
-            this._istoolsLoadingSubject$.next(false);
+            this.getTools().first().subscribe(data => {
+                this._istoolsLoadingSubject$.next(false);
+            });
         }
     }
 

@@ -16,6 +16,8 @@ export class LoadingComponent implements OnInit {
     return this._isLoading;
   }
 
+  @Input() isLarge = false;
+  
   constructor() { }
 
   ngOnInit() {
