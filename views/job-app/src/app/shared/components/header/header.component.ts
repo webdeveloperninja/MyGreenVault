@@ -85,8 +85,5 @@ export class HeaderComponent implements OnInit {
         }
     }
 
-    searchTypeClass(route: string): string {
-        return (route === this.category) ? 'active' : '';
-    }
 
 }

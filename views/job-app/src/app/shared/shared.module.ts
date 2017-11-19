@@ -23,6 +23,7 @@ import { LocalStorageService } from './services/local-storage/local-storage.serv
 import { ReactiveFormsModule } from '@angular/forms';
 import { SearchService } from './services/search/search.service';
 import { AlertComponent } from './components/alert/alert.component';
+import { OmniSearchComponent } from './components/header/omni-search/omni-search.component';
 
 @NgModule({
     imports: [
@@ -43,7 +44,8 @@ import { AlertComponent } from './components/alert/alert.component';
       JobStatusNumberToTitlePipe,
       FilterJobPipe,
       JobStatusChipComponent,
-      AlertComponent
+      AlertComponent,
+      OmniSearchComponent
     ],
     providers: [
       NotificationService,
