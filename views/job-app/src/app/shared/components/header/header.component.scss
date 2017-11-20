@@ -12,9 +12,31 @@
   left: 0;
   right: 0;
   margin: auto;
+  
 }
 
 .user {
     font-size: 25px;
     color: #4dbca1;
+}
+
+i {
+    font-size: 31px;
+    cursor: pointer;
+}
+
+.navbar-custom {
+    background-color: #fe7f2e;
+    article {
+        flex-grow: 1;
+    }
+}
+
+.topbar-left {
+    background-color: white;
+}
+
+.fa-bars {
+    color: white;
+
 }

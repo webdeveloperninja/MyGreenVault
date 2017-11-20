@@ -1,57 +1,38 @@
 <div class="topbar">
     <div class="topbar-left d-flex justify-content-center align-items-center">
-        <img src="./assets/logo.png" class="small-logo">
-        <img src="./assets/long-logo.png" class="long-logo">
+        <img src="./assets/logo.jpg" class="small-logo">
+        <img src="./assets/long-logo.jpg" class="long-logo">
     </div>
-    <nav class="navbar-custom">
-        <div class="row">
-            <div class="col-1">
-                <button (click)="toggleSideBar()" class="button-menu-mobile open-left waves-light waves-effect">
-                    <i class="fa fa-bars" aria-hidden="true"></i>
-                </button>
-            </div>
-            <div class="col-10">
-                <div class="row mt-3">
-                    <form [formGroup]="searchForm" class="w-100" (ngSubmit)="doSearch()"> 
-                        <div class="row">
-                            <input formControlName="search" class="form-control col-lg-3 col-md-4" placeholder="Search">
-                            <div class="button-group col-md-6 col-lg-6" role="group">
-                                <button type="submit" role="button" class="btn btn-outline-success">
-                                    <i aria-hidden="true" class="fa fa-search"></i>
-                                    Search
-                                </button>
-                                <a 
-                                    role="button" 
-                                    class="btn btn-outline-primary"
-                                    [ngClass]="searchTypeClass('tools')"
-                                    routerLink="/tools" [queryParams]="{skip:defaultToolSkip, take:defaultToolTake}"
-                                    routerLinkActive="active">
-                                        Tools
-                                </a>
-                                <a 
-                                    role="button" 
-                                    class="btn btn-outline-primary"
-                                    [ngClass]="searchTypeClass('jobs')"
-                                    routerLink="/jobs" [queryParams]="{skip:defaultJobSkip, take:defaultJobTake}"
-                                    routerLinkActive="active">
-                                        Jobs
-                                </a>
-                                <a
-                                    role="button" 
-                                    class="btn btn-outline-primary"
-                                    [ngClass]="searchTypeClass('operators')"
-                                    routerLink="/operators" [queryParams]="{skip:defaultOperatorSkip, take:defaultOperatorTake}"
-                                    routerLinkActive="active">
-                                        Operators
-                                </a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="col-1 ml-auto d-flex justify-content-center align-items-center">
-                <a href="./account" class="waves-effect user" routerLinkActive="active"><i class="fa fa-user" aria-hidden="true"></i></a> 
+    <nav class="navbar-custom d-flex align-items-center">
+        <aside>
+            <button (click)="toggleSideBar()" class="button-menu-mobile open-left waves-light waves-effect">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+            </button>  
+        </aside>
+        <article>
+            <form [formGroup]="searchForm" class="w-100" (ngSubmit)="doSearch(null)"> 
+                <ti-omni-search
+                    (isSearch)="doSearch($event)"
+                    [defaultOperatorSkip]="defaultOperatorSkip"
+                    [defaultOperatorTake]="defaultOperatorTake"
+                    [defaultToolSkip]="defaultToolSkip"
+                    [defaultToolTake]="defaultToolTake"
+                    [defaultJobTake]="defaultJobTake"
+                    [defaultJobSkip]="defaultJobSkip">
+                </ti-omni-search>
+            </form>
+        </article>
+        <div>
+        <div ngbDropdown placement="bottom-right" class="d-inline-block">
+            <i class="fa fa-user-o" ngbDropdownToggle aria-hidden="true"></i>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <a href="account" class="dropdown-item">My Account</a>
+                <a href="logout" class="dropdown-item">Logout</a>
             </div>
         </div>
+        </div>
+
     </nav>
+
+
 </div>
