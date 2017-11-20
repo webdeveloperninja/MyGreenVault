@@ -10,7 +10,7 @@
             </button>  
         </aside>
         <article>
-            <form [formGroup]="searchForm" class="w-100" (ngSubmit)="doSearch()"> 
+            <form [formGroup]="searchForm" class="w-100" (ngSubmit)="doSearch(null)"> 
                 <ti-omni-search
                     (isSearch)="doSearch($event)"
                     [defaultOperatorSkip]="defaultOperatorSkip"
