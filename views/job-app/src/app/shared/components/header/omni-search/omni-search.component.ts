@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
@@ -8,7 +8,19 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class OmniSearchComponent implements OnInit {
 
+    query: string = '';
+    updatedCategory: string = '';
+
     @Input() category: string = ''; 
+    @Input() defaultOperatorSkip;
+    @Input() defaultOperatorTake;
+    @Input() defaultToolSkip;
+    @Input() defaultToolTake;
+    @Input() defaultJobTake;
+    @Input() defaultJobSkip;
+
+    @Output() isSearch = new EventEmitter<any>();
+
 
     constructor() { }
 
@@ -16,11 +28,18 @@ export class OmniSearchComponent implements OnInit {
     }
 
     searchTypeClass(route: string): string {
+        this.updatedCategory = route;
         return (route === this.category) ? 'active' : '';
     }
 
     doSearch(): void {
-
+        console.log(this.query);
+        this.isSearch.emit(
+            {
+                query: this.query,
+                category: this.updatedCategory
+            });
+        console.log('do search');
     }
 
 }

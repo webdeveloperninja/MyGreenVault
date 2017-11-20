@@ -62,19 +62,22 @@ export class HeaderComponent implements OnInit {
         });
     }
 
-    doSearch() {
-        const searchQuery = this.searchForm.controls['search'].value;
-        const skip = 0;
-        const take = this._route.snapshot.queryParams["take"];
-        this._router.navigate([`/${this.category}`], 
-            { queryParams: 
-                { 
-                    skip: skip, 
-                    take: take,
-                    query: searchQuery
-                }
-            });
-        this.searchForm.patchValue({search: ''});
+    doSearch(event) {
+        if (event) {
+            console.log('event', event);
+            // const searchQuery = event.query;
+            // const skip = 0;
+            // const take = this._route.snapshot.queryParams["take"];
+            // this._router.navigate([`/${event.category}`], 
+            //     { queryParams: 
+            //         { 
+            //             skip: skip, 
+            //             take: take,
+            //             query: searchQuery
+            //         }
+            //     });
+            // this.searchForm.patchValue({search: ''});
+        }
     }
 
     toggleSideBar() {

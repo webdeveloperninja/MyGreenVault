@@ -1,6 +1,14 @@
 <div class="search-wrapper">
     <article>
-        <input class="form-control col-12" placeholder="Search">
+        <input class="form-control col-12" [(ngModel)]="query" placeholder="Search">
+        <button 
+            type="submit" 
+            role="button" 
+            class="btn btn-outline-success btn-search"
+            (click)="doSearch()">
+                <i aria-hidden="true" class="fa fa-search"></i>
+                Search
+        </button>
         <div class="d-flex">
             <button
                 role="button" 
@@ -9,35 +17,34 @@
                 routerLink="/tools" 
                 [queryParams]="{skip:defaultToolSkip, take:defaultToolTake}"
                 routerLinkActive="active">
+                    <i class="fa fa-plug"></i>
                     Tools
             </button>
             <button
                 role="button" 
                 class="btn btn-outline-primary" 
                 [ngClass]="searchTypeClass('jobs')"
+                (click)="searchTypeClass('jobs')"
                 routerLink="/jobs" 
                 [queryParams]="{skip:defaultJobSkip, take:defaultJobTake}"
                 routerLinkActive="active">
+                    <i class="fa fa-truck"></i>
                     Jobs
             </button>
             <button
                 role="button" 
                 class="btn btn-outline-primary" 
                 [ngClass]="searchTypeClass('operators')" 
+                (click)="searchTypeClass('operators')"
                 routerLink="/operators" 
                 [queryParams]="{skip:defaultOperatorSkip, take:defaultOperatorTake}"
                 routerLinkActive="active">
+                    <i class="fa fa-user-circle"></i>
                     Operators
             </button>
         </div>
     </article>
     <aside>
-        <button 
-            type="submit" 
-            role="button" 
-            class="btn btn-outline-success">
-                <i aria-hidden="true" class="fa fa-search"></i>
-                Search
-        </button>
+
     </aside>
 </div>

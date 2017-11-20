@@ -6,6 +6,8 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { EmptyPipe } from './pipes/empty/empty.pipe';
 import { HeaderService } from './services/header/header.service';
 
+import { FormsModule } from '@angular/forms';
+
 import { NotificationService } from './services/notification/notification.service';
 import { SideNavService } from './services/side-nav/side-nav.service';
 
@@ -24,12 +26,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SearchService } from './services/search/search.service';
 import { AlertComponent } from './components/alert/alert.component';
 import { OmniSearchComponent } from './components/header/omni-search/omni-search.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        FormsModule,
+        NgbModule.forRoot()
     ],
     declarations: [
       HeaderComponent,
