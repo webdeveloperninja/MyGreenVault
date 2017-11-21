@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
     private _sideNavService: SideNavService,
     private _headerService: HeaderService,
     private _router: Router) {
-        _router.events.filter(event => event instanceof NavigationEnd).subscribe(event =>  this.clearHeader()); 
+        
     }
 
     clearHeader(): void {
