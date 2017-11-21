@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Router, ActivatedRoute, NavigationEnd, Event } from '@angular/router';
+import { HeaderService } from 'app/shared/services/header/header.service';
 
 @Component({
   selector: 'ti-omni-search',
@@ -11,7 +13,8 @@ export class OmniSearchComponent implements OnInit {
     query: string = '';
     updatedCategory: string = '';
 
-    @Input() category: string = ''; 
+    category: string = ''; 
+
     @Input() defaultOperatorSkip;
     @Input() defaultOperatorTake;
     @Input() defaultToolSkip;
@@ -22,9 +25,25 @@ export class OmniSearchComponent implements OnInit {
     @Output() isSearch = new EventEmitter<any>();
 
 
-    constructor() { }
+    constructor(
+        private readonly _router: Router,
+        private readonly _route: ActivatedRoute,
+        private readonly _headerService: HeaderService
+    ) { }
 
     ngOnInit() {
+        this._router.events.filter(event => event instanceof NavigationEnd).subscribe(event => {
+            let url = event as NavigationEnd;
+          
+            if (url.url.includes('operators')) {
+                this.category = 'operators';
+            } else if (url.url.includes('tools')) {
+                this.category = 'tools';
+            } else if (url.url.includes('jobs')) {
+                this.category = 'jobs';
+            } 
+
+        });
     }
 
     searchTypeClass(route: string): string {
@@ -33,13 +52,22 @@ export class OmniSearchComponent implements OnInit {
     }
 
     doSearch(): void {
-        console.log(this.query);
-        this.isSearch.emit(
-            {
-                query: this.query,
-                category: this.updatedCategory
-            });
-        console.log('do search');
+            const skip = 0;
+            const take = this._route.snapshot.queryParams["take"];
+
+            this._router.navigate([`/${this.category}`], 
+                { queryParams: 
+                    { 
+                        skip: skip, 
+                        take: take,
+                        query: this.query
+                    }
+                });
+
+    }
+
+    clearSearch() {
+        this.query = '';
     }
 
 }

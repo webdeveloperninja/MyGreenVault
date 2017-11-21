@@ -26,6 +26,8 @@ export class JobsComponent implements OnInit {
 
     hasJobs: boolean = false;
 
+    query: string = '';
+
     @ViewChild('updateJobRef') updateJobRef: ElementRef;
     @ViewChild('addJobRef') addJobRef: ElementRef;
 
@@ -66,10 +68,16 @@ export class JobsComponent implements OnInit {
         this.isJobsLoading$ = this._jobsService.isJobsLoading$;
         this.activeJob$ = this._jobsService.activeJob$;
         this.moreJobs$ = this._jobsService.moreJobs$;
-        this._headerService.setHeaderText(PAGE_TITLE);
-
+        
         let skip = this._route.snapshot.queryParams["skip"];
         let take = this._route.snapshot.queryParams["take"];
+        this.query = this._route.snapshot.queryParams["query"];
+
+        if (this.query) {
+            this.query = ' - ' + this.query;
+        } else {
+            this.query = '';
+        }
 
         if (skip && take) {
             this.skip = Number(skip);
@@ -79,6 +87,7 @@ export class JobsComponent implements OnInit {
             this.take = 5;
         }
 
+        this._headerService.setHeaderText(`${PAGE_TITLE} ${this.query}`);
         this.navigate();
 
     }

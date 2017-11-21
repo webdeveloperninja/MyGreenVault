@@ -14,6 +14,7 @@
                 role="button" 
                 class="btn btn-outline-primary" 
                 [ngClass]="searchTypeClass('tools')" 
+                (click)="clearSearch()"
                 routerLink="/tools" 
                 [queryParams]="{skip:defaultToolSkip, take:defaultToolTake}"
                 routerLinkActive="active">
@@ -24,7 +25,7 @@
                 role="button" 
                 class="btn btn-outline-primary" 
                 [ngClass]="searchTypeClass('jobs')"
-                (click)="searchTypeClass('jobs')"
+                (click)="clearSearch()"
                 routerLink="/jobs" 
                 [queryParams]="{skip:defaultJobSkip, take:defaultJobTake}"
                 routerLinkActive="active">
@@ -35,7 +36,7 @@
                 role="button" 
                 class="btn btn-outline-primary" 
                 [ngClass]="searchTypeClass('operators')" 
-                (click)="searchTypeClass('operators')"
+                (click)="clearSearch()"
                 routerLink="/operators" 
                 [queryParams]="{skip:defaultOperatorSkip, take:defaultOperatorTake}"
                 routerLinkActive="active">
