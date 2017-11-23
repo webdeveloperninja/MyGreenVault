@@ -19,6 +19,16 @@ const PAGE_TITLE: string = 'Operators';
   styleUrls: ['./operators.component.scss']
 })
 export class OperatorsComponent implements OnInit {
+
+    public title: string = 'Remove Operator';
+    public message: string = 'Are you sure you want to remove operator: ';
+    public confirmClicked: boolean = false;
+    public cancelClicked: boolean = false;
+
+    getConfirmationMessage(operatorName: string): string {
+        return `${this.message} ${operatorName}?`;
+    }
+
     hasOperators: boolean = false;
 
     alert = alert;
