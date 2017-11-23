@@ -24,18 +24,18 @@
                                 <td>{{ operator.operatorName | empty }}</td>
                                 <td>{{ operator.operatorNumber | empty }}</td>
                                 <td>
-                                    <button class="btn btn-outline-primary mr-2" (click)="openUpdateOperatorModal(operator._id)">
-                                            <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
-                                    </button>
                                     <button 
-                                        class="btn btn-outline-danger" 
+                                        class="btn btn-outline-danger pull-right" 
                                         mwlConfirmationPopover
                                         [title]="title"
                                         [message]="getConfirmationMessage(operator.operatorName)"
-                                        placement="top"
+                                        placement="left"
                                         (confirm)="removeOperator(operator)"
                                         (cancel)="cancelClicked = true">
                                         <i class="fa fa-trash mr-2" aria-hidden="true"></i>Remove
+                                    </button>
+                                    <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdateOperatorModal(operator._id)">
+                                            <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
                                     </button>
                                 </td>
                             </tr>
