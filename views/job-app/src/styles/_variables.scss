@@ -5,9 +5,9 @@
 //
 // Set the number of columns and specify the width of the gutters.
 
-$grid-columns:               12 !default;
 $grid-gutter-width:          1.2rem; // 24px
-  
+
+$vault-orange: #fe7f2e;
 
 //Bootstrap overwrite
 
@@ -20,7 +20,7 @@ $gray-light:                #818a91;
 $gray-lighter:              #eceeef;
 $gray-lightest:             #f7f7f9;
 
-$primary:             #039cfd;
+$primary:             $vault-orange;
 $success:             #1bb99a;
 $info:                #3db9dc;
 $warning:             #f1b53d;

@@ -20,6 +20,16 @@ const PAGE_TITLE: string = 'Jobs';
     styleUrls: ['./jobs.component.scss']
 })
 export class JobsComponent implements OnInit {
+    public title: string = 'Remove Job';
+    public message: string = 'Are you sure you want to remove job: ';
+    public confirmClicked: boolean = false;
+    public cancelClicked: boolean = false;
+
+    getConfirmationMessage(operatorName: string): string {
+        return `${this.message} ${operatorName}?`;
+    }
+
+
     alert = alert;
     skip: number;
     take: number;

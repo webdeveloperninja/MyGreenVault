@@ -20,6 +20,15 @@ const PAGE_TITLE: string = 'Tools';
 })
 export class ToolsComponent implements OnInit {
 
+    public title: string = 'Remove Tool';
+    public message: string = 'Are you sure you want to remove tool: ';
+    public confirmClicked: boolean = false;
+    public cancelClicked: boolean = false;
+
+    getConfirmationMessage(toolName: string): string {
+        return `${this.message} ${toolName}?`;
+    }
+
     hasTools: boolean = false;
 
     alert = alert;

@@ -24,6 +24,7 @@
     "@angular/router": "^4.0.0",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.26",
     "@swimlane/ngx-charts": "^6.1.0",
+    "angular-confirmation-popover": "^3.4.1",
     "bootstrap": "^4.0.0-beta",
     "chart.js": "^2.7.0",
     "core-js": "^2.4.1",

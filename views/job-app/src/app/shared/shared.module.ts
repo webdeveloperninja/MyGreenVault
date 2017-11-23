@@ -27,6 +27,8 @@ import { SearchService } from './services/search/search.service';
 import { AlertComponent } from './components/alert/alert.component';
 import { OmniSearchComponent } from './components/header/omni-search/omni-search.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+
 
 
 @NgModule({
@@ -35,7 +37,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         RouterModule,
         ReactiveFormsModule,
         FormsModule,
-        NgbModule.forRoot()
+        NgbModule.forRoot(),
+        ConfirmationPopoverModule.forRoot({
+            confirmButtonType: 'primary'
+        })
     ],
     declarations: [
       HeaderComponent,
@@ -70,6 +75,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
       EmptyPipe,
       ToasterComponent,
       SideNavComponent,
+      ConfirmationPopoverModule,
       DisplayOptionsComponent,
       JobStatusChipComponent,
       FilterJobPipe,

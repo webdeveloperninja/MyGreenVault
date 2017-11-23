@@ -35,17 +35,23 @@
                                     </ti-tool-qty-status>
                                 </td>
                                 <th scope="row">
-                                    <button class="btn btn-outline-danger pull-right" (click)="removeTool(tool)">
-                                                    <i class="fa fa-trash mr-2" aria-hidden="true"></i>Remove
-                                            </button>
-                                    <ti-checkout-tool [tool]="tool" [skip]="skip" [take]="take">
-                                    </ti-checkout-tool>
-                                    <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdateToolModal(tool._id)">
-                                                    <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
-                                            </button>
-
-                                    <ti-add-tool-qty [tool]="tool">
-                                    </ti-add-tool-qty>
+                                    <button 
+                                        class="btn btn-outline-danger pull-right" 
+                                        mwlConfirmationPopover
+                                        [title]="title"
+                                        [message]="getConfirmationMessage(tool.toolName)"
+                                        placement="left"
+                                        (confirm)="removeTool(tool)"
+                                        (cancel)="cancelClicked = true">
+                                        <i class="fa fa-trash mr-2" aria-hidden="true"></i>Remove
+                                    </button>
+                                    <ti-checkout-tool [tool]="tool" [skip]="skip" [take]="take"></ti-checkout-tool>
+                                    <button 
+                                        class="btn btn-outline-primary pull-right mr-2" 
+                                        (click)="openUpdateToolModal(tool._id)">
+                                            <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
+                                    </button>
+                                    <ti-add-tool-qty [tool]="tool"></ti-add-tool-qty>
                                 </th>
                             </tr>
                         </tbody>

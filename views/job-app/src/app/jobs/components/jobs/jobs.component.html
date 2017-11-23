@@ -35,15 +35,26 @@
                                     </ti-job-status-chip>
                                 </td>
                                 <td>
-                                    <button class="btn btn-outline-danger pull-right" (click)="removeJob(job)">
-                                                        <i class="fa fa-trash mr-2" aria-hidden="true"></i>Remove
-                                                </button>
-                                    <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdateJobModal(job._id)">
-                                                        <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
-                                                </button>
-                                    <button class="btn btn-outline-primary pull-right mr-2" routerLink="/jobs/{{job.jobNumber}}">
-                                                        <i class="fa fa-eye mr-2" aria-hidden="true"></i>View
-                                                </button>
+                                    <button 
+                                        class="btn btn-outline-danger pull-right" 
+                                        mwlConfirmationPopover
+                                        [title]="title"
+                                        [message]="getConfirmationMessage(job.jobName)"
+                                        placement="left"
+                                        (confirm)="removeJob(job)"
+                                        (cancel)="cancelClicked = true">
+                                        <i class="fa fa-trash mr-2" aria-hidden="true"></i>Remove
+                                    </button>
+                                    <button 
+                                        class="btn btn-outline-primary pull-right mr-2" 
+                                        (click)="openUpdateJobModal(job._id)">
+                                            <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
+                                    </button>
+                                    <button 
+                                        class="btn btn-outline-primary pull-right mr-2" 
+                                        routerLink="/jobs/{{job.jobNumber}}">
+                                            <i class="fa fa-eye mr-2" aria-hidden="true"></i>View
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -60,11 +71,7 @@
                     </div>
                 </div>
             </div>
-            <ti-alert
-                [status]="alert.info"
-                message="There are no jobs"
-                [showAlert]="!hasJobs"
-                [isLoading]="isJobsLoading$ | async">
+            <ti-alert [status]="alert.info" message="There are no jobs" [showAlert]="!hasJobs" [isLoading]="isJobsLoading$ | async">
             </ti-alert>
             <ng-template #updateJobRef let-c="close" let-d="dismiss">
                 <ti-update-job [activeJob]="activeJob$" (closeUpdateModal)="closeUpdateJobModal($event)" (isLoading)="isTiUpdateJobLoading($event)"
