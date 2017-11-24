@@ -15,8 +15,11 @@ html {
   min-height: 100%;
 }
 
-.logo {
-  width: 200px !important;
+.page-logo {
+  margin: 0!important;
+  &:hover {
+      color: black!important;
+  }
 }
 body {
   padding-top: 60px;

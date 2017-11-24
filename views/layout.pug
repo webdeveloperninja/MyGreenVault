@@ -18,9 +18,12 @@ html
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
 
     style(type='text/css').
-      .logo {
-        width: 200px !important;
-        margin-top: -8px !important;
+      .page-logo {
+        color: black;
+        margin: 0;
+      }
+      .page-logo:hover {
+          color: black;
       }
       .navbar {
         background-color: white!important;
@@ -33,7 +36,6 @@ html
       include partials/flash
       block content
 
-    include partials/footer
 
     script(src='/js/lib/jquery-3.1.1.min.js')
     script(src='/js/lib/bootstrap.min.js')
