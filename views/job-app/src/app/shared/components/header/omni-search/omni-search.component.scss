@@ -30,21 +30,21 @@ $ti-teal: #43bea1;
             border: 1px solid $white;
            
             &.active {
-                color: black;
-                background-color: white;
+                color: white;
+                background-color:#fe7f2e;
                 border-color: #ffffff;
 
                 &:hover {
-                    color: black;
-                    background-color: white;
+                    color: white;
+                    background-color: #fe7f2e;
                     border-color: #ffffff;
                 }
 
             }
 
             &:hover {
-                    color: black;
-                    background-color: white;
+                    color: white;
+                    background-color: #fe7f2e;
                     border-color: #ffffff;
             }
         }
