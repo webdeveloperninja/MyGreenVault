@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers, Response} from '@angular/http';
+import { HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
+
 import {Observable, BehaviorSubject} from 'rxjs'
 import { Router, ActivatedRoute, Params, Event, NavigationEnd } from '@angular/router';
 
@@ -50,7 +51,7 @@ export class JobsService {
 
 
     constructor(
-        private _http: Http,
+        private _http: HttpClient,
         private _route: ActivatedRoute,
         private _router: Router) {
         _router.events.filter(event => event instanceof NavigationEnd).subscribe(event =>  this.doSearch());    
@@ -70,19 +71,17 @@ export class JobsService {
     }
 
     public getJobCheckouts(jobId: any) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
 
         let url = `/api/v1/checkouts/${jobId}`;
 
         this._isJobCheckoutsLoading$.next(true);
 
         return this._http.get(url, {headers: headers, withCredentials: true})
-            .map((res: Response) => {
-                return res.json();
-            }).catch(err => {
+            .catch(err => {
                 throw new Error(err);
-            }).first().subscribe(data => {
+            }).first().subscribe((data: any) => {
                 this._isJobCheckoutsLoading$.next(false);
                 this._jobCheckoutsSubject$.next(data);
             });
@@ -90,9 +89,7 @@ export class JobsService {
 
 
     public getJobDetail(jobId: any) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
         let url = `/api/v1/jobs/${jobId}`;
 
         this._isJobDetailLoading$.next(true);
@@ -109,8 +106,7 @@ export class JobsService {
     }
 
     private getJobs() {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         let url = `/api/v1/jobs?skip=${this._jobsSkipSubject$.value}&take=${this._jobsTakeSubject$.value}`;
 
@@ -118,24 +114,19 @@ export class JobsService {
             url += `&query=${this._jobsQuerySubject$.value}`;
         }
 
-        return this._http.get(url, {headers: headers, withCredentials: true}).map((res: Response) => {
-            const jobs = res.json().data;
-            const moreJobs = res.json().more;
+        return this._http.get(url, {headers: headers, withCredentials: true}).map((res: PagedList) => {
+            const jobs = res.data;
+            const moreJobs = res.more;
             const hasPreviousJobs = this._jobsSkipSubject$.value != 0;
 
             this._jobsSubject$.next(jobs);
             this._moreJobsSubject$.next(moreJobs);
             this._hasPreviousJobsSubject$.next(hasPreviousJobs);
-
-            return jobs;
-        }).catch(err => {
-            throw new Error(err);
         });
     }
 
     private getJob() {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         let url = `/api/v1/jobs?skip=${this._jobsSkipSubject$.value}&take=${this._jobsTakeSubject$.value}`;
 
@@ -143,9 +134,9 @@ export class JobsService {
             url += `&query=${this._jobsQuerySubject$.value}`;
         }
 
-        return this._http.get(url, {headers: headers, withCredentials: true}).map((res: Response) => {
-            const jobs = res.json().data;
-            const moreJobs = res.json().more;
+        return this._http.get(url, {headers: headers, withCredentials: true}).map((res: PagedList) => {
+            const jobs = res.data;
+            const moreJobs = res.more;
             const hasPreviousJobs = this._jobsSkipSubject$.value != 0;
 
             this._jobsSubject$.next(jobs);
@@ -159,21 +150,10 @@ export class JobsService {
     }
 
     public addJob(job) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
         return this._http.post('/api/v1/jobs/', job, {headers: headers})
-            .map((res: Response) => {
-                res.json();
-                this._moreJobsSubject$.next(res.json().more);
-            })
-            .catch(err => {
-                if (Number(err.status) === Number(403)) {
-                    const urlOrigin = window.location.origin;
-                    const urlPathName = window.location.pathname;
-                    const loginUrl = 'login';
-                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-                }
-                return err;
+            .map((res: PagedList) => {
+                this._moreJobsSubject$.next(res.more);
             }).finally(() => {
                 this.doSearch();
             })
@@ -182,44 +162,28 @@ export class JobsService {
 
 
     public updateJob(job) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
         return this._http.put('/api/v1/jobs', job, {headers: headers})
-            .map((res: Response) =>  {
+            .map((res: any) =>  {
                 this.doSearch();
                 return res;
-            }).catch(err => {
-                if (Number(err.status) === Number(403)) {
-                    const urlOrigin = window.location.origin;
-                    const urlPathName = window.location.pathname;
-                    const loginUrl = 'login';
-                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-                }
-                return err;
             });
     }
 
 
     public removeJob(job) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
         this._isJobsLoadingSubject$.next(true);
         return this._http.post('/api/v1/jobs/remove', job, {headers: headers})
-            .map((res: Response) =>  {
+            .map((res: HttpResponse<any>) =>  {
                 if (this._jobsSubject$.value.length === 0) {
                     this.previousPage();
                 } else {
                     this.doSearch();
                 }
                 return res;
-            }).catch(err => {
-                if (Number(err.status) === Number(403)) {
-                    const urlOrigin = window.location.origin;
-                    const urlPathName = window.location.pathname;
-                    const loginUrl = 'login';
-                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-                }
-                return err;
             });
     }
 
