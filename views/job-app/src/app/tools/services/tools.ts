@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
 import { Observable, BehaviorSubject } from 'rxjs'
 import { Router, ActivatedRoute, Params, Event, NavigationEnd } from '@angular/router';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../shared/services/notification/notification.service';
@@ -39,7 +39,7 @@ export class ToolsService {
 
 
     constructor(
-        private _http: Http,
+        private _http: HttpClient,
         private _route: ActivatedRoute,
         private _router: Router,
         private _notificationService: NotificationService) {
@@ -60,8 +60,7 @@ export class ToolsService {
     }
 
     private getTools() {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         let url = `/api/v1/tools?skip=${this._toolsSkipSubject$.value}&take=${this._toolsTakeSubject$.value}`;
 
@@ -69,9 +68,9 @@ export class ToolsService {
             url += `&query=${this._toolsQuerySubject$.value}`;
         }
 
-        return this._http.get(url, {headers: headers, withCredentials: true}).map((res: Response) => {
-            const tools = res.json().data;
-            const moreTools = res.json().more;
+        return this._http.get(url, {headers: headers, withCredentials: true}).map((res: PagedList) => {
+            const tools = res.data;
+            const moreTools = res.more;
             const hasPreviousTools = this._toolsSkipSubject$.value != 0;
 
             this._toolsSubject$.next(tools);
@@ -79,67 +78,48 @@ export class ToolsService {
             this._hasPreviousToolsSubject$.next(hasPreviousTools);
 
             return tools;
-        }).catch(err => {
-            throw new Error(err);
         });
     }
 
     public addTool(tool) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
         return this._http.post('/api/v1/tools/', tool, {headers: headers}) // ...using post request
-            .map((res: Response) => {
-                res.json();
-                this._moreToolsSubject$.next(res.json().more);
+            .map((res: PagedList) => {
+                this._moreToolsSubject$.next(res.more);
             })
-            .catch(err => {
-                if (Number(err.status) === Number(403)) {
-                    const urlOrigin = window.location.origin;
-                    const urlPathName = window.location.pathname;
-                    const loginUrl = 'login';
-                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-                }
-                return err;
-            }).finally(() => {
+            .finally(() => {
                 this.doSearch();
             })
     }
 
 
-
     public updateTool(tool) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
         return this._http.put('/api/v1/tools', tool, {headers: headers})
             .map((res: Response) =>  {
                 this.doSearch();
                 return res;
-            }).catch(err => {
-                if (Number(err.status) === Number(403)) {
-                    const urlOrigin = window.location.origin;
-                    const urlPathName = window.location.pathname;
-                    const loginUrl = 'login';
-                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-                }
-                return err;
             });
     }
 
     public checkoutTool(checkout) {
         // This will be string of async to checkout. 
-        let headers = new Headers();
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
         headers.append('Content-Type', 'application/json');
         return this._http.post('/api/v1/checkouts', checkout, {headers: headers})
-            .map((res: Response) => {
+            .map((res: any) => {
                 this.doSearch();
                 this.setNotification('Successfully checked out tool');
-                return res.json()
+                return res;
             });
     }
 
     public removeTool(tool) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
         this._istoolsLoadingSubject$.next(true);
         return this._http.post('/api/v1/tools/remove', tool, {headers: headers})
             .map((res: Response) =>  {

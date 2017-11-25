@@ -10,21 +10,21 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ActiveJobService {
 
-  private _activeJobSubject: BehaviorSubject<Job> = new BehaviorSubject(null);
-  public readonly activeJob: Observable<Job> = this._activeJobSubject.asObservable()
+    private _activeJobSubject: BehaviorSubject<Job> = new BehaviorSubject(null);
+    public readonly activeJob: Observable<Job> = this._activeJobSubject.asObservable()
 
-  constructor() {}
+    constructor() { }
 
-  setActiveJob(job: Job): void {
-    this._activeJobSubject.next(job);
-  }
+    setActiveJob(job: Job): void {
+        this._activeJobSubject.next(job);
+    }
 
-  getActiveJob(): Observable<Job> {
-    return this.activeJob;
-  }
+    getActiveJob(): Observable<Job> {
+        return this.activeJob;
+    }
 
-  removeActiveJob():void {
-    this._activeJobSubject.next(null);
-  }
+    removeActiveJob(): void {
+        this._activeJobSubject.next(null);
+    }
 
 }

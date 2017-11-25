@@ -1,12 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpModule, JsonpModule } from '@angular/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 import { FlashMessagesModule } from 'ngx-flash-messages';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { ChartsModule } from 'ng2-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RequestInterceptor } from './interceptors/auth.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
 import { AppComponent } from './app.component';
@@ -24,35 +26,39 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { routes } from './app.routing';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    WelcomeComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    RouterModule.forRoot(routes),
-    ReactiveFormsModule,
-    FormsModule,
-    HttpModule,
-    JsonpModule,
-    ChartsModule,
-    FlashMessagesModule,
-    SharedModule,
-    PreferencesModule,
-    JobsModule,
-    ToolsModule,
-    AuthenticationModule,
-    OperatorsModule,
-    NgbModule.forRoot(),
-  ],
-  providers: [
-    {provide: LocationStrategy, useClass: HashLocationStrategy}
-  ],
-  exports: [
-    FlashMessagesModule,
-    RouterModule
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        WelcomeComponent
+    ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        RouterModule.forRoot(routes),
+        ReactiveFormsModule,
+        FormsModule,
+        ChartsModule,
+        FlashMessagesModule,
+        SharedModule,
+        PreferencesModule,
+        JobsModule,
+        ToolsModule,
+        AuthenticationModule,
+        OperatorsModule,
+        NgbModule.forRoot(),
+    ],
+    providers: [
+        { provide: LocationStrategy, useClass: HashLocationStrategy },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: RequestInterceptor,
+            multi: true
+        }
+    ],
+    exports: [
+        FlashMessagesModule,
+        RouterModule
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
