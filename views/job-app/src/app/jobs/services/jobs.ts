@@ -1,7 +1,6 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
-
-import {Observable, BehaviorSubject} from 'rxjs'
+import { Observable, BehaviorSubject } from 'rxjs'
 import { Router, ActivatedRoute, Params, Event, NavigationEnd } from '@angular/router';
 
 import 'rxjs/add/operator/map';
@@ -73,7 +72,6 @@ export class JobsService {
     public getJobCheckouts(jobId: any) {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-
         let url = `/api/v1/checkouts/${jobId}`;
 
         this._isJobCheckoutsLoading$.next(true);
@@ -95,8 +93,8 @@ export class JobsService {
         this._isJobDetailLoading$.next(true);
 
         return this._http.get(url, {headers: headers, withCredentials: true})
-            .map((res: Response) => {
-                return res.json();
+            .map((res: any) => {
+                return res;
             }).catch(err => {
                 throw new Error(err);
             }).first().subscribe(data => {

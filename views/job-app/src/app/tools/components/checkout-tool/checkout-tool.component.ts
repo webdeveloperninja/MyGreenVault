@@ -83,20 +83,20 @@ export class CheckoutToolComponent implements OnInit {
             }, (err) => {
 
                 this._isCheckoutLoadingSubject$.next(false);
-
-                let response = JSON.parse(err._body);
+               
+                let response = err.error;
                 
-                if (response.operatorNumber) {
+                if (response && response.operatorNumber) {
                     this.operatorInputMessage = response.operatorNumber.message;
                     this.operatorInputStatus = response.operatorNumber.status;
                 }
 
-                if (response.jobNumber) {
+                if (response && response.jobNumber) {
                     this.jobInputMessage = response.jobNumber.message;
                     this.jobInputStatus = response.jobNumber.status;
                 }
 
-                if (response.toolQty) {
+                if (response && response.toolQty) {
                     this.toolQtyInputMessage = response.toolQty.message;
                     this.toolQtyInputStatus = response.toolQty.status;
                 }

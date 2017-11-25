@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
 import { Observable, BehaviorSubject } from 'rxjs'
 import { Router, ActivatedRoute, Params, Event, NavigationEnd } from '@angular/router';
 
@@ -37,7 +37,7 @@ export class OperatorsService {
     public readonly activeOperator$: Observable<Operator> = this._activeOperatorSubject$.asObservable();
 
     constructor(
-        private _http: Http,
+        private _http: HttpClient,
         private _route: ActivatedRoute,
         private _router: Router) {
         _router.events.filter(event => event instanceof NavigationEnd).subscribe(event =>  this.doSearch());    
@@ -56,8 +56,7 @@ export class OperatorsService {
     }
 
     private getOperators() {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         let url = `/api/v1/operators?skip=${this._operatorsSkipSubject$.value}&take=${this._operatorsTakeSubject$.value}`;
 
@@ -65,9 +64,9 @@ export class OperatorsService {
             url += `&query=${this._operatorsQuerySubject$.value}`;
         }
 
-        return this._http.get(url, {headers: headers, withCredentials: true}).map((res: Response) => {
-            const operators = res.json().data;
-            const moreOperators = res.json().more;
+        return this._http.get(url, {headers: headers, withCredentials: true}).map((res: PagedList) => {
+            const operators = res.data;
+            const moreOperators = res.more;
             const hasPreviousOperators = this._operatorsSkipSubject$.value != 0;
 
             this._operatorsSubject$.next(operators);
@@ -75,27 +74,16 @@ export class OperatorsService {
             this._hasPreviousOperatorsSubject$.next(hasPreviousOperators);
 
             return operators;
-        }).catch(err => {
-            throw new Error(err);
         });
     }
 
     public addOperator(operator) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
         return this._http.post('/api/v1/operators/', operator, {headers: headers})
-            .map((res: Response) => {
-                this._moreOperatorsSubject$.next(res.json().more);
-                return res.json();
-            })
-            .catch(err => {
-                if (Number(err.status) === Number(403)) {
-                    const urlOrigin = window.location.origin;
-                    const urlPathName = window.location.pathname;
-                    const loginUrl = 'login';
-                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-                }
-                return err;
+            .map((res: PagedList) => {
+                this._moreOperatorsSubject$.next(res.more);
+                return res;
             }).finally(() => {
                 this.doSearch();
             })
@@ -104,44 +92,28 @@ export class OperatorsService {
 
 
     public updateOperator(operator) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
         return this._http.put('/api/v1/operators', operator, {headers: headers})
-            .map((res: Response) =>  {
+            .map((res: PagedList) =>  {
                 this.doSearch();
                 return res;
-            }).catch(err => {
-                if (Number(err.status) === Number(403)) {
-                    const urlOrigin = window.location.origin;
-                    const urlPathName = window.location.pathname;
-                    const loginUrl = 'login';
-                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-                }
-                return err;
             });
     }
 
 
     public removeOperator(operator) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
         this._isOperatorsLoadingSubject$.next(true);
         return this._http.post('/api/v1/operators/remove', operator, {headers: headers})
-            .map((res: Response) =>  {
+            .map((res: any) =>  {
                 if (this._operatorsSubject$.value.length === 0) {
                     this.previousPage();
                 } else {
                     this.doSearch();
                 }
                 return res;
-            }).catch(err => {
-                if (Number(err.status) === Number(403)) {
-                    const urlOrigin = window.location.origin;
-                    const urlPathName = window.location.pathname;
-                    const loginUrl = 'login';
-                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-                }
-                return err;
             });
     }
     
