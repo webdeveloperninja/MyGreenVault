@@ -32,6 +32,22 @@ p {
   color: $brand-danger;
 }
 
+
+// Login 
+// ------------------------
+
+.login, .create-account {
+  background-image: url(/img/hero-image.jpg) !important;
+  background-size: cover;
+  .login-wrapper, .create-account-wrapper {
+    color: white;
+    background: rgba(0,0,0,.45);
+    max-width: 650px;
+    margin-top: 39px;
+    padding: 20px;  
+  }
+}
+
 // Dropdowns
 // -------------------------
 

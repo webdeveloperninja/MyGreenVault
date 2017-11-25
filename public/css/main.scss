@@ -1,11 +1,11 @@
-@import "themes/default/variables";
+@import "themes/modern/variables";
 
 @import "lib/bootstrap/bootstrap";
 @import "lib/font-awesome/font-awesome";
 
 @import "themes/modern/modern";
 
-@import "themes/login";
+
 
 // Scaffolding
 // -------------------------
@@ -65,6 +65,7 @@ textarea {
 
 .alert {
   margin-top: 20px;
+  color: black;
 }
 
 // Thumbnails
