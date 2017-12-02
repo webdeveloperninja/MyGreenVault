@@ -17,8 +17,10 @@ export class AddOperatorComponent implements OnInit {
 
     @ViewChild('operatorForm') operatorForm: NgForm;
     
-    @Output('closeAddoperatorModal')
-    closeAddoperatorModal: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output('closeAddOperatorModal')
+    closeAddOperatorModal: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+    
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -43,6 +45,6 @@ export class AddOperatorComponent implements OnInit {
     }
 
   closeModal() {
-    this.closeAddoperatorModal.emit(true);
+    this.closeAddOperatorModal.emit(true);
   }
 }
