@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { JobsComponent } from './jobs/components/jobs/jobs.component';
+import { WeedComponent } from './weed/components/weed/weed.component';
 
 export const routes: Routes = [
-    { path: '', component: JobsComponent }
+    { path: '', component: WeedComponent }
 ];

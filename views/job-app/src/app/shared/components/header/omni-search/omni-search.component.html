@@ -15,7 +15,7 @@
                 class="btn btn-outline-primary" 
                 [ngClass]="searchTypeClass('tools')" 
                 (click)="clearSearch()"
-                routerLink="/tools"
+                routerLink="/weed"
                 [routerLinkActiveOptions]="{exact: false}" 
                 [queryParams]="{skip:defaultToolSkip, take:defaultToolTake}"
                 routerLinkActive="active">
@@ -27,12 +27,12 @@
                 class="btn btn-outline-primary" 
                 [ngClass]="searchTypeClass('operators')" 
                 (click)="clearSearch()"
-                routerLink="/operators" 
+                routerLink="/employees" 
                 [queryParams]="{skip:defaultOperatorSkip, take:defaultOperatorTake}"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{exact: false}" >
                     <i class="fa fa-user-circle"></i>
-                    Tenders
+                    Employees
             </button>
         </div>
     </article>
