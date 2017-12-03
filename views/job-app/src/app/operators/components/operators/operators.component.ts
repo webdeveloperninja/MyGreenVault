@@ -11,7 +11,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 const REMOVE_TOOL_SUCCESS_MESSAGE: string = 'Successfully Removed Operator';
 const MODAL_SIZE = 'lg';
-const PAGE_TITLE: string = 'Operators';
+const PAGE_TITLE: string = 'Tenders';
 
 @Component({
   selector: 'ti-operators',
@@ -20,8 +20,8 @@ const PAGE_TITLE: string = 'Operators';
 })
 export class OperatorsComponent implements OnInit {
 
-    public title: string = 'Remove Operator';
-    public message: string = 'Are you sure you want to remove operator: ';
+    public title: string = 'Remove Tender';
+    public message: string = 'Are you sure you want to remove tender: ';
     public confirmClicked: boolean = false;
     public cancelClicked: boolean = false;
 

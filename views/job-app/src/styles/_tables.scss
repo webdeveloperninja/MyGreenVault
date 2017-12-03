@@ -1,7 +1,9 @@
+$weed-green: #00a400;
+
 .ti-table {
   border: 1px solid $ti-grey;
   .ti-table-header {
-    background-color: #fe7f2e;
+    background-color: $weed-green;
     color: white;
   }
 }

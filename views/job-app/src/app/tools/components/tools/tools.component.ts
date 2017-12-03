@@ -11,7 +11,7 @@ import { alert } from 'app/shared/components/alert/alert.component';
 const REMOVE_TOOL_SUCCESS_MESSAGE: string = 'Successfully Removed Tool';
 const MODAL_SIZE = 'lg';
 const DEFAULT_TAKE: number = 10;
-const PAGE_TITLE: string = 'Tools';
+const PAGE_TITLE: string = 'Weed';
 
 @Component({
   selector: 'ti-tools',

@@ -5,7 +5,7 @@
             <div class="row mt-3">
                 <div class="col-md-12">
                     <button class="btn btn-outline-primary pull-right mb-2" (click)="addOperator()">
-                            <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Operator
+                            <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Tender
                     </button>
                 </div>
             </div>
@@ -14,8 +14,8 @@
                     <table class="table table-striped ti-table">
                         <thead class="ti-table-header">
                             <tr>
-                                <th>Operator Name</th>
-                                <th>Operator Number</th>
+                                <th>Tender Name</th>
+                                <th>Tender Number</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -32,7 +32,7 @@
                                         placement="left"
                                         (confirm)="removeOperator(operator)"
                                         (cancel)="cancelClicked = true">
-                                        <i class="fa fa-trash mr-2" aria-hidden="true"></i>Remove
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
                                     <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdateOperatorModal(operator._id)">
                                             <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
@@ -55,7 +55,7 @@
             </div>
             <ti-alert 
                 [status]="alert.info" 
-                message="There are no operators" 
+                message="There are no tenders" 
                 [showAlert]="!hasOperators"
                 [isLoading]="isOperatorsLoading$ | async">
             </ti-alert>

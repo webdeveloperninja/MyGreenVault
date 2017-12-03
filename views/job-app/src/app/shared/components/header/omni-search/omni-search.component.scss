@@ -6,6 +6,7 @@ $search-button-border-radius: 0px;
 $omni-search-max-width: 40%;
 $white: #fff;
 $ti-teal: #43bea1;
+$weed-green: #00a400;
 
 .search-wrapper {
     display: flex;
@@ -29,21 +30,21 @@ $ti-teal: #43bea1;
             border: 1px solid $white;
            
             &.active {
-                color: white;
-                background-color:#fe7f2e;
+                color: black;
+                background-color: white;
                 border-color: #ffffff;
 
                 &:hover {
-                    color: white;
-                    background-color: #fe7f2e;
+                    color: black;
+                    background-color: white;
                     border-color: #ffffff;
                 }
 
             }
 
             &:hover {
-                    color: white;
-                    background-color: #fe7f2e;
+                    color: black;
+                    background-color: white;
                     border-color: #ffffff;
             }
         }
