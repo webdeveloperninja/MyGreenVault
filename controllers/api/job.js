@@ -37,8 +37,6 @@ exports.getJob = (req, res) => {
 exports.addJob = (req, res) => {
     let job = {};
 
-    // validate that operator id doesnt exist
-
     if (req.body._id) {
         job = req.body;
     } else {
@@ -46,13 +44,11 @@ exports.addJob = (req, res) => {
         job.userId = req.user._id;
     }
 
-    jobQuery.addJob(job).then(jobResponse => {
-        res.send(jobResponse._doc);
+    doAddJob(req.user._id, job, res).then(data => {
+        res.status(200).send(data);
     }).catch(err => {
-        res.send(500);
-        throw new Error(err);
-    });
-
+        res.status(err.code).send(err);
+    })
 }
 
 exports.updateJob = (req, res) => {
@@ -62,12 +58,12 @@ exports.updateJob = (req, res) => {
         job.userId = req.user._id;
     }
 
-    jobQuery.updateJob(job).then(data => {
+    doUpdateJob(req.user._id, job).then(data => {
         res.send(200);
     }).catch(err => {
-        res.send(500);
-        throw new Error(err);
-    });
+        res.status(err.code).send(err);
+    })
+
 }
 
 exports.removeJob = (req, res) => {
@@ -78,5 +74,67 @@ exports.removeJob = (req, res) => {
     }).catch(err => {
         res.send(500);
         throw new Error(err);
+    });
+}
+
+function doUpdateJob(userId, job) {
+    return new Promise((resolve, reject) => {
+        Promise.all([
+            // Only returning 1 job not all 
+            jobQuery.findJobsByJobNumber(userId, job.jobNumber)
+        ]).then(data => {
+            if (data) {
+                jobQuery.updateJob(job).then(data => {
+                    resolve(true);
+                }).catch(err => {
+                    reject({
+                        code: 417,
+                        message: `Job with job number ${data[0].jobNumber} exists please use another one`,
+                        status: 'danger'
+                    })
+                });
+            } else {
+                reject({
+                    code: 417,
+                    message: `Job with job number ${data[0].jobNumber} exists please use another one`,
+                    status: 'danger'
+                });
+            }
+        });
+    });
+}
+
+function getJob(userId, jobNumber) {
+    return new Promise((resolve, reject) => {
+        jobQuery.getJob(userId, jobNumber).then(job => {
+            resolve(job);
+        }).catch(err => {
+            reject(err);
+        });
+    });
+}
+
+function doAddJob(userId, job) {
+    return new Promise((resolve, reject) => {
+        Promise.all([
+            getJob(userId, job.jobNumber)
+        ]).then(data => {
+            if (!data[0].jobNumber) {
+                jobQuery.addJob(job).then(jobResponse => {
+                    resolve(jobResponse._doc);
+                }).catch(err => {
+                    reject({
+                        code: 500,
+                        message: err
+                    });
+                });
+            } else {
+                reject({
+                    code: 417,
+                    message: `Job with job number ${data[0].jobNumber} exists please use another one`,
+                    status: 'danger'
+                });
+            }
+        });
     });
 }

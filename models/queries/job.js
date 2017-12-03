@@ -115,3 +115,17 @@ let doesJobExist = exports.doesJobExist = (userId, jobNumber) => {
         });
     });
 }
+
+let findJobsByJobNumber = exports.findJobsByJobNumber = (userId, jobNumber) => {
+    return new Promise((resolve, reject) => {
+        Job.find({
+            userId: userId,
+            jobNumber: jobNumber
+        }).exec((err, results) => {
+            if (err) {
+                reject(err);
+            } 
+            resolve(results);
+        });
+    });
+}

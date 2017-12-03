@@ -24,7 +24,7 @@ exports.addCheckout = (req, res) => {
             res.status(200).send('checkout successfull');
         }
     }).catch(err => {
-        res.status(400).send(err);
+        res.status(417).send(err);
     });
 }
 

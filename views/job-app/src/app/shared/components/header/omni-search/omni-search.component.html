@@ -15,22 +15,23 @@
                 class="btn btn-outline-primary" 
                 [ngClass]="searchTypeClass('tools')" 
                 (click)="clearSearch()"
-                routerLink="/tools" 
+                routerLink="/tools"
+                [routerLinkActiveOptions]="{exact: false}" 
                 [queryParams]="{skip:defaultToolSkip, take:defaultToolTake}"
                 routerLinkActive="active">
                     <i class="fa fa-plug"></i>
-                    Tools
+                    Tool Name
             </button>
             <button
                 role="button" 
                 class="btn btn-outline-primary" 
-                [ngClass]="searchTypeClass('jobs')"
                 (click)="clearSearch()"
                 routerLink="/jobs" 
                 [queryParams]="{skip:defaultJobSkip, take:defaultJobTake}"
-                routerLinkActive="active">
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: false}" >
                     <i class="fa fa-truck"></i>
-                    Jobs
+                    Job Name
             </button>
             <button
                 role="button" 
@@ -39,9 +40,10 @@
                 (click)="clearSearch()"
                 routerLink="/operators" 
                 [queryParams]="{skip:defaultOperatorSkip, take:defaultOperatorTake}"
-                routerLinkActive="active">
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: false}" >
                     <i class="fa fa-user-circle"></i>
-                    Operators
+                    Operator Name
             </button>
         </div>
     </article>
