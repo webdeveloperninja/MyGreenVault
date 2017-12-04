@@ -11,7 +11,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12" *ngIf="!(tools$ | async)?.length === false">
-                    <table class="table table-striped ti-table">
+                    <table class="table table-responsive table-striped ti-table">
                         <thead class="ti-table-header">
                             <tr>
                                 <th>Strain Name</th>
@@ -48,6 +48,11 @@
                                         class="btn btn-outline-primary pull-right mr-2" 
                                         (click)="openUpdateToolModal(tool._id)">
                                             <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
+                                    </button>
+                                    <button 
+                                        class="btn btn-outline-primary pull-right mr-2" 
+                                        routerLink="/weed/{{tool._id}}">
+                                            <i class="fa fa-eye mr-2" aria-hidden="true"></i>View
                                     </button>
                                     <ti-add-tool-qty [tool]="tool"></ti-add-tool-qty>
                                 </th>

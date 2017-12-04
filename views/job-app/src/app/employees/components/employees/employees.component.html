@@ -5,17 +5,17 @@
             <div class="row mt-3">
                 <div class="col-md-12">
                     <button class="btn btn-outline-primary pull-right mb-2" (click)="addOperator()">
-                            <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Tender
+                            <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Employee
                     </button>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12" *ngIf="!(operators$ | async)?.length === false">
-                    <table class="table table-striped ti-table">
+                    <table class="table table-responsive table-striped ti-table">
                         <thead class="ti-table-header">
                             <tr>
-                                <th>Tender Name</th>
-                                <th>Tender Number</th>
+                                <th>Employee Name</th>
+                                <th>Employee Number</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -36,6 +36,11 @@
                                     </button>
                                     <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdateOperatorModal(operator._id)">
                                             <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
+                                    </button>
+                                    <button 
+                                        class="btn btn-outline-primary pull-right mr-2" 
+                                        routerLink="/employees/{{operator._id}}">
+                                            <i class="fa fa-eye mr-2" aria-hidden="true"></i>View
                                     </button>
                                 </td>
                             </tr>

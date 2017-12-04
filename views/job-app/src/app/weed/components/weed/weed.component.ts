@@ -55,7 +55,7 @@ export class WeedComponent implements OnInit {
     });
 
     isToolsLoading$: Observable<boolean> = this._weedService.istoolsLoading$;
-    moreTools$: Observable<boolean> = this._weedService.moreTools$; x
+    moreTools$: Observable<boolean> = this._weedService.moreTools$; 
     activeTool$: Observable<Tool> = this._weedService.activetool$;
     hasPreviousTools$: Observable<boolean> = this._weedService.hasPreviousTools$;
 

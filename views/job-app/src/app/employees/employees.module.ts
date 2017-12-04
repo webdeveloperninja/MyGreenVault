@@ -14,6 +14,7 @@ import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../shared/shared.module';
 
 import { routes } from './employees.routing';
+import { EmployeeDetailComponent } from './components/employee-detail/employee-detail.component';
 
 @NgModule({
     imports: [
@@ -28,6 +29,7 @@ import { routes } from './employees.routing';
         EmployeesComponent,
         AddEmployeeComponent,
         UpdateEmployeeComponent,
+        EmployeeDetailComponent,
     ],
     providers: [
         EmployeesService,

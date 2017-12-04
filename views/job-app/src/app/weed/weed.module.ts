@@ -17,6 +17,7 @@ import { routes } from './weed.routing';
 import { AddWeedQtyComponent } from './components/add-weed-qty/add-weed-qty.component';
 import { CheckoutWeedComponent } from './components/checkout-weed/checkout-weed.component';
 import { WeedQtyStatusComponent } from './components/weed/weed-qty-status/weed-qty-status.component';
+import { WeedDetailComponent } from './components/weed-detail/weed-detail.component';
 
 @NgModule({
     imports: [
@@ -34,6 +35,7 @@ import { WeedQtyStatusComponent } from './components/weed/weed-qty-status/weed-q
         AddWeedQtyComponent,
         CheckoutWeedComponent,
         WeedQtyStatusComponent,
+        WeedDetailComponent,
     ],
     providers: [
         WeedService,

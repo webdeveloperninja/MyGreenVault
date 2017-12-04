@@ -124,7 +124,7 @@ export class EmployeesService {
     }
 
     public nextPage() {
-        this._router.navigate([`/operators`],
+        this._router.navigate([`/employees`],
             {
                 queryParams:
                     {
@@ -137,7 +137,7 @@ export class EmployeesService {
 
     public previousPage() {
         if (Number(this._operatorsSkipSubject$.value) >= Number(this._operatorsTakeSubject$.value)) {
-            this._router.navigate([`/operators`],
+            this._router.navigate([`/employees`],
                 {
                     queryParams:
                         {

@@ -147,7 +147,7 @@ export class WeedService {
     }
 
     public nextPage() {
-        this._router.navigate([`/tools`],
+        this._router.navigate([`/weed`],
             {
                 queryParams:
                     {
@@ -160,7 +160,7 @@ export class WeedService {
 
     public previousPage() {
         if (Number(this._toolsSkipSubject$.value) >= Number(this._toolsTakeSubject$.value)) {
-            this._router.navigate([`/tools`],
+            this._router.navigate([`/weed`],
                 {
                     queryParams:
                         {
