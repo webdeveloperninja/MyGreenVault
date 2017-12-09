@@ -43,7 +43,8 @@ export class WeedService {
         private _route: ActivatedRoute,
         private _router: Router,
         private _notificationService: NotificationService) {
-        _router.events.filter(event => event instanceof NavigationEnd).subscribe(event => this.doSearch());
+        // todo un comment when get weed api route done
+        // _router.events.filter(event => event instanceof NavigationEnd).subscribe(event => this.doSearch());
 
     }
 

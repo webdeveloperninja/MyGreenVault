@@ -5,12 +5,12 @@ const LastFmNode = require('lastfm').LastFmNode;
 const clockwork = require('clockwork')({ key: process.env.CLOCKWORK_KEY });
 const User = require('../../models/User');
 const url = require('url');
-const ToolCheckout = require('../../services/tool');
+const WeedCheckout = require('../../services/weed');
 const ObjectId = require('mongodb').ObjectID;
-const toolQuery = require('../../models/queries/tool');
+const weedQuery = require('../../models/queries/weed');
 const asyncMiddleware = require('../../utils/async-middleware');
 
-exports.getTools = (req, res) => {
+exports.getWeed = (req, res) => {
     const userId = req.user._id;
     let url_parts = url.parse(req.url, true);
     let skip = Number(url_parts.query.skip);
@@ -18,8 +18,8 @@ exports.getTools = (req, res) => {
     let category = url_parts.query.category;
     let query = url_parts.query.query;
 
-    toolQuery.getTools(userId, skip, take, query).then(tools => {
-        res.send(tools)
+    weedQuery.getWeed(userId, skip, take, query).then(weed => {
+        res.send(weed)
     }).catch(error => {
         res.send(500);
         throw new Error(error);
@@ -27,15 +27,15 @@ exports.getTools = (req, res) => {
 };
 
 
-exports.addTool = (req, res) => {
+exports.addWeed = (req, res) => {
     const userId = req.user.id;
-    let tool = req.body;
+    let weed = req.body;
 
-    const toolWithUserId = Object.assign({
+    const weedWithUserId = Object.assign({
         userId: ObjectId(userId)
     }, tool);
 
-    toolQuery.addTool(toolWithUserId).then(data => { 
+    weedQuery.addWeed(weedWithUserId).then(data => { 
         res.send(data._doc);
     }).catch(error => {
         res.send(500);
@@ -44,14 +44,14 @@ exports.addTool = (req, res) => {
  
 }
 
-exports.updateTool = (req, res) => {
-    const tool = req.body;
+exports.updateWeed = (req, res) => {
+    const weed = req.body;
     
-    if (!tool.userId) {
-        tool.userId = req.user._id;
+    if (!weed.userId) {
+        weed.userId = req.user._id;
     }
 
-    toolQuery.updateTool(tool).then(data => {
+    weedQuery.updateWeed(weed).then(data => {
         res.send(200);
     }).catch(err => {
         res.send(500);
@@ -59,10 +59,10 @@ exports.updateTool = (req, res) => {
     });
 }
 
-exports.removeTool = (req, res) => {
-    const tool = req.body;
+exports.removeWeed = (req, res) => {
+    const weed = req.body;
 
-    toolQuery.removeTool(tool).then(data => {
+    weedQuery.removeWeed(weed).then(data => {
         res.send(200);
     }).catch(err => {
         res.send(500);

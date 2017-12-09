@@ -1,18 +1,18 @@
 const User = require('../models/User');
 const ObjectId = require('mongodb').ObjectID;
-const toolQueries = require('../models/queries/tool');
+const weedQueries = require('../models/queries/weed');
 const operatorQueries = require('../models/queries/operator');
 const jobQueries = require('../models/queries/job');
 
-class ToolCheckout {
+class WeedCheckout {
     
     constructor(request, response) {
         this.response = response;
         this.user = request.user;
-        this.tool = request.body.tool;
+        this.weed = request.body.weed;
         this.checkoutCost = request.body.cost;
 
-        this.toolCheckoutQty = request.body.toolQty;
+        this.weedCheckoutQty = request.body.qty;
         this.operatorNumber = request.body.operatorNumber;
         this.jobNumber = request.body.jobNumber;
     }
@@ -23,10 +23,10 @@ class ToolCheckout {
             operatorName: this.operator.operatorName,
             jobNumber: this.job.jobNumber,
             jobName: this.job.jobName,
-            toolName: this.tool.toolName,
-            toolId: this.tool._id,
+            weedName: this.weed.name,
+            weedId: this.weed._id,
             cost: this.checkoutCost,
-            toolCheckoutQty: this.toolCheckoutQty
+            weedCheckoutQty: this.weedCheckoutQty
         }
     }
     // TODO update tool after checkout on get tool return 
@@ -38,17 +38,17 @@ class ToolCheckout {
     // }
 
     createUpdateToolAfterCheckout() {
-        let toolQtyAfterCheckout = Number(this.tool.qty) - Number(this.toolCheckoutQty);
-        this.updatedToolAfterCheckout = Object.assign({}, this.tool, {
-            qty: toolQtyAfterCheckout
+        let QtyAfterCheckout = Number(this.weed.qty) - Number(this.weedCheckoutQty);
+        this.updatedWeedAfterCheckout = Object.assign({}, this.weed, {
+            qty: weedQtyAfterCheckout
         });
     }
 
     doCheckout() {
         return new Promise((resolve, reject) => { 
             Promise.all([
-                this.getTool(),
-                this.getOperator(),
+                this.getWeed(),
+                this.getEmployee(),
                 this.getJob()
             ]).then(values => {
                 console.log(values[0]);
@@ -132,7 +132,7 @@ class ToolCheckout {
     }
 }
 
-module.exports = ToolCheckout;
+module.exports = WeedCheckout;
 
     // Promise.all([
     //     toolCheckout.getTool(),

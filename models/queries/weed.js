@@ -1,11 +1,11 @@
-const Tool = require('../../models/Tool');
+const Weed = require('../../models/Weed');
 const ObjectId = require('mongodb').ObjectID;
 
-let addTool = exports.addTool = (tool) => {
-    const newTool = new Tool(tool);
+let addWeed = exports.addWeed = (weed) => {
+    const newWeed = new Weed(weed);
 
     return new Promise((resolve, reject) => {
-        newTool.save((err, results) => {
+        newWeed.save((err, results) => {
             if (err) {
                 reject(err);
             }
@@ -14,11 +14,11 @@ let addTool = exports.addTool = (tool) => {
     });
 }
 
-let removeTool = exports.removeTool = (tool) => {
+let removeWeed = exports.removeWeed = (weed) => {
     return new Promise((resolve, reject) => {
-        Tool.find({
-            _id: ObjectId(tool._id),
-            userId: tool.userId
+        Weed.find({
+            _id: ObjectId(weed._id),
+            userId: weed.userId
         }).remove().exec((err, result) => {
             if (err) {
                 reject(err);
@@ -28,17 +28,17 @@ let removeTool = exports.removeTool = (tool) => {
     });
 }
 
-let getTools = exports.getTools = (userId, skip, take, query = null) => {
+let getWeed = exports.getWeed = (userId, skip, take, query = null) => {
     return new Promise((resolve, reject) => {
         let queryObj = {
             userId: ObjectId(userId)
         }
 
         if (query) {
-            queryObj.toolName = {'$regex': query, '$options' : 'i'};
+            queryObj.name = {'$regex': query, '$options' : 'i'};
         }
 
-        Tool.find(queryObj)
+        Weed.find(queryObj)
         .limit(take + 1)
         .skip(skip)
         .exec((err, results) => {
@@ -62,16 +62,16 @@ let getTools = exports.getTools = (userId, skip, take, query = null) => {
     });
 }
 
-let updateTool = exports.updateTool = (updatedTool) => {
+let updateWeed = exports.updateWeed = (updatedWeed) => {
     return new Promise((resolve, reject) => {
-        Tool.findOneAndUpdate({
-            _id: ObjectId(updatedTool._id),
-            userId: ObjectId(updatedTool.userId)
-        }, updatedTool).exec(err => {
+        Weed.findOneAndUpdate({
+            _id: ObjectId(updatedWeed._id),
+            userId: ObjectId(updatedWeed.userId)
+        }, updatedWeed).exec(err => {
             if (err) {
                 reject(err);
             }
-            resolve('successfully updated tool');
+            resolve('successfully updated weed');
         })
     });
 }
