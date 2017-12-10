@@ -15,10 +15,10 @@ const PAGE_TITLE: string = 'Products';
 
 @Component({
     selector: 'ti-tools',
-    templateUrl: './weed.component.html',
-    styleUrls: ['./weed.component.scss']
+    templateUrl: './products.component.html',
+    styleUrls: ['./products.component.scss']
 })
-export class WeedComponent implements OnInit {
+export class ProductsComponent implements OnInit {
 
     public title: string = 'Remove Tool';
     public message: string = 'Are you sure you want to remove tool: ';

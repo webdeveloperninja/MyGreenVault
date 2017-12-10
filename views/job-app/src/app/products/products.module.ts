@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AddWeedComponent } from './components/add-weed/add-weed.component';
-import { WeedComponent } from './components/weed/weed.component';
+import { ProductsComponent } from './components/products/products.component';
 import { RouterModule, Routes } from '@angular/router';
 import { WeedService } from './services/weed';
 import { ActiveWeedService } from './services/active-weed';
@@ -13,10 +13,10 @@ import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';
 
-import { routes } from './weed.routing';
+import { routes } from './products.routing';
 import { AddWeedQtyComponent } from './components/add-weed-qty/add-weed-qty.component';
 import { CheckoutWeedComponent } from './components/checkout-weed/checkout-weed.component';
-import { WeedQtyStatusComponent } from './components/weed/weed-qty-status/weed-qty-status.component';
+// import { WeedQtyStatusComponent } from './components/weed/weed-qty-status/weed-qty-status.component';
 import { WeedDetailComponent } from './components/weed-detail/weed-detail.component';
 
 @NgModule({
@@ -29,12 +29,12 @@ import { WeedDetailComponent } from './components/weed-detail/weed-detail.compon
         NgbModule.forRoot()
     ],
     declarations: [
-        WeedComponent,
+        ProductsComponent,
         AddWeedComponent,
         UpdateWeedComponent,
         AddWeedQtyComponent,
         CheckoutWeedComponent,
-        WeedQtyStatusComponent,
+        // WeedQtyStatusComponent,
         WeedDetailComponent,
     ],
     providers: [
@@ -42,9 +42,9 @@ import { WeedDetailComponent } from './components/weed-detail/weed-detail.compon
         ActiveWeedService
     ],
     exports: [
-        WeedComponent,
+        ProductsComponent,
         AddWeedComponent,
         UpdateWeedComponent
     ]
 })
-export class WeedModule {}
+export class ProductsModule {}

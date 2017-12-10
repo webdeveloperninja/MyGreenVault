@@ -44,7 +44,7 @@ const passportConfig = require('./config/passport');
  */
 const app = express();
 
-const weedRoutes = require('./routes/weed')(passportConfig, weedApiController);
+// const weedRoutes = require('./routes/weed')(passportConfig, weedApiController);
 const operatorsRoutes = require('./routes/operators')(passportConfig, operatorsApiController);
 const jobsRoutes = require('./routes/jobs')(passportConfig, jobsApiController);
 const checkoutsRoutes = require('./routes/checkouts')(passportConfig, checkoutsApiController);
@@ -139,7 +139,7 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
 
 
 // TOOLING INVENTORY API
-app.use('/api/v1/tools', weedRoutes);
+// app.use('/api/v1/tools', weedRoutes);
 app.use('/api/v1/operators', operatorsRoutes);
 app.use('/api/v1/jobs', jobsRoutes);
 app.use('/api/v1/checkouts', checkoutsRoutes);

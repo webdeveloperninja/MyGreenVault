@@ -13,7 +13,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 
-import { WeedModule } from './weed/weed.module';
+import { ProductsModule } from './products/products.module';
 import { SharedModule } from './shared/shared.module';
 import { EmployeesModule } from './employees/employees.module';
 import { PreferencesModule } from './preferences/preferences.module';
@@ -40,7 +40,7 @@ import { routes } from './app.routing';
         FlashMessagesModule,
         SharedModule,
         PreferencesModule,
-        WeedModule,
+        ProductsModule,
         AuthenticationModule,
         EmployeesModule,
         NgbModule.forRoot(),
