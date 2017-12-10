@@ -36,7 +36,7 @@ export class WeedComponent implements OnInit {
     take: number;
 
     @ViewChild('updateToolRef') updateToolRef: ElementRef;
-    @ViewChild('addToolRef') addToolRef: ElementRef;
+    @ViewChild('addProductRef') addProductRef: ElementRef;
 
     private _addToolModalRef: NgbModalRef;
     private _updateToolModalRef: NgbModalRef;
@@ -92,12 +92,12 @@ export class WeedComponent implements OnInit {
         this._updateToolModalRef.close();
     }
 
-    closeAddToolModal() {
+    closeAddProductModal() {
         this._addToolModalRef.close();
     }
 
     addTool() {
-        this._addToolModalRef = this._modalService.open(this.addToolRef, { size: MODAL_SIZE });
+        this._addToolModalRef = this._modalService.open(this.addProductRef, { size: MODAL_SIZE });
     }
 
     removeTool(tool) {

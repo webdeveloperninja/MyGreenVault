@@ -5,19 +5,21 @@ import { WeedService } from '../../services/weed';
 import { Observable } from 'rxjs';
 
 @Component({
-    selector: 'add-tool',
+    selector: 'add-product',
     templateUrl: './add-weed.component.html',
     styleUrls: ['./add-weed.component.scss']
 })
 export class AddWeedComponent implements OnInit {
-    toolFormGroup: FormGroup;
-    isAddToolLoading: boolean = false;
+    productFormGroup: FormGroup;
+    isAddProductLoading: boolean = false;
     addToolSuccess: boolean = false;
+    showMoreFields: boolean = false;
+    showMoreFieldsText: string = 'show more';
 
-    @ViewChild('toolForm') toolForm: NgForm;
+    @ViewChild('productForm') productForm: NgForm;
 
-    @Output('closeAddToolModal')
-    closeAddToolModal: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output('closeAddProductModal')
+    closeAddProductModal: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     @Input('skip') skip: number;
     @Input('take') take: number;
@@ -28,41 +30,59 @@ export class AddWeedComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.toolFormGroup = this._formBuilder.group({
-            toolName: ['', Validators.required],
-            qty: ['', Validators.required],
-            idealAmount: ['', Validators.required],
-            autoOrderQty: ['', Validators.required],
-            toolCost: ['', Validators.required],
+        this.productFormGroup = this._formBuilder.group({
+            name: ['', Validators.required],
+            weight: ['', Validators.required],
+            idealWeight: ['', Validators.required],
+            autoOrderWeight: ['', Validators.required],
+            supplierName: [''],
+            supplierEmail: [''],
+            supplierPhone: [''],
+            costPerGram: ['', Validators.required],
+            costPerEigth: ['', Validators.required],
+            costPerQuarter: ['', Validators.required],
+            costPerHalf: [''],
+            costPerOunce: [''],
+            costPerQuarterPound: [''],
         });
     }
 
-    addTool(toolFormGroup) {
-        this.isAddToolLoading = true;
-        let toolObj = {
-            toolName: this.toolFormGroup.controls['toolName'].value,
-            qty: this.toolFormGroup.controls['qty'].value,
-            idealAmount: this.toolFormGroup.controls['idealAmount'].value,
-            autoOrderQty: this.toolFormGroup.controls['autoOrderQty'].value,
-            toolCost: this.toolFormGroup.controls['toolCost'].value,
+    addProduct(productFormGroup) {
+        this.isAddProductLoading = true;
+
+        let product = {
+            name: this.productFormGroup.controls['name'].value,
+            weight: this.productFormGroup.controls['weight'].value,
+            idealWeight: this.productFormGroup.controls['idealWeight'].value,
+            autoOrderWeight: this.productFormGroup.controls['autoOrderWeight'].value,
+            supplierName: this.productFormGroup.controls['supplierName'].value,
+            supplierEmail: this.productFormGroup.controls['supplierEmail'].value,
+            supplierPhone: this.productFormGroup.controls['supplierPhone'].value,
+            costPerGram: this.productFormGroup.controls['costPerGram'].value,
+            costPerEigth: this.productFormGroup.controls['costPerEigth'].value,
+            costPerQuarter: this.productFormGroup.controls['costPerQuarter'].value,
+            costPerHalf: this.productFormGroup.controls['costPerHalf'].value,
+            costPerOunce: this.productFormGroup.controls['costPerOunce'].value,
+            costPerQuarterPound: this.productFormGroup.controls['costPerQuarterPound'].value,
         };
-        this._weedService.addTool(toolObj).subscribe((tool) => {
+
+        this._weedService.addTool(product).subscribe((tool) => {
             if (1 === 1) {
-                this.toolFormGroup.reset();
+                this.productFormGroup.reset();
                 // this._toolsService.getTools(this.skip, this.take).first().subscribe();
-                this.isAddToolLoading = false;
+                this.isAddProductLoading = false;
                 this.addToolSuccess = true;
                 Observable.timer(5000).first().subscribe(data => {
                     this.addToolSuccess = false;
                 });
             } else {
-                this.isAddToolLoading = false;
+                this.isAddProductLoading = false;
             }
         })
     }
 
     closeModal() {
-        this.closeAddToolModal.emit(true);
+        this.closeAddProductModal.emit(true);
     }
 
     ngAfterViewChecked() {
@@ -70,16 +90,26 @@ export class AddWeedComponent implements OnInit {
     }
 
     formChanged() {
-        if (this.toolForm) {
-            this.toolForm.valueChanges
+        if (this.productForm) {
+            this.productForm.valueChanges
                 .subscribe(data => this.onValueChanged(data));
+        }
+    }
+
+    toggleShowMoreFields() {
+        if (this.showMoreFields) {
+            this.showMoreFields = false;
+            this.showMoreFieldsText = 'show more';
+        } else {
+            this.showMoreFields = true;
+            this.showMoreFieldsText = 'show less';
         }
     }
 
 
     onValueChanged(data?: any) {
-        if (!this.toolForm) { return; }
-        const form = this.toolForm.form;
+        if (!this.productForm) { return; }
+        const form = this.productForm.form;
         for (const field in this.formErrors) {
             this.formErrors[field] = '';
             const control = form.get(field);

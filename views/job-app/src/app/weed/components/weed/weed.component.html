@@ -84,10 +84,10 @@
                     [skip]="skip" [take]="take">
                 </ti-update-tool>
             </ng-template>
-            <ng-template #addToolRef let-c="close" let-d="dismiss">
-                <add-tool (closeAddToolModal)="closeAddToolModal($event)" (isAddToolLoading)="setIsAddToolLoading($event)" [skip]="skip"
+            <ng-template #addProductRef let-c="close" let-d="dismiss">
+                <add-product (closeAddToolModal)="closeAddProductModal($event)" (isAddProductLoading)="setIsAddProductLoading($event)" [skip]="skip"
                     [take]="take">
-                </add-tool>
+                </add-product>
             </ng-template>
         </div>
     </div>

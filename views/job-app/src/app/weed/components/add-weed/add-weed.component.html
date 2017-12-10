@@ -1,6 +1,6 @@
-<form [formGroup]="toolFormGroup" #ToolForm="ngForm" class="add-Tool" (ngSubmit)="addTool(toolFormGroup)">
+<form [formGroup]="productFormGroup" #ProductForm="ngForm" class="add-product" (ngSubmit)="addProduct(productFormGroup)">
     <div class="modal-header">
-        <h4 class="modal-title">Add Strain</h4>
+        <h4 class="modal-title">Add Product</h4>
         <button type="button" (click)="closeModal()" class="close" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -10,34 +10,34 @@
             <div class="col-md-6">
                 <div class="row">
                     <div class="form-group col-12">
-                        <label>Strain Name</label>
-                        <input class="form-control" formControlName="toolName">
+                        <label>Name</label>
+                        <input class="form-control" formControlName="name">
                     </div>
                     <div class="form-group col-12">
                         <label>Weight</label>
-                        <input class="form-control" formControlName="qty">
+                        <input class="form-control" formControlName="weight">
                     </div>
         
                     <div class="form-group col-12">
-                        <label>Ideal Amount</label>
-                        <input class="form-control" formControlName="idealAmount">
+                        <label>Ideal Weight</label>
+                        <input class="form-control" formControlName="idealWeight">
                     </div>
         
                     <div class="form-group col-12">
-                        <label>Auto Order Qty</label>
-                        <input class="form-control" formControlName="autoOrderQty">
+                        <label>Auto Order Weight</label>
+                        <input class="form-control" formControlName="autoOrderWeight">
                     </div>
-                    <div class="form-group col-12">
+                    <div class="form-group col-12" *ngIf="showMoreFields">
                         <label>Supplier/Grower name</label>
-                        <input class="form-control" formControlName="autoOrderQty">
+                        <input class="form-control" formControlName="supplierName">
                     </div>
-                    <div class="form-group col-12">
+                    <div class="form-group col-12" *ngIf="showMoreFields">
                         <label>Supplier/Grower email</label>
-                        <input class="form-control" formControlName="autoOrderQty">
+                        <input class="form-control" formControlName="supplierEmail">
                     </div>
-                    <div class="form-group col-12">
+                    <div class="form-group col-12" *ngIf="showMoreFields">
                         <label>Supplier/Grower phone</label>
-                        <input class="form-control" formControlName="autoOrderQty">
+                        <input class="form-control" formControlName="supplierPhone">
                     </div>
                 </div>
             </div>
@@ -45,46 +45,50 @@
                 <div class="row">
                     <div class="form-group col-12">
                         <label>Cost per gram</label>
-                        <input class="form-control" formControlName="toolCost">
+                        <input class="form-control" formControlName="costPerGram">
                     </div>
                     <div class="form-group col-12">
                         <label>Cost per 1/8th</label>
-                        <input class="form-control" formControlName="toolCost">
+                        <input class="form-control" formControlName="costPerEigth">
                     </div>
                     <div class="form-group col-12">
                         <label>Cost per 1/4</label>
-                        <input class="form-control" formControlName="toolCost">
+                        <input class="form-control" formControlName="costPerQuarter">
                     </div>
                     <div class="form-group col-12">
                         <label>Cost per 1/2</label>
-                        <input class="form-control" formControlName="toolCost">
+                        <input class="form-control" formControlName="costPerHalf">
                     </div>
-                    <div class="form-group col-12">
+                    <div class="form-group col-12" *ngIf="showMoreFields">
                         <label>Cost per ounce</label>
-                        <input class="form-control" formControlName="toolCost">
+                        <input class="form-control" formControlName="costPerOunce">
                     </div>
-                    <div class="form-group col-12">
+                    <div class="form-group col-12" *ngIf="showMoreFields">
                         <label>Cost per quarter pound</label>
-                        <input class="form-control" formControlName="toolCost">
+                        <input class="form-control" formControlName="costPerQuarterPound">
                     </div>
                 </div>
             </div>
-
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <a (click)="toggleShowMoreFields()">{{ showMoreFieldsText }}</a>
+            </div>
         </div>
     </div>
     <div class="modal-footer">
         <div class="container bootstrap snippet">
-            <div class="alert alert-success alert-white rounded" *ngIf="addToolSuccess"> 
-                <i class="fa fa-check"></i> <strong>Success!</strong> Your tool has been added!
+            <div class="alert alert-success alert-white rounded" *ngIf="addProductSuccess"> 
+                <i class="fa fa-check"></i> <strong>Success!</strong> Your product has been added!
             </div>
         </div>
 
         <button 
-            [disabled]="toolFormGroup.invalid" 
+            [disabled]="productFormGroup.invalid" 
             class="btn btn-primary pull-right" 
             type="submit">
-            <i class='fa fa-spinner fa-spin ' *ngIf="isAddToolLoading"></i>
-                Add Strain
+            <i class='fa fa-spinner fa-spin ' *ngIf="isAddProductLoading"></i>
+                Add Product
         </button>
     </div>
 </form>
