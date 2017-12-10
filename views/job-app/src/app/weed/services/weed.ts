@@ -28,8 +28,8 @@ export class WeedService {
     private _toolsTakeSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
     public readonly toolsTake$: Observable<number> = this._toolsSkipSubject$.asObservable();
 
-    private _istoolsLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
-    public readonly istoolsLoading$: Observable<boolean> = this._istoolsLoadingSubject$.asObservable();
+    private _isProductsLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
+    public readonly isProductsLoading$: Observable<boolean> = this._isProductsLoadingSubject$.asObservable();
 
     private _toolsQuerySubject$: BehaviorSubject<string> = new BehaviorSubject<string>('');
     public readonly toolsQuery$: Observable<string> = this._toolsQuerySubject$.asObservable();
@@ -49,13 +49,13 @@ export class WeedService {
     }
 
     public doSearch() {
-        this._istoolsLoadingSubject$.next(true);
+        this._isProductsLoadingSubject$.next(true);
         if (this._router.navigated) {
             this._toolsSkipSubject$.next(this._route.snapshot.queryParams["skip"]);
             this._toolsTakeSubject$.next(this._route.snapshot.queryParams["take"]);
             this._toolsQuerySubject$.next(this._route.snapshot.queryParams['query'] || null);
             this.getTools().first().subscribe(data => {
-                this._istoolsLoadingSubject$.next(false);
+                this._isProductsLoadingSubject$.next(false);
             });
         }
     }
@@ -121,7 +121,7 @@ export class WeedService {
     public removeTool(tool) {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        this._istoolsLoadingSubject$.next(true);
+        this._isProductsLoadingSubject$.next(true);
         return this._http.post('/api/v1/tools/remove', tool, { headers: headers })
             .map((res: Response) => {
                 if (this._toolsSubject$.value.length === 0) {

@@ -11,7 +11,7 @@ import { alert } from 'app/shared/components/alert/alert.component';
 const REMOVE_TOOL_SUCCESS_MESSAGE: string = 'Successfully Removed Tool';
 const MODAL_SIZE = 'lg';
 const DEFAULT_TAKE: number = 10;
-const PAGE_TITLE: string = 'Weed';
+const PAGE_TITLE: string = 'Products';
 
 @Component({
     selector: 'ti-tools',
@@ -29,7 +29,7 @@ export class WeedComponent implements OnInit {
         return `${this.message} ${toolName}?`;
     }
 
-    hasTools: boolean = false;
+    hasProducts: boolean = false;
 
     alert = alert;
     skip: number;
@@ -45,16 +45,16 @@ export class WeedComponent implements OnInit {
     tools$: Observable<Tool[]> = this._weedService.tools$.do(tools => {
         if (tools) {
             if (tools.length > 0) {
-                this.hasTools = true;
+                this.hasProducts = true;
             } else {
-                this.hasTools = false;
+                this.hasProducts = false;
             }
         } else {
-            this.hasTools = false;
+            this.hasProducts = false;
         }
     });
 
-    isToolsLoading$: Observable<boolean> = this._weedService.istoolsLoading$;
+    isProductsLoading$: Observable<boolean> = this._weedService.isProductsLoading$;
     moreTools$: Observable<boolean> = this._weedService.moreTools$; 
     activeTool$: Observable<Tool> = this._weedService.activetool$;
     hasPreviousTools$: Observable<boolean> = this._weedService.hasPreviousTools$;

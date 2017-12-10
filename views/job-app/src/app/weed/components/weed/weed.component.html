@@ -5,7 +5,7 @@
             <div class="row mt-3">
                 <div class="col-md-12">
                     <button class="btn btn-outline-primary mb-2 pull-right" (click)="addTool()">
-                            <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Strain
+                            <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Product
                     </button>
                 </div>
             </div>
@@ -75,9 +75,9 @@
             </div>
             <ti-alert
                 [status]="alert.info"
-                message="There are no strains"
-                [showAlert]="!hasTools"
-                [isLoading]="isToolsLoading$ | async">
+                message="There are no products"
+                [showAlert]="!hasProducts"
+                [isLoading]="isProductsLoading$ | async">
             </ti-alert>
             <ng-template #updateToolRef let-c="close" let-d="dismiss">
                 <ti-update-tool [activeTool]="activeTool$" (closeUpdateModal)="closeUpdateToolModal($event)" (isLoading)="isTiUpdateToolLoading($event)"
