@@ -15,12 +15,12 @@
                 class="btn btn-outline-primary" 
                 [ngClass]="searchTypeClass('tools')" 
                 (click)="clearSearch()"
-                routerLink="/weed"
+                routerLink="/products"
                 [routerLinkActiveOptions]="{exact: false}" 
                 [queryParams]="{skip:defaultToolSkip, take:defaultToolTake}"
                 routerLinkActive="active">
                     <i class="fa fa-plug"></i>
-                    Weed
+                    Products
             </button>
             <button
                 role="button" 

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-import { AddWeedComponent } from './components/add-weed/add-weed.component';
+import { AddProductComponent } from './components/add-product/add-product.component';
 import { ProductsComponent } from './components/products/products.component';
 import { RouterModule, Routes } from '@angular/router';
 import { WeedService } from './services/weed';
@@ -17,7 +17,7 @@ import { routes } from './products.routing';
 import { AddWeedQtyComponent } from './components/add-weed-qty/add-weed-qty.component';
 import { CheckoutWeedComponent } from './components/checkout-weed/checkout-weed.component';
 // import { WeedQtyStatusComponent } from './components/weed/weed-qty-status/weed-qty-status.component';
-import { WeedDetailComponent } from './components/weed-detail/weed-detail.component';
+import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 
 @NgModule({
     imports: [
@@ -30,12 +30,12 @@ import { WeedDetailComponent } from './components/weed-detail/weed-detail.compon
     ],
     declarations: [
         ProductsComponent,
-        AddWeedComponent,
+        AddProductComponent,
         UpdateWeedComponent,
         AddWeedQtyComponent,
         CheckoutWeedComponent,
         // WeedQtyStatusComponent,
-        WeedDetailComponent,
+        ProductDetailComponent,
     ],
     providers: [
         WeedService,
@@ -43,7 +43,7 @@ import { WeedDetailComponent } from './components/weed-detail/weed-detail.compon
     ],
     exports: [
         ProductsComponent,
-        AddWeedComponent,
+        AddProductComponent,
         UpdateWeedComponent
     ]
 })

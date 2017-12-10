@@ -6,10 +6,10 @@ import { Observable } from 'rxjs';
 
 @Component({
     selector: 'add-product',
-    templateUrl: './add-weed.component.html',
-    styleUrls: ['./add-weed.component.scss']
+    templateUrl: './add-product.component.html',
+    styleUrls: ['./add-product.component.scss']
 })
-export class AddWeedComponent implements OnInit {
+export class AddProductComponent implements OnInit {
     productFormGroup: FormGroup;
     isAddProductLoading: boolean = false;
     addToolSuccess: boolean = false;
