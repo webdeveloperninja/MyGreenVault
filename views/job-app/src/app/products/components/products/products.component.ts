@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { WeedService, PagedList, Tool } from '../../services/weed';
+import { ProductService, PagedList, Tool } from '../../services/product';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -42,7 +42,7 @@ export class ProductsComponent implements OnInit {
     private _updateToolModalRef: NgbModalRef;
 
     updateToolModal: any;
-    tools$: Observable<Tool[]> = this._weedService.tools$.do(tools => {
+    tools$: Observable<Tool[]> = this._productService.tools$.do(tools => {
         if (tools) {
             if (tools.length > 0) {
                 this.hasProducts = true;
@@ -54,14 +54,14 @@ export class ProductsComponent implements OnInit {
         }
     });
 
-    isProductsLoading$: Observable<boolean> = this._weedService.isProductsLoading$;
-    moreTools$: Observable<boolean> = this._weedService.moreTools$; 
-    activeTool$: Observable<Tool> = this._weedService.activetool$;
-    hasPreviousTools$: Observable<boolean> = this._weedService.hasPreviousTools$;
+    isProductsLoading$: Observable<boolean> = this._productService.isProductsLoading$;
+    moreTools$: Observable<boolean> = this._productService.moreTools$; 
+    activeTool$: Observable<Tool> = this._productService.activetool$;
+    hasPreviousTools$: Observable<boolean> = this._productService.hasPreviousTools$;
 
 
     constructor(
-        private _weedService: WeedService,
+        private _productService: ProductService,
         private _modalService: NgbModal,
         private _notificationService: NotificationService,
         private _headerService: HeaderService,
@@ -76,15 +76,15 @@ export class ProductsComponent implements OnInit {
 
 
     nextPage() {
-        this._weedService.nextPage();
+        this._productService.nextPage();
     }
 
     previousPage() {
-        this._weedService.previousPage();
+        this._productService.previousPage();
     }
 
     openUpdateToolModal(toolId) {
-        this._weedService.setActivetool(toolId);
+        this._productService.setActivetool(toolId);
         this._updateToolModalRef = this._modalService.open(this.updateToolRef, { size: MODAL_SIZE });
     }
 
@@ -101,7 +101,7 @@ export class ProductsComponent implements OnInit {
     }
 
     removeTool(tool) {
-        this._weedService.removeTool(tool).first().subscribe(() => {
+        this._productService.removeTool(tool).first().subscribe(() => {
             this._notificationService.setNotificationOn(REMOVE_TOOL_SUCCESS_MESSAGE);
             this.tools$.first().subscribe(tools => {
                 if ((tools.length - 1) == 0) {

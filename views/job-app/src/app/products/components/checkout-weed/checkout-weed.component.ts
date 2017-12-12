@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Http, Headers, Response } from '@angular/http';
 import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angular/forms';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
-import { WeedService, Tool } from '../../services/weed';
+import { ProductService, Tool } from '../../services/product';
 
 @Component({
     selector: 'ti-checkout-tool',
@@ -34,7 +34,7 @@ export class CheckoutWeedComponent implements OnInit {
     constructor(
         private _formBuilder: FormBuilder,
         private _notificationService: NotificationService,
-        private _weedService: WeedService
+        private _productService: ProductService
     ) { }
 
 
@@ -76,7 +76,7 @@ export class CheckoutWeedComponent implements OnInit {
         };
 
 
-        this._weedService.checkoutTool(toolCheckout)
+        this._productService.checkoutTool(toolCheckout)
             .first()
             .subscribe(data => {
                 this._isCheckoutLoadingSubject$.next(false);

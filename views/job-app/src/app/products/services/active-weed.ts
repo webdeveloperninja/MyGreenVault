@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable, BehaviorSubject } from 'rxjs'
-import { Tool } from './weed';
-export { Tool } from './weed';
+import { Tool } from './product';
+export { Tool } from './product';
 
 import 'rxjs/add/operator/map';
 

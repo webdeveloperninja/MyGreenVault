@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { WeedService, Tool } from '../../services/weed';
+import { ProductService, Tool } from '../../services/product';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription, Subject } from 'rxjs';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
@@ -38,7 +38,7 @@ export class UpdateWeedComponent implements OnInit {
 
     constructor(
         private _fb: FormBuilder,
-        private _weedService: WeedService,
+        private _productService: ProductService,
         private _notificationService: NotificationService
     ) { }
 
@@ -64,7 +64,7 @@ export class UpdateWeedComponent implements OnInit {
     }
 
     updatetool(activetool) {
-        this.activetoolSubscription$ = this._weedService.updateTool(activetool.value).first().subscribe(data => {
+        this.activetoolSubscription$ = this._productService.updateTool(activetool.value).first().subscribe(data => {
             this.closeModal();
         });
     }

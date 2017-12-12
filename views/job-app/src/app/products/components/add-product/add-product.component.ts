@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewContainerRef, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angular/forms';
-import { WeedService } from '../../services/weed';
+import { ProductService } from 'app/products/services/product';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -26,7 +26,7 @@ export class AddProductComponent implements OnInit {
 
     constructor(
         private _formBuilder: FormBuilder,
-        private _weedService: WeedService
+        private _productService: ProductService
     ) { }
 
     ngOnInit() {
@@ -34,7 +34,7 @@ export class AddProductComponent implements OnInit {
             name: ['', Validators.required],
             weight: ['', Validators.required],
             idealWeight: ['', Validators.required],
-            autoOrderWeight: ['', Validators.required],
+            autoOrderWeight: [''],
             supplierName: [''],
             supplierEmail: [''],
             supplierPhone: [''],
@@ -66,19 +66,20 @@ export class AddProductComponent implements OnInit {
             costPerQuarterPound: this.productFormGroup.controls['costPerQuarterPound'].value,
         };
 
-        this._weedService.addTool(product).subscribe((tool) => {
-            if (1 === 1) {
-                this.productFormGroup.reset();
-                // this._toolsService.getTools(this.skip, this.take).first().subscribe();
-                this.isAddProductLoading = false;
-                this.addToolSuccess = true;
-                Observable.timer(5000).first().subscribe(data => {
-                    this.addToolSuccess = false;
-                });
-            } else {
-                this.isAddProductLoading = false;
-            }
-        })
+        console.log('product', product);
+        // this._weedService.addTool(product).subscribe((tool) => {
+        //     if (1 === 1) {
+        //         this.productFormGroup.reset();
+        //         // this._toolsService.getTools(this.skip, this.take).first().subscribe();
+        //         this.isAddProductLoading = false;
+        //         this.addToolSuccess = true;
+        //         Observable.timer(5000).first().subscribe(data => {
+        //             this.addToolSuccess = false;
+        //         });
+        //     } else {
+        //         this.isAddProductLoading = false;
+        //     }
+        // })
     }
 
     closeModal() {

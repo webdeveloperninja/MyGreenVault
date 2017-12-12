@@ -5,7 +5,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { ProductsComponent } from './components/products/products.component';
 import { RouterModule, Routes } from '@angular/router';
-import { WeedService } from './services/weed';
+import { ProductService } from './services/product';
 import { ActiveWeedService } from './services/active-weed';
 import { UpdateWeedComponent } from './components/update-weed/update-weed.component';
 
@@ -38,7 +38,7 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
         ProductDetailComponent,
     ],
     providers: [
-        WeedService,
+        ProductService,
         ActiveWeedService
     ],
     exports: [

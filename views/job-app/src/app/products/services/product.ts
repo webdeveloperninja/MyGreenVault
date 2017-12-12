@@ -11,7 +11,7 @@ export const DEFAULT_SKIP: number = 0;
 export const DEFAULT_TAKE: number = 8;
 
 @Injectable()
-export class WeedService {
+export class ProductService {
 
     private _toolsSubject$: BehaviorSubject<Tool[]> = new BehaviorSubject<Tool[]>(null);
     public readonly tools$: Observable<Tool[]> = this._toolsSubject$.asObservable();
