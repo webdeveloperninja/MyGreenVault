@@ -49,10 +49,10 @@
                         <div class="col-6">
                         </div>
                         <div class="col-6">
-                            <button (click)="nextPage()" class="btn btn-outline-primary next pull-right" [disabled]="!(moreTools$ | async)">
+                            <button (click)="nextPage()" class="btn btn-outline-primary next pull-right" [disabled]="!(hasMoreProducts$ | async)">
                                             Next Page
                                     </button>
-                            <button (click)="previousPage()" class="btn btn-outline-primary pull-right mr-2" [disabled]="!(hasPreviousTools$ | async)">
+                            <button (click)="previousPage()" class="btn btn-outline-primary pull-right mr-2" [disabled]="!(hasPreviousProducts$ | async)">
                                         Previous Page
                                 </button>
                         </div>
@@ -65,7 +65,7 @@
                 [showAlert]="!hasProducts"
                 [isLoading]="isProductsLoading$ | async">
             </ti-alert>
-            <ng-template #updateToolRef let-c="close" let-d="dismiss">
+            <ng-template #updateProductRef let-c="close" let-d="dismiss">
                 <ti-update-tool [activeTool]="activeTool$" (closeUpdateModal)="closeUpdateToolModal($event)" (isLoading)="isTiUpdateToolLoading($event)"
                     [skip]="skip" [take]="take">
                 </ti-update-tool>

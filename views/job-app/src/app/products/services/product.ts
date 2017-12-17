@@ -21,8 +21,8 @@ export class ProductService {
     private _moreToolsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public readonly moreTools$: Observable<boolean> = this._moreToolsSubject$.asObservable();
 
-    private _moreProductsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    public readonly moreProducts$: Observable<boolean> = this._moreProductsSubject$.asObservable();
+    private _hasMoreProductsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public readonly hasMoreProducts$: Observable<boolean> = this._hasMoreProductsSubject$.asObservable();
 
     private _hasPreviousProductsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public readonly hasPreviousProducts$: Observable<boolean> = this._hasPreviousProductsSubject$.asObservable();
@@ -80,7 +80,7 @@ export class ProductService {
             const hasPreviousProducts = this._toolsSkipSubject$.value != 0;
 
             this._productsSubject$.next(products);
-            this._moreProductsSubject$.next(moreProducts);
+            this._hasMoreProductsSubject$.next(moreProducts);
             this._hasPreviousProductsSubject$.next(hasPreviousProducts);
 
             return products;
@@ -104,7 +104,7 @@ export class ProductService {
 
         return this._http.post('/api/v1/products/', product, {headers: headers})
             .map((res: PagedList<Product>) => {
-                this._moreProductsSubject$.next(res.more);
+                this._hasMoreProductsSubject$.next(res.more);
             })
             .finally(() => {
                 this.doSearch();
@@ -165,7 +165,7 @@ export class ProductService {
     }
 
     public nextPage() {
-        this._router.navigate([`/weed`],
+        this._router.navigate([`/products`],
             {
                 queryParams:
                     {

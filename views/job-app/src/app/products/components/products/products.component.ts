@@ -15,14 +15,17 @@ const DEFAULT_TAKE: number = 10;
 const PAGE_TITLE: string = 'Products';
 
 @Component({
-    selector: 'ti-tools',
+    selector: 'products',
     templateUrl: './products.component.html',
     styleUrls: ['./products.component.scss']
 })
 export class ProductsComponent implements OnInit {
 
+    // move messages to standard place 
     public title: string = 'Remove Tool';
     public message: string = 'Are you sure you want to remove tool: ';
+
+
     public confirmClicked: boolean = false;
     public cancelClicked: boolean = false;
 
@@ -33,17 +36,18 @@ export class ProductsComponent implements OnInit {
     hasProducts: boolean = false;
 
     alert = alert;
-    skip: number;
-    take: number;
 
-    @ViewChild('updateToolRef') updateToolRef: ElementRef;
+    private skip: number;
+    private take: number;
+
+    @ViewChild('updateProductRef') updateProductRef: ElementRef;
     @ViewChild('addProductRef') addProductRef: ElementRef;
 
     private _addToolModalRef: NgbModalRef;
     private _updateToolModalRef: NgbModalRef;
 
     updateToolModal: any;
-    // TODO strongly type product
+
     products$: Observable<Product[]> = this._productService.products$.do(products => {
         if (products) {
             if (products.length > 0) {
@@ -59,7 +63,9 @@ export class ProductsComponent implements OnInit {
     isProductsLoading$: Observable<boolean> = this._productService.isProductsLoading$;
     moreTools$: Observable<boolean> = this._productService.moreTools$; 
     activeTool$: Observable<Tool> = this._productService.activetool$;
-    hasPreviousTools$: Observable<boolean> = this._productService.hasPreviousProducts$;
+
+    hasPreviousProducts$: Observable<boolean> = this._productService.hasPreviousProducts$;
+    hasMoreProducts$: Observable<boolean> = this._productService.hasMoreProducts$;
 
 
     constructor(
@@ -88,7 +94,7 @@ export class ProductsComponent implements OnInit {
 
     openUpdateToolModal(toolId) {
         this._productService.setActivetool(toolId);
-        this._updateToolModalRef = this._modalService.open(this.updateToolRef, { size: MODAL_SIZE });
+        this._updateToolModalRef = this._modalService.open(this.updateProductRef, { size: MODAL_SIZE });
     }
 
     closeUpdateToolModal() {
