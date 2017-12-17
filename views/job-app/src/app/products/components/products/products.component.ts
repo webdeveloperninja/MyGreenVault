@@ -99,7 +99,7 @@ export class ProductsComponent implements OnInit {
         this._addToolModalRef.close();
     }
 
-    addTool() {
+    addProduct() {
         this._addToolModalRef = this._modalService.open(this.addProductRef, { size: MODAL_SIZE });
     }
 

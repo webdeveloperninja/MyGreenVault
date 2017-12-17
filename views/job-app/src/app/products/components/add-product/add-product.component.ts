@@ -69,20 +69,19 @@ export class AddProductComponent implements OnInit {
         console.log('product', product);
         this._productService.addProduct(product).first().subscribe((product) => {
             console.log('product', product);
+            if (1 === 1) {
+                this.productFormGroup.reset();
+                this._productService.doSearch();
+                this.isAddProductLoading = false;
+                this.addToolSuccess = true;
+                Observable.timer(5000).first().subscribe(data => {
+                    this.addToolSuccess = false;
+                });
+            } else {
+                this.isAddProductLoading = false;
+            }
         });
-        // this._weedService.addTool(product).subscribe((tool) => {
-        //     if (1 === 1) {
-        //         this.productFormGroup.reset();
-        //         // this._toolsService.getTools(this.skip, this.take).first().subscribe();
-        //         this.isAddProductLoading = false;
-        //         this.addToolSuccess = true;
-        //         Observable.timer(5000).first().subscribe(data => {
-        //             this.addToolSuccess = false;
-        //         });
-        //     } else {
-        //         this.isAddProductLoading = false;
-        //     }
-        // })
+    
     }
 
     closeModal() {

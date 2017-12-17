@@ -4,7 +4,7 @@
              <ti-loading [isLoading]="isToolsLoading$ | async"></ti-loading>
             <div class="row mt-3">
                 <div class="col-md-12">
-                    <button class="btn btn-outline-primary mb-2 pull-right" (click)="addTool()">
+                    <button class="btn btn-outline-primary mb-2 pull-right" (click)="addProduct()">
                             <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Product
                     </button>
                 </div>
@@ -14,48 +14,34 @@
                     <table class="table table-responsive table-striped ti-table">
                         <thead class="ti-table-header">
                             <tr>
-                                <th>Strain Name</th>
-                                <th>Qty</th>
-                                <th>Ideal Amount</th>
-                                <th>Strain Price</th>
-                                <th>Qty Status</th>
-                                <th></th>
+                                <th>Name</th>
+                                <th>Weight</th>
+                                <th>Ideal Weight</th>
+                                <th>Supplier Name</th>
+                                <th>Supplier Email</th>
+                                <th>Supplier Phone</th>
+                                <th>Cost Per Gram</th>
+                                <th>Cost Per Eight</th>
+                                <th>Cost Per Quarter</th>
+                                <th>Cost Per Half</th>
+                                <th>Cost Per Ounce</th>
+                                <th>Cost Per Quarter Pound</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let product of products$ | async">
                                 <td>{{ product.name | empty }}</td>
-                                <!-- <td>{{ tool.qty | empty }}</td>
-                                <td>{{ tool.idealAmount | empty }}</td>
-                                <td>{{ tool.toolCost | currency:'USD':true | empty }}</td> -->
-                                <td>
-                                    <!-- <ti-tool-qty-status [toolQty]="tool.qty" [idealToolQty]="tool.idealAmount">
-                                    </ti-tool-qty-status> -->
-                                </td>
-                                <th scope="row">
-                                    <!-- <button 
-                                        class="btn btn-outline-danger pull-right" 
-                                        mwlConfirmationPopover
-                                        [title]="title"
-                                        [message]="getConfirmationMessage(tool.toolName)"
-                                        placement="left"
-                                        (confirm)="removeTool(tool)"
-                                        (cancel)="cancelClicked = true">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
-                                    </button>
-                                    <ti-checkout-tool [tool]="tool" [skip]="skip" [take]="take"></ti-checkout-tool>
-                                    <button 
-                                        class="btn btn-outline-primary pull-right mr-2" 
-                                        (click)="openUpdateToolModal(tool._id)">
-                                            <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
-                                    </button>
-                                    <button 
-                                        class="btn btn-outline-primary pull-right mr-2" 
-                                        routerLink="/weed/{{tool._id}}">
-                                            <i class="fa fa-eye mr-2" aria-hidden="true"></i>View
-                                    </button>
-                                    <ti-add-tool-qty [tool]="tool"></ti-add-tool-qty> -->
-                                </th>
+                                <td>{{ product.weight | empty }}</td>
+                                <td>{{ product.idealWeight | empty }}</td>
+                                <td>{{ product.supplierName | empty }}</td>
+                                <td>{{ product.supplierEmail | empty }}</td>
+                                <td>{{ product.supplierPhone | empty }}</td>
+                                <td>{{ product.costPerGram | empty }}</td>
+                                <td>{{ product.costPerEighth | empty }}</td>
+                                <td>{{ product.costPerQuarter | empty }}</td>
+                                <td>{{ product.costPerHalf | empty }}</td>
+                                <td>{{ product.costPerOunce | empty }}</td>
+                                <td>{{ product.costPerQuarterPound | empty }}</td>
                             </tr>
                         </tbody>
                     </table>

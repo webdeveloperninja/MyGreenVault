@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { Observable, BehaviorSubject } from 'rxjs'
 import { Router, ActivatedRoute, Params, Event, NavigationEnd } from '@angular/router';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../shared/services/notification/notification.service';
+import { Product } from 'app/products/models/Product';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
@@ -14,8 +15,8 @@ export const DEFAULT_TAKE: number = 8;
 export class ProductService {
 
     // TODO type product
-    private _productsSubject$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>(null);
-    public readonly products$: Observable<any[]> = this._productsSubject$.asObservable();
+    private _productsSubject$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>(null);
+    public readonly products$: Observable<Product[]> = this._productsSubject$.asObservable();
 
     private _moreToolsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public readonly moreTools$: Observable<boolean> = this._moreToolsSubject$.asObservable();
@@ -73,8 +74,8 @@ export class ProductService {
             url += `&query=${this._toolsQuerySubject$.value}`;
         }
 
-        return this._http.get(url, { headers: headers, withCredentials: true }).map((res: PagedList) => {
-            const products = res.data;
+        return this._http.get(url, { headers: headers, withCredentials: true }).map((res: PagedList<Product>) => {
+            const products = res.data as Product[];
             const moreProducts = res.more;
             const hasPreviousProducts = this._toolsSkipSubject$.value != 0;
 
@@ -90,7 +91,7 @@ export class ProductService {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         return this._http.post('/api/v1/tools/', tool, { headers: headers })
-            .map((res: PagedList) => {
+            .map((res: PagedList<Product>) => {
                 this._moreToolsSubject$.next(res.more);
             })
             .finally(() => {
@@ -102,7 +103,7 @@ export class ProductService {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         return this._http.post('/api/v1/products/', product, {headers: headers})
-            .map((res: PagedList) => {
+            .map((res: PagedList<Product>) => {
                 this._moreProductsSubject$.next(res.more);
             })
             .finally(() => {
@@ -158,9 +159,9 @@ export class ProductService {
     }
 
     public setActivetool(toolId: string): void {
-        let activetool = this.products$.map(tools => tools.filter(tool => tool._id === toolId)[0]).subscribe(activetool => {
-            this._activetoolSubject$.next(activetool);
-        });
+        // let activetool = this.products$.map(tools => tools.filter(tool => tool._id === toolId)[0]).subscribe(activetool => {
+        //     this._activetoolSubject$.next(activetool);
+        // });
     }
 
     public nextPage() {
@@ -211,9 +212,9 @@ export interface Tool {
     _id: string;
 }
 
-export interface PagedList {
+export interface PagedList<T> {
     skip: number,
     take: number,
     more: boolean,
-    data: Tool[]
+    data: T[]
 }
