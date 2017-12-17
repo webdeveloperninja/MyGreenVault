@@ -39,7 +39,7 @@ export class AddProductComponent implements OnInit {
             supplierEmail: [''],
             supplierPhone: [''],
             costPerGram: ['', Validators.required],
-            costPerEigth: ['', Validators.required],
+            costPerEighth: ['', Validators.required],
             costPerQuarter: ['', Validators.required],
             costPerHalf: [''],
             costPerOunce: [''],
@@ -59,7 +59,7 @@ export class AddProductComponent implements OnInit {
             supplierEmail: this.productFormGroup.controls['supplierEmail'].value,
             supplierPhone: this.productFormGroup.controls['supplierPhone'].value,
             costPerGram: this.productFormGroup.controls['costPerGram'].value,
-            costPerEigth: this.productFormGroup.controls['costPerEigth'].value,
+            costPerEighth: this.productFormGroup.controls['costPerEighth'].value,
             costPerQuarter: this.productFormGroup.controls['costPerQuarter'].value,
             costPerHalf: this.productFormGroup.controls['costPerHalf'].value,
             costPerOunce: this.productFormGroup.controls['costPerOunce'].value,
@@ -67,6 +67,9 @@ export class AddProductComponent implements OnInit {
         };
 
         console.log('product', product);
+        this._productService.addProduct(product).first().subscribe((product) => {
+            console.log('product', product);
+        });
         // this._weedService.addTool(product).subscribe((tool) => {
         //     if (1 === 1) {
         //         this.productFormGroup.reset();

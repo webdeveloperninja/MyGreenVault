@@ -7,10 +7,10 @@ const User = require('../../models/User');
 const url = require('url');
 const WeedCheckout = require('../../services/weed');
 const ObjectId = require('mongodb').ObjectID;
-const weedQuery = require('../../models/queries/weed');
+const productQuery = require('../../models/queries/product');
 const asyncMiddleware = require('../../utils/async-middleware');
 
-exports.getWeed = (req, res) => {
+exports.getAll = (req, res) => {
     const userId = req.user._id;
     let url_parts = url.parse(req.url, true);
     let skip = Number(url_parts.query.skip);
@@ -18,7 +18,7 @@ exports.getWeed = (req, res) => {
     let category = url_parts.query.category;
     let query = url_parts.query.query;
 
-    weedQuery.getWeed(userId, skip, take, query).then(weed => {
+    productQuery.getPagedProducts(userId, skip, take, query).then(weed => {
         res.send(weed)
     }).catch(error => {
         res.send(500);
@@ -27,16 +27,16 @@ exports.getWeed = (req, res) => {
 };
 
 
-exports.addWeed = (req, res) => {
+exports.add = (req, res) => {
     const userId = req.user.id;
-    let weed = req.body;
+    let product = req.body;
 
-    const weedWithUserId = Object.assign({
+    const productWithUserId = Object.assign({
         userId: ObjectId(userId)
-    }, tool);
+    }, product);
 
-    weedQuery.addWeed(weedWithUserId).then(data => { 
-        res.send(data._doc);
+    productQuery.add(productWithUserId).then(newProduct => { 
+        res.send(newProduct._doc);
     }).catch(error => {
         res.send(500);
         throw new Error(error);
@@ -44,14 +44,14 @@ exports.addWeed = (req, res) => {
  
 }
 
-exports.updateWeed = (req, res) => {
+exports.update = (req, res) => {
     const weed = req.body;
     
     if (!weed.userId) {
         weed.userId = req.user._id;
     }
 
-    weedQuery.updateWeed(weed).then(data => {
+    productQuery.updateWeed(weed).then(data => {
         res.send(200);
     }).catch(err => {
         res.send(500);
@@ -59,10 +59,10 @@ exports.updateWeed = (req, res) => {
     });
 }
 
-exports.removeWeed = (req, res) => {
+exports.remove = (req, res) => {
     const weed = req.body;
 
-    weedQuery.removeWeed(weed).then(data => {
+    productQuery.removeWeed(weed).then(data => {
         res.send(200);
     }).catch(err => {
         res.send(500);

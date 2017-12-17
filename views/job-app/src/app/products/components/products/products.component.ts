@@ -7,6 +7,7 @@ import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/
 import { HeaderService } from 'app/shared/services/header/header.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { alert } from 'app/shared/components/alert/alert.component';
+import { Product } from 'app/products/models/Product';
 
 const REMOVE_TOOL_SUCCESS_MESSAGE: string = 'Successfully Removed Tool';
 const MODAL_SIZE = 'lg';
@@ -42,9 +43,10 @@ export class ProductsComponent implements OnInit {
     private _updateToolModalRef: NgbModalRef;
 
     updateToolModal: any;
-    tools$: Observable<Tool[]> = this._productService.tools$.do(tools => {
-        if (tools) {
-            if (tools.length > 0) {
+    // TODO strongly type product
+    products$: Observable<Product[]> = this._productService.products$.do(products => {
+        if (products) {
+            if (products.length > 0) {
                 this.hasProducts = true;
             } else {
                 this.hasProducts = false;
@@ -57,7 +59,7 @@ export class ProductsComponent implements OnInit {
     isProductsLoading$: Observable<boolean> = this._productService.isProductsLoading$;
     moreTools$: Observable<boolean> = this._productService.moreTools$; 
     activeTool$: Observable<Tool> = this._productService.activetool$;
-    hasPreviousTools$: Observable<boolean> = this._productService.hasPreviousTools$;
+    hasPreviousTools$: Observable<boolean> = this._productService.hasPreviousProducts$;
 
 
     constructor(
@@ -71,6 +73,7 @@ export class ProductsComponent implements OnInit {
 
     ngOnInit() {
         this._headerService.setHeaderText(PAGE_TITLE);
+        this._productService.doSearch()
         window.scrollTo(0, 0);
     }
 
@@ -103,7 +106,7 @@ export class ProductsComponent implements OnInit {
     removeTool(tool) {
         this._productService.removeTool(tool).first().subscribe(() => {
             this._notificationService.setNotificationOn(REMOVE_TOOL_SUCCESS_MESSAGE);
-            this.tools$.first().subscribe(tools => {
+            this.products$.first().subscribe(tools => {
                 if ((tools.length - 1) == 0) {
                     this.previousPage();
                 }

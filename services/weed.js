@@ -1,6 +1,6 @@
 const User = require('../models/User');
 const ObjectId = require('mongodb').ObjectID;
-const weedQueries = require('../models/queries/weed');
+const weedQueries = require('../models/queries/product');
 const operatorQueries = require('../models/queries/operator');
 const jobQueries = require('../models/queries/job');
 

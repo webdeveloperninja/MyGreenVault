@@ -13,14 +13,18 @@ export const DEFAULT_TAKE: number = 8;
 @Injectable()
 export class ProductService {
 
-    private _toolsSubject$: BehaviorSubject<Tool[]> = new BehaviorSubject<Tool[]>(null);
-    public readonly tools$: Observable<Tool[]> = this._toolsSubject$.asObservable();
+    // TODO type product
+    private _productsSubject$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>(null);
+    public readonly products$: Observable<any[]> = this._productsSubject$.asObservable();
 
     private _moreToolsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public readonly moreTools$: Observable<boolean> = this._moreToolsSubject$.asObservable();
 
-    private _hasPreviousToolsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    public readonly hasPreviousTools$: Observable<boolean> = this._hasPreviousToolsSubject$.asObservable();
+    private _moreProductsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public readonly moreProducts$: Observable<boolean> = this._moreProductsSubject$.asObservable();
+
+    private _hasPreviousProductsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public readonly hasPreviousProducts$: Observable<boolean> = this._hasPreviousProductsSubject$.asObservable();
 
     private _toolsSkipSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
     public readonly toolsSkip$: Observable<number> = this._toolsSkipSubject$.asObservable();
@@ -54,44 +58,56 @@ export class ProductService {
             this._toolsSkipSubject$.next(this._route.snapshot.queryParams["skip"]);
             this._toolsTakeSubject$.next(this._route.snapshot.queryParams["take"]);
             this._toolsQuerySubject$.next(this._route.snapshot.queryParams['query'] || null);
-            this.getTools().first().subscribe(data => {
+            this.getProducts().first().subscribe(data => {
                 this._isProductsLoadingSubject$.next(false);
             });
         }
     }
 
-    private getTools() {
+    private getProducts() {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        let url = `/api/v1/tools?skip=${this._toolsSkipSubject$.value}&take=${this._toolsTakeSubject$.value}`;
+        let url = `/api/v1/products?skip=${this._toolsSkipSubject$.value}&take=${this._toolsTakeSubject$.value}`;
 
         if (this._toolsQuerySubject$.value) {
             url += `&query=${this._toolsQuerySubject$.value}`;
         }
 
         return this._http.get(url, { headers: headers, withCredentials: true }).map((res: PagedList) => {
-            const tools = res.data;
-            const moreTools = res.more;
-            const hasPreviousTools = this._toolsSkipSubject$.value != 0;
+            const products = res.data;
+            const moreProducts = res.more;
+            const hasPreviousProducts = this._toolsSkipSubject$.value != 0;
 
-            this._toolsSubject$.next(tools);
-            this._moreToolsSubject$.next(moreTools);
-            this._hasPreviousToolsSubject$.next(hasPreviousTools);
+            this._productsSubject$.next(products);
+            this._moreProductsSubject$.next(moreProducts);
+            this._hasPreviousProductsSubject$.next(hasPreviousProducts);
 
-            return tools;
+            return products;
         });
     }
 
     public addTool(tool) {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        return this._http.post('/api/v1/tools/', tool, { headers: headers }) // ...using post request
+        return this._http.post('/api/v1/tools/', tool, { headers: headers })
             .map((res: PagedList) => {
                 this._moreToolsSubject$.next(res.more);
             })
             .finally(() => {
                 this.doSearch();
             })
+    }
+
+    public addProduct(product) {
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+        return this._http.post('/api/v1/products/', product, {headers: headers})
+            .map((res: PagedList) => {
+                this._moreProductsSubject$.next(res.more);
+            })
+            .finally(() => {
+                this.doSearch();
+            });
     }
 
 
@@ -124,7 +140,7 @@ export class ProductService {
         this._isProductsLoadingSubject$.next(true);
         return this._http.post('/api/v1/tools/remove', tool, { headers: headers })
             .map((res: Response) => {
-                if (this._toolsSubject$.value.length === 0) {
+                if (this._productsSubject$.value.length === 0) {
                     this.previousPage();
                 } else {
                     this.doSearch();
@@ -142,7 +158,7 @@ export class ProductService {
     }
 
     public setActivetool(toolId: string): void {
-        let activetool = this.tools$.map(tools => tools.filter(tool => tool._id === toolId)[0]).subscribe(activetool => {
+        let activetool = this.products$.map(tools => tools.filter(tool => tool._id === toolId)[0]).subscribe(activetool => {
             this._activetoolSubject$.next(activetool);
         });
     }

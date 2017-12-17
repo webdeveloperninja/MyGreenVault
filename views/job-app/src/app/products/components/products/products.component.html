@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12" *ngIf="!(tools$ | async)?.length === false">
+                <div class="col-md-12" *ngIf="!(products$ | async)?.length === false">
                     <table class="table table-responsive table-striped ti-table">
                         <thead class="ti-table-header">
                             <tr>
@@ -23,17 +23,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let tool of tools$ | async">
-                                <td>{{ tool.toolName | empty }}</td>
-                                <td>{{ tool.qty | empty }}</td>
+                            <tr *ngFor="let product of products$ | async">
+                                <td>{{ product.name | empty }}</td>
+                                <!-- <td>{{ tool.qty | empty }}</td>
                                 <td>{{ tool.idealAmount | empty }}</td>
-                                <td>{{ tool.toolCost | currency:'USD':true | empty }}</td>
+                                <td>{{ tool.toolCost | currency:'USD':true | empty }}</td> -->
                                 <td>
                                     <!-- <ti-tool-qty-status [toolQty]="tool.qty" [idealToolQty]="tool.idealAmount">
                                     </ti-tool-qty-status> -->
                                 </td>
                                 <th scope="row">
-                                    <button 
+                                    <!-- <button 
                                         class="btn btn-outline-danger pull-right" 
                                         mwlConfirmationPopover
                                         [title]="title"
@@ -54,7 +54,7 @@
                                         routerLink="/weed/{{tool._id}}">
                                             <i class="fa fa-eye mr-2" aria-hidden="true"></i>View
                                     </button>
-                                    <ti-add-tool-qty [tool]="tool"></ti-add-tool-qty>
+                                    <ti-add-tool-qty [tool]="tool"></ti-add-tool-qty> -->
                                 </th>
                             </tr>
                         </tbody>
