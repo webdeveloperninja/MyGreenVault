@@ -45,13 +45,13 @@ exports.add = (req, res) => {
 }
 
 exports.update = (req, res) => {
-    const weed = req.body;
+    const product = req.body;
     
-    if (!weed.userId) {
-        weed.userId = req.user._id;
+    if (!product.userId) {
+        product.userId = req.user._id;
     }
 
-    productQuery.updateWeed(weed).then(data => {
+    productQuery.updateProduct(product).then(data => {
         res.send(200);
     }).catch(err => {
         res.send(500);

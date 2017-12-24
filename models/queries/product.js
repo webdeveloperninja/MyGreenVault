@@ -62,16 +62,16 @@ let getPagedProducts = exports.getPagedProducts = (userId, skip, take, query = n
     });
 }
 
-// let updateWeed = exports.updateWeed = (updatedWeed) => {
-//     return new Promise((resolve, reject) => {
-//         Weed.findOneAndUpdate({
-//             _id: ObjectId(updatedWeed._id),
-//             userId: ObjectId(updatedWeed.userId)
-//         }, updatedWeed).exec(err => {
-//             if (err) {
-//                 reject(err);
-//             }
-//             resolve('successfully updated weed');
-//         })
-//     });
-// }
+let updateProduct = exports.updateProduct = (updatedProduct) => {
+    return new Promise((resolve, reject) => {
+        Product.findOneAndUpdate({
+            _id: ObjectId(updatedProduct._id),
+            userId: ObjectId(updatedProduct.userId)
+        }, updatedProduct).exec(err => {
+            if (err) {
+                reject(err);
+            }
+            resolve('successfully updated weed');
+        })
+    });
+}

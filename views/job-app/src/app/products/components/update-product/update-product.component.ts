@@ -50,15 +50,16 @@ export class UpdateProductComponent implements OnInit {
                 costPerHalf: [this.activeProduct.costPerHalf],
                 costPerOunce: [this.activeProduct.costPerOunce],
                 costPerQuarterPound: [this.activeProduct.costPerQuarterPound],
+                _id: [this.activeProduct._id]
             }
         );
         return group;
     }
 
     updateProduct() {
-        // this._productService.updateProduct(activeProduct.value).first().subscribe(data => {
-        //     this.closeModal();
-        // });
+        this._productService.updateProduct(this.activeProductForm.value).first().subscribe(data => {
+            this.closeModal();
+        });
     }
 
     closeModal() {
