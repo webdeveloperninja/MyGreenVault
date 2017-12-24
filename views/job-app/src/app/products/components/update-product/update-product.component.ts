@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { ProductService, Tool } from '../../services/product';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription, Subject } from 'rxjs';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
+import { Product } from 'app/products/models/Product';
 
 
 @Component({
@@ -11,30 +12,17 @@ import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/
     styleUrls: ['./update-product.component.scss']
 })
 export class UpdateProductComponent implements OnInit {
-
-    activetoolFormGroup: FormGroup;
+    activeProductForm: FormGroup;
+    showMoreFields: boolean = false;
+    showMoreFieldsText: string = 'show more';
 
     @Input('skip') skip: number;
     @Input('take') take: number;
+    @Input() activeProduct: Product;
+        
+    @Output('closeUpdateModal') closeUpdateModal: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output('isLoading') isLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-    @Output('closeUpdateModal')
-    closeUpdateModal: EventEmitter<boolean> = new EventEmitter<boolean>();
-
-    @Output('isLoading')
-    isLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
-
-    activetoolSubscription$: Subscription;
-
-    private _activetool: any;
-    get activetool(): any {
-        return this._activetool;
-    }
-    @Input('activeTool')
-    set activetool(activetool: any) {
-        activetool.subscribe(activetool => {
-            this._activetool = activetool;
-        })
-    }
 
     constructor(
         private _fb: FormBuilder,
@@ -43,34 +31,48 @@ export class UpdateProductComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.activetoolFormGroup = this.createGroup();
-    }
-
-    ngOnDestroy() {
-        if (this.activetoolSubscription$)
-            this.activetoolSubscription$.unsubscribe()
+        this.activeProductForm = this.createGroup();
     }
 
     createGroup() {
-        const group = this._fb.group({
-            toolName: [this.activetool.toolName, Validators.required],
-            qty: [this.activetool.qty, Validators.required],
-            idealAmount: [this.activetool.idealAmount, Validators.required],
-            autoOrderQty: [this.activetool.autoOrderQty, Validators.required],
-            toolCost: [this.activetool.toolCost, Validators.required],
-            _id: [this.activetool._id, Validators.required]
-        });
+        const group = this._fb.group(
+            {
+                name: [this.activeProduct.name, Validators.required],
+                weight: [this.activeProduct.weight, Validators.required],
+                idealWeight: [this.activeProduct.idealWeight, Validators.required],
+                autoOrderWeight: [this.activeProduct.autoOrderWeight],
+                supplierName: [this.activeProduct.supplierName],
+                supplierEmail: [this.activeProduct.supplierEmail],
+                supplierPhone: [this.activeProduct.supplierPhone],
+                costPerGram: [this.activeProduct.costPerGram, Validators.required],
+                costPerEighth: [this.activeProduct.costPerEighth, Validators.required],
+                costPerQuarter: [this.activeProduct.costPerQuarter, Validators.required],
+                costPerHalf: [this.activeProduct.costPerHalf],
+                costPerOunce: [this.activeProduct.costPerOunce],
+                costPerQuarterPound: [this.activeProduct.costPerQuarterPound],
+            }
+        );
         return group;
     }
 
-    updatetool(activetool) {
-        this.activetoolSubscription$ = this._productService.updateProduct(activetool.value).first().subscribe(data => {
-            this.closeModal();
-        });
+    updateProduct() {
+        // this._productService.updateProduct(activeProduct.value).first().subscribe(data => {
+        //     this.closeModal();
+        // });
     }
 
     closeModal() {
         this.closeUpdateModal.emit(true);
+    }
+
+    toggleShowMoreFields() {
+        if (this.showMoreFields) {
+            this.showMoreFields = false;
+            this.showMoreFieldsText = 'show more';
+        } else {
+            this.showMoreFields = true;
+            this.showMoreFieldsText = 'show less';
+        }
     }
 
 }

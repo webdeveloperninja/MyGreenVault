@@ -36,8 +36,8 @@ export class ProductService {
     private _toolsQuerySubject$: BehaviorSubject<string> = new BehaviorSubject<string>('');
     public readonly toolsQuery$: Observable<string> = this._toolsQuerySubject$.asObservable();
 
-    private _activeProductSubject$: BehaviorSubject<Tool> = new BehaviorSubject<Tool>(null);
-    public readonly activeProduct$: Observable<Tool> = this._activeProductSubject$.asObservable();
+    private _activeProductSubject$: BehaviorSubject<Product> = new BehaviorSubject<Product>(null);
+    public readonly activeProduct$: Observable<Product> = this._activeProductSubject$.asObservable();
 
 
     constructor(
@@ -141,10 +141,10 @@ export class ProductService {
             });
     }
 
-    public setActiveProduct(toolId: string): void {
-        // let activetool = this.products$.map(tools => tools.filter(tool => tool._id === toolId)[0]).subscribe(activetool => {
-        //     this._activetoolSubject$.next(activetool);
-        // });
+    public setActiveProduct(productId: string): void {
+        this.products$.map(products => products.filter(product => product._id === productId)[0]).subscribe((activeProduct: Product) => {
+            this._activeProductSubject$.next(activeProduct);
+        });
     }
 
     public nextPage() {

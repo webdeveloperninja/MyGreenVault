@@ -128,7 +128,7 @@
             <ti-alert [status]="alert.info" message="There are no products" [showAlert]="!hasProducts" [isLoading]="isProductsLoading$ | async">
             </ti-alert>
             <ng-template #updateProductRef let-c="close" let-d="dismiss">
-                <ti-update-product [activeTool]="activeProduct$" (closeUpdateModal)="closeUpdateToolModal($event)" (isLoading)="isTiUpdateToolLoading($event)"
+                <ti-update-product [activeProduct]="activeProduct$ | async" (closeUpdateModal)="closeUpdateToolModal($event)" (isLoading)="isTiUpdateToolLoading($event)"
                     [skip]="skip" [take]="take">
                 </ti-update-product>
             </ng-template>

@@ -12,4 +12,5 @@ export class Product {
     costPerQuarter: number;
     costPerQuarterPound: number;
     idealWeight: number;
+    _id: string;
 }

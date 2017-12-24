@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ProductService, PagedList, Tool } from '../../services/product';
+import { ProductService, PagedList } from '../../services/product';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -35,7 +35,7 @@ export class ProductsComponent implements OnInit {
     private take: number;
 
     isProductsLoading$: Observable<boolean> = this._productService.isProductsLoading$;
-    activeProduct$: Observable<Tool> = this._productService.activeProduct$;
+    activeProduct$: Observable<Product> = this._productService.activeProduct$;
     hasPreviousProducts$: Observable<boolean> = this._productService.hasPreviousProducts$;
     hasMoreProducts$: Observable<boolean> = this._productService.hasMoreProducts$;
 
