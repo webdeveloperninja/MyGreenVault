@@ -33,7 +33,7 @@ export class AddWeedQtyComponent implements OnInit {
         this.isAddToolQtyLoading = true;
         this.tool.qty += Number(this.addToolQtyForm.controls['qtyToAdd'].value)
 
-        this._productService.updateTool(this.tool).subscribe(() => {
+        this._productService.updateProduct(this.tool).subscribe(() => {
             this._notificationService.setNotificationOn('successfully added tools')
             this.qtyToAdd = null;
             Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {

@@ -18,9 +18,6 @@ export class ProductService {
     private _productsSubject$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>(null);
     public readonly products$: Observable<Product[]> = this._productsSubject$.asObservable();
 
-    private _moreToolsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    public readonly moreTools$: Observable<boolean> = this._moreToolsSubject$.asObservable();
-
     private _hasMoreProductsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public readonly hasMoreProducts$: Observable<boolean> = this._hasMoreProductsSubject$.asObservable();
 
@@ -39,8 +36,8 @@ export class ProductService {
     private _toolsQuerySubject$: BehaviorSubject<string> = new BehaviorSubject<string>('');
     public readonly toolsQuery$: Observable<string> = this._toolsQuerySubject$.asObservable();
 
-    private _activetoolSubject$: BehaviorSubject<Tool> = new BehaviorSubject<Tool>(null);
-    public readonly activetool$: Observable<Tool> = this._activetoolSubject$.asObservable();
+    private _activeProductSubject$: BehaviorSubject<Tool> = new BehaviorSubject<Tool>(null);
+    public readonly activeProduct$: Observable<Tool> = this._activeProductSubject$.asObservable();
 
 
     constructor(
@@ -48,9 +45,7 @@ export class ProductService {
         private _route: ActivatedRoute,
         private _router: Router,
         private _notificationService: NotificationService) {
-        // todo un comment when get weed api route done
-        // _router.events.filter(event => event instanceof NavigationEnd).subscribe(event => this.doSearch());
-
+            _router.events.filter(event => event instanceof NavigationEnd).subscribe(event => this.doSearch());
     }
 
     public doSearch() {
@@ -87,18 +82,6 @@ export class ProductService {
         });
     }
 
-    public addTool(tool) {
-        let headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-        return this._http.post('/api/v1/tools/', tool, { headers: headers })
-            .map((res: PagedList<Product>) => {
-                this._moreToolsSubject$.next(res.more);
-            })
-            .finally(() => {
-                this.doSearch();
-            })
-    }
-
     public addProduct(product) {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
@@ -112,10 +95,10 @@ export class ProductService {
     }
 
 
-    public updateTool(tool) {
+    public updateProduct(product) {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        return this._http.put('/api/v1/tools', tool, { headers: headers })
+        return this._http.put('/api/v1/products', product, { headers: headers })
             .map((res: Response) => {
                 this.doSearch();
                 return res;
@@ -135,11 +118,11 @@ export class ProductService {
             });
     }
 
-    public removeTool(tool) {
+    public removeProduct(product) {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         this._isProductsLoadingSubject$.next(true);
-        return this._http.post('/api/v1/tools/remove', tool, { headers: headers })
+        return this._http.post('/api/v1/products/remove', product, { headers: headers })
             .map((res: Response) => {
                 if (this._productsSubject$.value.length === 0) {
                     this.previousPage();
@@ -158,7 +141,7 @@ export class ProductService {
             });
     }
 
-    public setActivetool(toolId: string): void {
+    public setActiveProduct(toolId: string): void {
         // let activetool = this.products$.map(tools => tools.filter(tool => tool._id === toolId)[0]).subscribe(activetool => {
         //     this._activetoolSubject$.next(activetool);
         // });
@@ -166,30 +149,30 @@ export class ProductService {
 
     public nextPage() {
         this._router.navigate([`/products`],
+        {
+            queryParams:
             {
-                queryParams:
-                    {
-                        skip: (Number(this._toolsSkipSubject$.value) + Number(this._toolsTakeSubject$.value)),
-                        take: Number(this._toolsTakeSubject$.value),
-                        query: this._toolsQuerySubject$.value
-                    }
-            });
+                skip: (Number(this._toolsSkipSubject$.value) + Number(this._toolsTakeSubject$.value)),
+                take: Number(this._toolsTakeSubject$.value),
+                query: this._toolsQuerySubject$.value
+            }
+        });
     }
-
-    public previousPage() {
-        if (Number(this._toolsSkipSubject$.value) >= Number(this._toolsTakeSubject$.value)) {
-            this._router.navigate([`/weed`],
-                {
-                    queryParams:
-                        {
-                            skip: (Number(this._toolsSkipSubject$.value) - Number(this._toolsTakeSubject$.value)),
-                            take: Number(this._toolsTakeSubject$.value),
-                            query: this._toolsQuerySubject$.value
-                        }
-                });
+    
+        public previousPage() {
+            if (Number(this._toolsSkipSubject$.value) >= Number(this._toolsTakeSubject$.value)) {
+            this._router.navigate([`/products`],
+            {
+                        queryParams:
+                            {
+                                skip: (Number(this._toolsSkipSubject$.value) - Number(this._toolsTakeSubject$.value)),
+                                take: Number(this._toolsTakeSubject$.value),
+                                query: this._toolsQuerySubject$.value
+                            }
+                    });
+            }
         }
-    }
-
+    
     public setNotification(message) {
         this._notificationService.setNotificationOn(message);
         Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {

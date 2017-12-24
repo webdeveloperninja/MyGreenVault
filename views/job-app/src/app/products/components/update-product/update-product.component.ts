@@ -6,11 +6,11 @@ import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/
 
 
 @Component({
-    selector: 'ti-update-tool',
-    templateUrl: './update-weed.component.html',
-    styleUrls: ['./update-weed.component.scss']
+    selector: 'ti-update-product',
+    templateUrl: './update-product.component.html',
+    styleUrls: ['./update-product.component.scss']
 })
-export class UpdateWeedComponent implements OnInit {
+export class UpdateProductComponent implements OnInit {
 
     activetoolFormGroup: FormGroup;
 
@@ -64,7 +64,7 @@ export class UpdateWeedComponent implements OnInit {
     }
 
     updatetool(activetool) {
-        this.activetoolSubscription$ = this._productService.updateTool(activetool.value).first().subscribe(data => {
+        this.activetoolSubscription$ = this._productService.updateProduct(activetool.value).first().subscribe(data => {
             this.closeModal();
         });
     }

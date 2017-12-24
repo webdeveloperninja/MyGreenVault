@@ -7,7 +7,7 @@ import { ProductsComponent } from './components/products/products.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ProductService } from './services/product';
 import { ActiveWeedService } from './services/active-weed';
-import { UpdateWeedComponent } from './components/update-weed/update-weed.component';
+import { UpdateProductComponent } from './components/update-product/update-product.component';
 
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -31,7 +31,7 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
     declarations: [
         ProductsComponent,
         AddProductComponent,
-        UpdateWeedComponent,
+        UpdateProductComponent,
         AddWeedQtyComponent,
         CheckoutWeedComponent,
         // WeedQtyStatusComponent,
@@ -44,7 +44,7 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
     exports: [
         ProductsComponent,
         AddProductComponent,
-        UpdateWeedComponent
+        UpdateProductComponent
     ]
 })
 export class ProductsModule {}

@@ -21,32 +21,33 @@ const PAGE_TITLE: string = 'Products';
 })
 export class ProductsComponent implements OnInit {
 
-    // move messages to standard place 
-    public title: string = 'Remove Tool';
-    public message: string = 'Are you sure you want to remove tool: ';
-
+    public title: string = 'Remove Product';
+    public message: string = 'Are you sure you want to remove product: ';
 
     public confirmClicked: boolean = false;
     public cancelClicked: boolean = false;
 
-    getConfirmationMessage(toolName: string): string {
-        return `${this.message} ${toolName}?`;
-    }
-
     hasProducts: boolean = false;
-
     alert = alert;
+    updateToolModal: any;
 
     private skip: number;
     private take: number;
+
+    isProductsLoading$: Observable<boolean> = this._productService.isProductsLoading$;
+    activeProduct$: Observable<Tool> = this._productService.activeProduct$;
+    hasPreviousProducts$: Observable<boolean> = this._productService.hasPreviousProducts$;
+    hasMoreProducts$: Observable<boolean> = this._productService.hasMoreProducts$;
+
+    getConfirmationMessage(productName: string): string {
+        return `${ this.message } ${ productName }?`;
+    }
 
     @ViewChild('updateProductRef') updateProductRef: ElementRef;
     @ViewChild('addProductRef') addProductRef: ElementRef;
 
     private _addToolModalRef: NgbModalRef;
     private _updateToolModalRef: NgbModalRef;
-
-    updateToolModal: any;
 
     products$: Observable<Product[]> = this._productService.products$.do(products => {
         if (products) {
@@ -60,14 +61,6 @@ export class ProductsComponent implements OnInit {
         }
     });
 
-    isProductsLoading$: Observable<boolean> = this._productService.isProductsLoading$;
-    moreTools$: Observable<boolean> = this._productService.moreTools$; 
-    activeTool$: Observable<Tool> = this._productService.activetool$;
-
-    hasPreviousProducts$: Observable<boolean> = this._productService.hasPreviousProducts$;
-    hasMoreProducts$: Observable<boolean> = this._productService.hasMoreProducts$;
-
-
     constructor(
         private _productService: ProductService,
         private _modalService: NgbModal,
@@ -80,9 +73,18 @@ export class ProductsComponent implements OnInit {
     ngOnInit() {
         this._headerService.setHeaderText(PAGE_TITLE);
         this._productService.doSearch()
-        window.scrollTo(0, 0);
     }
 
+    removeProduct(product: Product) {
+        this._productService.removeProduct(product).first().subscribe(() => {
+            this._notificationService.setNotificationOn(REMOVE_TOOL_SUCCESS_MESSAGE);
+            this.products$.first().subscribe(products => {
+                if ((products.length - 1) == 0) {
+                    this.previousPage();
+                }
+            });
+        });
+    }
 
     nextPage() {
         this._productService.nextPage();
@@ -92,8 +94,8 @@ export class ProductsComponent implements OnInit {
         this._productService.previousPage();
     }
 
-    openUpdateToolModal(toolId) {
-        this._productService.setActivetool(toolId);
+    openUpdateToolModal(productId) {
+        this._productService.setActiveProduct(productId);
         this._updateToolModalRef = this._modalService.open(this.updateProductRef, { size: MODAL_SIZE });
     }
 
@@ -109,15 +111,19 @@ export class ProductsComponent implements OnInit {
         this._addToolModalRef = this._modalService.open(this.addProductRef, { size: MODAL_SIZE });
     }
 
-    removeTool(tool) {
-        this._productService.removeTool(tool).first().subscribe(() => {
+    removeTool(product: Product) {
+        this._productService.removeProduct(product).first().subscribe(() => {
             this._notificationService.setNotificationOn(REMOVE_TOOL_SUCCESS_MESSAGE);
-            this.products$.first().subscribe(tools => {
-                if ((tools.length - 1) == 0) {
+            this.products$.first().subscribe(products => {
+                if ((products.length - 1) == 0) {
                     this.previousPage();
                 }
             });
         });
+    }
+
+    stopPropagation(event) {
+        event.stopPropagation();
     }
 
 }

@@ -14,19 +14,19 @@ let add = exports.add = (product) => {
     });
 }
 
-// let removeWeed = exports.removeWeed = (weed) => {
-//     return new Promise((resolve, reject) => {
-//         Weed.find({
-//             _id: ObjectId(weed._id),
-//             userId: weed.userId
-//         }).remove().exec((err, result) => {
-//             if (err) {
-//                 reject(err);
-//             }
-//             resolve(result);
-//         });
-//     });
-// }
+let removeProduct = exports.removeProduct = (product) => {
+    return new Promise((resolve, reject) => {
+        Product.find({
+            _id: ObjectId(product._id),
+            userId: product.userId
+        }).remove().exec((err, result) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(result);
+        });
+    });
+}
 
 let getPagedProducts = exports.getPagedProducts = (userId, skip, take, query = null) => {
     return new Promise((resolve, reject) => {

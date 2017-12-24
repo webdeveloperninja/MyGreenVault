@@ -1,11 +1,66 @@
 <div class="row">
     <div class="col">
         <div class="card-box">
-             <ti-loading [isLoading]="isToolsLoading$ | async"></ti-loading>
+            <ti-loading [isLoading]="isToolsLoading$ | async"></ti-loading>
             <div class="row mt-3">
-                <div class="col-md-12">
+                <div class="col-md-12 d-flex justify-content-between">
+                    <div ngbDropdown class="d-inline-block display-options">
+                        <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Display</button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1" (click)="stopPropagation($event)">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label class="d-flex align-items-center justify-content-between">
+                                            Weight
+                                            <input type="checkbox">
+                                        </label>
+                                        <label class="d-flex align-items-center justify-content-between">
+                                            Ideal Weight
+                                            <input type="checkbox">
+                                        </label>
+                                        <label class="d-flex align-items-center justify-content-between">
+                                            Supplier Name
+                                            <input type="checkbox">
+                                        </label>
+                                        <label class="d-flex align-items-center justify-content-between">
+                                            Supplier Email
+                                            <input type="checkbox">
+                                        </label>
+                                        <label class="d-flex align-items-center justify-content-between">
+                                            Supplier Phone
+                                            <input type="checkbox">
+                                        </label>
+                                        <label class="d-flex align-items-center justify-content-between">
+                                            Cost per gram
+                                            <input type="checkbox">
+                                        </label>
+                                        <label class="d-flex align-items-center justify-content-between">
+                                            Cost per eighth
+                                            <input type="checkbox">
+                                        </label>
+                                        <label class="d-flex align-items-center justify-content-between">
+                                            Cost per quarter
+                                            <input type="checkbox">
+                                        </label>
+                                        <label class="d-flex align-items-center justify-content-between">
+                                            Cost per half
+                                            <input type="checkbox">
+                                        </label>
+                                        <label class="d-flex align-items-center justify-content-between">
+                                            Cost per ounce
+                                            <input type="checkbox">
+                                        </label>
+                                        <label class="d-flex align-items-center justify-content-between">
+                                            Cost per quarter pound
+                                            <input type="checkbox">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <button class="btn btn-outline-primary mb-2 pull-right" (click)="addProduct()">
-                            <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Product
+                        <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Product
                     </button>
                 </div>
             </div>
@@ -26,6 +81,7 @@
                                 <th>Cost Per Half</th>
                                 <th>Cost Per Ounce</th>
                                 <th>Cost Per Quarter Pound</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,6 +98,16 @@
                                 <td>{{ product.costPerHalf | empty }}</td>
                                 <td>{{ product.costPerOunce | empty }}</td>
                                 <td>{{ product.costPerQuarterPound | empty }}</td>
+                                <td>
+                                    <button class="btn btn-outline-danger pull-right" mwlConfirmationPopover [title]="title" [message]="getConfirmationMessage(product.name)"
+                                        placement="left" (confirm)="removeProduct(product)" (cancel)="cancelClicked = true">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                    <button (click)="openUpdateToolModal(product._id)" class="btn btn-outline-primary pull-right mr-2">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        Edit
+                                    </button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -50,25 +116,21 @@
                         </div>
                         <div class="col-6">
                             <button (click)="nextPage()" class="btn btn-outline-primary next pull-right" [disabled]="!(hasMoreProducts$ | async)">
-                                            Next Page
-                                    </button>
+                                Next Page
+                            </button>
                             <button (click)="previousPage()" class="btn btn-outline-primary pull-right mr-2" [disabled]="!(hasPreviousProducts$ | async)">
-                                        Previous Page
-                                </button>
+                                Previous Page
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <ti-alert
-                [status]="alert.info"
-                message="There are no products"
-                [showAlert]="!hasProducts"
-                [isLoading]="isProductsLoading$ | async">
+            <ti-alert [status]="alert.info" message="There are no products" [showAlert]="!hasProducts" [isLoading]="isProductsLoading$ | async">
             </ti-alert>
             <ng-template #updateProductRef let-c="close" let-d="dismiss">
-                <ti-update-tool [activeTool]="activeTool$" (closeUpdateModal)="closeUpdateToolModal($event)" (isLoading)="isTiUpdateToolLoading($event)"
+                <ti-update-product [activeTool]="activeProduct$" (closeUpdateModal)="closeUpdateToolModal($event)" (isLoading)="isTiUpdateToolLoading($event)"
                     [skip]="skip" [take]="take">
-                </ti-update-tool>
+                </ti-update-product>
             </ng-template>
             <ng-template #addProductRef let-c="close" let-d="dismiss">
                 <add-product (closeAddToolModal)="closeAddProductModal($event)" (isAddProductLoading)="setIsAddProductLoading($event)" [skip]="skip"

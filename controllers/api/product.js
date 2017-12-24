@@ -60,9 +60,9 @@ exports.update = (req, res) => {
 }
 
 exports.remove = (req, res) => {
-    const weed = req.body;
+    const product = req.body;
 
-    productQuery.removeWeed(weed).then(data => {
+    productQuery.removeProduct(product).then(data => {
         res.send(200);
     }).catch(err => {
         res.send(500);
