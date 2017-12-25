@@ -1,0 +1,87 @@
+<div class="row">
+    <div class="col">
+        <div class="card-box">
+            <ti-loading [isLoading]="isJobsLoading$ | async"></ti-loading>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <button class="btn btn-outline-primary mb-2 pull-right" (click)="addJob()">
+                            <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Job
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" *ngIf="!(jobs$ | async)?.length === false">
+                    <table class="table table-striped ti-table">
+                        <thead class="ti-table-header">
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Job Name</th>
+                                <th>Job Number</th>
+                                <th class="w-25">Job Description</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let job of jobs$ | async">
+                                <td>
+                                    {{ job.companyName | empty }}
+                                </td>
+                                <td>{{ job.jobName | empty }}</td>
+                                <td>{{ job.jobNumber | empty }}</td>
+                                <td>{{ job.jobDescription | empty }}</td>
+                                <td>
+                                    <ti-job-status-chip [jobStatus]="job.jobStatus">
+                                    </ti-job-status-chip>
+                                </td>
+                                <td>
+                                    <button 
+                                        class="btn btn-outline-danger pull-right" 
+                                        mwlConfirmationPopover
+                                        [title]="title"
+                                        [message]="getConfirmationMessage(job.jobName)"
+                                        placement="left"
+                                        (confirm)="removeJob(job)"
+                                        (cancel)="cancelClicked = true">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                    <button 
+                                        class="btn btn-outline-primary pull-right mr-2" 
+                                        (click)="openUpdateJobModal(job._id)">
+                                            <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
+                                    </button>
+                                    <button 
+                                        class="btn btn-outline-primary pull-right mr-2" 
+                                        routerLink="/jobs/{{job.jobNumber}}">
+                                            <i class="fa fa-eye mr-2" aria-hidden="true"></i>View
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button (click)="nextPage()" class="btn btn-outline-primary next pull-right" [disabled]="!(moreJobs$ | async)">
+                                            Next Page
+                            </button>
+                            <button (click)="previousPage()" class="btn btn-outline-primary pull-right mr-2" [disabled]="isLoading">
+                                            Previous Page
+                                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ti-alert [status]="alert.info" message="There are no jobs" [showAlert]="!hasJobs" [isLoading]="isJobsLoading$ | async">
+            </ti-alert>
+            <ng-template #updateJobRef let-c="close" let-d="dismiss">
+                <ti-update-job [activeJob]="activeJob$" (closeUpdateModal)="closeUpdateJobModal($event)" (isLoading)="isTiUpdateJobLoading($event)"
+                    [skip]="skip" [take]="take">
+                </ti-update-job>
+            </ng-template>
+            <ng-template #addJobRef let-c="close" let-d="dismiss">
+                <add-job (closeAddJobModal)="closeAddJobModal($event)" [skip]="skip" [take]="take">
+                </add-job>
+            </ng-template>
+        </div>
+    </div>
+</div>
