@@ -5,11 +5,11 @@ import { Observable, Subscription, Subject } from 'rxjs';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
-  selector: 'ti-update-job',
-  templateUrl: './update-job.component.html',
-  styleUrls: ['./update-job.component.scss']
+  selector: 'update-plant',
+  templateUrl: './update-plant.component.html',
+  styleUrls: ['./update-plant.component.scss']
 })
-export class UpdateJobComponent implements OnInit {
+export class UpdatePlantComponent implements OnInit {
 
   activeJobFormGroup: FormGroup;
 

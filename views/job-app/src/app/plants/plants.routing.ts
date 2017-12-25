@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { JobsComponent } from './components/jobs/jobs.component';
+import { PlantsComponent } from './components/plants/plants.component';
 import { KanbanComponent } from './components/kanban/kanban.component';
-import { JobDetailComponent } from './components/job-detail/job-detail.component';
+import { PlantDetailComponent } from './components/plant-detail/plant-detail.component';
 
 export const routes: Routes = [
-    { path: 'jobs', component: JobsComponent },
-    // { path: 'jobs/:jobNumber',      component: JobDetailComponent },
+    { path: 'jobs', component: PlantsComponent },
+    { path: 'jobs/:jobNumber',      component: PlantDetailComponent },
     { path: 'kanban', component: KanbanComponent }
 ];

@@ -86,7 +86,7 @@ export class KanbanComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this._headerService.setHeaderText('Plants');
+        this._headerService.setHeaderText('Status');
 
         this.doSearch();
     }

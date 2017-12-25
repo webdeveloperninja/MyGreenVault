@@ -2,11 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Job } from '../../services/jobs';
 
 @Component({
-  selector: 'ti-job-card',
-  templateUrl: './job-card.component.html',
-  styleUrls: ['./job-card.component.scss']
+  selector: 'plant-card',
+  templateUrl: './plant-card.component.html',
+  styleUrls: ['./plant-card.component.scss']
 })
-export class JobCardComponent implements OnInit {
+export class PlantCardComponent implements OnInit {
   @Input() job: Job;
   @Input() status: string; 
 

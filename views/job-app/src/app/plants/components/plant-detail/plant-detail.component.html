@@ -1,0 +1,141 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card-box detail-card">
+                            <i class='fa fa-spinner fa-spin float-right ti-spin' *ngIf="isJobDetailLoading$ | async"></i>
+                            <p class="card-title">Plant Details</p>
+                            <button (click)="addExpense()" class="btn btn-primary expense-btn">
+                                <i aria-hidden="true" class="fa fa-plus mr-2"></i>
+                                Add Expense
+                            </button>
+                            <p>
+                                <strong>Job Name:</strong> {{ (job$ | async)?.jobName | empty }}</p>
+                            <p>
+                                <strong>Job Number:</strong> {{ (job$ | async)?.jobNumber | empty }}</p>
+                            <p>
+                                <strong>Job Description:</strong> {{ (job$ | async)?.jobDescription | empty }}</p>
+                            <p>
+                                <strong>Job Status:</strong> {{ (job$ | async)?.jobStatus | jobStatusNumberToTitle | empty }}</p>
+                            <p>
+                                <strong>Company Name:</strong> {{ (job$ | async)?.companyName | empty }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-box detail-card">
+                            <i class='fa fa-spinner fa-spin pull-right ti-spin' *ngIf="isJobCheckoutsLoading$ | async"></i>
+                            <ti-job-checkouts [checkouts]="jobCheckouts$ | async" [isCheckoutsLoading]="isJobCheckoutsLoading$ | async">
+                            </ti-job-checkouts>
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-6">
+                        <div class="card-box graph-card">
+                            <i class='fa fa-spinner fa-spin float-right ti-spin' *ngIf="isJobCheckoutsLoading$ | async"></i>
+                            <ng-container *ngIf="hasCheckouts">
+                                <ti-tool-usage-graph
+                                [checkouts]="jobCheckouts$ | async"
+                                [isCheckoutsLoading]="isJobCheckoutsLoading$ | async">
+                            </ti-tool-usage-graph>
+                    </ng-container>
+                    <ng-container *ngIf="!hasCheckouts">
+                        <div class="alert alert-warning alert-white rounded">
+                            <div class="icon">
+                                <i class="fa fa-warning"></i>
+                            </div>
+                            <strong>Info</strong> There are no checkoust for this job
+                        </div>
+                    </ng-container>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<ng-template #addExpenseRef let-c="close" let-d="dismiss">
+    <h1>adsoijfsdoji</h1>
+    <!-- <form [formGroup]="jobFormGroup" #jobForm="ngForm" class="add-job" (ngSubmit)="addJob(jobFormGroup)"> -->
+    <div class="modal-header">
+        <h4 class="modal-title">Add Job</h4>
+        <div class="alert alert-success" *ngIf="jobSuccessfullyAdded" role="alert">
+            <strong>Job Saved</strong>
+        </div>
+        <button type="button" (click)="closeModal()" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="form-group">
+                <label for="">Name</label>
+                <input class="form-control col-12">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label for="">Expense</label>
+                <input class="form-control col-12">
+            </div>
+        </div>
+        <!-- <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>Company Name <span class="danger">{{ formErrors.companyName}}</span></label>
+                            <input class="form-control" formControlName="companyName">
+                        </div>
+            
+                        <div class="form-group col-md-6">
+                            <label>Contact Name <span class="danger">{{ formErrors.contactName}}</span></label>
+                            <input class="form-control" formControlName="contactName">
+                        </div>
+            
+                        <div class="form-group col-md-6">
+                            <label>Contact Phone Number <span class="danger">{{ formErrors.contactPhoneNumber}}</span></label>
+                            <input class="form-control" formControlName="contactPhoneNumber">
+                        </div>
+            
+                        <div class="form-group col-md-6">
+                            <label>Contact Email <span class="danger">{{ formErrors.contactEmail}}</span></label>
+                            <input class="form-control" formControlName="contactEmail">
+                        </div>
+            
+                        <div class="form-group col-md-6">
+                            <label>Job Number <span class="danger">{{ formErrors.jobNumber}}</span></label>
+                            <input class="form-control" formControlName="jobNumber">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Job Name <span class="danger">{{ formErrors.jobName}}</span></label>
+                            <input class="form-control" formControlName="jobName">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Job Description <span class="danger">{{ formErrors.jobDescription}}</span></label>
+                            <input class="form-control" formControlName="jobDescription">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Job Status</label>
+                            <select class="form-control" placeholder="Status" formControlName="jobStatus">
+                                <option>Select Status</option>
+                                <option value="0">Staging</option>
+                                <option value="1">Machining</option>
+                                <option value="2">Quality</option>
+                                <option value="3">Shipping</option>
+                                <option value="4">Complete</option>
+                                <option value="5">Waiting</option>
+                            </select>
+                        </div>
+                    </div> -->
+    </div>
+    <div class="modal-footer">
+        <!-- <button 
+                        [disabled]="jobFormGroup.invalid" 
+                        class="btn btn-primary pull-right" 
+                        type="submit">
+                            <i class='fa fa-spinner fa-spin ' *ngIf="isAddJobLoading"></i>
+                            Add Job
+                    </button> -->
+    </div>
+    <!-- </form> -->
+</ng-template>

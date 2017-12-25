@@ -5,11 +5,11 @@ import { JobsService } from '../../services/jobs';
 import { Observable } from 'rxjs';
 
 @Component({
-    selector: 'add-job',
-    templateUrl: './add-job.component.html',
-    styleUrls: ['./add-job.component.scss']
+    selector: 'add-plant',
+    templateUrl: './add-plant.component.html',
+    styleUrls: ['./add-plant.component.scss']
 })
-export class AddJobComponent implements OnInit {
+export class AddPlantComponent implements OnInit {
     jobFormGroup: FormGroup;
 
     jobSuccessfullyAdded: boolean = false;

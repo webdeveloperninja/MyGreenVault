@@ -8,14 +8,14 @@ import { SharedModule } from '../shared/shared.module';
 import { routes } from './plants.routing';
 
 import { KanbanComponent } from './components/kanban/kanban.component';
-import { JobsComponent } from './components/jobs/jobs.component';
-import { JobDetailComponent } from './components/job-detail/job-detail.component';
-import { JobCardComponent } from './components/job-card/job-card.component';
-import { AddJobComponent } from './components/add-job/add-job.component';
-import { UpdateJobComponent } from './components/update-job/update-job.component';
-import { JobCheckoutsComponent } from './components/job-detail/job-checkouts/job-checkouts.component';
-import { JobContactComponent } from './components/job-detail/job-contact/job-contact.component';
-import { ToolUsageGraphComponent } from './components/job-detail/tool-usage-graph/tool-usage-graph.component';
+import { PlantsComponent } from './components/plants/plants.component';
+import { PlantDetailComponent } from './components/plant-detail/plant-detail.component';
+import { PlantCardComponent } from './components/plant-card/plant-card.component';
+import { AddPlantComponent } from './components/add-plant/add-plant.component';
+import { UpdatePlantComponent } from './components/update-plant/update-plant.component';
+import { JobCheckoutsComponent } from './components/plant-detail/job-checkouts/job-checkouts.component';
+import { JobContactComponent } from './components/plant-detail/job-contact/job-contact.component';
+import { ToolUsageGraphComponent } from './components/plant-detail/tool-usage-graph/tool-usage-graph.component';
 
 import { ActiveJobService } from './services/activeJob';
 import { JobsService } from './services/jobs';
@@ -31,12 +31,13 @@ import { JobsService } from './services/jobs';
     ],
     declarations: [
         KanbanComponent,
-        JobsComponent,
-        JobCardComponent,
-        AddJobComponent,
-        UpdateJobComponent,
+        PlantsComponent,
+        PlantCardComponent,
+        AddPlantComponent,
+        UpdatePlantComponent,
         JobCheckoutsComponent,
-        JobContactComponent
+        JobContactComponent,
+        PlantDetailComponent
     ],
     providers: [
         ActiveJobService,

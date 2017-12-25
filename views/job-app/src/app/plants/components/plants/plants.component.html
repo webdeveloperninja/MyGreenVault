@@ -74,13 +74,13 @@
             <ti-alert [status]="alert.info" message="There are no jobs" [showAlert]="!hasJobs" [isLoading]="isJobsLoading$ | async">
             </ti-alert>
             <ng-template #updateJobRef let-c="close" let-d="dismiss">
-                <ti-update-job [activeJob]="activeJob$" (closeUpdateModal)="closeUpdateJobModal($event)" (isLoading)="isTiUpdateJobLoading($event)"
+                <update-plant [activeJob]="activeJob$" (closeUpdateModal)="closeUpdateJobModal($event)" (isLoading)="isTiUpdateJobLoading($event)"
                     [skip]="skip" [take]="take">
-                </ti-update-job>
+                </update-plant>
             </ng-template>
             <ng-template #addJobRef let-c="close" let-d="dismiss">
-                <add-job (closeAddJobModal)="closeAddJobModal($event)" [skip]="skip" [take]="take">
-                </add-job>
+                <add-plant (closeAddJobModal)="closeAddJobModal($event)" [skip]="skip" [take]="take">
+                </add-plant>
             </ng-template>
         </div>
     </div>

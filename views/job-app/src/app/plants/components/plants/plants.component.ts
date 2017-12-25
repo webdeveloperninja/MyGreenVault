@@ -12,14 +12,14 @@ import { alert } from 'app/shared/components/alert/alert.component';
 const DEFAULT_TAKE: number = 8;
 const REMOVE_JOB_SUCCESS_MESSAGE: string = 'Successfully Removed Job';
 const MODAL_SIZE = 'lg';
-const PAGE_TITLE: string = 'Jobs';
+const PAGE_TITLE: string = 'Plants';
 
 @Component({
-    selector: 'ti-jobs',
-    templateUrl: './jobs.component.html',
-    styleUrls: ['./jobs.component.scss']
+    selector: 'plants',
+    templateUrl: './plants.component.html',
+    styleUrls: ['./plants.component.scss']
 })
-export class JobsComponent implements OnInit {
+export class PlantsComponent implements OnInit {
     public title: string = 'Remove Job';
     public message: string = 'Are you sure you want to remove job: ';
     public confirmClicked: boolean = false;

@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { JobsService } from '../../services/jobs';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { HeaderService } from '../../../shared/services/header/header.service';
 
+import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+
+const MODAL_SIZE = 'lg';
 
 @Component({
   selector: 'ti-job-detail',
-  templateUrl: './job-detail.component.html',
-  styleUrls: ['./job-detail.component.scss']
+  templateUrl: './plant-detail.component.html',
+  styleUrls: ['./plant-detail.component.scss']
 })
-export class JobDetailComponent implements OnInit {
+export class PlantDetailComponent implements OnInit {
     job;
-
+    @ViewChild('addExpenseRef') addExpenseRef: ElementRef;
     job$: any = this._jobsService.jobDetail$.do(job => {
         if (job && job.jobName) {
             this.job = job;
@@ -19,6 +22,7 @@ export class JobDetailComponent implements OnInit {
         }
     });
 
+    private _addJobModalRef: NgbModalRef;
     isJobDetailLoading$ = this._jobsService.isJobDetailLoading$;
 
     isJobCheckoutsLoading$ = this._jobsService.isJobCheckoutsLoading$;
@@ -37,6 +41,7 @@ export class JobDetailComponent implements OnInit {
         private _route: ActivatedRoute,
         private _router: Router,
         private _jobsService: JobsService,
+        private _modalService: NgbModal,        
         private _headerService: HeaderService
     ) { 
 
@@ -69,6 +74,9 @@ export class JobDetailComponent implements OnInit {
 
     }
 
+    addExpense() {
+        this._addJobModalRef = this._modalService.open(this.addExpenseRef, { size: MODAL_SIZE });
+    }
 
 
 }
