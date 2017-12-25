@@ -1,0 +1,80 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Navbar Template for Bootstrap</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+</head>
+
+</html>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/login">Login</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-4 login-wrapper">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="page-header">
+                            <h3>Sign up for our beta - Free</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <form class="form-horizontal" id="signup-form" method="POST">
+                        <div class="col-md-6">
+                            <input type="hidden" name="_csrf">
+                            <label class="control-label" for="email">Email</label>
+                            <input class="form-control" type="email" name="email" id="email" placeholder="Email" autofocus="" required="">
+                            <label class="control-label" for="companyName">Company Name</label>
+                            <input class="form-control" type="text" name="companyName" id="companyName" placeholder="Company Name" autofocus="" required="">
+                            <label class="control-label" for="phoneNumber">Phone Number</label>
+                            <input class="form-control" type="text" name="phoneNumber" id="phoneNumber" placeholder="Phone Number" autofocus="" required="">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label" for="name">Name</label>
+                            <input class="form-control" type="text" name="name" id="name" placeholder="Name" autofocus="" required="">
+                            <label class="control-label" for="password">Password</label>
+                            <input class="form-control" type="password" name="password" id="password" placeholder="Password" required="">
+                            <label class="control-label" for="confirmPassword">Confirm Password</label>
+                            <input class="form-control" type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required="">
+                            <button class="submit btn btn-success" type="submit">
+                                <i class="fa fa-user-plus"></i>Signup</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -9,6 +9,7 @@ const lusca = require('lusca');
 const dotenv = require('dotenv');
 const MongoStore = require('connect-mongo')(session);
 const flash = require('express-flash');
+const ejs = require('ejs');
 const path = require('path');
 const mongoose = require('mongoose');
 const passport = require('passport');
@@ -62,6 +63,7 @@ if ('OPTIONS' == req.method) {
 });
 
 app.use('/views/job-app/dist',express.static(path.join(__dirname, 'views/job-app/dist')));
+app.use(express.static(path.resolve('./views/account')));
 
 
 /**
@@ -80,8 +82,8 @@ mongoose.connection.on('error', (err) => {
  */
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
-app.engine('html', cons.swig)
-app.set('view engine', 'html');
+// app.engine('ejs', cons.swig)
+app.set('view engine', 'ejs');
 app.use(expressStatusMonitor());
 app.use(compression());
 
