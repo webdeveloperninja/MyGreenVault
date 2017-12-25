@@ -1,8 +1,8 @@
-<form [formGroup]="jobFormGroup" #jobForm="ngForm" class="add-job" (ngSubmit)="addJob(jobFormGroup)">
+<form [formGroup]="plantFormGroup" #plantForm="ngForm" class="add-job" (ngSubmit)="addJob(plantFormGroup)">
     <div class="modal-header">
-        <h4 class="modal-title">Add Job</h4>
-        <div class="alert alert-success" *ngIf="jobSuccessfullyAdded" role="alert">
-            <strong>Job Saved</strong>
+        <h4 class="modal-title">Add Plant</h4>
+        <div class="alert alert-success" *ngIf="plantSuccessfullyAdded" role="alert">
+            <strong>Plant Saved</strong>
         </div>
         <button type="button" (click)="closeModal()" class="close" aria-label="Close">
       <span aria-hidden="true">&times;</span>
@@ -58,11 +58,11 @@
     </div>
     <div class="modal-footer"> 
         <button 
-            [disabled]="jobFormGroup.invalid" 
+            [disabled]="plantFormGroup.invalid" 
             class="btn btn-primary pull-right" 
             type="submit">
-                <i class='fa fa-spinner fa-spin ' *ngIf="isAddJobLoading"></i>
-                Add Job
+                <i class='fa fa-spinner fa-spin ' *ngIf="isAddPlantLoading"></i>
+                Add Plant
         </button>
     </div>
 </form>

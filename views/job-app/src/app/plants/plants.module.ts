@@ -17,8 +17,8 @@ import { JobCheckoutsComponent } from './components/plant-detail/job-checkouts/j
 import { JobContactComponent } from './components/plant-detail/job-contact/job-contact.component';
 import { ToolUsageGraphComponent } from './components/plant-detail/tool-usage-graph/tool-usage-graph.component';
 
-import { ActiveJobService } from './services/activeJob';
-import { JobsService } from './services/jobs';
+import { ActivePlantService } from './services/activePlant';
+import { PlantsService } from './services/plants';
 
 @NgModule({
     imports: [
@@ -40,8 +40,8 @@ import { JobsService } from './services/jobs';
         PlantDetailComponent
     ],
     providers: [
-        ActiveJobService,
-        JobsService
+        ActivePlantService,
+        PlantsService
     ],
     exports: [
     ]

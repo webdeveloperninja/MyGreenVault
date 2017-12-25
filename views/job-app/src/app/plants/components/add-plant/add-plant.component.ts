@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewContainerRef, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angular/forms';
-import { JobsService } from '../../services/jobs';
+import { PlantsService } from '../../services/plants';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -10,27 +10,27 @@ import { Observable } from 'rxjs';
     styleUrls: ['./add-plant.component.scss']
 })
 export class AddPlantComponent implements OnInit {
-    jobFormGroup: FormGroup;
+    plantFormGroup: FormGroup;
 
-    jobSuccessfullyAdded: boolean = false;
-    isAddJobLoading: boolean = false;
+    plantSuccessfullyAdded: boolean = false;
+    isAddPlantLoading: boolean = false;
 
-    @ViewChild('jobForm') jobForm: NgForm;
+    @ViewChild('plantForm') plantForm: NgForm;
 
-    @Output('closeAddJobModal')
-    closeAddJobModal: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output('closeAddPlantModal')
+    closeAddPlantModal: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     @Input('skip') skip: number;
     @Input('take') take: number;
 
     constructor(
         private _formBuilder: FormBuilder,
-        private _jobsService: JobsService
+        private _jobsService: PlantsService
     ) { }
     
     ngOnInit() {
 
-        this.jobFormGroup = this._formBuilder.group({
+        this.plantFormGroup = this._formBuilder.group({
             companyName: ['', Validators.required],
             contactName: ['', Validators.required],
             contactPhoneNumber: ['', Validators.required],
@@ -42,26 +42,26 @@ export class AddPlantComponent implements OnInit {
         });
     }
 
-    addJob(jobFormGroup) {
-        this.isAddJobLoading = true;
+    addJob(plantFormGroup) {
+        this.isAddPlantLoading = true;
         let jobObj = {
-            companyName: this.jobFormGroup.controls['companyName'].value,
-            contactName: this.jobFormGroup.controls['contactName'].value,
-            contactPhoneNumber: this.jobFormGroup.controls['contactPhoneNumber'].value,
-            contactEmail: this.jobFormGroup.controls['contactEmail'].value,
-            jobName: this.jobFormGroup.controls['jobName'].value,
-            jobNumber: this.jobFormGroup.controls['jobNumber'].value,
-            jobDescription: this.jobFormGroup.controls['jobDescription'].value,
-            jobStatus: this.jobFormGroup.controls['jobStatus'].value
+            companyName: this.plantFormGroup.controls['companyName'].value,
+            contactName: this.plantFormGroup.controls['contactName'].value,
+            contactPhoneNumber: this.plantFormGroup.controls['contactPhoneNumber'].value,
+            contactEmail: this.plantFormGroup.controls['contactEmail'].value,
+            jobName: this.plantFormGroup.controls['jobName'].value,
+            jobNumber: this.plantFormGroup.controls['jobNumber'].value,
+            jobDescription: this.plantFormGroup.controls['jobDescription'].value,
+            jobStatus: this.plantFormGroup.controls['jobStatus'].value
         };
         this._jobsService.addJob(jobObj).subscribe((job) => {
-            this.isAddJobLoading = false;
+            this.isAddPlantLoading = false;
             this._jobsService.doSearch();
         })
     }
 
   closeModal() {
-    this.closeAddJobModal.emit(true);
+    this.closeAddPlantModal.emit(true);
   }
 
 ngAfterViewChecked() {
@@ -69,16 +69,16 @@ ngAfterViewChecked() {
 }
 
 formChanged() {
-  if (this.jobForm) {
-    this.jobForm.valueChanges
+  if (this.plantForm) {
+    this.plantForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
   }
 }
 
 
 onValueChanged(data?: any) {
-  if (!this.jobForm) { return; }
-  const form = this.jobForm.form;
+  if (!this.plantForm) { return; }
+  const form = this.plantForm.form;
   for (const field in this.formErrors) {
     this.formErrors[field] = '';
     const control = form.get(field);

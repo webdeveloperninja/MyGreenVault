@@ -4,8 +4,8 @@
             <ti-loading [isLoading]="isJobsLoading$ | async"></ti-loading>
             <div class="row mt-3">
                 <div class="col-md-12">
-                    <button class="btn btn-outline-primary mb-2 pull-right" (click)="addJob()">
-                            <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Job
+                    <button class="btn btn-outline-primary mb-2 pull-right" (click)="addPlant()">
+                        <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Plant
                     </button>
                 </div>
             </div>
@@ -35,25 +35,15 @@
                                     </ti-job-status-chip>
                                 </td>
                                 <td>
-                                    <button 
-                                        class="btn btn-outline-danger pull-right" 
-                                        mwlConfirmationPopover
-                                        [title]="title"
-                                        [message]="getConfirmationMessage(job.jobName)"
-                                        placement="left"
-                                        (confirm)="removeJob(job)"
-                                        (cancel)="cancelClicked = true">
+                                    <button class="btn btn-outline-danger pull-right" mwlConfirmationPopover [title]="title" [message]="getConfirmationMessage(job.jobName)"
+                                        placement="left" (confirm)="removeJob(job)" (cancel)="cancelClicked = true">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
-                                    <button 
-                                        class="btn btn-outline-primary pull-right mr-2" 
-                                        (click)="openUpdateJobModal(job._id)">
-                                            <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
+                                    <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdateJobModal(job._id)">
+                                        <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
                                     </button>
-                                    <button 
-                                        class="btn btn-outline-primary pull-right mr-2" 
-                                        routerLink="/jobs/{{job.jobNumber}}">
-                                            <i class="fa fa-eye mr-2" aria-hidden="true"></i>View
+                                    <button class="btn btn-outline-primary pull-right mr-2" routerLink="/jobs/{{job.jobNumber}}">
+                                        <i class="fa fa-eye mr-2" aria-hidden="true"></i>View
                                     </button>
                                 </td>
                             </tr>
@@ -62,11 +52,11 @@
                     <div class="row">
                         <div class="col-md-12">
                             <button (click)="nextPage()" class="btn btn-outline-primary next pull-right" [disabled]="!(moreJobs$ | async)">
-                                            Next Page
+                                Next Page
                             </button>
                             <button (click)="previousPage()" class="btn btn-outline-primary pull-right mr-2" [disabled]="isLoading">
-                                            Previous Page
-                                        </button>
+                                Previous Page
+                            </button>
                         </div>
                     </div>
                 </div>

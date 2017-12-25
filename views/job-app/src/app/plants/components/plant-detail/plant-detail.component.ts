@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { JobsService } from '../../services/jobs';
+import { PlantsService } from '../../services/plants';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { HeaderService } from '../../../shared/services/header/header.service';
 
@@ -40,7 +40,7 @@ export class PlantDetailComponent implements OnInit {
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
-        private _jobsService: JobsService,
+        private _jobsService: PlantsService,
         private _modalService: NgbModal,        
         private _headerService: HeaderService
     ) { 

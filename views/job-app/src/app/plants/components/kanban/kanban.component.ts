@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { JobsService, PagedList, Job } from '../../services/jobs';
+import { PlantsService, PagedList, Job } from '../../services/plants';
 import { Observable, Subscription } from 'rxjs';
 import { HeaderService } from 'app/shared/services/header/header.service';
 import { alert } from 'app/shared/components/alert/alert.component';
@@ -81,7 +81,7 @@ export class KanbanComponent implements OnInit {
     });
 
     constructor(
-        private _jobsService: JobsService,
+        private _jobsService: PlantsService,
         private _headerService: HeaderService
     ) { }
 

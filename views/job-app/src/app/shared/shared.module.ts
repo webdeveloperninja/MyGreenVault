@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
 
 import { NotificationService } from './services/notification/notification.service';
 import { SideNavService } from './services/side-nav/side-nav.service';
-
+import { PlantsNavigationService } from './services/navigation.plants';
 import { KeysPipe } from './pipes/object-keys.pipe';
 import { CamelCaseToRegularPipe } from './pipes/camel-case-to-regular';
 import { ToasterComponent } from './components/toaster/toaster.component';
@@ -64,7 +64,8 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
       TokenService,
       HeaderService,
       LocalStorageService,
-      SearchService
+      SearchService,
+      PlantsNavigationService
     ],
     exports: [
       HeaderComponent,

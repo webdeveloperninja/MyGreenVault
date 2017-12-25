@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter, OnDestroy} from '@angular/core';
-import { JobsService, Job } from '../../services/jobs';
+import { PlantsService, Job } from '../../services/plants';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription, Subject } from 'rxjs';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -37,7 +37,7 @@ export class UpdatePlantComponent implements OnInit {
 
   constructor(
     private _fb: FormBuilder,
-    private _jobsService: JobsService,
+    private _jobsService: PlantsService,
     private _route: ActivatedRoute,
     private _router: Router
   ) { }

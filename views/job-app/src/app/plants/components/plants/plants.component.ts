@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { JobsService, PagedList, Job } from '../../services/jobs';
+import { PlantsService, PagedList, Job } from '../../services/plants';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -54,7 +54,7 @@ export class PlantsComponent implements OnInit {
     moreJobs$: Observable<boolean>;
 
     constructor(
-        private _jobsService: JobsService,
+        private _jobsService: PlantsService,
         private _modalService: NgbModal,
         private _notificationService: NotificationService,
         private _headerService: HeaderService,
@@ -94,7 +94,7 @@ export class PlantsComponent implements OnInit {
             this.take = Number(take);
         } else {
             this.skip = 0;
-            this.take = 5;
+            this.take = DEFAULT_TAKE;
         }
 
         this._headerService.setHeaderText(`${PAGE_TITLE} ${this.query}`);
@@ -133,7 +133,7 @@ export class PlantsComponent implements OnInit {
         this._addJobModalRef.close();
     }
 
-    addJob() {
+    addPlant() {
         this._addJobModalRef = this._modalService.open(this.addJobRef, { size: MODAL_SIZE });
     }
 

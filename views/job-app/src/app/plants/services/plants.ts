@@ -10,7 +10,7 @@ export const DEFAULT_SKIP: number = 0;
 export const DEFAULT_TAKE: number = 8;
 
 @Injectable()
-export class JobsService {
+export class PlantsService {
     
     private _jobsSubject$: BehaviorSubject<Job[]> = new BehaviorSubject<Job[]>(null);
     public readonly jobs$: Observable<Job[]> = this._jobsSubject$.asObservable();

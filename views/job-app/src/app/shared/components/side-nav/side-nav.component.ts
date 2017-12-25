@@ -3,6 +3,7 @@ import { SideNavService } from '../../services/side-nav/side-nav.service';
 import { Observable } from 'rxjs';
 import { DEFAULT_SKIP as TOOL_DEFAULT_SKIP, DEFAULT_TAKE as TOOL_DEFAULT_TAKE } from 'app/products/services/product';
 import { DEFAULT_SKIP as OPERATOR_DEFAULT_SKIP, DEFAULT_TAKE as OPERATOR_DEFAULT_TAKE } from 'app/employees/services/employees';
+import { PlantsNavigationService } from '../../services/navigation.plants';
 
 @Component({
     selector: 'ti-side-nav',
@@ -20,7 +21,13 @@ export class SideNavComponent implements OnInit {
     defaultOperatorSkip: number = OPERATOR_DEFAULT_SKIP;
     defaultOperatorTake: number = OPERATOR_DEFAULT_TAKE;
 
-    constructor(private _sideNavService: SideNavService) { }
+    skip$ = this._plantsNavigationService.skip$;
+    take$ = this._plantsNavigationService.take$;
+
+    constructor(
+        private _sideNavService: SideNavService,
+        private _plantsNavigationService: PlantsNavigationService
+    ) { }
 
     ngOnInit() {
         this.isSideNavOpen$ = this._sideNavService.isSideNavOpen$;
