@@ -45,7 +45,7 @@ export class ProductService {
         private _route: ActivatedRoute,
         private _router: Router,
         private _notificationService: NotificationService) {
-            _router.events.filter(event => event instanceof NavigationEnd).subscribe(event => this.doSearch());
+        _router.events.filter(event => event instanceof NavigationEnd).subscribe(event => this.doSearch());
     }
 
     public doSearch() {
@@ -85,7 +85,7 @@ export class ProductService {
     public addProduct(product) {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        return this._http.post('/api/v1/products/', product, {headers: headers})
+        return this._http.post('/api/v1/products/', product, { headers: headers })
             .map((res: PagedList<Product>) => {
                 this._hasMoreProductsSubject$.next(res.more);
             })
@@ -149,30 +149,30 @@ export class ProductService {
 
     public nextPage() {
         this._router.navigate([`/products`],
-        {
-            queryParams:
             {
-                skip: (Number(this._toolsSkipSubject$.value) + Number(this._toolsTakeSubject$.value)),
-                take: Number(this._toolsTakeSubject$.value),
-                query: this._toolsQuerySubject$.value
-            }
-        });
+                queryParams:
+                    {
+                        skip: (Number(this._toolsSkipSubject$.value) + Number(this._toolsTakeSubject$.value)),
+                        take: Number(this._toolsTakeSubject$.value),
+                        query: this._toolsQuerySubject$.value
+                    }
+            });
     }
-    
-        public previousPage() {
-            if (Number(this._toolsSkipSubject$.value) >= Number(this._toolsTakeSubject$.value)) {
+
+    public previousPage() {
+        if (Number(this._toolsSkipSubject$.value) >= Number(this._toolsTakeSubject$.value)) {
             this._router.navigate([`/products`],
-            {
-                        queryParams:
-                            {
-                                skip: (Number(this._toolsSkipSubject$.value) - Number(this._toolsTakeSubject$.value)),
-                                take: Number(this._toolsTakeSubject$.value),
-                                query: this._toolsQuerySubject$.value
-                            }
-                    });
-            }
+                {
+                    queryParams:
+                        {
+                            skip: (Number(this._toolsSkipSubject$.value) - Number(this._toolsTakeSubject$.value)),
+                            take: Number(this._toolsTakeSubject$.value),
+                            query: this._toolsQuerySubject$.value
+                        }
+                });
         }
-    
+    }
+
     public setNotification(message) {
         this._notificationService.setNotificationOn(message);
         Observable.timer(DEFAULT_NOTIFICATION_TIME).subscribe(() => {

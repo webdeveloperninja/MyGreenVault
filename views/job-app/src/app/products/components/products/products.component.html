@@ -12,47 +12,47 @@
                                     <div class="col-md-12">
                                         <label class="d-flex align-items-center justify-content-between">
                                             Weight
-                                            <input type="checkbox">
+                                            <input [(ngModel)]="displayOptions.weight.isDisplayed" type="checkbox">
                                         </label>
                                         <label class="d-flex align-items-center justify-content-between">
                                             Ideal Weight
-                                            <input type="checkbox">
+                                            <input [(ngModel)]="displayOptions.idealWeight.isDisplayed" type="checkbox">
                                         </label>
                                         <label class="d-flex align-items-center justify-content-between">
                                             Supplier Name
-                                            <input type="checkbox">
+                                            <input [(ngModel)]="displayOptions.supplierName.isDisplayed" type="checkbox">
                                         </label>
                                         <label class="d-flex align-items-center justify-content-between">
                                             Supplier Email
-                                            <input type="checkbox">
+                                            <input [(ngModel)]="displayOptions.supplierEmail.isDisplayed" type="checkbox">
                                         </label>
                                         <label class="d-flex align-items-center justify-content-between">
                                             Supplier Phone
-                                            <input type="checkbox">
+                                            <input [(ngModel)]="displayOptions.supplierPhone.isDisplayed" type="checkbox">
                                         </label>
                                         <label class="d-flex align-items-center justify-content-between">
                                             Cost per gram
-                                            <input type="checkbox">
+                                            <input [(ngModel)]="displayOptions.costPerGram.isDisplayed" type="checkbox">
                                         </label>
                                         <label class="d-flex align-items-center justify-content-between">
                                             Cost per eighth
-                                            <input type="checkbox">
+                                            <input [(ngModel)]="displayOptions.costPerEighth.isDisplayed" type="checkbox">
                                         </label>
                                         <label class="d-flex align-items-center justify-content-between">
                                             Cost per quarter
-                                            <input type="checkbox">
+                                            <input [(ngModel)]="displayOptions.costPerQuarter.isDisplayed" type="checkbox">
                                         </label>
                                         <label class="d-flex align-items-center justify-content-between">
                                             Cost per half
-                                            <input type="checkbox">
+                                            <input [(ngModel)]="displayOptions.costPerHalf.isDisplayed" type="checkbox">
                                         </label>
                                         <label class="d-flex align-items-center justify-content-between">
                                             Cost per ounce
-                                            <input type="checkbox">
+                                            <input [(ngModel)]="displayOptions.costPerOunce.isDisplayed" type="checkbox">
                                         </label>
                                         <label class="d-flex align-items-center justify-content-between">
                                             Cost per quarter pound
-                                            <input type="checkbox">
+                                            <input [(ngModel)]="displayOptions.costPerQuarterPound.isDisplayed" type="checkbox">
                                         </label>
                                     </div>
                                 </div>
@@ -70,34 +70,34 @@
                         <thead class="ti-table-header">
                             <tr>
                                 <th>Name</th>
-                                <th>Weight</th>
-                                <th>Ideal Weight</th>
-                                <th>Supplier Name</th>
-                                <th>Supplier Email</th>
-                                <th>Supplier Phone</th>
-                                <th>Cost Per Gram</th>
-                                <th>Cost Per Eight</th>
-                                <th>Cost Per Quarter</th>
-                                <th>Cost Per Half</th>
-                                <th>Cost Per Ounce</th>
-                                <th>Cost Per Quarter Pound</th>
+                                <th *ngIf="displayOptions.weight.isDisplayed">Weight</th>
+                                <th *ngIf="displayOptions.idealWeight.isDisplayed">Ideal Weight</th>
+                                <th *ngIf="displayOptions.supplierName.isDisplayed">Supplier Name</th>
+                                <th *ngIf="displayOptions.supplierEmail.isDisplayed">Supplier Email</th>
+                                <th *ngIf="displayOptions.supplierPhone.isDisplayed">Supplier Phone</th>
+                                <th *ngIf="displayOptions.costPerGram.isDisplayed">Cost Per Gram</th>
+                                <th *ngIf="displayOptions.costPerEighth.isDisplayed">Cost Per Eight</th>
+                                <th *ngIf="displayOptions.costPerQuarterPound.isDisplayed">Cost Per Quarter</th>
+                                <th *ngIf="displayOptions.costPerHalf.isDisplayed">Cost Per Half</th>
+                                <th *ngIf="displayOptions.costPerOunce.isDisplayed">Cost Per Ounce</th>
+                                <th *ngIf="displayOptions.costPerQuarterPound.isDisplayed">Cost Per Quarter Pound</th>
                                 <th class="text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let product of products$ | async">
                                 <td>{{ product.name | empty }}</td>
-                                <td>{{ product.weight | empty }}</td>
-                                <td>{{ product.idealWeight | empty }}</td>
-                                <td>{{ product.supplierName | empty }}</td>
-                                <td>{{ product.supplierEmail | empty }}</td>
-                                <td>{{ product.supplierPhone | empty }}</td>
-                                <td>{{ product.costPerGram | empty }}</td>
-                                <td>{{ product.costPerEighth | empty }}</td>
-                                <td>{{ product.costPerQuarter | empty }}</td>
-                                <td>{{ product.costPerHalf | empty }}</td>
-                                <td>{{ product.costPerOunce | empty }}</td>
-                                <td>{{ product.costPerQuarterPound | empty }}</td>
+                                <td *ngIf="displayOptions.weight.isDisplayed">{{ product.weight | empty }}</td>
+                                <td *ngIf="displayOptions.idealWeight.isDisplayed">{{ product.idealWeight | empty }}</td>
+                                <td *ngIf="displayOptions.supplierName.isDisplayed">{{ product.supplierName | empty }}</td>
+                                <td *ngIf="displayOptions.supplierEmail.isDisplayed">{{ product.supplierEmail | empty }}</td>
+                                <td *ngIf="displayOptions.supplierPhone.isDisplayed">{{ product.supplierPhone | empty }}</td>
+                                <td *ngIf="displayOptions.costPerGram.isDisplayed">{{ product.costPerGram | empty }}</td>
+                                <td *ngIf="displayOptions.costPerEighth.isDisplayed">{{ product.costPerEighth | empty }}</td>
+                                <td *ngIf="displayOptions.costPerQuarter.isDisplayed">{{ product.costPerQuarter | empty }}</td>
+                                <td *ngIf="displayOptions.costPerHalf.isDisplayed">{{ product.costPerHalf | empty }}</td>
+                                <td *ngIf="displayOptions.costPerOunce.isDisplayed">{{ product.costPerOunce | empty }}</td>
+                                <td *ngIf="displayOptions.costPerQuarterPound.isDisplayed">{{ product.costPerQuarterPound | empty }}</td>
                                 <td>
                                     <button class="btn btn-outline-danger pull-right" mwlConfirmationPopover [title]="title" [message]="getConfirmationMessage(product.name)"
                                         placement="left" (confirm)="removeProduct(product)" (cancel)="cancelClicked = true">

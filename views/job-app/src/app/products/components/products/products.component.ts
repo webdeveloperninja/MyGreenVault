@@ -21,6 +21,43 @@ const PAGE_TITLE: string = 'Products';
 })
 export class ProductsComponent implements OnInit {
 
+    displayOptions = {
+        weight: {
+            isDisplayed: true
+        },
+        idealWeight: {
+            isDisplayed: true
+        },
+        supplierName: {
+            isDisplayed: true
+        },
+        supplierEmail: {
+            isDisplayed: false
+        },
+        supplierPhone: {
+            isDisplayed: false
+        },
+        costPerGram: {
+            isDisplayed: true
+        },
+        costPerEighth: {
+            isDisplayed: true
+        },
+        costPerQuarter: {
+            isDisplayed: false
+        },
+        costPerHalf: {
+            isDisplayed: false
+        },
+        costPerOunce: {
+            isDisplayed: false
+        },
+        costPerQuarterPound: {
+            isDisplayed: false
+        },
+
+    }
+
     public title: string = 'Remove Product';
     public message: string = 'Are you sure you want to remove product: ';
 
