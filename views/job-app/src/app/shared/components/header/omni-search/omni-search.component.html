@@ -9,34 +9,5 @@
                 <i aria-hidden="true" class="fa fa-search"></i>
                 Search
         </button>
-        <div class="d-flex mt-1">
-            <button
-                role="button" 
-                class="btn btn-outline-primary" 
-                [ngClass]="searchTypeClass('tools')" 
-                (click)="clearSearch()"
-                routerLink="/products"
-                [routerLinkActiveOptions]="{exact: false}" 
-                [queryParams]="{skip:defaultToolSkip, take:defaultToolTake}"
-                routerLinkActive="active">
-                    <i class="fa fa-plug"></i>
-                    Products
-            </button>
-            <button
-                role="button" 
-                class="btn btn-outline-primary" 
-                [ngClass]="searchTypeClass('operators')" 
-                (click)="clearSearch()"
-                routerLink="/employees" 
-                [queryParams]="{skip:defaultOperatorSkip, take:defaultOperatorTake}"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{exact: false}" >
-                    <i class="fa fa-user-circle"></i>
-                    Employees
-            </button>
-        </div>
     </article>
-    <aside>
-
-    </aside>
 </div>
