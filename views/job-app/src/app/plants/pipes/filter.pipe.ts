@@ -8,10 +8,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 
 export class FilterPipe implements PipeTransform {
-    transform(jobs:any, status: any): any {
-        if (status === undefined || jobs === undefined) return jobs;
-        return jobs.filter(function(job:any){
-            return job.process == status;
+    transform(plants:any, status: any): any {
+        if (status === undefined || plants === undefined || plants === null) return plants;
+        return plants.filter((plant:any) => {
+            return plant.plantStatus == status;
         });
     }
 }

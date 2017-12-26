@@ -12,8 +12,8 @@ export const DEFAULT_TAKE: number = 8;
 @Injectable()
 export class PlantsService {
     
-    private _plantsSubject$: BehaviorSubject<Job[]> = new BehaviorSubject<Job[]>(null);
-    public readonly plants$: Observable<Job[]> = this._plantsSubject$.asObservable();
+    private _plantsSubject$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>(null);
+    public readonly plants$: Observable<any[]> = this._plantsSubject$.asObservable();
 
     private _jobDetailSubject$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     public readonly jobDetail$: Observable<any> = this._jobDetailSubject$.asObservable();

@@ -4,15 +4,15 @@
             <loading [isLoading]="isJobsLoading$ | async"></loading>
             <h3>Germinating Seeds</h3>
             <div class="row">
-                <div class="col-sm-3 col-xs-12" *ngFor="let job of plants$ | async | filterJob:0">
-                    <plant-card [job]="job" status="staging">
+                <div class="col-sm-3 col-xs-12" *ngFor="let plant of plants$ | async | filter:0">
+                    <plant-card [plant]="plant" status="germinating">
                     </plant-card>
                 </div>
             </div>
             <ti-alert
                 [status]="alert.info"
-                message="There are no jobs in staging"
-                [showAlert]="!hasStaging"
+                message="There are no plants germinating"
+                [showAlert]="!hasGerminating"
                 [isLoading]="isJobsLoading$ | async">
             </ti-alert>
             <div class="row">
@@ -22,15 +22,15 @@
             </div>
             <h3>Seedling Stage</h3>
             <div class="row machining">
-                <div class="col-sm-3 col-xs-12" *ngFor="let job of plants$ | async | filterJob:1">
-                    <plant-card [job]="job" status="machining">
+                <div class="col-sm-3 col-xs-12" *ngFor="let plant of plants$ | async | filter:1">
+                    <plant-card [plant]="plant" status="seedling">
                     </plant-card>
                 </div>
             </div>
             <ti-alert
                 [status]="alert.info"
-                message="There are no jobs machining"
-                [showAlert]="!hasMachining"
+                message="There are no plants in seedling"
+                [showAlert]="!hasSeedling"
                 [isLoading]="isJobsLoading$ | async">
             </ti-alert>
             <div class="row">
@@ -40,15 +40,15 @@
             </div>
             <h3>Vegetative Stage</h3>
             <div class="row quality">
-                <div class="col-sm-3 col-xs-12" *ngFor="let job of plants$ | async | filterJob:2">
-                    <plant-card [job]="job" status="quality">
+                <div class="col-sm-3 col-xs-12" *ngFor="let plant of plants$ | async | filter:2">
+                    <plant-card [plant]="plant" status="quality">
                     </plant-card>
                 </div>
             </div>
             <ti-alert
                 [status]="alert.info"
                 message="There are no jobs in quality"
-                [showAlert]="!hasQuality"
+                [showAlert]="!hasVegetative"
                 [isLoading]="isJobsLoading$ | async">
             </ti-alert>
             <div class="row">
@@ -58,15 +58,15 @@
             </div>
             <h3>Flowering Stage</h3>
             <div class="row shipping">
-                <div class="col-sm-3 col-xs-12" *ngFor="let job of plants$ | async | filterJob:3">
-                    <plant-card [job]="job" status="shipping">
+                <div class="col-sm-3 col-xs-12" *ngFor="let plant of plants$ | async | filter:3">
+                    <plant-card [plant]="plant" status="shipping">
                     </plant-card>
                 </div>
             </div>
             <ti-alert
                 [status]="alert.info"
                 message="There are no jobs shipping"
-                [showAlert]="!hasShipping"
+                [showAlert]="!hasFlowering"
                 [isLoading]="isJobsLoading$ | async">
             </ti-alert>
             <div class="row">
@@ -76,15 +76,33 @@
             </div>
             <h3>Drying/Curing</h3>
             <div class="row complete">
-                <div class="col-sm-3 col-xs-12" *ngFor="let job of plants$ | async | filterJob:4">
-                    <plant-card [job]="job" status="complete">
+                <div class="col-sm-3 col-xs-12" *ngFor="let plant of plants$ | async | filter:4">
+                    <plant-card [plant]="plant" status="complete">
                     </plant-card>
                 </div>
             </div>
             <ti-alert
                 [status]="alert.info"
                 message="There are no jobs complete"
-                [showAlert]="!hasCompleted"
+                [showAlert]="!hasDrying"
+                [isLoading]="isJobsLoading$ | async">
+            </ti-alert>           
+            <div class="row">
+                <div class="col-md-12">
+                    <hr>
+                </div>
+            </div>
+            <h3>Done</h3>
+            <div class="row complete">
+                <div class="col-sm-3 col-xs-12" *ngFor="let plant of plants$ | async | filter:5">
+                    <plant-card [plant]="plant" status="complete">
+                    </plant-card>
+                </div>
+            </div>
+            <ti-alert
+                [status]="alert.info"
+                message="There are no jobs complete"
+                [showAlert]="!hasDone"
                 [isLoading]="isJobsLoading$ | async">
             </ti-alert>           
             <div class="row">

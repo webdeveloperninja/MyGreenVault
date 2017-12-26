@@ -11,27 +11,17 @@ import { alert } from 'app/shared/components/alert/alert.component';
 })
 export class KanbanComponent implements OnInit {
 
-    private _hasStaging: boolean;;
+    hasGerminating: boolean = false;
 
-    get hasStaging(): boolean {
-        return this._hasStaging;
-    }
+    hasSeedling: boolean = false;
+    hasVegetative: boolean = false;
+    hasFlowering: boolean = false;
+    hasDrying: boolean = false;
+    hasDone: boolean = false;
 
-    set hasStaging(value: boolean) {
-        this._hasStaging = value;
-    }
-
-    private _hasMachining: boolean = false;
-
-    get hasMachining(): boolean {
-        return this._hasMachining;
-    }
-
-    private _hasQuality: boolean = false;
-
-    get hasQuality(): boolean {
-        return this._hasQuality;
-    }
+    // get hasQuality(): boolean {
+    //     return this._hasQuality;
+    // }
 
     private _hasShipping: boolean = false;
 
@@ -59,22 +49,34 @@ export class KanbanComponent implements OnInit {
         console.log(isLoading);
     });
 
-    plants$ = this._jobsService.plants$.do(jobs => {
-        if (jobs) {
-            jobs.forEach(job => {
-                if (job.jobStatus === 0) {
-                    this.hasStaging = true;
-                } else if (job.jobStatus === 1) {
-                    this._hasMachining = true;
-                } else if (job.jobStatus === 2) {
-                    this._hasQuality = true;
-                } else if (job.jobStatus === 3) {
-                    this._hasShipping = true;
-                } else if (job.jobStatus === 4) {
-                    this._hasCompleted = true;
-                } else if (job.jobStatus === 5) {
-                    this._hasWaiting = true;
-                }
+    plants$ = this._jobsService.plants$.do(plants => {
+        if (plants) {
+            plants.forEach(plant => {
+                if (plant.plantStatus === 0) {
+                    this.hasGerminating = true;
+                } 
+                else if (plant.plantStatus === 1) {
+                    this.hasSeedling = true;
+                } 
+                else if (plant.plantStatus === 2) {
+                    this.hasVegetative = true;
+                } 
+                else if (plant.plantStatus === 3) {
+                    this.hasFlowering = true;
+                } 
+                else if (plant.plantStatus === 4) {
+                    this.hasDrying = true;
+                } 
+                else if (plant.plantStatus === 5) {
+                    this.hasDone = true;
+                } 
+                // else if (job.jobStatus === 3) {
+                //     this._hasShipping = true;
+                // } else if (job.jobStatus === 4) {
+                //     this._hasCompleted = true;
+                // } else if (job.jobStatus === 5) {
+                //     this._hasWaiting = true;
+                // }
             });
         }
         

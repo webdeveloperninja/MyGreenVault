@@ -1,17 +1,16 @@
 <div class="card m-b-20" ngClass="{{status}}">
     <h3 class="card-header">
-        {{job.jobName | empty}}
+        {{plant.plantName | empty}}
     </h3>
     <div class="card-block">
-        <h4 class="card-title">Contact: {{ job.contactName | empty }}</h4>
-        <h4 class="card-title">Job Id: {{ job.plantNumber | empty }}</h4>
+        <h4 class="card-title">Plant Number: {{ plant.plantNumber | empty }}</h4>
         <p class="card-text">
             <ti-job-status-chip
-                [jobStatus]="job.jobStatus">
+                [jobStatus]="plant.plantStatus">
             </ti-job-status-chip>
             <button 
                 class="btn btn-outline-primary pull-right mr-2" 
-                routerLink="/plants/{{job.plantNumber}}">
+                routerLink="/plants/{{plant.plantNumber}}">
                     <i class="fa fa-eye mr-2" aria-hidden="true"></i>View
             </button>
         </p>

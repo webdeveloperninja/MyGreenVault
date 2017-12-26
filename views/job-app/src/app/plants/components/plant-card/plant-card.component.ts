@@ -7,7 +7,7 @@ import { Job } from '../../services/plants';
   styleUrls: ['./plant-card.component.scss']
 })
 export class PlantCardComponent implements OnInit {
-  @Input() job: Job;
+  @Input() plant: Job;
   @Input() status: string; 
 
   constructor() { }
