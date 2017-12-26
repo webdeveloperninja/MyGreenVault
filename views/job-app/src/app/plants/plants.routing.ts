@@ -5,6 +5,6 @@ import { PlantDetailComponent } from './components/plant-detail/plant-detail.com
 
 export const routes: Routes = [
     { path: 'plants', component: PlantsComponent, pathMatch: 'full' },
-    { path: 'plants/:jobNumber',      component: PlantDetailComponent },
+    { path: 'plants/:plantNumber',      component: PlantDetailComponent },
     { path: 'status', component: KanbanComponent }
 ];

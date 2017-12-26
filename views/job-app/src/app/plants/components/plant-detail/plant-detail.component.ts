@@ -15,7 +15,7 @@ const MODAL_SIZE = 'lg';
 export class PlantDetailComponent implements OnInit {
     job;
     @ViewChild('addExpenseRef') addExpenseRef: ElementRef;
-    job$: any = this._jobsService.jobDetail$.do(job => {
+    plant$: any = this._jobsService.plantDetail$.do(job => {
         if (job && job.jobName) {
             this.job = job;
             this._headerService.setHeaderText(`${this.job.jobName} - ${this.job.jobNumber}`);
@@ -60,10 +60,10 @@ export class PlantDetailComponent implements OnInit {
 
     ngOnInit() {
         this.isJobLoading = true;
-        const jobNumber = this._route.snapshot.paramMap.get('jobNumber');
+        const plantNumber = this._route.snapshot.paramMap.get('plantNumber');
 
-        this._jobsService.getJobDetail(jobNumber);
-        this._jobsService.getJobCheckouts(jobNumber);
+        this._jobsService.getPlantDetail(plantNumber);
+        this._jobsService.getJobCheckouts(plantNumber);
 
         this._headerService.setHeaderText('------');
         // this._jobsService.getJob(jobNumber).subscribe(job => {

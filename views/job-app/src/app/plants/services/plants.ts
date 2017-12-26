@@ -15,8 +15,8 @@ export class PlantsService {
     private _plantsSubject$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>(null);
     public readonly plants$: Observable<any[]> = this._plantsSubject$.asObservable();
 
-    private _jobDetailSubject$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-    public readonly jobDetail$: Observable<any> = this._jobDetailSubject$.asObservable();
+    private _plantDetailSubject$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    public readonly plantDetail$: Observable<any> = this._plantDetailSubject$.asObservable();
 
     private _jobCheckoutsSubject$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>(null);
     public readonly jobCheckouts$: Observable<any[]> = this._jobCheckoutsSubject$.asObservable(); 
@@ -86,9 +86,9 @@ export class PlantsService {
     }
 
 
-    public getJobDetail(jobId: any) {
+    public getPlantDetail(plantId: any) {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        let url = `/api/v1/plants/${jobId}`;
+        let url = `/api/v1/plants/${plantId}`;
 
         this._isJobDetailLoading$.next(true);
 
@@ -99,7 +99,7 @@ export class PlantsService {
                 throw new Error(err);
             }).first().subscribe(data => {
                 this._isJobDetailLoading$.next(false);
-                this._jobDetailSubject$.next(data);
+                this._plantDetailSubject$.next(data);
             });
     }
 
