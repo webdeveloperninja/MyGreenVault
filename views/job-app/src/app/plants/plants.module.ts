@@ -16,6 +16,8 @@ import { UpdatePlantComponent } from './components/update-plant/update-plant.com
 import { JobCheckoutsComponent } from './components/plant-detail/job-checkouts/job-checkouts.component';
 import { JobContactComponent } from './components/plant-detail/job-contact/job-contact.component';
 import { ToolUsageGraphComponent } from './components/plant-detail/tool-usage-graph/tool-usage-graph.component';
+import { FilterPipe } from './pipes/filter.pipe';
+import { JobStatusPipe } from './pipes/job-status.pipe';
 
 import { ActivePlantService } from './services/activePlant';
 import { PlantsService } from './services/plants';
@@ -37,7 +39,10 @@ import { PlantsService } from './services/plants';
         UpdatePlantComponent,
         JobCheckoutsComponent,
         JobContactComponent,
-        PlantDetailComponent
+        PlantDetailComponent,
+        FilterPipe,
+        ToolUsageGraphComponent,
+        JobStatusPipe
     ],
     providers: [
         ActivePlantService,

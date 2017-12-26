@@ -16,8 +16,8 @@ import { SharedModule } from '../shared/shared.module';
 import { routes } from './products.routing';
 import { AddWeedQtyComponent } from './components/add-weed-qty/add-weed-qty.component';
 import { CheckoutWeedComponent } from './components/checkout-weed/checkout-weed.component';
-// import { WeedQtyStatusComponent } from './components/weed/weed-qty-status/weed-qty-status.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
+import { WeedQtyStatusComponent } from './components/products/weed-qty-status/weed-qty-status.component';
 
 @NgModule({
     imports: [
@@ -34,8 +34,8 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
         UpdateProductComponent,
         AddWeedQtyComponent,
         CheckoutWeedComponent,
-        // WeedQtyStatusComponent,
         ProductDetailComponent,
+        WeedQtyStatusComponent
     ],
     providers: [
         ProductService,
