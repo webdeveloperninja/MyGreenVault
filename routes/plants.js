@@ -2,11 +2,11 @@ module.exports = function(passportConfig, jobsApiController) {
     'use strict';
     const router = require('express').Router();
 
-    router.get('/', passportConfig.isAuthenticated, jobsApiController.getJobs);
-    router.post('/', passportConfig.isAuthenticated, jobsApiController.addJob);
-    router.put('/', passportConfig.isAuthenticated, jobsApiController.updateJob);
-    router.post('/remove', passportConfig.isAuthenticated, jobsApiController.removeJob);
-    router.get('/:jobNumber', passportConfig.isAuthenticated, jobsApiController.getJob);
+    router.get('/', passportConfig.isAuthenticated, jobsApiController.getPlants);
+    router.post('/', passportConfig.isAuthenticated, jobsApiController.addPlant);
+    router.put('/', passportConfig.isAuthenticated, jobsApiController.updatePlant);
+    router.post('/remove', passportConfig.isAuthenticated, jobsApiController.removePlant);
+    router.get('/:jobNumber', passportConfig.isAuthenticated, jobsApiController.getPlant);
     
     return router;
 }

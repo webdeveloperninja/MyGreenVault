@@ -7,7 +7,7 @@ const url = require('url');
 const jobQuery = require('../../models/queries/job');
 
 
-exports.getJobs = (req, res) => {
+exports.getPlants = (req, res) => {
     const userId = req.user._id;
     let url_parts = url.parse(req.url, true);
     let skip = Number(url_parts.query.skip);
@@ -22,7 +22,7 @@ exports.getJobs = (req, res) => {
     });
 };
 
-exports.getJob = (req, res) => {
+exports.getPlant = (req, res) => {
     const jobNumber = req.params.jobNumber;
     const userId = req.user._id;
 
@@ -34,7 +34,7 @@ exports.getJob = (req, res) => {
     });
 }
 
-exports.addJob = (req, res) => {
+exports.addPlant = (req, res) => {
     let job = {};
 
     if (req.body._id) {
@@ -51,7 +51,7 @@ exports.addJob = (req, res) => {
     })
 }
 
-exports.updateJob = (req, res) => {
+exports.updatePlant = (req, res) => {
     const job = req.body;
     
     if (!job.userId) {
@@ -66,7 +66,7 @@ exports.updateJob = (req, res) => {
 
 }
 
-exports.removeJob = (req, res) => {
+exports.removePlant = (req, res) => {
     const job = req.body;
 
     jobQuery.removeJob(job).then(data => {
