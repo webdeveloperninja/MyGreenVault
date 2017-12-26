@@ -28,7 +28,7 @@ dotenv.load({ path: '.env.dev' });
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
-const jobsApiController = require('./controllers/api/job');
+const plantsApiController = require('./controllers/api/plant');
 const productApiController = require('./controllers/api/product');
 const checkoutsApiController = require('./controllers/api/checkout');
 const operatorsApiController = require('./controllers/api/operators');
@@ -47,7 +47,7 @@ const app = express();
 
 const productRoutes = require('./routes/product')(passportConfig, productApiController);
 const operatorsRoutes = require('./routes/operators')(passportConfig, operatorsApiController);
-const jobsRoutes = require('./routes/jobs')(passportConfig, jobsApiController);
+const plantsRoutes = require('./routes/plants')(passportConfig, plantsApiController);
 const checkoutsRoutes = require('./routes/checkouts')(passportConfig, checkoutsApiController);
 
 app.use(function(req, res, next) {
@@ -143,7 +143,7 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
 // TOOLING INVENTORY API
 app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/operators', operatorsRoutes);
-app.use('/api/v1/plants', jobsRoutes);
+app.use('/api/v1/plants', plantsRoutes);
 app.use('/api/v1/checkouts', checkoutsRoutes);
 
 
