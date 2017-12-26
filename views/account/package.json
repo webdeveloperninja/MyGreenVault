@@ -4,8 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "scss": "node-sass -o dist/css assets/scss/style.scss",
+    "watch:css": "onchange \"assets/scss\" -- npm run build:css",
+    "build:css": "npm run scss"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "node-sass": "^4.7.2",
+    "onchange": "^3.3.0"
+  }
 }
