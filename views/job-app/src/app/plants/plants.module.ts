@@ -18,8 +18,6 @@ import { JobContactComponent } from './components/plant-detail/job-contact/job-c
 import { ToolUsageGraphComponent } from './components/plant-detail/tool-usage-graph/tool-usage-graph.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { JobStatusPipe } from './pipes/job-status.pipe';
-
-import { ActivePlantService } from './services/activePlant';
 import { PlantsService } from './services/plants';
 
 @NgModule({
@@ -45,7 +43,6 @@ import { PlantsService } from './services/plants';
         JobStatusPipe
     ],
     providers: [
-        ActivePlantService,
         PlantsService
     ],
     exports: [

@@ -88,7 +88,7 @@ export class PlantsService {
 
     public getJobDetail(jobId: any) {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        let url = `/api/v1/jobs/${jobId}`;
+        let url = `/api/v1/plants/${jobId}`;
 
         this._isJobDetailLoading$.next(true);
 
@@ -106,7 +106,7 @@ export class PlantsService {
     private getJobs() {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        let url = `/api/v1/jobs?skip=${this._jobsSkipSubject$.value}&take=${this._jobsTakeSubject$.value}`;
+        let url = `/api/v1/plants?skip=${this._jobsSkipSubject$.value}&take=${this._jobsTakeSubject$.value}`;
 
         if (this._jobsQuerySubject$.value) {
             url += `&query=${this._jobsQuerySubject$.value}`;
@@ -126,7 +126,7 @@ export class PlantsService {
     private getJob() {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        let url = `/api/v1/jobs?skip=${this._jobsSkipSubject$.value}&take=${this._jobsTakeSubject$.value}`;
+        let url = `/api/v1/plants?skip=${this._jobsSkipSubject$.value}&take=${this._jobsTakeSubject$.value}`;
 
         if (this._jobsQuerySubject$.value) {
             url += `&query=${this._jobsQuerySubject$.value}`;
@@ -149,7 +149,7 @@ export class PlantsService {
 
     public addJob(job) {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        return this._http.post('/api/v1/jobs/', job, {headers: headers})
+        return this._http.post('/api/v1/plants/', job, {headers: headers})
             .map((res: PagedList) => {
                 this._morePlantsSubject$.next(res.more);
             }).finally(() => {
@@ -162,7 +162,7 @@ export class PlantsService {
     public updateJob(job) {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        return this._http.put('/api/v1/jobs', job, {headers: headers})
+        return this._http.put('/api/v1/plants', job, {headers: headers})
             .map((res: any) =>  {
                 this.doSearch();
                 return res;
@@ -174,7 +174,7 @@ export class PlantsService {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         this._isJobsLoadingSubject$.next(true);
-        return this._http.post('/api/v1/jobs/remove', job, {headers: headers})
+        return this._http.post('/api/v1/plants/remove', job, {headers: headers})
             .map((res: HttpResponse<any>) =>  {
                 if (this._plantsSubject$.value.length === 0) {
                     this.previousPage();

@@ -143,7 +143,7 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
 // TOOLING INVENTORY API
 app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/operators', operatorsRoutes);
-app.use('/api/v1/jobs', jobsRoutes);
+app.use('/api/v1/plants', jobsRoutes);
 app.use('/api/v1/checkouts', checkoutsRoutes);
 
 
