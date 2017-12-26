@@ -4,9 +4,8 @@ const LastFmNode = require('lastfm').LastFmNode;
 const clockwork = require('clockwork')({ key: process.env.CLOCKWORK_KEY });
 const url = require('url');
 const checkoutQuery = require('../../models/queries/checkout');
-const jobQuery = require('../../models/queries/job');
 const operatorQuery = require('../../models/queries/operator');
-const toolQuery = require('../../models/queries/tool');
+// const toolQuery = require('../../models/queries/weed');
 
 
 exports.addCheckout = (req, res) => {
@@ -24,7 +23,7 @@ exports.addCheckout = (req, res) => {
             res.status(200).send('checkout successfull');
         }
     }).catch(err => {
-        res.status(400).send(err);
+        res.status(417).send(err);
     });
 }
 

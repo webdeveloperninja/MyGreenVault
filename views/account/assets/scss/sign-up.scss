@@ -1,0 +1,18 @@
+
+body.sign-up {
+    background-image: url('../../assets/images/plant.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    .login-wrapper {
+        background-color: rgba(57, 57, 57, 0.9);
+        border-radius: 5px;
+        color: white;
+        border: 1px solid white;
+        padding: 10px;
+    }
+
+    .btn-sign-up {
+        margin-top: 10px;
+    }
+}

@@ -1,0 +1,115 @@
+<div class="row kanban">
+    <div class="col-12">
+        <div class="card-box">
+            <loading [isLoading]="false"></loading>
+            <h3>Germinating Seeds</h3>
+            <div class="row">
+                <div class="col-sm-3 col-xs-12" *ngFor="let plant of plants$ | async | filter:0">
+                    <plant-card [plant]="plant" status="germinating">
+                    </plant-card>
+                </div>
+            </div>
+            <ti-alert
+                [status]="alert.info"
+                message="There are no plants germinating"
+                [showAlert]="!hasGerminating"
+                [isLoading]="false">
+            </ti-alert>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr>
+                </div>
+            </div>
+            <h3>Seedling Stage</h3>
+            <div class="row machining">
+                <div class="col-sm-3 col-xs-12" *ngFor="let plant of plants$ | async | filter:1">
+                    <plant-card [plant]="plant" status="seedling">
+                    </plant-card>
+                </div>
+            </div>
+            <ti-alert
+                [status]="alert.info"
+                message="There are no plants in seedling"
+                [showAlert]="!hasSeedling"
+                [isLoading]="false">
+            </ti-alert>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr>
+                </div>
+            </div>
+            <h3>Vegetative Stage</h3>
+            <div class="row quality">
+                <div class="col-sm-3 col-xs-12" *ngFor="let plant of plants$ | async | filter:2">
+                    <plant-card [plant]="plant" status="quality">
+                    </plant-card>
+                </div>
+            </div>
+            <ti-alert
+                [status]="alert.info"
+                message="There are no jobs in quality"
+                [showAlert]="!hasVegetative"
+                [isLoading]="false">
+            </ti-alert>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr>
+                </div>
+            </div>
+            <h3>Flowering Stage</h3>
+            <div class="row shipping">
+                <div class="col-sm-3 col-xs-12" *ngFor="let plant of plants$ | async | filter:3">
+                    <plant-card [plant]="plant" status="shipping">
+                    </plant-card>
+                </div>
+            </div>
+            <ti-alert
+                [status]="alert.info"
+                message="There are no jobs shipping"
+                [showAlert]="!hasFlowering"
+                [isLoading]="false">
+            </ti-alert>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr>
+                </div>
+            </div>
+            <h3>Drying/Curing</h3>
+            <div class="row complete">
+                <div class="col-sm-3 col-xs-12" *ngFor="let plant of plants$ | async | filter:4">
+                    <plant-card [plant]="plant" status="complete">
+                    </plant-card>
+                </div>
+            </div>
+            <ti-alert
+                [status]="alert.info"
+                message="There are no jobs complete"
+                [showAlert]="!hasDrying"
+                [isLoading]="false">
+            </ti-alert>           
+            <div class="row">
+                <div class="col-md-12">
+                    <hr>
+                </div>
+            </div>
+            <h3>Done</h3>
+            <div class="row complete">
+                <div class="col-sm-3 col-xs-12" *ngFor="let plant of plants$ | async | filter:5">
+                    <plant-card [plant]="plant" status="complete">
+                    </plant-card>
+                </div>
+            </div>
+            <ti-alert
+                [status]="alert.info"
+                message="There are no jobs complete"
+                [showAlert]="!hasDone"
+                [isLoading]="false">
+            </ti-alert>           
+            <div class="row">
+                <div class="col-md-12">
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

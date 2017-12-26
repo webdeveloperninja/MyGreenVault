@@ -10,6 +10,10 @@ import { HeaderService } from 'app/shared/services/header/header.service';
 })
 export class OmniSearchComponent implements OnInit {
 
+    isActive(route): boolean {
+        return this._router.isActive(route, false);
+    }
+
     query: string = '';
     updatedCategory: string = '';
 

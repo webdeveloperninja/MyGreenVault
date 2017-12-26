@@ -1,11 +1,12 @@
 $omni-input-border-radius: 0px;
-$omni-input-font-size: 12px;
+$omni-input-font-size: 18px;
 $category-button-border-radius: 0px;
 
 $search-button-border-radius: 0px;
 $omni-search-max-width: 40%;
 $white: #fff;
 $ti-teal: #43bea1;
+$weed-green: #00a400;
 
 .search-wrapper {
     display: flex;
@@ -15,7 +16,6 @@ $ti-teal: #43bea1;
     input {
         font-size: $omni-input-font-size;
         border-radius: $omni-input-border-radius;
-        border: 1px solid white;
     }
     
     article {
@@ -30,21 +30,21 @@ $ti-teal: #43bea1;
             border: 1px solid $white;
            
             &.active {
-                color: white;
-                background-color:#fe7f2e;
+                color: black;
+                background-color: white;
                 border-color: #ffffff;
 
                 &:hover {
-                    color: white;
-                    background-color: #fe7f2e;
+                    color: black;
+                    background-color: white;
                     border-color: #ffffff;
                 }
 
             }
 
             &:hover {
-                    color: white;
-                    background-color: #fe7f2e;
+                    color: black;
+                    background-color: white;
                     border-color: #ffffff;
             }
         }
@@ -56,7 +56,6 @@ $ti-teal: #43bea1;
 
     .btn-search {
         border-radius: $search-button-border-radius;
-        position: absolute;
         height: 33px;
         bottom: 8px;
         background-color: white;

@@ -1,3 +1,4 @@
+$weed-green: #000000;
 
 .navbar {
   border-bottom: 1px solid black;
@@ -26,14 +27,14 @@ i {
 }
 
 .navbar-custom {
-    background-color: black;
+    background-color: $weed-green;
     article {
         flex-grow: 1;
     }
 }
 
 .topbar-left {
-    background-color: black;
+    background-color: $weed-green;
 }
 
 .fa-bars {

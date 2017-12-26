@@ -1,0 +1,93 @@
+<form [formGroup]="productFormGroup" #ProductForm="ngForm" class="add-product" (ngSubmit)="addProduct(productFormGroup)">
+    <div class="modal-header">
+        <h4 class="modal-title">Add Product</h4>
+        <button type="button" (click)="closeModal()" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="form-group col-12">
+                        <label>Name</label>
+                        <input class="form-control" formControlName="name">
+                    </div>
+                    <div class="form-group col-12">
+                        <label>Weight</label>
+                        <input class="form-control" formControlName="weight" type="number">
+                    </div>
+        
+                    <div class="form-group col-12">
+                        <label>Ideal Weight</label>
+                        <input class="form-control" formControlName="idealWeight" type="number">
+                    </div>
+        
+                    <div class="form-group col-12">
+                        <label>Auto Order Weight</label>
+                        <input class="form-control" formControlName="autoOrderWeight" type="number">
+                    </div>
+                    <div class="form-group col-12" *ngIf="showMoreFields">
+                        <label>Supplier/Grower name</label>
+                        <input class="form-control" formControlName="supplierName">
+                    </div>
+                    <div class="form-group col-12" *ngIf="showMoreFields">
+                        <label>Supplier/Grower email</label>
+                        <input class="form-control" formControlName="supplierEmail">
+                    </div>
+                    <div class="form-group col-12" *ngIf="showMoreFields">
+                        <label>Supplier/Grower phone</label>
+                        <input class="form-control" formControlName="supplierPhone">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="form-group col-12">
+                        <label>Cost per gram</label>
+                        <input class="form-control" formControlName="costPerGram" type="number">
+                    </div>
+                    <div class="form-group col-12">
+                        <label>Cost per 1/8th</label>
+                        <input class="form-control" formControlName="costPerEighth" type="number">
+                    </div>
+                    <div class="form-group col-12">
+                        <label>Cost per 1/4</label>
+                        <input class="form-control" formControlName="costPerQuarter" type="number">
+                    </div>
+                    <div class="form-group col-12">
+                        <label>Cost per 1/2</label>
+                        <input class="form-control" formControlName="costPerHalf" type="number">
+                    </div>
+                    <div class="form-group col-12" *ngIf="showMoreFields">
+                        <label>Cost per ounce</label>
+                        <input class="form-control" formControlName="costPerOunce" type="number">
+                    </div>
+                    <div class="form-group col-12" *ngIf="showMoreFields">
+                        <label>Cost per quarter pound</label>
+                        <input class="form-control" formControlName="costPerQuarterPound" type="number">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <a (click)="toggleShowMoreFields()">{{ showMoreFieldsText }}</a>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="container bootstrap snippet">
+            <div class="alert alert-success alert-white rounded" *ngIf="false"> 
+                <i class="fa fa-check"></i> <strong>Success!</strong> Your product has been added!
+            </div>
+        </div>
+        <button 
+            [disabled]="productFormGroup.invalid" 
+            class="btn btn-primary pull-right" 
+            type="submit">
+            <i class='fa fa-spinner fa-spin ' *ngIf="isAddProductLoading"></i>
+                Add Product
+        </button>
+    </div>
+</form>

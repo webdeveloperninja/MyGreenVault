@@ -1,0 +1,25 @@
+$navbar-height: 75px;
+$logo-width: 300px;
+
+.navbar-default {
+    background-color: $black;
+    height: $navbar-height;
+
+    .navbar-nav {
+        margin-top: 10px;
+        
+        li {
+            a {
+                &:hover {
+                    color: $white;
+                }
+            }
+        }
+    }
+
+    .navbar-brand {
+        img {
+            width: $logo-width;
+        }
+    }
+}

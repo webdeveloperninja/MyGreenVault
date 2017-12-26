@@ -2,14 +2,14 @@ $header-color: white;
 
 .kanban {
   .card {
-    &.staging {
+    &.germinating {
       .card-header {
         color: $header-color;
         background: linear-gradient(60deg, #ffa726, #fb8c00);
         box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(255, 152, 0, 0.4);
       }
     }
-    &.machining {
+    &.seedling {
       .card-header {
         color: $header-color;
         background: linear-gradient(60deg, #26c6da, #00acc1);
