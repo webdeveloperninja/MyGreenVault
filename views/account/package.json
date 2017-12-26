@@ -13,5 +13,8 @@
   "devDependencies": {
     "node-sass": "^4.7.2",
     "onchange": "^3.3.0"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.7"
   }
 }

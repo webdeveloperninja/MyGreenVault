@@ -1,9 +1,35 @@
-body {
+body.sign-up {
   background-image: url("../../assets/images/guy-holding-plant.jpg");
   background-repeat: no-repeat;
   background-size: cover; }
+  body.sign-up .login-wrapper {
+    background-color: rgba(57, 57, 57, 0.9);
+    border-radius: 5px;
+    color: white;
+    border: 1px solid white;
+    padding: 10px; }
+  body.sign-up .btn-sign-up {
+    margin-top: 10px; }
 
-.login-wrapper {
-  background-color: rgba(57, 57, 57, 0.69);
-  border-radius: 5px;
-  color: white; }
+body.login {
+  background-image: url("../../assets/images/guy-holding-plant.jpg");
+  background-repeat: no-repeat;
+  background-size: cover; }
+  body.login .login-wrapper {
+    background-color: rgba(57, 57, 57, 0.9);
+    border-radius: 5px;
+    color: white;
+    border: 1px solid white;
+    padding: 10px; }
+  body.login .btn-sign-up {
+    margin-top: 10px; }
+
+.navbar-default {
+  background-color: black;
+  height: 75px; }
+  .navbar-default .navbar-nav {
+    margin-top: 10px; }
+    .navbar-default .navbar-nav li a:hover {
+      color: white; }
+  .navbar-default .navbar-brand img {
+    width: 300px; }
