@@ -22,23 +22,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let job of plants$ | async">
-                                <td>{{ job.jobName | empty }}</td>
-                                <td>{{ job.jobNumber | empty }}</td>
-                                <td>{{ job.jobDescription | empty }}</td>
+                            <tr *ngFor="let plant of plants$ | async">
+                                <td>{{ plant.plantName | empty }}</td>
+                                <td>{{ plant.plantNumber | empty }}</td>
+                                <td>{{ plant.plantDescription | empty }}</td>
                                 <td>
-                                    <ti-job-status-chip [jobStatus]="job.jobStatus">
+                                    <ti-job-status-chip [jobStatus]="plant.plantStatus">
                                     </ti-job-status-chip>
                                 </td>
                                 <td>
-                                    <button class="btn btn-outline-danger pull-right" mwlConfirmationPopover [title]="title" [message]="getConfirmationMessage(job.jobName)"
-                                        placement="left" (confirm)="removePlant(job)" (cancel)="cancelClicked = true">
+                                    <button class="btn btn-outline-danger pull-right" mwlConfirmationPopover [title]="title" [message]="getConfirmationMessage(plant.plantName)"
+                                        placement="left" (confirm)="removePlant(plant)" (cancel)="cancelClicked = true">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
-                                    <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdatePlantModal(job._id)">
+                                    <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdatePlantModal(plant._id)">
                                         <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
                                     </button>
-                                    <button class="btn btn-outline-primary pull-right mr-2" routerLink="/plants/{{job.jobNumber}}">
+                                    <button class="btn btn-outline-primary pull-right mr-2" routerLink="/plants/{{plant.plantNumber}}">
                                         <i class="fa fa-eye mr-2" aria-hidden="true"></i>View
                                     </button>
                                 </td>

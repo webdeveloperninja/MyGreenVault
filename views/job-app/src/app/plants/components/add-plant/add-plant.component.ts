@@ -31,28 +31,20 @@ export class AddPlantComponent implements OnInit {
     ngOnInit() {
 
         this.plantFormGroup = this._formBuilder.group({
-            companyName: ['', Validators.required],
-            contactName: ['', Validators.required],
-            contactPhoneNumber: ['', Validators.required],
-            contactEmail: ['', Validators.required],
-            jobName: ['', Validators.required],
-            jobNumber: ['', Validators.required],
-            jobDescription: ['', Validators.required],
-            jobStatus: ['', Validators.required]
+            plantName: ['', Validators.required],
+            plantNumber: ['', Validators.required],
+            plantDescription: ['', Validators.required],
+            plantStatus: ['', Validators.required]
         });
     }
 
     addJob(plantFormGroup) {
         this.isAddPlantLoading = true;
         let jobObj = {
-            companyName: this.plantFormGroup.controls['companyName'].value,
-            contactName: this.plantFormGroup.controls['contactName'].value,
-            contactPhoneNumber: this.plantFormGroup.controls['contactPhoneNumber'].value,
-            contactEmail: this.plantFormGroup.controls['contactEmail'].value,
-            jobName: this.plantFormGroup.controls['jobName'].value,
-            jobNumber: this.plantFormGroup.controls['jobNumber'].value,
-            jobDescription: this.plantFormGroup.controls['jobDescription'].value,
-            jobStatus: this.plantFormGroup.controls['jobStatus'].value
+            plantName: this.plantFormGroup.controls['plantName'].value,
+            plantNumber: this.plantFormGroup.controls['plantNumber'].value,
+            plantDescription: this.plantFormGroup.controls['plantDescription'].value,
+            plantStatus: this.plantFormGroup.controls['plantStatus'].value
         };
         this._jobsService.addJob(jobObj).subscribe((job) => {
             this.isAddPlantLoading = false;
@@ -92,37 +84,25 @@ onValueChanged(data?: any) {
 }
 
 formErrors = {
-  'companyName': '',
-  'contactName': '',
-  'contactPhoneNumber': '',
-  'contactEmail': '',
-  'jobNumber': '',
-  'jobName': '',
-  'jobDescription': ''
+  'plantNumber': '',
+  'plantName': '',
+  'plantDescription': '',
+  'plantStatus': ''
 };
 
 validationMessages = {
-  'companyName': {
-    'required':      'Company Name is required.'
+  'plantNumber': {
+    'required':      'Plant Number is required.'
   },
-  'contactName': {
-    'required':      'Contact Name is required.'
+  'plantName': {
+    'required':      'Plant Name is required.'
   },
-  'contactPhoneNumber': {
-    'required':      'Phone Number is required.'
+  'plantDescription': {
+    'required':      'Plant Description is required.'
   },
-  'contactEmail': {
-    'required':      'Contact Email is required.'
-  },
-  'jobNumber': {
-    'required':      'Job Number is required.'
-  },
-  'jobName': {
-    'required':      'Job Name is required.'
-  },
-  'jobDescription': {
-    'required':      'Job Description is required.'
-  },
+  'plantStatus': {
+    'required':      'Plant Status is required.'
+  }
 };
 
 }

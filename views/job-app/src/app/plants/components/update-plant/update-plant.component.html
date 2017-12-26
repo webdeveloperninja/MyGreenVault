@@ -8,28 +8,20 @@
   <div class="modal-body">
       <div class="row">
         <div class="form-group col-md-6">
-          <label>Company Name</label>
-          <input class="form-control" formControlName="companyName" placeholder="Job Status">          
+          <label>Plant Name</label>
+          <input class="form-control" formControlName="plantName" placeholder="Plant Name">          
         </div>
         <div class="form-group col-md-6">
-          <label>Job Name</label>
-          <input class="form-control" formControlName="jobName" placeholder="Job Status">          
+          <label>Plant Number</label>
+          <input class="form-control" formControlName="plantNumber" placeholder="Plant Number">          
         </div>
         <div class="form-group col-md-6">
-          <label>Contact Email</label>
-          <input class="form-control" formControlName="contactEmail" placeholder="Job Status">          
+          <label>Plant Description</label>
+          <input class="form-control" formControlName="plantDescription" placeholder="Plant Description">          
         </div>
         <div class="form-group col-md-6">
-          <label>Contact Phone Number</label>
-          <input class="form-control" formControlName="contactPhoneNumber" placeholder="Job Status">          
-        </div>
-        <div class="form-group col-md-6">
-          <label>Contact Name</label>
-          <input class="form-control" formControlName="contactName" placeholder="Job Status">          
-        </div>
-        <div class="form-group col-md-6">
-          <label>Job Status</label>
-          <select class="form-control" placeholder="Status" formControlName="jobStatus">
+          <label>Plant Status</label>
+          <select class="form-control" placeholder="Status" formControlName="plantStatus">
               <option>Select Status</option>
               <option value="0">Staging</option>
               <option value="1">Machining</option>
@@ -38,14 +30,6 @@
               <option value="4">Complete</option>
               <option value="5">Waiting</option>
           </select>
-        </div>
-        <div class="form-group col-md-6">
-          <label>Job Description</label>
-          <input class="form-control" formControlName="jobDescription" placeholder="Job Status">          
-        </div>
-        <div class="form-group col-md-6" [hidden]="true">
-          <label>Job Number</label>
-          <input class="form-control" formControlName="jobNumber" placeholder="Job Status">          
         </div>
         <div class="form-group col-md-6" hidden>
             <input formControlName="_id">

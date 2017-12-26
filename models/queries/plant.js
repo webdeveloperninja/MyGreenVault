@@ -1,5 +1,5 @@
 const User = require('../../models/User');
-const Job = require('../../models/Job');
+const Plant = require('../../models/Plant');
 const ObjectId = require('mongodb').ObjectID;
 
 let getJob = exports.getJob = (userId, jobNumber) => {
@@ -9,7 +9,7 @@ let getJob = exports.getJob = (userId, jobNumber) => {
             jobNumber: jobNumber
         }
 
-        Job.find(queryObj)
+        Plant.find(queryObj)
         .limit(1)
         .exec((err, results) => {
             if (err) {
@@ -28,7 +28,7 @@ let getJob = exports.getJob = (userId, jobNumber) => {
 
 
 let addJob = exports.addJob = job => {
-    const newJob = new Job(job);
+    const newJob = new Plant(job);
 
     return new Promise((resolve, reject) => {
         newJob.save((err, results) => {
@@ -50,7 +50,7 @@ let getJobs = exports.getJobs = (userId, skip, take, query = null) => {
             queryObj.jobName = {'$regex': query, '$options' : 'i'};
         }
 
-        Job.find(queryObj)
+        Plant.find(queryObj)
         .limit(take + 1)
         .skip(skip)
         .exec((err, results) => {
@@ -76,7 +76,7 @@ let getJobs = exports.getJobs = (userId, skip, take, query = null) => {
 
 let updateJob = exports.updateJob = (updatedJob) => {
     return new Promise((resolve, reject) => {
-        Job.findOneAndUpdate({
+        Plant.findOneAndUpdate({
             _id: ObjectId(updatedJob._id),
             userId: ObjectId(updatedJob.userId)
         }, updatedJob).exec(err => {
@@ -90,7 +90,7 @@ let updateJob = exports.updateJob = (updatedJob) => {
 
 let removeJob = exports.removeJob = (job) => {
     return new Promise((resolve, reject) => {
-        Job.find({
+        Plant.find({
             _id: ObjectId(job._id),
             userId: job.userId
         }).remove().exec((err, result) => {
@@ -118,7 +118,7 @@ let doesJobExist = exports.doesJobExist = (userId, jobNumber) => {
 
 let findJobsByJobNumber = exports.findJobsByJobNumber = (userId, jobNumber) => {
     return new Promise((resolve, reject) => {
-        Job.find({
+        Plant.find({
             userId: userId,
             jobNumber: jobNumber
         }).exec((err, results) => {

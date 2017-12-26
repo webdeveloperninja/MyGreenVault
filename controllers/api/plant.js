@@ -4,7 +4,7 @@ const LastFmNode = require('lastfm').LastFmNode;
 const clockwork = require('clockwork')({ key: process.env.CLOCKWORK_KEY });
 const User = require('../../models/User');
 const url = require('url');
-const jobQuery = require('../../models/queries/job');
+const jobQuery = require('../../models/queries/plant');
 
 
 exports.getPlants = (req, res) => {

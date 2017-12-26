@@ -4,14 +4,14 @@
     </h3>
     <div class="card-block">
         <h4 class="card-title">Contact: {{ job.contactName | empty }}</h4>
-        <h4 class="card-title">Job Id: {{ job.jobNumber | empty }}</h4>
+        <h4 class="card-title">Job Id: {{ job.plantNumber | empty }}</h4>
         <p class="card-text">
             <ti-job-status-chip
                 [jobStatus]="job.jobStatus">
             </ti-job-status-chip>
             <button 
                 class="btn btn-outline-primary pull-right mr-2" 
-                routerLink="/plants/{{job.jobNumber}}">
+                routerLink="/plants/{{job.plantNumber}}">
                     <i class="fa fa-eye mr-2" aria-hidden="true"></i>View
             </button>
         </p>
