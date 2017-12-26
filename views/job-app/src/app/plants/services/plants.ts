@@ -12,8 +12,8 @@ export const DEFAULT_TAKE: number = 8;
 @Injectable()
 export class PlantsService {
     
-    private _jobsSubject$: BehaviorSubject<Job[]> = new BehaviorSubject<Job[]>(null);
-    public readonly jobs$: Observable<Job[]> = this._jobsSubject$.asObservable();
+    private _plantsSubject$: BehaviorSubject<Job[]> = new BehaviorSubject<Job[]>(null);
+    public readonly plants$: Observable<Job[]> = this._plantsSubject$.asObservable();
 
     private _jobDetailSubject$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     public readonly jobDetail$: Observable<any> = this._jobDetailSubject$.asObservable();
@@ -40,7 +40,7 @@ export class PlantsService {
     public readonly jobsTake$: Observable<number> = this._jobsSkipSubject$.asObservable();
 
     private _isJobsLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
-    public readonly isJobsLoading$: Observable<boolean> = this._isJobsLoadingSubject$.asObservable();
+    public readonly isPlantsLoading$: Observable<boolean> = this._isJobsLoadingSubject$.asObservable();
 
     private _jobsQuerySubject$: BehaviorSubject<string> = new BehaviorSubject<string>('');
     public readonly jobsQuery$: Observable<string> = this._jobsQuerySubject$.asObservable();
@@ -117,7 +117,7 @@ export class PlantsService {
             const moreJobs = res.more;
             const hasPreviousJobs = this._jobsSkipSubject$.value != 0;
 
-            this._jobsSubject$.next(jobs);
+            this._plantsSubject$.next(jobs);
             this._moreJobsSubject$.next(moreJobs);
             this._hasPreviousJobsSubject$.next(hasPreviousJobs);
         });
@@ -137,7 +137,7 @@ export class PlantsService {
             const moreJobs = res.more;
             const hasPreviousJobs = this._jobsSkipSubject$.value != 0;
 
-            this._jobsSubject$.next(jobs);
+            this._plantsSubject$.next(jobs);
             this._moreJobsSubject$.next(moreJobs);
             this._hasPreviousJobsSubject$.next(hasPreviousJobs);
 
@@ -176,7 +176,7 @@ export class PlantsService {
         this._isJobsLoadingSubject$.next(true);
         return this._http.post('/api/v1/jobs/remove', job, {headers: headers})
             .map((res: HttpResponse<any>) =>  {
-                if (this._jobsSubject$.value.length === 0) {
+                if (this._plantsSubject$.value.length === 0) {
                     this.previousPage();
                 } else {
                     this.doSearch();
@@ -186,13 +186,13 @@ export class PlantsService {
     }
 
     public setActiveJob(jobId: string): void {
-        let activeJob = this.jobs$.map(jobs => jobs.filter(job => job._id === jobId)[0]).subscribe(activeJob => {
+        let activeJob = this.plants$.map(jobs => jobs.filter(job => job._id === jobId)[0]).subscribe(activeJob => {
             this._activeJobSubject$.next(activeJob);
         });
     }
 
     public nextPage() {
-        this._router.navigate([`/jobs`], 
+        this._router.navigate([`/plants`], 
             { queryParams: 
                 { 
                     skip: (Number(this._jobsSkipSubject$.value) + Number(this._jobsTakeSubject$.value)), 
@@ -204,7 +204,7 @@ export class PlantsService {
 
     public previousPage() {
         if (Number(this._jobsSkipSubject$.value) >= Number(this._jobsTakeSubject$.value)) {
-            this._router.navigate([`/jobs`], 
+            this._router.navigate([`/plants`], 
                 { queryParams: 
                     { 
                         skip: (Number(this._jobsSkipSubject$.value) - Number(this._jobsTakeSubject$.value)), 

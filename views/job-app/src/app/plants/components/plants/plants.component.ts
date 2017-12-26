@@ -10,7 +10,7 @@ import { alert } from 'app/shared/components/alert/alert.component';
 
 
 const DEFAULT_TAKE: number = 8;
-const REMOVE_JOB_SUCCESS_MESSAGE: string = 'Successfully Removed Job';
+const REMOVE_JOB_SUCCESS_MESSAGE: string = 'Successfully removed plant';
 const MODAL_SIZE = 'lg';
 const PAGE_TITLE: string = 'Plants';
 
@@ -20,41 +20,40 @@ const PAGE_TITLE: string = 'Plants';
     styleUrls: ['./plants.component.scss']
 })
 export class PlantsComponent implements OnInit {
-    public title: string = 'Remove Job';
-    public message: string = 'Are you sure you want to remove job: ';
+    public title: string = 'Remove plant';
+    public message: string = 'Are you sure you want to remove plant: ';
     public confirmClicked: boolean = false;
     public cancelClicked: boolean = false;
 
     getConfirmationMessage(operatorName: string): string {
         return `${this.message} ${operatorName}?`;
     }
-
-
     alert = alert;
     skip: number;
     take: number;
 
-    hasJobs: boolean = false;
+    hasPlants: boolean = false;
 
     query: string = '';
 
-    @ViewChild('updateJobRef') updateJobRef: ElementRef;
-    @ViewChild('addJobRef') addJobRef: ElementRef;
+    @ViewChild('updatePlantRef') updatePlantRef: ElementRef;
+    @ViewChild('addPlantRef') addPlantRef: ElementRef;
 
-    private _addJobModalRef: NgbModalRef;
-    private _updateJobModalRef: NgbModalRef;
+    private _addPlantModalRef: NgbModalRef;
+    private _updatePlantModalRef: NgbModalRef;
 
-    updateJobModal: any;
-    isJobNotFound: boolean = false;
-    jobs$: Observable<Job[]>
-    isJobsLoading$: Observable<boolean>;
-    activeJob: Job = null;
+    updatePlantModal: any;
+    isPlantNotFound: boolean = false;
+    plants$: Observable<Job[]>
+    isPlantsLoading$: Observable<boolean> = this._plantsService.isPlantsLoading$;
+
+    // Stopped here yo
+    activeJob$: any = this._plantsService.activeJob$;
     activeJobSub$: Subscription;
-    activeJob$: Observable<Job>;
-    moreJobs$: Observable<boolean>;
+    moreJobs$: Observable<boolean> = this._plantsService.moreJobs$;
 
     constructor(
-        private _jobsService: PlantsService,
+        private _plantsService: PlantsService,
         private _modalService: NgbModal,
         private _notificationService: NotificationService,
         private _headerService: HeaderService,
@@ -63,21 +62,17 @@ export class PlantsComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.jobs$ = this._jobsService.jobs$.do(jobs => {
+        this.plants$ = this._plantsService.plants$.do(jobs => {
             if (jobs) {
                 if (jobs.length > 0) {
-                    this.hasJobs = true;
+                    this.hasPlants = true;
                 } else {
-                    this.hasJobs = false;
+                    this.hasPlants = false;
                 }
             } else {
-                this.hasJobs = false;
+                this.hasPlants = false;
             }
         });
-
-        this.isJobsLoading$ = this._jobsService.isJobsLoading$;
-        this.activeJob$ = this._jobsService.activeJob$;
-        this.moreJobs$ = this._jobsService.moreJobs$;
         
         let skip = this._route.snapshot.queryParams["skip"];
         let take = this._route.snapshot.queryParams["take"];
@@ -103,38 +98,38 @@ export class PlantsComponent implements OnInit {
     }
 
     nextPage() {
-        this._jobsService.nextPage();
+        this._plantsService.nextPage();
     }
 
     previousPage() {
-        this._jobsService.previousPage();
+        this._plantsService.previousPage();
     }
 
     navigate() {
-        this._router.navigate([`/jobs`], { queryParams: { skip: this.skip, take: this.take } });
+        this._router.navigate([`/plants`], { queryParams: { skip: this.skip, take: this.take } });
         this.doSearch();
     }
 
     doSearch() {
-        this.isJobNotFound = false;
-        this._jobsService.doSearch();
+        this.isPlantNotFound = false;
+        this._plantsService.doSearch();
     }
 
-    openUpdateJobModal(jobId) {
-        this._jobsService.setActiveJob(jobId);
-        this._updateJobModalRef = this._modalService.open(this.updateJobRef, { size: MODAL_SIZE });
+    openUpdatePlantModal(jobId) {
+        this._plantsService.setActiveJob(jobId);
+        this._updatePlantModalRef = this._modalService.open(this.updatePlantRef, { size: MODAL_SIZE });
     }
 
-    closeUpdateJobModal() {
-        this._updateJobModalRef.close();
+    closeUpdatePlantModal() {
+        this._updatePlantModalRef.close();
     }
 
     closeAddJobModal() {
-        this._addJobModalRef.close();
+        this._addPlantModalRef.close();
     }
 
     addPlant() {
-        this._addJobModalRef = this._modalService.open(this.addJobRef, { size: MODAL_SIZE });
+        this._addPlantModalRef = this._modalService.open(this.addPlantRef, { size: MODAL_SIZE });
     }
 
     stopPropogation(event) {
@@ -142,8 +137,8 @@ export class PlantsComponent implements OnInit {
     }
 
     removeJob(job) {
-        this._jobsService.removeJob(job).subscribe(() => {
-            this.jobs$.first().subscribe(jobs => {
+        this._plantsService.removeJob(job).subscribe(() => {
+            this.plants$.first().subscribe(jobs => {
                 if ((jobs.length - 1) == 0) {
                     this.previousPage();
                 }
