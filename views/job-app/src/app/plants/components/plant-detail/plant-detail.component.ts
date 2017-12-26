@@ -15,19 +15,18 @@ const MODAL_SIZE = 'lg';
 export class PlantDetailComponent implements OnInit {
     job;
     @ViewChild('addExpenseRef') addExpenseRef: ElementRef;
-    plant$: any = this._jobsService.plantDetail$.do(job => {
-        if (job && job.jobName) {
-            this.job = job;
-            this._headerService.setHeaderText(`${this.job.jobName} - ${this.job.jobNumber}`);
+    plantDetail$: any = this._plantsService.plantDetail$.do(plant => {
+        if (plant && plant.plantName) {
+            this._headerService.setHeaderText(`${ plant.plantName } - ${ plant.plantNumber }`);
         }
     });
 
     private _addJobModalRef: NgbModalRef;
-    isJobDetailLoading$ = this._jobsService.isJobDetailLoading$;
+    isJobDetailLoading$ = this._plantsService.isJobDetailLoading$;
 
-    isJobCheckoutsLoading$ = this._jobsService.isJobCheckoutsLoading$;
+    isJobCheckoutsLoading$ = this._plantsService.isJobCheckoutsLoading$;
     
-    jobCheckouts$ = this._jobsService.jobCheckouts$.do(jobCheckouts => {
+    jobCheckouts$ = this._plantsService.jobCheckouts$.do(jobCheckouts => {
         this.hasCheckouts = false;
 
         if (jobCheckouts && jobCheckouts.length) {
@@ -40,7 +39,7 @@ export class PlantDetailComponent implements OnInit {
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
-        private _jobsService: PlantsService,
+        private _plantsService: PlantsService,
         private _modalService: NgbModal,        
         private _headerService: HeaderService
     ) { 
@@ -62,11 +61,12 @@ export class PlantDetailComponent implements OnInit {
         this.isJobLoading = true;
         const plantNumber = this._route.snapshot.paramMap.get('plantNumber');
 
-        this._jobsService.getPlantDetail(plantNumber);
-        this._jobsService.getJobCheckouts(plantNumber);
+        this._plantsService.getPlantDetail(plantNumber);
+        this._plantsService.getJobCheckouts(plantNumber);
 
-        this._headerService.setHeaderText('------');
-        // this._jobsService.getJob(jobNumber).subscribe(job => {
+        
+
+        // this._plantsService.getPlantDetail(plantNumber).subscribe(job => {
         //   this.isJobLoading = false;
         //   this._headerService.setHeaderText(`${job.companyName} - ${job.jobName}`)
         //   this.job = job;

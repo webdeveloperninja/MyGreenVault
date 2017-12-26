@@ -6,7 +6,7 @@ module.exports = function(passportConfig, jobsApiController) {
     router.post('/', passportConfig.isAuthenticated, jobsApiController.addPlant);
     router.put('/', passportConfig.isAuthenticated, jobsApiController.updatePlant);
     router.post('/remove', passportConfig.isAuthenticated, jobsApiController.removePlant);
-    router.get('/:jobNumber', passportConfig.isAuthenticated, jobsApiController.getPlant);
+    router.get('/:plantNumber', passportConfig.isAuthenticated, jobsApiController.getPlant);
     
     return router;
 }

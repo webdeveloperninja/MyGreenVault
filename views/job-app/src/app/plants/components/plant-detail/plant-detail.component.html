@@ -12,15 +12,14 @@
                                 Add Expense
                             </button>
                             <p>
-                                <strong>Job Name:</strong> {{ (job$ | async)?.jobName | empty }}</p>
+                                <strong>Job Name:</strong> {{ (plantDetail$ | async)?.plantName | empty }}</p>
                             <p>
-                                <strong>Job Number:</strong> {{ (job$ | async)?.jobNumber | empty }}</p>
+                                <strong>Job Number:</strong> {{ (plantDetail$ | async)?.plantNumber | empty }}</p>
                             <p>
-                                <strong>Job Description:</strong> {{ (job$ | async)?.jobDescription | empty }}</p>
+                                <strong>Job Description:</strong> {{ (plantDetail$ | async)?.plantDescription | empty }}</p>
                             <p>
-                                <strong>Job Status:</strong> {{ (job$ | async)?.jobStatus | jobStatusNumberToTitle | empty }}</p>
-                            <p>
-                                <strong>Company Name:</strong> {{ (job$ | async)?.companyName | empty }}</p>
+                                <strong>Job Status:</strong> {{ (plantDetail$ | async)?.plantStatus | jobStatusNumberToTitle | empty }}</p>
+                         
                         </div>
                     </div>
                     <div class="col-md-6">

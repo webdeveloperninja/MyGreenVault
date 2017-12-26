@@ -23,10 +23,10 @@ exports.getPlants = (req, res) => {
 };
 
 exports.getPlant = (req, res) => {
-    const jobNumber = req.params.jobNumber;
+    const plantNumber = req.params.plantNumber;
     const userId = req.user._id;
 
-    jobQuery.getJob(userId, jobNumber).then(job => {
+    jobQuery.getPlant(userId, plantNumber).then(job => {
         res.json(job);
     }).catch(err => {
         res.send(500);

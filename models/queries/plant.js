@@ -2,11 +2,11 @@ const User = require('../../models/User');
 const Plant = require('../../models/Plant');
 const ObjectId = require('mongodb').ObjectID;
 
-let getJob = exports.getJob = (userId, jobNumber) => {
+let getPlant = exports.getPlant = (userId, plantNumber) => {
     return new Promise((resolve, reject) => {
         let queryObj = {
             userId: ObjectId(userId),
-            jobNumber: jobNumber
+            plantNumber: plantNumber
         }
 
         Plant.find(queryObj)
