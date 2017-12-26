@@ -106,7 +106,7 @@ function doUpdateJob(userId, job) {
 
 function getJob(userId, jobNumber) {
     return new Promise((resolve, reject) => {
-        jobQuery.getJob(userId, jobNumber).then(job => {
+        jobQuery.getPlant(userId, jobNumber).then(job => {
             resolve(job);
         }).catch(err => {
             reject(err);
@@ -117,7 +117,7 @@ function getJob(userId, jobNumber) {
 function doAddJob(userId, job) {
     return new Promise((resolve, reject) => {
         Promise.all([
-            getJob(userId, job.jobNumber)
+            getJob(userId, job.plantNumber)
         ]).then(data => {
             if (!data[0].jobNumber) {
                 jobQuery.addJob(job).then(jobResponse => {
