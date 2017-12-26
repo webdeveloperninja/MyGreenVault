@@ -1,2 +1,9 @@
 body {
-  background-color: green; }
+  background-image: url("../../assets/images/guy-holding-plant.jpg");
+  background-repeat: no-repeat;
+  background-size: cover; }
+
+.login-wrapper {
+  background-color: rgba(57, 57, 57, 0.69);
+  border-radius: 5px;
+  color: white; }
