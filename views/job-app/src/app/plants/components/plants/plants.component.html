@@ -32,7 +32,7 @@
                                 </td>
                                 <td>
                                     <button class="btn btn-outline-danger pull-right" mwlConfirmationPopover [title]="title" [message]="getConfirmationMessage(job.jobName)"
-                                        placement="left" (confirm)="removeJob(job)" (cancel)="cancelClicked = true">
+                                        placement="left" (confirm)="removePlant(job)" (cancel)="cancelClicked = true">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
                                     <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdatePlantModal(job._id)">
@@ -47,7 +47,7 @@
                     </table>
                     <div class="row">
                         <div class="col-md-12">
-                            <button (click)="nextPage()" class="btn btn-outline-primary next pull-right" [disabled]="!(moreJobs$ | async)">
+                            <button (click)="nextPage()" class="btn btn-outline-primary next pull-right" [disabled]="!(morePlants$ | async)">
                                 Next Page
                             </button>
                             <button (click)="previousPage()" class="btn btn-outline-primary pull-right mr-2" [disabled]="isLoading">
@@ -60,7 +60,7 @@
             <ti-alert [status]="alert.info" message="There are no plants" [showAlert]="!hasPlants" [isLoading]="isPlantsLoading$ | async">
             </ti-alert>
             <ng-template #updatePlantRef let-c="close" let-d="dismiss">
-                <update-plant [activeJob]="activeJob$" (closeUpdateModal)="closeUpdatePlantModal($event)" (isLoading)="isTiUpdateJobLoading($event)"
+                <update-plant [activePlant]="activePlant$ | async" (closeUpdateModal)="closeUpdatePlantModal($event)" (isLoading)="isTiUpdateJobLoading($event)"
                     [skip]="skip" [take]="take">
                 </update-plant>
             </ng-template>

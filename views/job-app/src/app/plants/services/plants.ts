@@ -27,8 +27,8 @@ export class PlantsService {
     private _isJobDetailLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public readonly isJobDetailLoading$: Observable<any> = this._isJobDetailLoading$.asObservable();
 
-    private _moreJobsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    public readonly moreJobs$: Observable<boolean> = this._moreJobsSubject$.asObservable();
+    private _morePlantsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public readonly morePlants$: Observable<boolean> = this._morePlantsSubject$.asObservable();
 
     private _hasPreviousJobsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public readonly hasPreviousJobs$: Observable<boolean> = this._hasPreviousJobsSubject$.asObservable();
@@ -45,8 +45,8 @@ export class PlantsService {
     private _jobsQuerySubject$: BehaviorSubject<string> = new BehaviorSubject<string>('');
     public readonly jobsQuery$: Observable<string> = this._jobsQuerySubject$.asObservable();
 
-    private _activeJobSubject$: BehaviorSubject<Job> = new BehaviorSubject<Job>(null);
-    public readonly activeJob$: Observable<Job> = this._activeJobSubject$.asObservable();
+    private _activePlantSubject$: BehaviorSubject<Job> = new BehaviorSubject<Job>(null);
+    public readonly activePlant$: Observable<Job> = this._activePlantSubject$.asObservable();
 
 
     constructor(
@@ -118,7 +118,7 @@ export class PlantsService {
             const hasPreviousJobs = this._jobsSkipSubject$.value != 0;
 
             this._plantsSubject$.next(jobs);
-            this._moreJobsSubject$.next(moreJobs);
+            this._morePlantsSubject$.next(moreJobs);
             this._hasPreviousJobsSubject$.next(hasPreviousJobs);
         });
     }
@@ -138,7 +138,7 @@ export class PlantsService {
             const hasPreviousJobs = this._jobsSkipSubject$.value != 0;
 
             this._plantsSubject$.next(jobs);
-            this._moreJobsSubject$.next(moreJobs);
+            this._morePlantsSubject$.next(moreJobs);
             this._hasPreviousJobsSubject$.next(hasPreviousJobs);
 
             return jobs;
@@ -151,7 +151,7 @@ export class PlantsService {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
         return this._http.post('/api/v1/jobs/', job, {headers: headers})
             .map((res: PagedList) => {
-                this._moreJobsSubject$.next(res.more);
+                this._morePlantsSubject$.next(res.more);
             }).finally(() => {
                 this.doSearch();
             })
@@ -170,7 +170,7 @@ export class PlantsService {
     }
 
 
-    public removeJob(job) {
+    public removePlant(job) {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         this._isJobsLoadingSubject$.next(true);
@@ -187,7 +187,7 @@ export class PlantsService {
 
     public setActiveJob(jobId: string): void {
         let activeJob = this.plants$.map(jobs => jobs.filter(job => job._id === jobId)[0]).subscribe(activeJob => {
-            this._activeJobSubject$.next(activeJob);
+            this._activePlantSubject$.next(activeJob);
         });
     }
 

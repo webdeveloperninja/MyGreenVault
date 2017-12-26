@@ -47,10 +47,8 @@ export class PlantsComponent implements OnInit {
     plants$: Observable<Job[]>
     isPlantsLoading$: Observable<boolean> = this._plantsService.isPlantsLoading$;
 
-    // Stopped here yo
-    activeJob$: any = this._plantsService.activeJob$;
-    activeJobSub$: Subscription;
-    moreJobs$: Observable<boolean> = this._plantsService.moreJobs$;
+    activePlant$: any = this._plantsService.activePlant$;
+    morePlants$: Observable<boolean> = this._plantsService.morePlants$;
 
     constructor(
         private _plantsService: PlantsService,
@@ -62,9 +60,9 @@ export class PlantsComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.plants$ = this._plantsService.plants$.do(jobs => {
-            if (jobs) {
-                if (jobs.length > 0) {
+        this.plants$ = this._plantsService.plants$.do(plants => {
+            if (plants) {
+                if (plants.length > 0) {
                     this.hasPlants = true;
                 } else {
                     this.hasPlants = false;
@@ -136,10 +134,10 @@ export class PlantsComponent implements OnInit {
 
     }
 
-    removeJob(job) {
-        this._plantsService.removeJob(job).subscribe(() => {
-            this.plants$.first().subscribe(jobs => {
-                if ((jobs.length - 1) == 0) {
+    removePlant(plant) {
+        this._plantsService.removePlant(plant).subscribe(() => {
+            this.plants$.first().subscribe(plants => {
+                if ((plants.length - 1) == 0) {
                     this.previousPage();
                 }
             });
