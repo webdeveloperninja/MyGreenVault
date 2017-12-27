@@ -40,6 +40,21 @@ let addJob = exports.addJob = job => {
     });
 }
 
+let addPlantExpense = exports.addJob = expense => {
+    // const newJob = new Plant(job);
+
+    // return new Promise((resolve, reject) => {
+    //     newJob.save((err, results) => {
+    //         if (err) {
+    //             reject(err);
+    //         }
+    //         resolve(results);
+    //     });
+    // });
+}
+
+
+
 let getJobs = exports.getJobs = (userId, skip, take, query = null) => {
     return new Promise((resolve, reject) => {
         let queryObj = {

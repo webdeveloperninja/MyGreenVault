@@ -18,6 +18,7 @@ import { JobStatusPipe } from './pipes/job-status.pipe';
 import { PlantsService } from './services/plants';
 import { DetailComponent } from './components/plant-detail/detail/detail.component';
 import { ExpensesComponent } from './components/plant-detail/expenses/expenses.component';
+import { ExpenseService } from './services/expense';
 
 @NgModule({
     imports: [
@@ -41,7 +42,8 @@ import { ExpensesComponent } from './components/plant-detail/expenses/expenses.c
         ExpensesComponent
     ],
     providers: [
-        PlantsService
+        PlantsService,
+        ExpenseService
     ],
     exports: [
     ]

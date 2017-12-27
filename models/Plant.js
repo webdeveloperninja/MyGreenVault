@@ -5,7 +5,8 @@ const plantSchema = new mongoose.Schema({
     plantNumber: { type: String, required: true },
     plantDescription: { type: String, required: true },
     plantStatus: { type: Number, required: true },
-    userId: {type: String, required: true } 
+    userId: {type: String, required: true },
+    expenses: {type: Array, required: false } 
 }, { collection: 'plant'});
 
 const Plant = mongoose.model('Plant', plantSchema);

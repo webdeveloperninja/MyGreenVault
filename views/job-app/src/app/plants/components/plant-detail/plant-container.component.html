@@ -9,7 +9,7 @@
                         </plant-detail>
                     </div>
                     <div class="col-md-6">
-                        <plant-expenses></plant-expenses>
+                        <plant-expenses [plantNumber]="plantNumber$ | async"></plant-expenses>
                     </div>
                     <!-- <div class="col-md-6">
                         <div class="card-box graph-card">
