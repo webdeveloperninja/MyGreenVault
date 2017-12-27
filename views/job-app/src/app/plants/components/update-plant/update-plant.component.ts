@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { PlantsService, Job } from '../../services/plants';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription, Subject } from 'rxjs';
@@ -9,18 +9,12 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
     templateUrl: './update-plant.component.html',
     styleUrls: ['./update-plant.component.scss']
 })
-export class UpdatePlantComponent implements OnInit {
+export class UpdatePlantComponent {
 
     activePlantFormGroup: FormGroup;
 
-    @Input('skip') skip: number;
-    @Input('take') take: number;
-
     @Output('closeUpdateModal')
     closeUpdateModal: EventEmitter<boolean> = new EventEmitter<boolean>();
-
-    @Output('isLoading')
-    isLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     private _activePlant: any;
     get activePlant(): any {
@@ -39,11 +33,6 @@ export class UpdatePlantComponent implements OnInit {
         private _router: Router
     ) { }
 
-    ngOnInit() {
-        let skip = this._route.snapshot.queryParams["skip"];
-        let take = this._route.snapshot.queryParams["take"];
-    }
-
     createGroup() {
         const group = this._fb.group({});
 
@@ -55,7 +44,7 @@ export class UpdatePlantComponent implements OnInit {
     }
 
     updateJob(activeJob) {
-        this._jobsService.updateJob(activeJob.value).subscribe(data => {
+        this._jobsService.updateJob(activeJob.value).first().subscribe(data => {
             this._jobsService.doSearch();
             this.closeModal();
         });

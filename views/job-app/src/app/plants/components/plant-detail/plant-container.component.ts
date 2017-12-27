@@ -9,16 +9,14 @@ const MODAL_SIZE = 'lg';
 
 @Component({
   selector: 'ti-job-detail',
-  templateUrl: './plant-detail.component.html',
-  styleUrls: ['./plant-detail.component.scss']
+  templateUrl: './plant-container.component.html',
+  styleUrls: ['./plant-container.component.scss']
 })
-export class PlantDetailComponent implements OnInit {
+export class PlantContainerComponent implements OnInit {
     job;
     @ViewChild('addExpenseRef') addExpenseRef: ElementRef;
-    plantDetail$: any = this._plantsService.plantDetail$.do(plant => {
-        if (plant && plant.plantName) {
-            this._headerService.setHeaderText(`${ plant.plantName } - ${ plant.plantNumber }`);
-        }
+    plantDetail$: any = this._plantsService.plantDetail$.filter(detail => !!detail).do(plant => {
+        this._headerService.setHeaderText(`${ plant.plantName } - ${ plant.plantNumber }`);
     });
 
     private _addJobModalRef: NgbModalRef;

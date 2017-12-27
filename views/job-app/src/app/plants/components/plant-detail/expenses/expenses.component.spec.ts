@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ToolUsageGraphComponent } from './tool-usage-graph.component';
+import { ExpensesComponent } from './expenses.component';
 
-describe('ToolUsageGraphComponent', () => {
-  let component: ToolUsageGraphComponent;
-  let fixture: ComponentFixture<ToolUsageGraphComponent>;
+describe('ExpensesComponent', () => {
+  let component: ExpensesComponent;
+  let fixture: ComponentFixture<ExpensesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ToolUsageGraphComponent ]
+      declarations: [ ExpensesComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ToolUsageGraphComponent);
+    fixture = TestBed.createComponent(ExpensesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

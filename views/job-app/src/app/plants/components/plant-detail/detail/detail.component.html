@@ -1,0 +1,26 @@
+<div class="card-box">
+    <i class='fa fa-spinner fa-spin float-right ti-spin' *ngIf="isPlantDetailLoading"></i>
+    <div class="row">
+        <div class="col d-flex justify-content-between">
+            <p class="card-title">Plant Details</p>
+            <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdatePlantModal(plantDetail._id)">
+                    <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
+                </button>
+        </div>
+    </div>
+
+    <p>
+        <strong>Job Name:</strong> {{ plantDetail?.plantName | empty }}</p>
+    <p>
+        <strong>Job Number:</strong> {{ plantDetail?.plantNumber | empty }}</p>
+    <p>
+        <strong>Job Description:</strong> {{ plantDetail?.plantDescription | empty }}</p>
+    <p>
+        <strong>Job Status:</strong> {{ plantDetail?.plantStatus | jobStatusNumberToTitle | empty }}</p>
+
+</div>
+
+<ng-template #updatePlantRef let-c="close" let-d="dismiss">
+    <update-plant [activePlant]="plantDetail" (closeUpdateModal)="closeUpdatePlantModal($event)">
+    </update-plant>
+</ng-template>
