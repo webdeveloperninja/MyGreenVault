@@ -78,18 +78,15 @@ exports.removePlant = (req, res) => {
 }
 
 exports.getPlantExpenses = (req, res) => {
-    // const userId = req.user._id;
-    // let url_parts = url.parse(req.url, true);
-    // let skip = Number(url_parts.query.skip);
-    // let take = Number(url_parts.query.take);
-    // let query = url_parts.query.query;
+    const plantNumber = req.params.plantNumber;
+    const userId = req.user._id;
 
-    // plantQuery.getJobs(userId, skip, take, query).then(jobs => {
-    //     res.send(jobs)
-    // }).catch(error => {
-    //     res.send(500);
-    //     throw new Error(error);
-    // });
+    plantQuery.getExpenses(userId, plantNumber).then(expenses => {
+        res.send(expenses)
+    }).catch(error => {
+        res.send(500);
+        throw new Error(error);
+    });
 };
 
 exports.addPlantExpenses = (req, res) => {

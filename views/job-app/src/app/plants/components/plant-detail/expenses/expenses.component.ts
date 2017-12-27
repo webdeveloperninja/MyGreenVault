@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { ExpenseService } from '../../../services/expense';
 import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
 
 const MODAL_SIZE = 'lg';
 
@@ -22,11 +23,16 @@ export class ExpensesComponent implements OnInit {
 
     @Input('plantNumber') 
     set plantNumber(value: string) {
-        this._plantNumber = value;
-        this._expenseService.updatePlantNumber(value);
+        if (value) {
+            this._plantNumber = value;
+            this._expenseService.updatePlantNumber(value);
+            this._expenseService.getExpenses();
+        }
     }
 
     @ViewChild('addExpenseRef') addExpenseRef: ElementRef;
+
+    expenses$: Observable<Array<any>> = this._expenseService.expenses$;
 
     formErrors = {
         'name': '',
@@ -57,7 +63,7 @@ export class ExpensesComponent implements OnInit {
         };
 
         this._expenseService.addExpense(expenseObj).first().subscribe((expense) => {
-            this._expenseService.updateExpenses();
+            this._expenseService.getExpenses();
         });
     }
 }

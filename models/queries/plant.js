@@ -41,16 +41,35 @@ let addJob = exports.addJob = job => {
 }
 
 let addExpense = exports.addExpense = expense => {
-    // const newJob = new Plant(job);
+    // todo append to expenses array 
+    return new Promise((resolve, reject) => {
+        Plant.update(
+            { userId: ObjectId(expense.userId) },
+            { $push: { expenses: expense }}
+        ).exec((err, res) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(res);
+            }
+        })
+    })
+}
 
-    // return new Promise((resolve, reject) => {
-    //     newJob.save((err, results) => {
-    //         if (err) {
-    //             reject(err);
-    //         }
-    //         resolve(results);
-    //     });
-    // });
+let getExpenses = exports.getExpenses = (userId, plantNumber) => {
+    return new Promise((resolve, reject) => {
+        Plant.find(
+            { userId: ObjectId(userId) },
+            'expenses'
+        ).exec((err, results) => {
+            if (err) {
+                reject(err);
+            } else {
+                const expenses = results.map(results => results.expenses.filter(expense => expense.plantNumber == plantNumber));
+                resolve(expenses[0]);
+            }
+        })
+    });
 }
 
 

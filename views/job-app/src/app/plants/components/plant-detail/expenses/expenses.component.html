@@ -6,6 +6,11 @@
                 <span class="fa fa-plus mr-2"></span>Add Expense</button>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12">
+            {{ expenses$ | async | json }}
+        </div>
+    </div>
 </div>
 <ng-template #addExpenseRef let-c="close" let-d="dismiss">
     <form [formGroup]="expenseFormGroup" #plantForm="ngForm" class="add-expenses" (ngSubmit)="addExpense()">
