@@ -103,7 +103,9 @@ exports.addPlantExpenses = (req, res) => {
         expense.userId = req.user._id;
     }
 
-    plantQuery.addPlantExpense(expense).then(data => {
+    expense.plantNumber = plantNumber;
+
+    plantQuery.addExpense(expense).then(data => {
         res.send(200);
     }).catch(err => {
         res.send(500);

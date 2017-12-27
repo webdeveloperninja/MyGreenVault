@@ -30,8 +30,8 @@ export class ExpenseService {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         return this._http.post(`/api/v1/plants/${this._plantNumberSubject$.value}/expenses`, expense, {headers: headers}).finally(() => {
-                this.updateExpenses()
-            })
+            this.updateExpenses()
+        })
     }
 
 }

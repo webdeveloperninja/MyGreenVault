@@ -40,7 +40,7 @@ let addJob = exports.addJob = job => {
     });
 }
 
-let addPlantExpense = exports.addJob = expense => {
+let addExpense = exports.addExpense = expense => {
     // const newJob = new Plant(job);
 
     // return new Promise((resolve, reject) => {

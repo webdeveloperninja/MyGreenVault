@@ -1,16 +1,16 @@
-module.exports = function(passportConfig, jobsApiController) {
+module.exports = function(passportConfig, plantsApiController) {
     'use strict';
     const router = require('express').Router();
 
-    router.get('/', passportConfig.isAuthenticated, jobsApiController.getPlants);
-    router.post('/', passportConfig.isAuthenticated, jobsApiController.addPlant);
-    router.put('/', passportConfig.isAuthenticated, jobsApiController.updatePlant);
-    router.post('/remove', passportConfig.isAuthenticated, jobsApiController.removePlant);
-    router.get('/:plantNumber', passportConfig.isAuthenticated, jobsApiController.getPlant);
+    router.get('/', passportConfig.isAuthenticated, plantsApiController.getPlants);
+    router.post('/', passportConfig.isAuthenticated, plantsApiController.addPlant);
+    router.put('/', passportConfig.isAuthenticated, plantsApiController.updatePlant);
+    router.post('/remove', passportConfig.isAuthenticated, plantsApiController.removePlant);
+    router.get('/:plantNumber', passportConfig.isAuthenticated, plantsApiController.getPlant);
 
-    router.get('/:plantNumber/expenses', passportConfig.isAuthenticated, jobsApiController.getPlantExpenses);
-    router.post('/:plantNumber/expenses', passportConfig.isAuthenticated, jobsApiController.addPlantExpenses);
-    router.post('/:plantNumber/expenses/remove', passportConfig.isAuthenticated, jobsApiController.removePlantExpenses);
+    router.get('/:plantNumber/expenses', passportConfig.isAuthenticated, plantsApiController.getPlantExpenses);
+    router.post('/:plantNumber/expenses', passportConfig.isAuthenticated, plantsApiController.addPlantExpenses);
+    router.post('/:plantNumber/expenses/remove', passportConfig.isAuthenticated, plantsApiController.removePlantExpenses);
     
     return router;
 }
