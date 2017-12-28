@@ -5,6 +5,7 @@ const clockwork = require('clockwork')({ key: process.env.CLOCKWORK_KEY });
 const User = require('../../models/User');
 const url = require('url');
 const plantQuery = require('../../models/queries/plant');
+const expenseQuery = require('../../models/queries/expense');
 
 
 exports.getPlants = (req, res) => {
@@ -81,7 +82,7 @@ exports.getPlantExpenses = (req, res) => {
     const plantNumber = req.params.plantNumber;
     const userId = req.user._id;
 
-    plantQuery.getExpenses(userId, plantNumber).then(expenses => {
+    expenseQuery.get(userId, plantNumber).then(expenses => {
         res.send(expenses)
     }).catch(error => {
         res.send(500);
@@ -91,18 +92,16 @@ exports.getPlantExpenses = (req, res) => {
 
 exports.addPlantExpenses = (req, res) => {
     const plantNumber = req.params.plantNumber;
-    let expense = {};
-
-    if (req.body._id) {
-        expense = req.body;
-    } else {
-        expense = req.body;
-        expense.userId = req.user._id;
+    if (!plantNumber) {
+        res.send(403);
     }
+    let expense = req.body;
+
+    expense.userId = req.user._id;
 
     expense.plantNumber = plantNumber;
 
-    plantQuery.addExpense(expense).then(data => {
+    expenseQuery.add(expense).then(data => {
         res.send(200);
     }).catch(err => {
         res.send(500);
@@ -111,14 +110,14 @@ exports.addPlantExpenses = (req, res) => {
 }
 
 exports.removePlantExpenses = (req, res) => {
-    // const job = req.body;
+    const expense = req.body;
 
-    // plantQuery.removeJob(job).then(data => {
-    //     res.send(200);
-    // }).catch(err => {
-    //     res.send(500);
-    //     throw new Error(err);
-    // });
+    expenseQuery.remove(expense).then(data => {
+        res.send(200);
+    }).catch(err => {
+        res.send(500);
+        throw new Error(err);
+    });
 }
 
 function doUpdateJob(userId, job) {

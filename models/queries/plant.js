@@ -72,6 +72,8 @@ let getExpenses = exports.getExpenses = (userId, plantNumber) => {
     });
 }
 
+let removePlantExpenses = exports.removePlantExpenses = (expense) => {
+}
 
 
 let getJobs = exports.getJobs = (userId, skip, take, query = null) => {

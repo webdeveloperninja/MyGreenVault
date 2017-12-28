@@ -3,13 +3,74 @@
         <div class="row">
             <div class="col">
                 <div class="row">
-                    <div class="col-md-6">
-                        <plant-detail
-                            [plantDetail]="plantDetail$ | async">
+                    <div class="col-md-8">
+                        <plant-detail [plantDetail]="plantDetail$ | async">
                         </plant-detail>
+                        <div class="row">
+                            <div class="col-md-6">
+                                
+                            </div>
+                            <div class="col-md-6">
+                                <!-- <plant-expenses [plantNumber]="plantNumber$ | async"></plant-expenses> -->
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <plant-expenses [plantNumber]="plantNumber$ | async"></plant-expenses>
+                    <div class="col-md-4">
+                            <plant-expenses [plantNumber]="plantNumber$ | async"></plant-expenses>
+                        <!-- <div class="card-box" style="height: 550px; overflow-y: scroll;">
+                            <div class="table-responsive">
+                                <table class="table table-bordered mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Notes</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th class="text-muted">Apple Technology</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-muted">Envato Pty Ltd.</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-muted">Dribbble LLC.</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-muted">Adobe Family</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-muted">Apple Technology</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-muted">Envato Pty Ltd.</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-muted">Dribbble LLC.</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-muted">Adobe Family</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-muted">Apple Technology</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-muted">Envato Pty Ltd.</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div> -->
                     </div>
                     <!-- <div class="col-md-6">
                         <div class="card-box graph-card">
@@ -30,10 +91,10 @@
                     </ng-container>
                 </div>
             </div> -->
+                </div>
+            </div>
         </div>
     </div>
-</div>
-</div>
 </div>
 
 <ng-template #addExpenseRef let-c="close" let-d="dismiss">

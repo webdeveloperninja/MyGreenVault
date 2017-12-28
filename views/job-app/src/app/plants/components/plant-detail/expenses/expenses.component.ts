@@ -66,5 +66,14 @@ export class ExpensesComponent implements OnInit {
             this._expenseService.getExpenses();
         });
     }
+
+    removeExpense(expense) {
+        console.log('expense', expense);
+        this._expenseService.removeExpense(expense);
+    }
+
+    getConfirmationMessage(name: string) {
+        return `Are you sure you want to remove ${name}?`
+    }
 }
 

@@ -41,4 +41,12 @@ export class ExpenseService {
         })
     }
 
+    public removeExpense(expense) {
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        
+        return this._http.post(`/api/v1/plants/${this._plantNumberSubject$.value}/expenses/remove`, expense, { headers: headers }).finally(() => {
+            this.getExpenses()
+        }).first().subscribe();
+    }
+
 }
