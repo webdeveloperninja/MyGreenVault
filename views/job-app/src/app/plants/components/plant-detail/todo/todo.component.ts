@@ -64,9 +64,8 @@ export class TodoComponent implements OnInit {
         });
     }
 
-    removeExpense(expense) {
-        // console.log('expense', expense);
-        // this._todoService.removeExpense(expense);
+    removeTodo(todo) {
+        this._todoService.remove(todo);
     }
 
     getConfirmationMessage(name: string) {

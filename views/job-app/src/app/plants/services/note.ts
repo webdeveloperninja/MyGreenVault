@@ -7,12 +7,12 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 
 @Injectable()
-export class TodoService {
+export class NoteService {
     private _plantNumberSubject$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
     public readonly plantNumber$: Observable<string> = this._plantNumberSubject$.asObservable();
 
-    private _todosSubject$: BehaviorSubject<Array<any>> = new BehaviorSubject<Array<any>>(null);
-    public readonly todos$: Observable<Array<any>> = this._todosSubject$.asObservable();
+    private _notesSubject$: BehaviorSubject<Array<any>> = new BehaviorSubject<Array<any>>(null);
+    public readonly notes$: Observable<Array<any>> = this._notesSubject$.asObservable();
 
     public updatePlantNumber(plantNumber: string) {
         this._plantNumberSubject$.next(plantNumber);
@@ -21,23 +21,23 @@ export class TodoService {
     get() {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        return this._http.get(`/api/v1/plants/${this._plantNumberSubject$.value}/todos`, { headers: headers, withCredentials: true }).first().subscribe((todos) => {
-            this._todosSubject$.next(todos as Array<any>);
+        return this._http.get(`/api/v1/plants/${this._plantNumberSubject$.value}/notes`, { headers: headers, withCredentials: true }).first().subscribe((todos) => {
+            this._notesSubject$.next(todos as Array<any>);
         })
     }
 
-    add(todo) {
+    add(note) {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        return this._http.post(`/api/v1/plants/${this._plantNumberSubject$.value}/todos`, todo, { headers: headers }).finally(() => {
+        return this._http.post(`/api/v1/plants/${this._plantNumberSubject$.value}/notes`, note, { headers: headers }).finally(() => {
             this.get()
         });
     }
 
-    remove(todo) {
+    remove(note) {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
         
-        return this._http.post(`/api/v1/plants/${this._plantNumberSubject$.value}/todos/remove`, todo, { headers: headers }).finally(() => {
+        return this._http.post(`/api/v1/plants/${this._plantNumberSubject$.value}/notes/remove`, note, { headers: headers }).finally(() => {
             this.get()
         }).first().subscribe();
     }

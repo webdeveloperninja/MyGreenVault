@@ -13,19 +13,16 @@
                         <th>Description</th>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let expense of todos$ | async">
+                        <tr *ngFor="let todo of todos$ | async">
                             <td>
-                                {{ expense.name }}
+                                {{ todo.name }}
                                 <button
                                     mwlConfirmationPopover 
                                     [title]="title"
-                                    placement="left" (confirm)="removeExpense(expense)" (cancel)="cancelClicked = true" 
-                                    [message]="getConfirmationMessage(expense.name)" 
-                                    class="btn btn-outline-danger pull-right">
-                                    <i aria-hidden="true" class="fa fa-trash"></i>
-                                </button>
-                                <button class="btn btn-outline-primary pull-right mr-2">
-                                        <i aria-hidden="true" class="fa fa-pencil-square-o"></i>
+                                    placement="left" (confirm)="removeTodo(todo)" (cancel)="cancelClicked = true" 
+                                    [message]="getConfirmationMessage(todo.name)" 
+                                    class="btn btn-outline-success pull-right">
+                                    <i aria-hidden="true" class="fa fa-check"></i>
                                 </button>
                             </td>
                         </tr>

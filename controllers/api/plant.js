@@ -6,6 +6,8 @@ const User = require('../../models/User');
 const url = require('url');
 const plantQuery = require('../../models/queries/plant');
 const expenseQuery = require('../../models/queries/expense');
+const todoQuery = require('../../models/queries/todo');
+const noteQuery = require('../../models/queries/note');
 
 
 exports.getPlants = (req, res) => {
@@ -71,6 +73,91 @@ exports.removePlant = (req, res) => {
     const job = req.body;
 
     plantQuery.removeJob(job).then(data => {
+        res.send(200);
+    }).catch(err => {
+        res.send(500);
+        throw new Error(err);
+    });
+}
+
+exports.addPlantNote = (req, res) => {
+    const plantNumber = req.params.plantNumber;
+    if (!plantNumber) {
+        res.send(403);
+    }
+    let note = req.body;
+
+    note.userId = req.user._id;
+
+    note.plantNumber = plantNumber;
+
+    noteQuery.add(note).then(data => {
+        res.send(200);
+    }).catch(err => {
+        res.send(500);
+        throw new Error(err);
+    })
+};
+
+exports.getPlantNotes = (req, res) => {
+    const plantNumber = req.params.plantNumber;
+    const userId = req.user._id;
+
+    noteQuery.get(userId, plantNumber).then(todos => {
+        res.send(todos)
+    }).catch(error => {
+        res.send(500);
+        throw new Error(error);
+    });
+};
+
+exports.removePlantNote = (req, res) => {
+    const note = req.body;
+
+    noteQuery.remove(note).then(data => {
+        res.send(200);
+    }).catch(err => {
+        res.send(500);
+        throw new Error(err);
+    });
+}
+
+
+exports.getPlantTodos = (req, res) => {
+    const plantNumber = req.params.plantNumber;
+    const userId = req.user._id;
+
+    todoQuery.get(userId, plantNumber).then(todos => {
+        res.send(todos)
+    }).catch(error => {
+        res.send(500);
+        throw new Error(error);
+    });
+};
+
+exports.addPlantTodo = (req, res) => {
+    const plantNumber = req.params.plantNumber;
+    if (!plantNumber) {
+        res.send(403);
+    }
+    let expense = req.body;
+
+    expense.userId = req.user._id;
+
+    expense.plantNumber = plantNumber;
+
+    todoQuery.add(expense).then(data => {
+        res.send(200);
+    }).catch(err => {
+        res.send(500);
+        throw new Error(err);
+    })
+};
+
+exports.removePlantTodo = (req, res) => {
+    const todo = req.body;
+
+    todoQuery.remove(todo).then(data => {
         res.send(200);
     }).catch(err => {
         res.send(500);

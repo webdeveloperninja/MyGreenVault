@@ -20,7 +20,9 @@ import { DetailComponent } from './components/plant-detail/detail/detail.compone
 import { ExpensesComponent } from './components/plant-detail/expenses/expenses.component';
 import { ExpenseService } from './services/expense';
 import { TodoService } from './services/todo';
+import { NoteService } from './services/note';
 import { TodoComponent } from './components/plant-detail/todo/todo.component';
+import { NotesComponent } from './components/plant-detail/notes/notes.component';
 
 @NgModule({
     imports: [
@@ -42,12 +44,14 @@ import { TodoComponent } from './components/plant-detail/todo/todo.component';
         JobStatusPipe,
         DetailComponent,
         ExpensesComponent,
-        TodoComponent
+        TodoComponent,
+        NotesComponent
     ],
     providers: [
         PlantsService,
         ExpenseService,
-        TodoService
+        TodoService,
+        NoteService
     ],
     exports: [
     ]
