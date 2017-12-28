@@ -3,6 +3,7 @@ import { NoteService } from '../../../services/note';
 import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
+import {  } from 'app/shared/components/alert/alert.component';
 
 const MODAL_SIZE = 'lg';
 
@@ -12,6 +13,8 @@ const MODAL_SIZE = 'lg';
     styleUrls: ['./notes.component.scss']
 })
 export class NotesComponent implements OnInit {
+    hasNotes: boolean = false;
+    alert = alert;
     noteFormGroup: FormGroup;
     private _addNoteModalRef: NgbModalRef;
 
@@ -32,7 +35,13 @@ export class NotesComponent implements OnInit {
 
     @ViewChild('addNoteRef') addNoteRef: ElementRef;
 
-    notes$: Observable<Array<any>> = this._noteService.notes$;
+    notes$: Observable<Array<any>> = this._noteService.notes$.do(notes => {
+        if (notes && notes.length > 0) {
+            this.hasNotes = true;
+        } else {
+            this.hasNotes = false;
+        }
+    });
 
     formErrors = {
         'todo': ''

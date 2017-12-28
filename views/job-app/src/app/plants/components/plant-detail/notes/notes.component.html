@@ -10,7 +10,7 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <table class="table">
+            <table class="table table-striped table-bordered mt-2">
                 <thead>
                     <th>Description</th>
                 </thead>
@@ -21,6 +21,14 @@
                             <button mwlConfirmationPopover [title]="title" placement="left" (confirm)="removeNote(note)" (cancel)="cancelClicked = true"
                                 [message]="getConfirmationMessage(note.name)" class="btn btn-outline-danger pull-right">
                                 <i aria-hidden="true" class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="!hasNotes">
+                        <td>
+                            There are no notes
+                            <button class="btn btn-outline-primary pull-right" (click)="openAddNoteModal()">
+                                <span class="fa fa-plus"></span> Add Note
                             </button>
                         </td>
                     </tr>

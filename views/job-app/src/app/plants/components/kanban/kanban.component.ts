@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { PlantsService, PagedList, Job } from '../../services/plants';
+import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { HeaderService } from 'app/shared/services/header/header.service';
 import { alert } from 'app/shared/components/alert/alert.component';
+
+const MODAL_SIZE = 'lg';
 
 @Component({
     selector: 'ti-kanban',
@@ -19,6 +22,9 @@ export class KanbanComponent implements OnInit {
     hasDrying: boolean = false;
     hasDone: boolean = false;
 
+    @ViewChild('addPlantRef') addPlantRef: ElementRef;
+    private _addPlantModalRef: NgbModalRef;
+    
     // get hasQuality(): boolean {
     //     return this._hasQuality;
     // }
@@ -84,7 +90,9 @@ export class KanbanComponent implements OnInit {
 
     constructor(
         private _jobsService: PlantsService,
-        private _headerService: HeaderService
+        private _headerService: HeaderService,
+        private _plantsService: PlantsService,
+        private _modalService: NgbModal,
     ) { }
 
     ngOnInit() {
@@ -104,6 +112,10 @@ export class KanbanComponent implements OnInit {
 
     doSearch() {
         this.isJobNotFound = false;
+    }
+
+    addPlant() {
+        this._addPlantModalRef = this._modalService.open(this.addPlantRef, { size: MODAL_SIZE });
     }
 
 }

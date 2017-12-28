@@ -12,6 +12,7 @@ const MODAL_SIZE = 'lg';
     styleUrls: ['./todo.component.scss']
 })
 export class TodoComponent implements OnInit {
+    hasTodos: boolean = false;
     todoFormGroup: FormGroup;
     private _addTodoModalRef: NgbModalRef;
 
@@ -32,7 +33,13 @@ export class TodoComponent implements OnInit {
 
     @ViewChild('addTodoRef') addTodoRef: ElementRef;
 
-    todos$: Observable<Array<any>> = this._todoService.todos$;
+    todos$: Observable<Array<any>> = this._todoService.todos$.do(todos => {
+        if (todos && todos.length > 0) {
+            this.hasTodos = true;
+        } else {
+            this.hasTodos = false;
+        }
+    });;
 
     formErrors = {
         'todo': ''

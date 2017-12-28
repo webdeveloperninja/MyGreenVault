@@ -12,6 +12,7 @@ const MODAL_SIZE = 'lg';
     styleUrls: ['./expenses.component.scss']
 })
 export class ExpensesComponent implements OnInit {
+    hasExpenses: boolean = false;
     expenseFormGroup: FormGroup;
     private _addExpenseModalRef: NgbModalRef;
 
@@ -32,7 +33,13 @@ export class ExpensesComponent implements OnInit {
 
     @ViewChild('addExpenseRef') addExpenseRef: ElementRef;
 
-    expenses$: Observable<Array<any>> = this._expenseService.expenses$;
+    expenses$: Observable<Array<any>> = this._expenseService.expenses$.do(expenses => {
+        if (expenses && expenses.length > 0) {
+            this.hasExpenses = true;
+        } else {
+            this.hasExpenses = false;
+        }
+    });;;
 
     formErrors = {
         'name': '',
