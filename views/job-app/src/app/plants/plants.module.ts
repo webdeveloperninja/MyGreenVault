@@ -19,6 +19,8 @@ import { PlantsService } from './services/plants';
 import { DetailComponent } from './components/plant-detail/detail/detail.component';
 import { ExpensesComponent } from './components/plant-detail/expenses/expenses.component';
 import { ExpenseService } from './services/expense';
+import { TodoService } from './services/todo';
+import { TodoComponent } from './components/plant-detail/todo/todo.component';
 
 @NgModule({
     imports: [
@@ -39,11 +41,13 @@ import { ExpenseService } from './services/expense';
         FilterPipe,
         JobStatusPipe,
         DetailComponent,
-        ExpensesComponent
+        ExpensesComponent,
+        TodoComponent
     ],
     providers: [
         PlantsService,
-        ExpenseService
+        ExpenseService,
+        TodoService
     ],
     exports: [
     ]

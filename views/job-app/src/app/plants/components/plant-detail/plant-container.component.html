@@ -8,15 +8,16 @@
                         </plant-detail>
                         <div class="row">
                             <div class="col-md-6">
-                                
+                                <plant-expenses [plantNumber]="plantNumber$ | async"></plant-expenses>
                             </div>
                             <div class="col-md-6">
                                 <!-- <plant-expenses [plantNumber]="plantNumber$ | async"></plant-expenses> -->
+                                <plant-todo [plantNumber]="plantNumber$ | async"></plant-todo>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
-                            <plant-expenses [plantNumber]="plantNumber$ | async"></plant-expenses>
+                            
                         <!-- <div class="card-box" style="height: 550px; overflow-y: scroll;">
                             <div class="table-responsive">
                                 <table class="table table-bordered mb-0">
