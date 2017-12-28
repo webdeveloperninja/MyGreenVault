@@ -1,0 +1,78 @@
+<div class="card-box">
+    <div class="row">
+        <div class="col d-flex justify-content-between">
+            <p class="card-title">
+                <span class="fa fa-dollar mr-2"></span>Plant Expenses</p>
+            <button class="btn btn-outline-primary" (click)="openAddExpenseModal()">
+                <span class="fa fa-plus"></span>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-responsive table-striped">
+                <thead>
+                    <th>Name</th>
+                    <th>Cost</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let expense of expenses$ | async">
+                        <td>{{ expense.name }}</td>
+                        <td>
+                            ${{ expense.cost | number }}
+                            <button mwlConfirmationPopover [title]="title" placement="left" (confirm)="removeExpense(expense)" (cancel)="cancelClicked = true"
+                                [message]="getConfirmationMessage(expense.name)" class="btn btn-outline-danger pull-right">
+                                <i aria-hidden="true" class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="!hasExpenses">
+                        <td>There are no expense</td>
+                        <td>
+                            <button class="btn btn-outline-primary pull-right" (click)="openAddExpenseModal()">
+                                <span class="fa fa-plus"></span> Add Expense
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<ng-template #addExpenseRef let-c="close" let-d="dismiss">
+    <form [formGroup]="expenseFormGroup" #plantForm="ngForm" class="add-expenses" (ngSubmit)="addExpense()">
+        <div class="modal-header">
+            <h4 class="modal-title">Add Expense</h4>
+            <div class="alert alert-success" *ngIf="expenseSuccessfullyAdded" role="alert">
+                <strong>Expense Saved</strong>
+            </div>
+            <button type="button" (click)="closeModal()" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label>
+                        Name
+                        <span class="danger">{{ formErrors.name}}</span>
+                    </label>
+                    <input class="form-control" formControlName="name">
+                </div>
+                <div class="form-group col-md-6">
+                    <label>
+                        Cost
+                        <span class="danger">{{ formErrors.cost}}</span>
+                    </label>
+                    <input class="form-control" formControlName="cost">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button [disabled]="expenseFormGroup.invalid" class="btn btn-primary pull-right" type="submit">
+                <i class='fa fa-spinner fa-spin ' *ngIf="isAddPlantLoading"></i>
+                Add Expense
+            </button>
+        </div>
+    </form>
+</ng-template>

@@ -60,8 +60,7 @@
             <ti-alert [status]="alert.info" message="There are no plants" [showAlert]="!hasPlants" [isLoading]="isPlantsLoading$ | async">
             </ti-alert>
             <ng-template #updatePlantRef let-c="close" let-d="dismiss">
-                <update-plant [activePlant]="activePlant$ | async" (closeUpdateModal)="closeUpdatePlantModal($event)" (isLoading)="isTiUpdateJobLoading($event)"
-                    [skip]="skip" [take]="take">
+                <update-plant [activePlant]="activePlant$ | async" (closeUpdateModal)="closeUpdatePlantModal($event)">
                 </update-plant>
             </ng-template>
             <ng-template #addPlantRef let-c="close" let-d="dismiss">

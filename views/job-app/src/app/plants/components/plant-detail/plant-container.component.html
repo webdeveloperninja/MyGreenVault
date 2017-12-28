@@ -3,31 +3,75 @@
         <div class="row">
             <div class="col">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="card-box detail-card">
-                            <i class='fa fa-spinner fa-spin float-right ti-spin' *ngIf="isJobDetailLoading$ | async"></i>
-                            <p class="card-title">Plant Details</p>
-                            <button (click)="addExpense()" class="btn btn-primary expense-btn">
-                                <i aria-hidden="true" class="fa fa-plus mr-2"></i>
-                                Add Expense
-                            </button>
-                            <p>
-                                <strong>Job Name:</strong> {{ (plantDetail$ | async)?.plantName | empty }}</p>
-                            <p>
-                                <strong>Job Number:</strong> {{ (plantDetail$ | async)?.plantNumber | empty }}</p>
-                            <p>
-                                <strong>Job Description:</strong> {{ (plantDetail$ | async)?.plantDescription | empty }}</p>
-                            <p>
-                                <strong>Job Status:</strong> {{ (plantDetail$ | async)?.plantStatus | jobStatusNumberToTitle | empty }}</p>
-                         
+                    <div class="col-md-8">
+                        <plant-detail [plantDetail]="plantDetail$ | async">
+                        </plant-detail>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <plant-expenses [plantNumber]="plantNumber$ | async"></plant-expenses>
+                            </div>
+                            <div class="col-md-6">
+                                <!-- <plant-expenses [plantNumber]="plantNumber$ | async"></plant-expenses> -->
+                                <plant-todo [plantNumber]="plantNumber$ | async"></plant-todo>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card-box detail-card">
-                            <i class='fa fa-spinner fa-spin pull-right ti-spin' *ngIf="isJobCheckoutsLoading$ | async"></i>
-                            <ti-job-checkouts [checkouts]="jobCheckouts$ | async" [isCheckoutsLoading]="isJobCheckoutsLoading$ | async">
-                            </ti-job-checkouts>
-                        </div>
+                    <div class="col-md-4">
+                        <plant-notes [plantNumber]="plantNumber$ | async"></plant-notes>
+                        <!-- <div class="card-box" style="height: 550px; overflow-y: scroll;">
+                            <div class="table-responsive">
+                                <table class="table table-bordered mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Notes</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th class="text-muted">Apple Technology</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-muted">Envato Pty Ltd.</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-muted">Dribbble LLC.</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-muted">Adobe Family</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-muted">Apple Technology</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-muted">Envato Pty Ltd.</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-muted">Dribbble LLC.</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-muted">Adobe Family</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-muted">Apple Technology</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-muted">Envato Pty Ltd.</th>
+                                            <td>oisdfajoijsadf osidfajoisjdfafsdoasidfjosfaidj</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div> -->
                     </div>
                     <!-- <div class="col-md-6">
                         <div class="card-box graph-card">
@@ -48,10 +92,10 @@
                     </ng-container>
                 </div>
             </div> -->
+                </div>
+            </div>
         </div>
     </div>
-</div>
-</div>
 </div>
 
 <ng-template #addExpenseRef let-c="close" let-d="dismiss">

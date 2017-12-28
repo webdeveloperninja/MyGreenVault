@@ -1,0 +1,69 @@
+<div class="card-box">
+    <div class="row">
+        <div class="col d-flex justify-content-between">
+            <p class="card-title">
+                <span class="fa fa-list mr-2"></span>Todos</p>
+            <button class="btn btn-outline-primary" (click)="openAddTodoModal()">
+                <span class="fa fa-plus"></span>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-striped">
+                <thead>
+                    <th>Description</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let todo of todos$ | async">
+                        <td>
+                            {{ todo.name }}
+                            <button mwlConfirmationPopover [title]="title" placement="left" (confirm)="removeTodo(todo)" (cancel)="cancelClicked = true"
+                                [message]="getConfirmationMessage(todo.name)" class="btn btn-outline-success pull-right">
+                                <i aria-hidden="true" class="fa fa-check"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="!hasTodos">
+                        <td>
+                            There are no todos
+                            <button class="btn btn-outline-primary pull-right" (click)="openAddTodoModal()">
+                                <span class="fa fa-plus"></span> Add Todo
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<ng-template #addTodoRef let-c="close" let-d="dismiss">
+    <form [formGroup]="todoFormGroup" #plantForm="ngForm" class="add-expenses" (ngSubmit)="addTodo()">
+        <div class="modal-header">
+            <h4 class="modal-title">Add Todo</h4>
+            <div class="alert alert-success" *ngIf="expenseSuccessfullyAdded" role="alert">
+                <strong>Expense Saved</strong>
+            </div>
+            <button type="button" (click)="closeModal()" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="form-group col-12">
+                    <label>
+                        Name
+                        <span class="danger">{{ formErrors.name}}</span>
+                    </label>
+                    <textarea class="form-control" formControlName="name"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button [disabled]="todoFormGroup.invalid" class="btn btn-primary pull-right" type="submit">
+                <i class='fa fa-spinner fa-spin ' *ngIf="isAddPlantLoading"></i>
+                Add Todo
+            </button>
+        </div>
+    </form>
+</ng-template>

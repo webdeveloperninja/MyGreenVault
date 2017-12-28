@@ -9,16 +9,20 @@ import { routes } from './plants.routing';
 
 import { KanbanComponent } from './components/kanban/kanban.component';
 import { PlantsComponent } from './components/plants/plants.component';
-import { PlantDetailComponent } from './components/plant-detail/plant-detail.component';
+import { PlantContainerComponent } from './components/plant-detail/plant-container.component';
 import { PlantCardComponent } from './components/plant-card/plant-card.component';
 import { AddPlantComponent } from './components/add-plant/add-plant.component';
 import { UpdatePlantComponent } from './components/update-plant/update-plant.component';
-import { JobCheckoutsComponent } from './components/plant-detail/job-checkouts/job-checkouts.component';
-import { JobContactComponent } from './components/plant-detail/job-contact/job-contact.component';
-import { ToolUsageGraphComponent } from './components/plant-detail/tool-usage-graph/tool-usage-graph.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { JobStatusPipe } from './pipes/job-status.pipe';
 import { PlantsService } from './services/plants';
+import { DetailComponent } from './components/plant-detail/detail/detail.component';
+import { ExpensesComponent } from './components/plant-detail/expenses/expenses.component';
+import { ExpenseService } from './services/expense';
+import { TodoService } from './services/todo';
+import { NoteService } from './services/note';
+import { TodoComponent } from './components/plant-detail/todo/todo.component';
+import { NotesComponent } from './components/plant-detail/notes/notes.component';
 
 @NgModule({
     imports: [
@@ -35,15 +39,19 @@ import { PlantsService } from './services/plants';
         PlantCardComponent,
         AddPlantComponent,
         UpdatePlantComponent,
-        JobCheckoutsComponent,
-        JobContactComponent,
-        PlantDetailComponent,
+        PlantContainerComponent,
         FilterPipe,
-        ToolUsageGraphComponent,
-        JobStatusPipe
+        JobStatusPipe,
+        DetailComponent,
+        ExpensesComponent,
+        TodoComponent,
+        NotesComponent
     ],
     providers: [
-        PlantsService
+        PlantsService,
+        ExpenseService,
+        TodoService,
+        NoteService
     ],
     exports: [
     ]

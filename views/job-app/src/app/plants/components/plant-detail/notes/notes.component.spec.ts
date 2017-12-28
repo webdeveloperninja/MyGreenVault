@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ToolUsageGraphComponent } from './tool-usage-graph.component';
+import { NotesComponent } from './notes.component';
 
-describe('ToolUsageGraphComponent', () => {
-  let component: ToolUsageGraphComponent;
-  let fixture: ComponentFixture<ToolUsageGraphComponent>;
+describe('NotesComponent', () => {
+  let component: NotesComponent;
+  let fixture: ComponentFixture<NotesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ToolUsageGraphComponent ]
+      declarations: [ NotesComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ToolUsageGraphComponent);
+    fixture = TestBed.createComponent(NotesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

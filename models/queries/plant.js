@@ -40,6 +40,42 @@ let addJob = exports.addJob = job => {
     });
 }
 
+let addExpense = exports.addExpense = expense => {
+    // todo append to expenses array 
+    return new Promise((resolve, reject) => {
+        Plant.update(
+            { userId: ObjectId(expense.userId) },
+            { $push: { expenses: expense }}
+        ).exec((err, res) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(res);
+            }
+        })
+    })
+}
+
+let getExpenses = exports.getExpenses = (userId, plantNumber) => {
+    return new Promise((resolve, reject) => {
+        Plant.find(
+            { userId: ObjectId(userId) },
+            'expenses'
+        ).exec((err, results) => {
+            if (err) {
+                reject(err);
+            } else {
+                const expenses = results.map(results => results.expenses.filter(expense => expense.plantNumber == plantNumber));
+                resolve(expenses[0]);
+            }
+        })
+    });
+}
+
+let removePlantExpenses = exports.removePlantExpenses = (expense) => {
+}
+
+
 let getJobs = exports.getJobs = (userId, skip, take, query = null) => {
     return new Promise((resolve, reject) => {
         let queryObj = {
