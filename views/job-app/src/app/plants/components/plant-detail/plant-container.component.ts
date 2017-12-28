@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { PlantsService } from '../../services/plants';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { HeaderService } from '../../../shared/services/header/header.service';
+import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 
 import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
@@ -14,6 +15,20 @@ const MODAL_SIZE = 'lg';
   styleUrls: ['./plant-container.component.scss']
 })
 export class PlantContainerComponent implements OnInit {
+
+    model: NgbDateStruct;
+    date: {year: number, month: number};
+    t;
+  
+    selectToday() {
+    //   this.model = {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()};
+    }
+
+    onDateChange(event) {
+
+    }
+
+
     job;
     @ViewChild('addExpenseRef') addExpenseRef: ElementRef;
 

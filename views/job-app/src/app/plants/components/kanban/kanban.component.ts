@@ -22,6 +22,27 @@ export class KanbanComponent implements OnInit {
     hasDrying: boolean = false;
     hasDone: boolean = false;
 
+    display = {
+        germinating: {
+            visible: true
+        },
+        seedling: {
+            visible: true
+        },
+        vegetative: {
+            visible: true
+        },
+        flowering: {
+            visible: true
+        },
+        drying: {
+            visible: true
+        },
+        done: {
+            visible: true
+        },
+    };
+
     @ViewChild('addPlantRef') addPlantRef: ElementRef;
     private _addPlantModalRef: NgbModalRef;
     
@@ -108,6 +129,7 @@ export class KanbanComponent implements OnInit {
     previousPage() {
         this._jobsService.previousPage();
     }
+    
 
 
     doSearch() {

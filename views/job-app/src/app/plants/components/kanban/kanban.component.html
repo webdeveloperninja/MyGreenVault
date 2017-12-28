@@ -2,25 +2,81 @@
     <div class="col-12">
         <div class="card-box">
             <loading [isLoading]="false"></loading>
-            <h3>Germinating Seeds</h3>
             <button class="btn btn-outline-primary mb-2 pull-right" (click)="addPlant()">
                 <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Plant
             </button>
-            <div class="row">
-                <div class="col-sm-3 col-xs-12" *ngFor="let plant of plants$ | async | filter:0">
-                    <plant-card [plant]="plant" status="germinating">
-                    </plant-card>
+            <div ngbDropdown class="d-inline-block">
+                <button class="btn btn-outline-primary display-btn" id="dropdownBasic1" ngbDropdownToggle>Display Stages</button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="display-drop" (click)="$event.stopPropagation()">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="d-flex justify-content-between align-items-center">
+                                    Germinating
+                                    <input [(ngModel)]="display.germinating.visible" type="checkbox">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="d-flex justify-content-between align-items-center">
+                                    Seedling
+                                    <input [(ngModel)]="display.seedling.visible" type="checkbox">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="d-flex justify-content-between align-items-center">
+                                    Vegetative
+                                    <input [(ngModel)]="display.vegetative.visible" type="checkbox">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="d-flex justify-content-between align-items-center">
+                                    Flowering 
+                                    <input [(ngModel)]="display.flowering.visible" type="checkbox">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="d-flex justify-content-between align-items-center">
+                                    Drying/Curing 
+                                    <input [(ngModel)]="display.drying.visible" type="checkbox">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="d-flex justify-content-between align-items-center">
+                                    Done 
+                                    <input [(ngModel)]="display.done.visible" type="checkbox">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <ti-alert [status]="alert.info" message="There are no plants germinating" [showAlert]="!hasGerminating" [isLoading]="false">
-            </ti-alert>
-            <div class="row">
+          
+                <h3 *ngIf="display.germinating.visible">Germinating Seeds</h3>
+                <div class="row" *ngIf="display.germinating.visible">
+                    <div class="col-sm-3 col-xs-12" *ngFor="let plant of plants$ | async | filter:0">
+                        <plant-card [plant]="plant" status="germinating">
+                        </plant-card>
+                    </div>
+                </div>
+                <ti-alert [status]="alert.info" message="There are no plants germinating" [showAlert]="!hasGerminating" [isLoading]="false"></ti-alert>                      
+            
+            <div class="row" *ngIf="display.germinating.visible">
                 <div class="col-md-12">
                     <hr>
                 </div>
             </div>
-            <h3>Seedling Stage</h3>
-            <div class="row machining">
+            <h3 *ngIf="display.seedling.visible">Seedling Stage</h3>
+            <div *ngIf="display.seedling.visible" class="row machining">
                 <div class="col-sm-3 col-xs-12" *ngFor="let plant of plants$ | async | filter:1">
                     <plant-card [plant]="plant" status="seedling">
                     </plant-card>
@@ -28,13 +84,13 @@
             </div>
             <ti-alert [status]="alert.info" message="There are no plants in seedling" [showAlert]="!hasSeedling" [isLoading]="false">
             </ti-alert>
-            <div class="row">
+            <div class="row" *ngIf="display.seedling.visible">
                 <div class="col-md-12">
                     <hr>
                 </div>
             </div>
-            <h3>Vegetative Stage</h3>
-            <div class="row quality">
+            <h3 *ngIf="display.vegetative.visible">Vegetative Stage</h3>
+            <div *ngIf="display.vegetative.visible" class="row quality">
                 <div class="col-sm-3 col-xs-12" *ngFor="let plant of plants$ | async | filter:2">
                     <plant-card [plant]="plant" status="quality">
                     </plant-card>
@@ -42,13 +98,13 @@
             </div>
             <ti-alert [status]="alert.info" message="There are no jobs in quality" [showAlert]="!hasVegetative" [isLoading]="false">
             </ti-alert>
-            <div class="row">
+            <div class="row" *ngIf="display.vegetative.visible">
                 <div class="col-md-12">
                     <hr>
                 </div>
             </div>
-            <h3>Flowering Stage</h3>
-            <div class="row shipping">
+            <h3 *ngIf="display.flowering.visible">Flowering Stage</h3>
+            <div *ngIf="display.flowering.visible" class="row shipping">
                 <div class="col-sm-3 col-xs-12" *ngFor="let plant of plants$ | async | filter:3">
                     <plant-card [plant]="plant" status="shipping">
                     </plant-card>
@@ -56,13 +112,13 @@
             </div>
             <ti-alert [status]="alert.info" message="There are no jobs shipping" [showAlert]="!hasFlowering" [isLoading]="false">
             </ti-alert>
-            <div class="row">
+            <div class="row" *ngIf="display.flowering.visible">
                 <div class="col-md-12">
                     <hr>
                 </div>
             </div>
-            <h3>Drying/Curing</h3>
-            <div class="row complete">
+            <h3 *ngIf="display.drying.visible">Drying/Curing</h3>
+            <div *ngIf="display.drying.visible" class="row complete">
                 <div class="col-sm-3 col-xs-12" *ngFor="let plant of plants$ | async | filter:4">
                     <plant-card [plant]="plant" status="complete">
                     </plant-card>
@@ -70,13 +126,13 @@
             </div>
             <ti-alert [status]="alert.info" message="There are no jobs complete" [showAlert]="!hasDrying" [isLoading]="false">
             </ti-alert>
-            <div class="row">
+            <div class="row" *ngIf="display.drying.visible">
                 <div class="col-md-12">
                     <hr>
                 </div>
             </div>
-            <h3>Done</h3>
-            <div class="row complete">
+            <h3 *ngIf="display.done.visible">Done</h3>
+            <div *ngIf="display.done.visible" class="row complete">
                 <div class="col-sm-3 col-xs-12" *ngFor="let plant of plants$ | async | filter:5">
                     <plant-card [plant]="plant" status="complete">
                     </plant-card>
@@ -84,7 +140,7 @@
             </div>
             <ti-alert [status]="alert.info" message="There are no jobs complete" [showAlert]="!hasDone" [isLoading]="false">
             </ti-alert>
-            <div class="row">
+            <div class="row" *ngIf="display.done.visible">
                 <div class="col-md-12">
                     <hr>
                 </div>
