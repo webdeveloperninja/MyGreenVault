@@ -1,46 +1,51 @@
 <html>
-    <%- include('partials/header') %>
+<%- include('partials/header') %>
     </head>
+
     <body class="sign-up">
         <%- include('partials/navbar') %>
-        <div class="container-fluid">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-4 login-wrapper">
-                        <div class="row">
-                            <div class="col-md-12">
+            <div class="container-fluid">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-4 login-wrapper">
+                            <div class="row">
+                                <div class="col-md-12">
                                     <h3 class="text-center">Sign up - Free</h3>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <form class="form-horizontal" id="signup-form" method="POST">
-                                <div class="col-md-6">
-                                    <input type="hidden" name="_csrf">
-                                    <label class="control-label" for="email">Email</label>
-                                    <input class="form-control" type="email" name="email" id="email" placeholder="Email" autofocus="" required="">
-                                    <label class="control-label" for="companyName">Company Name</label>
-                                    <input class="form-control" type="text" name="companyName" id="companyName" placeholder="Company Name" autofocus="" required="">
-                                    <label class="control-label" for="phoneNumber">Phone Number</label>
-                                    <input class="form-control" type="text" name="phoneNumber" id="phoneNumber" placeholder="Phone Number" autofocus="" required="">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="control-label" for="name">Name</label>
-                                    <input class="form-control" type="text" name="name" id="name" placeholder="Name" autofocus="" required="">
-                                    <label class="control-label" for="password">Password</label>
-                                    <input class="form-control" type="password" name="password" id="password" placeholder="Password" required="">
-                                    <label class="control-label" for="confirmPassword">Confirm Password</label>
-                                    <input class="form-control" type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required="">
-                                    <button class="submit btn btn-success btn-sign-up" type="submit">
-                                        <i class="fa fa-user-plus"></i>Signup</button>
-                                </div>
-                            </form>
+                            <div class="row">
+                                <form class="form-horizontal" id="signup-form" method="POST">
+                                    <div class="col-md-6">
+                                        <input type="hidden" name="_csrf">
+                                        <label class="control-label" for="email">Email</label>
+                                        <input class="form-control" type="email" name="email" id="email" placeholder="Email" autofocus="" required="">
+                                        <label class="control-label" for="companyName">Company Name</label>
+                                        <input class="form-control" type="text" name="companyName" id="companyName" placeholder="Company Name" autofocus="" required="">
+                                        <label class="control-label" for="phoneNumber">Phone Number</label>
+                                        <input class="form-control" type="text" name="phoneNumber" id="phoneNumber" placeholder="Phone Number" autofocus="" required="">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="control-label" for="name">Name</label>
+                                        <input class="form-control" type="text" name="name" id="name" placeholder="Name" autofocus="" required="">
+                                        <label class="control-label" for="password">Password</label>
+                                        <input class="form-control" type="password" name="password" id="password" placeholder="Password" required="">
+                                        <label class="control-label" for="confirmPassword">Confirm Password</label>
+                                        <input class="form-control" type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required="">
+                                        <button class="submit btn btn-success btn-sign-up" type="submit">
+                                            <i class="fa fa-user-plus"></i>Signup</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     </body>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 
 </html>

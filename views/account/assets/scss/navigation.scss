@@ -1,25 +1,13 @@
-$navbar-height: 75px;
-$logo-width: 300px;
+$logo-width: 200px;
 
-.navbar-default {
-    background-color: $black;
-    height: $navbar-height;
-
-    .navbar-nav {
-        margin-top: 10px;
-        
-        li {
-            a {
-                &:hover {
-                    color: $white;
-                }
-            }
-        }
-    }
-
+.navbar {
     .navbar-brand {
         img {
             width: $logo-width;
+
+            @media screen and (max-width: 500px) {
+                width: 200px;
+            }
         }
     }
 }
