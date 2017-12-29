@@ -25,7 +25,7 @@ export class PlantContainerComponent implements OnInit {
     }
 
     onDateChange(event) {
-
+        console.log(event);
     }
 
 
