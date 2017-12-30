@@ -83,7 +83,7 @@ let getJobs = exports.getJobs = (userId, skip, take, query = null) => {
         }
 
         if (query) {
-            queryObj.jobName = {'$regex': query, '$options' : 'i'};
+            queryObj.plantName = {'$regex': query, '$options' : 'i'};
         }
 
         Plant.find(queryObj)
