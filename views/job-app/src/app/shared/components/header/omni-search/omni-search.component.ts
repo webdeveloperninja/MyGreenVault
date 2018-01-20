@@ -57,9 +57,9 @@ export class OmniSearchComponent implements OnInit {
 
     doSearch(): void {
             const skip = 0;
-            const take = this._route.snapshot.queryParams["take"];
+            const take = 8;
 
-            this._router.navigate([`/${this.category}`], 
+            this._router.navigate([`/plants`], 
                 { queryParams: 
                     { 
                         skip: skip, 

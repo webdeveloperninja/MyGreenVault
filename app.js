@@ -9,6 +9,7 @@ const lusca = require('lusca');
 const dotenv = require('dotenv');
 const MongoStore = require('connect-mongo')(session);
 const flash = require('express-flash');
+const ejs = require('ejs');
 const path = require('path');
 const mongoose = require('mongoose');
 const passport = require('passport');
@@ -16,8 +17,7 @@ const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
 const multer = require('multer');
-
-const upload = multer({ dest: path.join(__dirname, 'uploads') });
+var cons = require('consolidate');
 
 const isProd = false;
 dotenv.load({ path: '.env.dev' });
@@ -28,8 +28,8 @@ dotenv.load({ path: '.env.dev' });
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
-const jobsApiController = require('./controllers/api/job');
-const toolsApiController = require('./controllers/api/tools');
+const plantsApiController = require('./controllers/api/plant');
+const productApiController = require('./controllers/api/product');
 const checkoutsApiController = require('./controllers/api/checkout');
 const operatorsApiController = require('./controllers/api/operators');
 const contactController = require('./controllers/contact');
@@ -45,9 +45,9 @@ const passportConfig = require('./config/passport');
  */
 const app = express();
 
-const toolsRoutes = require('./routes/tools')(passportConfig, toolsApiController);
+const productRoutes = require('./routes/product')(passportConfig, productApiController);
 const operatorsRoutes = require('./routes/operators')(passportConfig, operatorsApiController);
-const jobsRoutes = require('./routes/jobs')(passportConfig, jobsApiController);
+const plantsRoutes = require('./routes/plants')(passportConfig, plantsApiController);
 const checkoutsRoutes = require('./routes/checkouts')(passportConfig, checkoutsApiController);
 
 app.use(function(req, res, next) {
@@ -63,6 +63,7 @@ if ('OPTIONS' == req.method) {
 });
 
 app.use('/views/job-app/dist',express.static(path.join(__dirname, 'views/job-app/dist')));
+app.use(express.static(path.resolve('./views/account')));
 
 
 /**
@@ -81,13 +82,11 @@ mongoose.connection.on('error', (err) => {
  */
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+// app.engine('ejs', cons.swig)
+app.set('view engine', 'ejs');
 app.use(expressStatusMonitor());
 app.use(compression());
-app.use(sass({
-  src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public')
-}));
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -142,9 +141,9 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
 
 
 // TOOLING INVENTORY API
-app.use('/api/v1/tools', toolsRoutes);
+app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/operators', operatorsRoutes);
-app.use('/api/v1/jobs', jobsRoutes);
+app.use('/api/v1/plants', plantsRoutes);
 app.use('/api/v1/checkouts', checkoutsRoutes);
 
 
@@ -157,9 +156,6 @@ app.post('/api/stripe', apiController.postStripe);
 app.get('/api/paypal', apiController.getPayPal);
 app.get('/api/paypal/success', apiController.getPayPalSuccess);
 app.get('/api/paypal/cancel', apiController.getPayPalCancel);
-
-app.get('/api/upload', apiController.getFileUpload);
-app.post('/api/upload', upload.single('myFile'), apiController.postFileUpload);
 
 
 /**

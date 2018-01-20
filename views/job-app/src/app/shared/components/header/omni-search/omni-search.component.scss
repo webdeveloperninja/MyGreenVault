@@ -1,5 +1,5 @@
 $omni-input-border-radius: 0px;
-$omni-input-font-size: 12px;
+$omni-input-font-size: 18px;
 $category-button-border-radius: 0px;
 
 $search-button-border-radius: 0px;
@@ -56,7 +56,6 @@ $weed-green: #00a400;
 
     .btn-search {
         border-radius: $search-button-border-radius;
-        position: absolute;
         height: 33px;
         bottom: 8px;
         background-color: white;
@@ -64,7 +63,7 @@ $weed-green: #00a400;
         right: 0;
         top: 0;
         width: 25%;
-
+        position: absolute;
         background-color: transparent !important;
         color: black !important;
         padding: 0!important;

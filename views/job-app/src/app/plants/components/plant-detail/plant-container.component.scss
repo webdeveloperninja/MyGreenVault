@@ -1,0 +1,38 @@
+
+body{margin-top:20px;}
+
+.detail-card, .graph-card {
+    height: 450px;
+}
+
+.expense-btn {
+    position: absolute;
+    top: 19px;
+    right: 20px;
+}
+
+.stopper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 222;
+    cursor: not-allowed;
+}
+
+.coming-soon {
+    position: absolute;
+    top: 47%;
+    cursor: not-allowed;
+    bottom: 0;
+    margin: auto;
+    left: 0;
+    right: 0;
+    height: auto;
+    z-index: 350;
+    font-size: 32px;
+    color: white;
+}

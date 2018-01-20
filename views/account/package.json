@@ -1,0 +1,20 @@
+{
+  "name": "account",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "scss": "node-sass -o dist/css assets/scss/style.scss",
+    "watch:css": "onchange \"assets/scss\" -- npm run build:css",
+    "build:css": "npm run scss"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "node-sass": "^4.7.2",
+    "onchange": "^3.3.0"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}

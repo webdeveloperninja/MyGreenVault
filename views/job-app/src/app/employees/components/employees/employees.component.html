@@ -1,0 +1,78 @@
+<div class="row">
+    <div class="col">
+        <div class="card-box">
+            <loading [isLoading]="isOperatorsLoading$ | async"></loading>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <button class="btn btn-outline-primary pull-right mb-2" (click)="addOperator()">
+                            <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Employee
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" *ngIf="!(operators$ | async)?.length === false">
+                    <table class="table table-responsive table-striped ti-table">
+                        <thead class="ti-table-header">
+                            <tr>
+                                <th>Employee Name</th>
+                                <th>Employee Number</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let operator of operators$ | async">
+                                <td>{{ operator.operatorName | empty }}</td>
+                                <td>{{ operator.operatorNumber | empty }}</td>
+                                <td>
+                                    <button 
+                                        class="btn btn-outline-danger pull-right" 
+                                        mwlConfirmationPopover
+                                        [title]="title"
+                                        [message]="getConfirmationMessage(operator.operatorName)"
+                                        placement="left"
+                                        (confirm)="removeOperator(operator)"
+                                        (cancel)="cancelClicked = true">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdateOperatorModal(operator._id)">
+                                            <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
+                                    </button>
+                                    <button 
+                                        class="btn btn-outline-primary pull-right mr-2" 
+                                        routerLink="/employees/{{operator._id}}">
+                                            <i class="fa fa-eye mr-2" aria-hidden="true"></i>View
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button (click)="nextPage()" *ngIf="moreOperators$ | async" class="btn btn-outline-primary next pull-right">
+                                Next Page
+                            </button>
+                            <button (click)="previousPage()" *ngIf="(operatorsSkip$ | async) !== 0" class="btn btn-outline-primary pull-right mr-2">
+                                Previous Page
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ti-alert 
+                [status]="alert.info" 
+                message="There are no tenders" 
+                [showAlert]="!hasOperators"
+                [isLoading]="isOperatorsLoading$ | async">
+            </ti-alert>
+            <ng-template #updateOperatorRef let-c="close" let-d="dismiss">
+                <ti-update-operator [activeOperator]="activeOperator$" (closeUpdateModal)="closeUpdateOperatorModal($event)" (isLoading)="isTiUpdateOperatorLoading($event)"
+                    [skip]="skip" [take]="take">
+                </ti-update-operator>
+            </ng-template>
+            <ng-template #addOperatorRef let-c="close" let-d="dismiss">
+                <add-operator (closeAddOperatorModal)="closeAddOperatorModal($event)" [skip]="skip" [take]="take">
+                </add-operator>
+            </ng-template>
+        </div>
+    </div>
+</div>

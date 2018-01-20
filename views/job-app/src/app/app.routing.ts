@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { JobsComponent } from './jobs/components/jobs/jobs.component';
+import { ProductsComponent } from 'app/products/components/products/products.component';
+import { PlantsComponent } from 'app/plants/components/plants/plants.component';
 
 export const routes: Routes = [
-    { path: '', component: JobsComponent }
+    { path: '', redirectTo: 'plants?skip=0&take=8', pathMatch: 'full' }
 ];

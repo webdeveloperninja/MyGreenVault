@@ -15,10 +15,10 @@ export class AppComponent implements OnInit {
     headerText$: Observable<string>;
 
     constructor(
-    private _sideNavService: SideNavService,
-    private _headerService: HeaderService,
-    private _router: Router) {
-        
+        private _sideNavService: SideNavService,
+        private _headerService: HeaderService,
+        private _router: Router) {
+
     }
 
     clearHeader(): void {

@@ -1,0 +1,16 @@
+$leaf-color: green;
+$status-size: 50px;
+
+.leaf {
+    font-size: 50px; 
+    color: $leaf-color;
+}
+
+.status {
+    font-size: $status-size;
+    display: inline-flex;
+}
+
+.card-box {
+    height: 340px;
+}

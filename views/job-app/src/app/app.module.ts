@@ -13,10 +13,10 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 
-import { JobsModule } from './jobs/jobs.module';
-import { ToolsModule } from './tools/tools.module';
+import { ProductsModule } from './products/products.module';
+import { PlantsModule } from './plants/plants.module';
 import { SharedModule } from './shared/shared.module';
-import { OperatorsModule } from './operators/operators.module';
+import { EmployeesModule } from './employees/employees.module';
 import { PreferencesModule } from './preferences/preferences.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 
@@ -41,10 +41,10 @@ import { routes } from './app.routing';
         FlashMessagesModule,
         SharedModule,
         PreferencesModule,
-        JobsModule,
-        ToolsModule,
+        ProductsModule,
+        PlantsModule,
         AuthenticationModule,
-        OperatorsModule,
+        EmployeesModule,
         NgbModule.forRoot(),
     ],
     providers: [

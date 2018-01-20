@@ -3,18 +3,19 @@
         <!--- Sidemenu -->
         <div id="sidebar-menu">
             <ul>
-                <li class="has_sub" routerLinkActive="active">
-                    <a routerLink="/tools" [queryParams]="{skip:defaultToolSkip, take:defaultToolTake}" class="waves-effect" routerLinkActive="active"><i class="fa fa-plug" aria-hidden="true"></i><span> Weed </span> </a>
-                </li>
-                <li class="has_sub" routerLinkActive="active">
-                    <a routerLink="/operators" [queryParams]="{skip:defaultOperatorSkip, take:defaultOperatorTake}" class="waves-effect" routerLinkActive="active"><i class="fa fa-user-circle" aria-hidden="true"></i><span> Tenders </span> </a>
-                </li>
+                <!-- When we researh POS more -->
                 <!-- <li class="has_sub" routerLinkActive="active">
-                    <a routerLink="/kanban" class="waves-effect" routerLinkActive="active"><i class="fa fa-desktop" aria-hidden="true"></i><span> Kanban </span> </a>
+                    <a routerLink="/products" [queryParams]="{skip:defaultToolSkip, take:defaultToolTake}" class="waves-effect" routerLinkActive="active"><i class="fa fa-plug" aria-hidden="true"></i><span> Products </span> </a>
                 </li> -->
-                <!--<li class="has_sub">
-                    <a routerLink="/preferences" class="waves-effect" routerLinkActive="active"><i class="fa fa-cogs" aria-hidden="true"></i><span> Preferences </span> </a>
-                </li>-->
+                <!-- <li class="has_sub" routerLinkActive="active">
+                    <a routerLink="/employees" [queryParams]="{skip:defaultOperatorSkip, take:defaultOperatorTake}" class="waves-effect" routerLinkActive="active"><i class="fa fa-user-circle" aria-hidden="true"></i><span> Employees </span> </a>
+                </li> -->
+                <li class="has_sub">
+                    <a routerLink="/plants" [queryParams]="{skip: skip$ | async, take: take$ | async }" class="waves-effect" routerLinkActive="active"><i class="fa fa-cogs" aria-hidden="true"></i><span> Plants </span> </a>
+                </li>
+                <li class="has_sub" routerLinkActive="active">
+                    <a routerLink="/status" class="waves-effect" routerLinkActive="active"><i class="fa fa-desktop" aria-hidden="true"></i><span> Status </span> </a>
+                </li>
             </ul>
             <div class="clearfix"></div>
         </div>

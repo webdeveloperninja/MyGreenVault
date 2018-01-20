@@ -18,6 +18,32 @@ a.btn {
     padding: .5rem 1.5rem;
 }
 
+.display-options {
+
+    .dropdown-menu {
+        padding-top: 0;
+        padding-bottom: 0;
+        border: 1px solid black;
+    }
+
+    label {
+        margin-bottom: 0;
+        padding-top: 5px;
+        padding-bottom: 5px;
+
+        &:nth-child(odd) {
+            background-color: rgba(0, 164, 0, 0.08);
+            margin-left: -15px;
+            padding-left: 15px;
+            padding-right: 15px;
+            margin-right: -15px;
+        }
+    }
+    .dropdown-menu {
+        width: 240px;        
+    }
+}
+
 .btn-label {
   background: rgba($dark, 0.1);
   display: inline-block;
