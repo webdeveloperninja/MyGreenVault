@@ -1,4 +1,17 @@
 
+
+.btn-group {
+    &.split {
+        .dropdown-menu {
+            &.show {
+                left: -223px !important;
+                width: 314px;
+            }
+        }
+    }
+}
+
+
 button:focus {
   outline: none !important;
 }

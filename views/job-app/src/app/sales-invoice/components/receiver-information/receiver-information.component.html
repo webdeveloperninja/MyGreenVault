@@ -1,0 +1,46 @@
+<div class="card-box mt-3">
+    <h3 class="card-title">Receiver Information</h3>
+    <div [formGroup]="receiverInformation">
+        <div class="form-group">
+            <label>State License #:</label>
+            <input class="form-control" formControlName="stateLicenseNumber">
+        </div>
+        <div class="form-group">
+            <label>Type of License</label>
+            <input class="form-control" formControlName="typeOfLicense">
+        </div>
+        <div class="form-group">
+            <label>Business Name</label>
+            <input class="form-control" formControlName="businessName">
+        </div>
+        <div class="form-group">
+            <label>Business Address</label>
+            <input class="form-control" formControlName="businessAddress">
+        </div>
+        <div class="form-group">
+            <label>City</label>
+            <input class="form-control" formControlName="city">
+        </div>
+        <div class="form-group">
+            <label>State</label>
+            <input class="form-control" formControlName="state">
+        </div>
+        <div class="form-group">
+            <label>Zip</label>
+            <input class="form-control" formControlName="zip">
+        </div>
+        <div class="form-group">
+            <label>Phone Number</label>
+            <input class="form-control" formControlName="phoneNumber">
+        </div>
+        <div class="form-group">
+            <label>Contact Name</label>
+            <input class="form-control" formControlName="contactName">
+        </div>
+    </div>
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-default" (click)="closeForm()">
+            Close
+        </button>
+    </div>
+</div>

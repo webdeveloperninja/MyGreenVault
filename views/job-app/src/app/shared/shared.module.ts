@@ -28,6 +28,7 @@ import { AlertComponent } from './components/alert/alert.component';
 import { OmniSearchComponent } from './components/header/omni-search/omni-search.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import { CloseComponent } from './components/close/close.component';
 
 
 
@@ -56,7 +57,8 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
       FilterJobPipe,
       JobStatusChipComponent,
       AlertComponent,
-      OmniSearchComponent
+      OmniSearchComponent,
+      CloseComponent
     ],
     providers: [
       NotificationService,
@@ -80,7 +82,8 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
       DisplayOptionsComponent,
       JobStatusChipComponent,
       FilterJobPipe,
-      AlertComponent
+      AlertComponent,
+      CloseComponent
     ]
 })
 export class SharedModule {}
