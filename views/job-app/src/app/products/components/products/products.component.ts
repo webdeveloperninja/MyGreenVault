@@ -12,7 +12,7 @@ import { Product } from 'app/products/models/Product';
 const REMOVE_TOOL_SUCCESS_MESSAGE: string = 'Successfully Removed Tool';
 const MODAL_SIZE = 'lg';
 const DEFAULT_TAKE: number = 10;
-const PAGE_TITLE: string = 'Products';
+const PAGE_TITLE: string = 'Receivers';
 
 @Component({
     selector: 'products',
