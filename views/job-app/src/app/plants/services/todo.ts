@@ -5,6 +5,8 @@ import { Router, ActivatedRoute, Params, Event, NavigationEnd } from '@angular/r
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/finally';
 
 @Injectable()
 export class TodoService {
