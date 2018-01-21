@@ -13,7 +13,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 
-import { ProductsModule } from './products/products.module';
+import { ProductsModule } from './receivers/products.module';
 import { PlantsModule } from './plants/plants.module';
 import { SharedModule } from './shared/shared.module';
 import { EmployeesModule } from './employees/employees.module';

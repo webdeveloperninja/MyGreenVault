@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewContainerRef, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angular/forms';
-import { ProductService } from 'app/products/services/product';
+import { ProductService } from '../../services/product';
 import { Observable } from 'rxjs';
 
 @Component({

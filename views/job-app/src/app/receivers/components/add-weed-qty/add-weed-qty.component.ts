@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ProductService } from 'app/products/services/product';
+import { ProductService } from '../../services/product';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from 'app/shared/services/notification/notification.service';
 import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angular/forms';

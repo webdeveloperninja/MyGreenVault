@@ -3,7 +3,7 @@ import { ProductService, Tool } from '../../services/product';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription, Subject } from 'rxjs';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
-import { Product } from 'app/products/models/Product';
+import { Product } from '../../models/Product';
 
 
 @Component({

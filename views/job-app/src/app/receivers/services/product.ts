@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { Observable, BehaviorSubject } from 'rxjs'
 import { Router, ActivatedRoute, Params, Event, NavigationEnd } from '@angular/router';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../shared/services/notification/notification.service';
-import { Product } from 'app/products/models/Product';
+import { Product } from '../models/Product';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
