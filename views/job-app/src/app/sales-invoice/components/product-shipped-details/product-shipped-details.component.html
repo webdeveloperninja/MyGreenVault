@@ -1,0 +1,30 @@
+<div class="card-box mt-3">
+    <div [formGroup]="productShippedDetails">
+        <div class="d-flex justify-content-between">
+            <h3 class="card-title">Product Shipped Details</h3>
+            <div class="d-inline-flex">
+                <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" formControlName="isShipper">
+                    <label ngbButtonLabel class="btn-primary">
+                        <input ngbButton type="radio" value="true">Shipper
+                    </label>
+                    <label ngbButtonLabel class="btn-primary">
+                        <input ngbButton type="radio" value="false">Receiver
+                    </label>
+                </div>
+            </div>
+        </div>
+            <vault-shipper 
+                *ngIf="isShipper"
+                [shipper]="productShippedDetails.controls.shipper">
+            </vault-shipper>
+        <vault-receiver 
+            [receiver]="productShippedDetails.controls.receiver"
+            *ngIf="!isShipper">
+        </vault-receiver>
+    </div>
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-default" (click)="closeForm()">
+            Close
+        </button>
+    </div>
+</div>

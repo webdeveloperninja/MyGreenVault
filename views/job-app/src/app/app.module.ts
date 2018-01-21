@@ -19,6 +19,7 @@ import { SharedModule } from './shared/shared.module';
 import { EmployeesModule } from './employees/employees.module';
 import { PreferencesModule } from './preferences/preferences.module';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { SalesInvoiceModule } from './sales-invoice/sales-invoice.module';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -40,6 +41,7 @@ import { routes } from './app.routing';
         ChartsModule,
         FlashMessagesModule,
         SharedModule,
+        SalesInvoiceModule,
         PreferencesModule,
         ProductsModule,
         PlantsModule,
