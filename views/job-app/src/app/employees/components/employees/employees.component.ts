@@ -11,7 +11,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 const REMOVE_TOOL_SUCCESS_MESSAGE: string = 'Successfully Removed Operator';
 const MODAL_SIZE = 'lg';
-const PAGE_TITLE: string = 'Employees';
+const PAGE_TITLE: string = 'Shippers';
 
 @Component({
     selector: 'ti-operators',
