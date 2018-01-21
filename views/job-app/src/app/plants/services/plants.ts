@@ -5,6 +5,7 @@ import { Router, ActivatedRoute, Params, Event, NavigationEnd } from '@angular/r
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/first';
 
 export const DEFAULT_SKIP: number = 0;
 export const DEFAULT_TAKE: number = 8;

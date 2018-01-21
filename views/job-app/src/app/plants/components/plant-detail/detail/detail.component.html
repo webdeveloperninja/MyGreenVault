@@ -3,10 +3,16 @@
     <div class="row">
         <div class="col d-flex justify-content-between">
             <p class="card-title">
-                <span class="fa fa-info mr-2"></span>Plant Details</p>
-            <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdatePlantModal(plantDetail._id)">
-                <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
-            </button>
+                <span class="fa fa-info mr-2"></span>Plant Details
+            </p>
+            <div>
+                <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdatePlantModal(plantDetail._id)">
+                    <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
+                </button>
+                <button class="btn btn-outline-primary pull-right mr-2" routerLink="/sales-invoice">
+                    <i class="fa fa-usd mr-2" aria-hidden="true"></i>Sell
+                </button>
+            </div>
         </div>
     </div>
 
