@@ -7,7 +7,7 @@ import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/
 import { HeaderService } from 'app/shared/services/header/header.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { alert } from 'app/shared/components/alert/alert.component';
-import { Product } from 'app/products/models/Product';
+import { Product } from '../../models/Product';
 
 const REMOVE_TOOL_SUCCESS_MESSAGE: string = 'Successfully Removed Tool';
 const MODAL_SIZE = 'lg';
@@ -16,10 +16,10 @@ const PAGE_TITLE: string = 'Receivers';
 
 @Component({
     selector: 'products',
-    templateUrl: './products.component.html',
-    styleUrls: ['./products.component.scss']
+    templateUrl: './receivers.component.html',
+    styleUrls: ['./receivers.component.scss']
 })
-export class ProductsComponent implements OnInit {
+export class ReceiversComponent implements OnInit {
 
     displayOptions = {
         weight: {
