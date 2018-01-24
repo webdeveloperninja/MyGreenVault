@@ -1,109 +1,48 @@
 <div class="row">
     <div class="col">
         <div class="card-box">
-            <loading [isLoading]="isProductsLoading$ | async"></loading>
+            <loading [isLoading]="isReceiversLoading$ | async"></loading>
             <div class="row mt-3">
-                <div class="col-md-12 d-flex justify-content-between">
-                    <div ngbDropdown class="d-inline-block display-options">
-                        <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Display</button>
-                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1" (click)="stopPropagation($event)">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label class="d-flex align-items-center justify-content-between">
-                                            Weight
-                                            <input [(ngModel)]="displayOptions.weight.isDisplayed" type="checkbox">
-                                        </label>
-                                        <label class="d-flex align-items-center justify-content-between">
-                                            Ideal Weight
-                                            <input [(ngModel)]="displayOptions.idealWeight.isDisplayed" type="checkbox">
-                                        </label>
-                                        <label class="d-flex align-items-center justify-content-between">
-                                            Supplier Name
-                                            <input [(ngModel)]="displayOptions.supplierName.isDisplayed" type="checkbox">
-                                        </label>
-                                        <label class="d-flex align-items-center justify-content-between">
-                                            Supplier Email
-                                            <input [(ngModel)]="displayOptions.supplierEmail.isDisplayed" type="checkbox">
-                                        </label>
-                                        <label class="d-flex align-items-center justify-content-between">
-                                            Supplier Phone
-                                            <input [(ngModel)]="displayOptions.supplierPhone.isDisplayed" type="checkbox">
-                                        </label>
-                                        <label class="d-flex align-items-center justify-content-between">
-                                            Cost per gram
-                                            <input [(ngModel)]="displayOptions.costPerGram.isDisplayed" type="checkbox">
-                                        </label>
-                                        <label class="d-flex align-items-center justify-content-between">
-                                            Cost per eighth
-                                            <input [(ngModel)]="displayOptions.costPerEighth.isDisplayed" type="checkbox">
-                                        </label>
-                                        <label class="d-flex align-items-center justify-content-between">
-                                            Cost per quarter
-                                            <input [(ngModel)]="displayOptions.costPerQuarter.isDisplayed" type="checkbox">
-                                        </label>
-                                        <label class="d-flex align-items-center justify-content-between">
-                                            Cost per half
-                                            <input [(ngModel)]="displayOptions.costPerHalf.isDisplayed" type="checkbox">
-                                        </label>
-                                        <label class="d-flex align-items-center justify-content-between">
-                                            Cost per ounce
-                                            <input [(ngModel)]="displayOptions.costPerOunce.isDisplayed" type="checkbox">
-                                        </label>
-                                        <label class="d-flex align-items-center justify-content-between">
-                                            Cost per quarter pound
-                                            <input [(ngModel)]="displayOptions.costPerQuarterPound.isDisplayed" type="checkbox">
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="btn btn-outline-primary mb-2 pull-right" (click)="addProduct()">
-                        <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Product
+                <div class="col-md-12 d-flex justify-content-end">
+                    <button class="btn btn-outline-primary mb-2 pull-right" (click)="addReceiver()">
+                        <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add receiver
                     </button>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12" *ngIf="!(products$ | async)?.length === false">
+                <div class="col-md-12" *ngIf="!(receivers$ | async)?.length === false">
                     <table class="table table-striped ti-table">
                         <thead class="ti-table-header">
                             <tr>
-                                <th>Name</th>
-                                <th *ngIf="displayOptions.weight.isDisplayed">Weight</th>
-                                <th *ngIf="displayOptions.idealWeight.isDisplayed">Ideal Weight</th>
-                                <th *ngIf="displayOptions.supplierName.isDisplayed">Supplier Name</th>
-                                <th *ngIf="displayOptions.supplierEmail.isDisplayed">Supplier Email</th>
-                                <th *ngIf="displayOptions.supplierPhone.isDisplayed">Supplier Phone</th>
-                                <th *ngIf="displayOptions.costPerGram.isDisplayed">Cost Per Gram</th>
-                                <th *ngIf="displayOptions.costPerEighth.isDisplayed">Cost Per Eight</th>
-                                <th *ngIf="displayOptions.costPerQuarterPound.isDisplayed">Cost Per Quarter</th>
-                                <th *ngIf="displayOptions.costPerHalf.isDisplayed">Cost Per Half</th>
-                                <th *ngIf="displayOptions.costPerOunce.isDisplayed">Cost Per Ounce</th>
-                                <th *ngIf="displayOptions.costPerQuarterPound.isDisplayed">Cost Per Quarter Pound</th>
+                                <th>State license #</th>
+                                <th>Type of license</th>
+                                <th>Business name</th>
+                                <th>Business address</th>
+                                <th>Business city</th>
+                                <th>Business state</th>
+                                <th>Business zip</th>
+                                <th>Business phone</th>
+                                <th>Contact name</th>
                                 <th class="text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let product of products$ | async">
-                                <td>{{ product.name | empty }}</td>
-                                <td *ngIf="displayOptions.weight.isDisplayed">{{ product.weight | empty }}</td>
-                                <td *ngIf="displayOptions.idealWeight.isDisplayed">{{ product.idealWeight | empty }}</td>
-                                <td *ngIf="displayOptions.supplierName.isDisplayed">{{ product.supplierName | empty }}</td>
-                                <td *ngIf="displayOptions.supplierEmail.isDisplayed">{{ product.supplierEmail | empty }}</td>
-                                <td *ngIf="displayOptions.supplierPhone.isDisplayed">{{ product.supplierPhone | empty }}</td>
-                                <td *ngIf="displayOptions.costPerGram.isDisplayed">{{ product.costPerGram | empty }}</td>
-                                <td *ngIf="displayOptions.costPerEighth.isDisplayed">{{ product.costPerEighth | empty }}</td>
-                                <td *ngIf="displayOptions.costPerQuarter.isDisplayed">{{ product.costPerQuarter | empty }}</td>
-                                <td *ngIf="displayOptions.costPerHalf.isDisplayed">{{ product.costPerHalf | empty }}</td>
-                                <td *ngIf="displayOptions.costPerOunce.isDisplayed">{{ product.costPerOunce | empty }}</td>
-                                <td *ngIf="displayOptions.costPerQuarterPound.isDisplayed">{{ product.costPerQuarterPound | empty }}</td>
+                            <tr *ngFor="let product of receivers$ | async">
+                                <td>{{ product.stateLicenseNumber | empty }}</td>
+                                <td>{{ product.typeOfLicense | empty }}</td>
+                                <td>{{ product.businessName | empty }}</td>
+                                <td>{{ product.businessAddress | empty }}</td>
+                                <td>{{ product.businessCity | empty }}</td>
+                                <td>{{ product.businessState | empty }}</td>
+                                <td>{{ product.businessZip | empty }}</td>
+                                <td>{{ product.phoneNumber | empty }}</td>
+                                <td>{{ product.contactName | empty }}</td>
                                 <td>
                                     <button class="btn btn-outline-danger pull-right" mwlConfirmationPopover [title]="title" [message]="getConfirmationMessage(product.name)"
                                         placement="left" (confirm)="removeProduct(product)" (cancel)="cancelClicked = true">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
-                                    <button (click)="openUpdateToolModal(product._id)" class="btn btn-outline-primary pull-right mr-2">
+                                    <button (click)="openUpdateReceiverModal(product._id)" class="btn btn-outline-primary pull-right mr-2">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         Edit
                                     </button>
@@ -115,20 +54,20 @@
                         <div class="col-6">
                         </div>
                         <div class="col-6">
-                            <button (click)="nextPage()" class="btn btn-outline-primary next pull-right" [disabled]="!(hasMoreProducts$ | async)">
+                            <button (click)="nextPage()" class="btn btn-outline-primary next pull-right" [disabled]="!(hasMoreReceivers$ | async)">
                                 Next Page
                             </button>
-                            <button (click)="previousPage()" class="btn btn-outline-primary pull-right mr-2" [disabled]="!(hasPreviousProducts$ | async)">
+                            <button (click)="previousPage()" class="btn btn-outline-primary pull-right mr-2" [disabled]="!(hasPreviousReceivers$ | async)">
                                 Previous Page
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <ti-alert [status]="alert.info" message="There are no products" [showAlert]="!hasProducts" [isLoading]="isProductsLoading$ | async">
+            <ti-alert [status]="alert.info" message="There are no products" [showAlert]="false" [isLoading]="isReceiversLoading$ | async">
             </ti-alert>
             <ng-template #updateProductRef let-c="close" let-d="dismiss">
-                <ti-update-product [activeProduct]="activeProduct$ | async" (closeUpdateModal)="closeUpdateToolModal($event)" (isLoading)="isTiUpdateToolLoading($event)"
+                <ti-update-product [activeProduct]="activeReceiver$ | async" (closeUpdateModal)="closeUpdateReceiverModal($event)" (isLoading)="isTiUpdateToolLoading($event)"
                     [skip]="skip" [take]="take">
                 </ti-update-product>
             </ng-template>

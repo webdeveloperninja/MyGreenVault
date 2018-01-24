@@ -21,82 +21,34 @@ const PAGE_TITLE: string = 'Receivers';
 })
 export class ReceiversComponent implements OnInit {
 
-    displayOptions = {
-        weight: {
-            isDisplayed: true
-        },
-        idealWeight: {
-            isDisplayed: true
-        },
-        supplierName: {
-            isDisplayed: true
-        },
-        supplierEmail: {
-            isDisplayed: false
-        },
-        supplierPhone: {
-            isDisplayed: false
-        },
-        costPerGram: {
-            isDisplayed: true
-        },
-        costPerEighth: {
-            isDisplayed: true
-        },
-        costPerQuarter: {
-            isDisplayed: false
-        },
-        costPerHalf: {
-            isDisplayed: false
-        },
-        costPerOunce: {
-            isDisplayed: false
-        },
-        costPerQuarterPound: {
-            isDisplayed: false
-        },
+    @ViewChild('updateProductRef') updateProductRef: ElementRef;
+    @ViewChild('addProductRef') addProductRef: ElementRef;
 
-    }
+    private _addReceiverModalRef: NgbModalRef;
+    private _updateReceiverModalRef: NgbModalRef;
 
-    public title: string = 'Remove Product';
-    public message: string = 'Are you sure you want to remove product: ';
+    receivers$: Observable<Product[]> = this._productService.products$;
 
-    public confirmClicked: boolean = false;
-    public cancelClicked: boolean = false;
+    public title = 'Remove receiver';
+    public message = 'Are you sure you want to remove receiver: ';
 
-    hasProducts: boolean = false;
+    public confirmClicked = false;
+    public cancelClicked = false;
+
     alert = alert;
-    updateToolModal: any;
+    updateReceiverModal: any;
 
     private skip: number;
     private take: number;
 
-    isProductsLoading$: Observable<boolean> = this._productService.isProductsLoading$;
-    activeProduct$: Observable<Product> = this._productService.activeProduct$;
-    hasPreviousProducts$: Observable<boolean> = this._productService.hasPreviousProducts$;
-    hasMoreProducts$: Observable<boolean> = this._productService.hasMoreProducts$;
+    isReceiversLoading$: Observable<boolean> = this._productService.isProductsLoading$;
+    activeReceiver$: Observable<Product> = this._productService.activeProduct$;
+    hasPreviousReceivers$: Observable<boolean> = this._productService.hasPreviousProducts$;
+    hasMoreReceivers$: Observable<boolean> = this._productService.hasMoreProducts$;
 
     getConfirmationMessage(productName: string): string {
         return `${ this.message } ${ productName }?`;
     }
-
-    @ViewChild('updateProductRef') updateProductRef: ElementRef;
-    @ViewChild('addProductRef') addProductRef: ElementRef;
-
-    private _addToolModalRef: NgbModalRef;
-    private _updateToolModalRef: NgbModalRef;
-
-    products$: Observable<Product[]> = this._productService.products$.do(products => {
-        if (products) {
-            if (products.length > 0) {
-                this.hasProducts = true;
-            } else {
-                this.hasProducts = false;
-            }
-        } else {
-            this.hasProducts = false;
-        }
-    });
 
     constructor(
         private _productService: ProductService,
@@ -109,18 +61,11 @@ export class ReceiversComponent implements OnInit {
 
     ngOnInit() {
         this._headerService.setHeaderText(PAGE_TITLE);
-        this._productService.doSearch()
+        this._productService.doSearch();
     }
 
     removeProduct(product: Product) {
-        this._productService.removeProduct(product).first().subscribe(() => {
-            this._notificationService.setNotificationOn(REMOVE_TOOL_SUCCESS_MESSAGE);
-            this.products$.first().subscribe(products => {
-                if ((products.length - 1) == 0) {
-                    this.previousPage();
-                }
-            });
-        });
+        console.log('remove product');
     }
 
     nextPage() {
@@ -131,32 +76,21 @@ export class ReceiversComponent implements OnInit {
         this._productService.previousPage();
     }
 
-    openUpdateToolModal(productId) {
+    openUpdateReceiverModal(productId) {
         this._productService.setActiveProduct(productId);
-        this._updateToolModalRef = this._modalService.open(this.updateProductRef, { size: MODAL_SIZE });
+        this._updateReceiverModalRef = this._modalService.open(this.updateProductRef, { size: MODAL_SIZE });
     }
 
-    closeUpdateToolModal() {
-        this._updateToolModalRef.close();
+    closeUpdateReceiverModal() {
+        this._updateReceiverModalRef.close();
     }
 
     closeAddProductModal() {
-        this._addToolModalRef.close();
+        this._addReceiverModalRef.close();
     }
 
-    addProduct() {
-        this._addToolModalRef = this._modalService.open(this.addProductRef, { size: MODAL_SIZE });
-    }
-
-    removeTool(product: Product) {
-        this._productService.removeProduct(product).first().subscribe(() => {
-            this._notificationService.setNotificationOn(REMOVE_TOOL_SUCCESS_MESSAGE);
-            this.products$.first().subscribe(products => {
-                if ((products.length - 1) == 0) {
-                    this.previousPage();
-                }
-            });
-        });
+    addReceiver() {
+        this._addReceiverModalRef = this._modalService.open(this.addProductRef, { size: MODAL_SIZE });
     }
 
     stopPropagation(event) {

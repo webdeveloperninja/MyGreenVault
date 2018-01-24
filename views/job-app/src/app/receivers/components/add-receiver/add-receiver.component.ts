@@ -6,11 +6,11 @@ import { Observable } from 'rxjs';
 
 @Component({
     selector: 'add-product',
-    templateUrl: './add-product.component.html',
-    styleUrls: ['./add-product.component.scss']
+    templateUrl: './add-receiver.component.html',
+    styleUrls: ['./add-receiver.component.scss']
 })
-export class AddProductComponent implements OnInit {
-    productFormGroup: FormGroup;
+export class AddReceiverComponent implements OnInit {
+    receiverFormGroup: FormGroup;
     isAddProductLoading: boolean = false;
     addToolSuccess: boolean = false;
     showMoreFields: boolean = false;
@@ -30,47 +30,38 @@ export class AddProductComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.productFormGroup = this._formBuilder.group({
-            name: ['', Validators.required],
-            weight: ['', Validators.required],
-            idealWeight: ['', Validators.required],
-            autoOrderWeight: [''],
-            supplierName: [''],
-            supplierEmail: [''],
-            supplierPhone: [''],
-            costPerGram: ['', Validators.required],
-            costPerEighth: ['', Validators.required],
-            costPerQuarter: ['', Validators.required],
-            costPerHalf: [''],
-            costPerOunce: [''],
-            costPerQuarterPound: [''],
+        this.receiverFormGroup = this._formBuilder.group({
+            stateLicenseNumber: ['', Validators.required],
+            typeOfLicense: ['', Validators.required],
+            businessName: ['', Validators.required],
+            businessAddress: ['', Validators.required],
+            businessCity: ['', Validators.required],
+            businessState: ['', Validators.required],
+            businessZip: ['', Validators.required],
+            phoneNumber: ['', Validators.required],
+            contactName: ['', Validators.required],
         });
     }
 
-    addProduct(productFormGroup) {
+    addProduct(receiverFormGroup) {
         this.isAddProductLoading = true;
 
-        let product = {
-            name: this.productFormGroup.controls['name'].value,
-            weight: this.productFormGroup.controls['weight'].value,
-            idealWeight: this.productFormGroup.controls['idealWeight'].value,
-            autoOrderWeight: this.productFormGroup.controls['autoOrderWeight'].value,
-            supplierName: this.productFormGroup.controls['supplierName'].value,
-            supplierEmail: this.productFormGroup.controls['supplierEmail'].value,
-            supplierPhone: this.productFormGroup.controls['supplierPhone'].value,
-            costPerGram: this.productFormGroup.controls['costPerGram'].value,
-            costPerEighth: this.productFormGroup.controls['costPerEighth'].value,
-            costPerQuarter: this.productFormGroup.controls['costPerQuarter'].value,
-            costPerHalf: this.productFormGroup.controls['costPerHalf'].value,
-            costPerOunce: this.productFormGroup.controls['costPerOunce'].value,
-            costPerQuarterPound: this.productFormGroup.controls['costPerQuarterPound'].value,
+        let receiver = {
+            stateLicenseNumber: this.receiverFormGroup.controls['stateLicenseNumber'].value,
+            typeOfLicense: this.receiverFormGroup.controls['typeOfLicense'].value,
+            businessName: this.receiverFormGroup.controls['businessName'].value,
+            businessAddress: this.receiverFormGroup.controls['businessAddress'].value,
+            businessCity: this.receiverFormGroup.controls['businessCity'].value,
+            businessState: this.receiverFormGroup.controls['businessState'].value,
+            businessZip: this.receiverFormGroup.controls['businessZip'].value,
+            phoneNumber: this.receiverFormGroup.controls['phoneNumber'].value,
+            contactName: this.receiverFormGroup.controls['contactName'].value,
         };
 
-        console.log('product', product);
-        this._productService.addProduct(product).first().subscribe((product) => {
+        this._productService.addProduct(receiver).first().subscribe((product) => {
             console.log('product', product);
             if (1 === 1) {
-                this.productFormGroup.reset();
+                this.receiverFormGroup.reset();
                 this._productService.doSearch();
                 this.isAddProductLoading = false;
                 this.addToolSuccess = true;

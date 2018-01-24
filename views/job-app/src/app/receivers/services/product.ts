@@ -65,7 +65,7 @@ export class ProductService {
     private getProducts() {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        let url = `/api/v1/products?skip=${this._toolsSkipSubject$.value}&take=${this._toolsTakeSubject$.value}`;
+        let url = `/api/v1/receivers?skip=${this._toolsSkipSubject$.value}&take=${this._toolsTakeSubject$.value}`;
 
         if (this._toolsQuerySubject$.value) {
             url += `&query=${this._toolsQuerySubject$.value}`;
@@ -87,7 +87,7 @@ export class ProductService {
     public addProduct(product) {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        return this._http.post('/api/v1/products/', product, { headers: headers })
+        return this._http.post('/api/v1/receivers/', product, { headers: headers })
             .map((res: PagedList<Product>) => {
                 this._hasMoreProductsSubject$.next(res.more);
             })

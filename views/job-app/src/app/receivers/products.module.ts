@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-import { AddProductComponent } from './components/add-product/add-product.component';
+import { AddReceiverComponent } from './components/add-receiver/add-receiver.component';
 import { ReceiversComponent } from './components/receivers/receivers.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ProductService } from './services/product';
@@ -14,10 +14,8 @@ import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../shared/shared.module';
 
 import { routes } from './products.routing';
-import { AddWeedQtyComponent } from './components/add-weed-qty/add-weed-qty.component';
 import { CheckoutWeedComponent } from './components/checkout-weed/checkout-weed.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
-import { WeedQtyStatusComponent } from './components/receivers/weed-qty-status/weed-qty-status.component';
 
 @NgModule({
     imports: [
@@ -30,12 +28,10 @@ import { WeedQtyStatusComponent } from './components/receivers/weed-qty-status/w
     ],
     declarations: [
         ReceiversComponent,
-        AddProductComponent,
+        AddReceiverComponent,
         UpdateProductComponent,
-        AddWeedQtyComponent,
         CheckoutWeedComponent,
-        ProductDetailComponent,
-        WeedQtyStatusComponent
+        ProductDetailComponent
     ],
     providers: [
         ProductService,
@@ -43,7 +39,7 @@ import { WeedQtyStatusComponent } from './components/receivers/weed-qty-status/w
     ],
     exports: [
         ReceiversComponent,
-        AddProductComponent,
+        AddReceiverComponent,
         UpdateProductComponent
     ]
 })
