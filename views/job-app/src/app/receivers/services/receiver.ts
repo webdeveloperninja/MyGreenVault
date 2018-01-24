@@ -92,7 +92,7 @@ export class ReceiverService {
             }),
             first(),
             catchError((err) => Observable.throw(err))
-        ).subscribe();
+        );
     }
 
 
@@ -149,7 +149,7 @@ export class ReceiverService {
     }
 
     public nextPage() {
-        this._router.navigate([`/products`],
+        this._router.navigate([`/receivers`],
             {
                 queryParams:
                     {
@@ -162,7 +162,7 @@ export class ReceiverService {
 
     public previousPage() {
         if (Number(this._toolsSkipSubject$.value) >= Number(this._toolsTakeSubject$.value)) {
-            this._router.navigate([`/products`],
+            this._router.navigate([`/receivers`],
                 {
                     queryParams:
                         {

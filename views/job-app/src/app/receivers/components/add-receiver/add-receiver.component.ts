@@ -2,14 +2,16 @@ import { Component, OnInit, Input, ViewContainerRef, Output, EventEmitter, ViewC
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angular/forms';
 import { ReceiverService } from '../../services/receiver';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { AbstractControl } from '@angular/forms/src/model';
 
 @Component({
     selector: 'add-receiver',
-    templateUrl: './add-receiver.component.html',
-    styleUrls: ['./add-receiver.component.scss']
+    templateUrl: './add-receiver.component.html'
 })
 export class AddReceiverComponent implements OnInit {
+    isLoading = false;
     receiverFormGroup: FormGroup;
 
     constructor(
@@ -32,7 +34,17 @@ export class AddReceiverComponent implements OnInit {
     }
 
     addProduct() {
-        this._productService.addReceiver(this.receiverFormGroup.value);
-        this.receiverFormGroup.reset();
+        this.isLoading = true;
+        this._productService.addReceiver(this.receiverFormGroup.value).subscribe(data => {
+            this.receiverFormGroup.reset();
+            this.isLoading = false;
+        });
+    }
+
+    isRequiredValidator(control: AbstractControl) {
+        if (control && control.touched && control.invalid && control.hasError('required')) {
+            return true;
+        }
+        return false;
     }
 }

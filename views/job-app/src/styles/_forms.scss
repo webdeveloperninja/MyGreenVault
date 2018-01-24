@@ -17,6 +17,18 @@ label {
   }
 }
 
+.form-group {
+    .error {
+        color: $danger;
+    }
+    .ng-touched {
+        &.ng-invalid {
+            border: 1px solid $danger !important;
+            border-left: 3px solid $danger !important;
+        }
+    }
+}
+
 
 // Multiple select
 .search-input {
