@@ -17,6 +17,9 @@ export class NotificationService {
     private _notificationBootstrapClassSubject: BehaviorSubject<string> = new BehaviorSubject<string>('success');
     public readonly notificationBootstrapClass$: Observable<string> = this._notificationBootstrapClassSubject.asObservable();
 
+    private _isUnderConstructionSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public readonly isUnderConstruction$: Observable<boolean> = this._isUnderConstructionSubject$.asObservable();
+
     constructor(private toastr: ToastrService) { }
 
     setNotificationOn(notificationText: string = '', notificationBootstrapClass: string = 'success') {
@@ -36,6 +39,14 @@ export class NotificationService {
 
     showSuccess(msg: string) {
         this.toastr.success(msg);
+    }
+
+    turnOnConstruction() {
+        this._isUnderConstructionSubject$.next(true);
+    }
+
+    turnOffConstruction() {
+        this._isUnderConstructionSubject$.next(false);
     }
 
 }

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SideNavService } from './shared/services/side-nav/side-nav.service';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { HeaderService } from './shared/services/header/header.service';
 import { Router, ActivatedRoute, Params, Event, NavigationEnd } from '@angular/router';
+import { ConstructionService } from 'app/construction.service';
 
 @Component({
     selector: 'app-root',
@@ -14,9 +15,12 @@ export class AppComponent implements OnInit {
     title: string = 'Dashboard';
     headerText$: Observable<string>;
 
+    isUnderConstruction$ = this._constructionService.isUnderConstruction$;
+
     constructor(
         private _sideNavService: SideNavService,
         private _headerService: HeaderService,
+        private _constructionService: ConstructionService,
         private _router: Router) {
 
     }

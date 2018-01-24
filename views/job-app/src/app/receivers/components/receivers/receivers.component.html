@@ -37,15 +37,16 @@
                                 <td>{{ receiver.businessZip | empty }}</td>
                                 <td>{{ receiver.phoneNumber | empty }}</td>
                                 <td>{{ receiver.contactName | empty }}</td>
-                                <td>
-                                    <button class="btn btn-outline-danger pull-right" mwlConfirmationPopover [title]="title" [message]="getConfirmationMessage(receiver.contactName)"
+                                <td class="text-center">
+                                    <p>Comming soon</p>
+                                    <!-- <button class="btn btn-outline-danger pull-right" mwlConfirmationPopover [title]="title" [message]="getConfirmationMessage(receiver.contactName)"
                                         placement="left" (confirm)="removeProduct(receiver)" (cancel)="cancelClicked = true">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
                                     <button (click)="openUpdateReceiverModal(receiver._id)" class="btn btn-outline-primary pull-right mr-2">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         Edit
-                                    </button>
+                                    </button> -->
                                 </td>
                             </tr>
                         </tbody>
