@@ -5,17 +5,14 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AddReceiverComponent } from './components/add-receiver/add-receiver.component';
 import { ReceiversComponent } from './components/receivers/receivers.component';
 import { RouterModule, Routes } from '@angular/router';
-import { ProductService } from './services/product';
-import { ActiveWeedService } from './services/active-weed';
+import { ReceiverService } from './services/receiver';
 import { UpdateProductComponent } from './components/update-product/update-product.component';
 
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';
 
-import { routes } from './products.routing';
-import { CheckoutWeedComponent } from './components/checkout-weed/checkout-weed.component';
-import { ProductDetailComponent } from './components/product-detail/product-detail.component';
+import { routes } from './receivers.routing';
 
 @NgModule({
     imports: [
@@ -29,13 +26,10 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
     declarations: [
         ReceiversComponent,
         AddReceiverComponent,
-        UpdateProductComponent,
-        CheckoutWeedComponent,
-        ProductDetailComponent
+        UpdateProductComponent
     ],
     providers: [
-        ProductService,
-        ActiveWeedService
+        ReceiverService
     ],
     exports: [
         ReceiversComponent,
@@ -43,4 +37,4 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
         UpdateProductComponent
     ]
 })
-export class ProductsModule {}
+export class ReceiversModule {}

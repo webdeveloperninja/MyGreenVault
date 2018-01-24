@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ProductService, PagedList } from '../../services/product';
+import { ReceiverService, PagedList } from '../../services/receiver';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -7,7 +7,7 @@ import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/
 import { HeaderService } from 'app/shared/services/header/header.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { alert } from 'app/shared/components/alert/alert.component';
-import { Product } from '../../models/Product';
+import { Receiver } from '../../models/receiver';
 
 const REMOVE_TOOL_SUCCESS_MESSAGE: string = 'Successfully Removed Tool';
 const MODAL_SIZE = 'lg';
@@ -20,14 +20,13 @@ const PAGE_TITLE: string = 'Receivers';
     styleUrls: ['./receivers.component.scss']
 })
 export class ReceiversComponent implements OnInit {
-
     @ViewChild('updateProductRef') updateProductRef: ElementRef;
-    @ViewChild('addProductRef') addProductRef: ElementRef;
+    @ViewChild('addReceiverRef') addReceiverRef: ElementRef;
 
     private _addReceiverModalRef: NgbModalRef;
     private _updateReceiverModalRef: NgbModalRef;
 
-    receivers$: Observable<Product[]> = this._productService.products$;
+    receivers$: Observable<Receiver[]> = this._productService.products$;
 
     public title = 'Remove receiver';
     public message = 'Are you sure you want to remove receiver: ';
@@ -42,7 +41,7 @@ export class ReceiversComponent implements OnInit {
     private take: number;
 
     isReceiversLoading$: Observable<boolean> = this._productService.isProductsLoading$;
-    activeReceiver$: Observable<Product> = this._productService.activeProduct$;
+    activeReceiver$: Observable<Receiver> = this._productService.activeProduct$;
     hasPreviousReceivers$: Observable<boolean> = this._productService.hasPreviousProducts$;
     hasMoreReceivers$: Observable<boolean> = this._productService.hasMoreProducts$;
 
@@ -51,7 +50,7 @@ export class ReceiversComponent implements OnInit {
     }
 
     constructor(
-        private _productService: ProductService,
+        private _productService: ReceiverService,
         private _modalService: NgbModal,
         private _notificationService: NotificationService,
         private _headerService: HeaderService,
@@ -64,7 +63,7 @@ export class ReceiversComponent implements OnInit {
         this._productService.doSearch();
     }
 
-    removeProduct(product: Product) {
+    removeProduct(product: Receiver) {
         console.log('remove product');
     }
 
@@ -90,11 +89,6 @@ export class ReceiversComponent implements OnInit {
     }
 
     addReceiver() {
-        this._addReceiverModalRef = this._modalService.open(this.addProductRef, { size: MODAL_SIZE });
+        this._addReceiverModalRef = this._modalService.open(this.addReceiverRef, { size: MODAL_SIZE });
     }
-
-    stopPropagation(event) {
-        event.stopPropagation();
-    }
-
 }

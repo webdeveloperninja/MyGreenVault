@@ -27,22 +27,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let product of receivers$ | async">
-                                <td>{{ product.stateLicenseNumber | empty }}</td>
-                                <td>{{ product.typeOfLicense | empty }}</td>
-                                <td>{{ product.businessName | empty }}</td>
-                                <td>{{ product.businessAddress | empty }}</td>
-                                <td>{{ product.businessCity | empty }}</td>
-                                <td>{{ product.businessState | empty }}</td>
-                                <td>{{ product.businessZip | empty }}</td>
-                                <td>{{ product.phoneNumber | empty }}</td>
-                                <td>{{ product.contactName | empty }}</td>
+                            <tr *ngFor="let receiver of receivers$ | async">
+                                <td>{{ receiver.stateLicenseNumber | empty }}</td>
+                                <td>{{ receiver.typeOfLicense | empty }}</td>
+                                <td>{{ receiver.businessName | empty }}</td>
+                                <td>{{ receiver.businessAddress | empty }}</td>
+                                <td>{{ receiver.businessCity | empty }}</td>
+                                <td>{{ receiver.businessState | empty }}</td>
+                                <td>{{ receiver.businessZip | empty }}</td>
+                                <td>{{ receiver.phoneNumber | empty }}</td>
+                                <td>{{ receiver.contactName | empty }}</td>
                                 <td>
-                                    <button class="btn btn-outline-danger pull-right" mwlConfirmationPopover [title]="title" [message]="getConfirmationMessage(product.name)"
-                                        placement="left" (confirm)="removeProduct(product)" (cancel)="cancelClicked = true">
+                                    <button class="btn btn-outline-danger pull-right" mwlConfirmationPopover [title]="title" [message]="getConfirmationMessage(receiver.contactName)"
+                                        placement="left" (confirm)="removeProduct(receiver)" (cancel)="cancelClicked = true">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
-                                    <button (click)="openUpdateReceiverModal(product._id)" class="btn btn-outline-primary pull-right mr-2">
+                                    <button (click)="openUpdateReceiverModal(receiver._id)" class="btn btn-outline-primary pull-right mr-2">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         Edit
                                     </button>
@@ -71,10 +71,9 @@
                     [skip]="skip" [take]="take">
                 </ti-update-product>
             </ng-template>
-            <ng-template #addProductRef let-c="close" let-d="dismiss">
-                <add-product (closeAddToolModal)="closeAddProductModal($event)" (isAddProductLoading)="setIsAddProductLoading($event)" [skip]="skip"
-                    [take]="take">
-                </add-product>
+            <ng-template #addReceiverRef let-c="close" let-d="dismiss">
+                <add-receiver>
+                </add-receiver>
             </ng-template>
         </div>
     </div>

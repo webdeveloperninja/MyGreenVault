@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HeaderService } from 'app/shared/services/header/header.service';
 
@@ -17,7 +17,9 @@ export class SalesInvoiceComponent implements OnInit {
     showDistributorInformation: boolean = false;
     showProductShippedDetails: boolean = true;
 
-    constructor(private _fb: FormBuilder, private _headerService: HeaderService) { }
+    constructor(
+        private _fb: FormBuilder, 
+        private _headerService: HeaderService) { }
 
     ngOnInit() {
         this.shippingManifest = this._fb.group({
@@ -99,12 +101,6 @@ export class SalesInvoiceComponent implements OnInit {
         this.showProductShippedDetails = true;
     }
 
-    addReceiver() {
-        this.showReceiverInformation = true;
-        this.showShipperInformation = false;
-        this.showDistributorInformation = false;
-        this.showProductShippedDetails = false;
-    }
 
     addDistributor() {
         this.showDistributorInformation = true;
@@ -126,6 +122,13 @@ export class SalesInvoiceComponent implements OnInit {
     }
 
     closeProductShippedInformation(): void {
+        this.showProductShippedDetails = false;
+    }
+
+    addReceiver() {
+        this.showReceiverInformation = true;
+        this.showShipperInformation = false;
+        this.showDistributorInformation = false;
         this.showProductShippedDetails = false;
     }
 }
