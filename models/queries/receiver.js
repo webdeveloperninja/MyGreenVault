@@ -1,11 +1,11 @@
-const Product = require('../../models/Product');
+const Receiver = require('../../models/Receiver');
 const ObjectId = require('mongodb').ObjectID;
 
-let add = exports.add = (product) => {
-    const newProduct = new Product(product);
+function add(receiver) {
+    const newReceiver = new Receiver(receiver);
 
     return new Promise((resolve, reject) => {
-        newProduct.save((err, results) => {
+        newReceiver.save((err, results) => {
             if (err) {
                 reject(err);
             }
@@ -14,11 +14,11 @@ let add = exports.add = (product) => {
     });
 }
 
-let removeProduct = exports.removeProduct = (product) => {
+function remove(receiver) {
     return new Promise((resolve, reject) => {
-        Product.find({
-            _id: ObjectId(product._id),
-            userId: product.userId
+        Receiver.find({
+            _id: ObjectId(receiver._id),
+            userId: receiver.userId
         }).remove().exec((err, result) => {
             if (err) {
                 reject(err);
@@ -28,7 +28,7 @@ let removeProduct = exports.removeProduct = (product) => {
     });
 }
 
-let getPagedProducts = exports.getPagedProducts = (userId, skip, take, query = null) => {
+function getPaged(userId, skip, take, query = null) {
     return new Promise((resolve, reject) => {
         let queryObj = {
             userId: ObjectId(userId)
@@ -38,7 +38,7 @@ let getPagedProducts = exports.getPagedProducts = (userId, skip, take, query = n
             queryObj.name = {'$regex': query, '$options' : 'i'};
         }
 
-        Product.find(queryObj)
+        Receiver.find(queryObj)
         .limit(take + 1)
         .skip(skip)
         .exec((err, results) => {
@@ -62,16 +62,24 @@ let getPagedProducts = exports.getPagedProducts = (userId, skip, take, query = n
     });
 }
 
-let updateProduct = exports.updateProduct = (updatedProduct) => {
+function update(updated) {
     return new Promise((resolve, reject) => {
-        Product.findOneAndUpdate({
-            _id: ObjectId(updatedProduct._id),
-            userId: ObjectId(updatedProduct.userId)
-        }, updatedProduct).exec(err => {
+        Receiver.findOneAndUpdate({
+            _id: ObjectId(updated._id),
+            userId: ObjectId(updated.userId)
+        }, updated).exec(err => {
             if (err) {
                 reject(err);
             }
-            resolve('successfully updated weed');
+            resolve('successfully updated');
         })
     });
+}
+
+
+module.exports = {
+    add,
+    remove,
+    getPaged,
+    update
 }

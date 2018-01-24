@@ -9,11 +9,11 @@ import { ChartsModule } from 'ng2-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RequestInterceptor } from './interceptors/auth.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 
-import { ProductsModule } from './receivers/products.module';
+import { ReceiversModule } from './receivers/receivers.module';
 import { PlantsModule } from './plants/plants.module';
 import { SharedModule } from './shared/shared.module';
 import { EmployeesModule } from './employees/employees.module';
@@ -43,11 +43,12 @@ import { routes } from './app.routing';
         SharedModule,
         SalesInvoiceModule,
         PreferencesModule,
-        ProductsModule,
+        ReceiversModule,
         PlantsModule,
         AuthenticationModule,
         EmployeesModule,
         NgbModule.forRoot(),
+        ToastrModule.forRoot(),
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

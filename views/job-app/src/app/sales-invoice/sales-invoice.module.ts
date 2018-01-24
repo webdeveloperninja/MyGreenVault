@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { RouterModule, Routes } from '@angular/router';
+import { ReceiversModule } from '../receivers/receivers.module';
 
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -22,6 +23,7 @@ import { ReceiverComponent } from './components/receiver/receiver.component';
         FormsModule,
         SharedModule,
         ReactiveFormsModule,
+        ReceiversModule,
         RouterModule.forChild(routes),
         NgbModule.forRoot()
     ],

@@ -3,22 +3,19 @@ import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { Observable, BehaviorSubject } from 'rxjs'
 import { Router, ActivatedRoute, Params, Event, NavigationEnd } from '@angular/router';
 import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../shared/services/notification/notification.service';
-import { Product } from '../models/Product';
+import { Receiver } from '../models/Receiver';
 
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/first';
-import 'rxjs/add/operator/finally';
+import { tap, first, finalize, catchError } from 'rxjs/operators';
 
 export const DEFAULT_SKIP: number = 0;
 export const DEFAULT_TAKE: number = 8;
 
 @Injectable()
-export class ProductService {
+export class ReceiverService {
 
     // TODO type product
-    private _productsSubject$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>(null);
-    public readonly products$: Observable<Product[]> = this._productsSubject$.asObservable();
+    private _productsSubject$: BehaviorSubject<Receiver[]> = new BehaviorSubject<Receiver[]>(null);
+    public readonly products$: Observable<Receiver[]> = this._productsSubject$.asObservable();
 
     private _hasMoreProductsSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public readonly hasMoreProducts$: Observable<boolean> = this._hasMoreProductsSubject$.asObservable();
@@ -38,8 +35,8 @@ export class ProductService {
     private _toolsQuerySubject$: BehaviorSubject<string> = new BehaviorSubject<string>('');
     public readonly toolsQuery$: Observable<string> = this._toolsQuerySubject$.asObservable();
 
-    private _activeProductSubject$: BehaviorSubject<Product> = new BehaviorSubject<Product>(null);
-    public readonly activeProduct$: Observable<Product> = this._activeProductSubject$.asObservable();
+    private _activeProductSubject$: BehaviorSubject<Receiver> = new BehaviorSubject<Receiver>(null);
+    public readonly activeProduct$: Observable<Receiver> = this._activeProductSubject$.asObservable();
 
 
     constructor(
@@ -65,14 +62,14 @@ export class ProductService {
     private getProducts() {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        let url = `/api/v1/products?skip=${this._toolsSkipSubject$.value}&take=${this._toolsTakeSubject$.value}`;
+        let url = `/api/v1/receivers?skip=${this._toolsSkipSubject$.value}&take=${this._toolsTakeSubject$.value}`;
 
         if (this._toolsQuerySubject$.value) {
             url += `&query=${this._toolsQuerySubject$.value}`;
         }
 
-        return this._http.get(url, { headers: headers, withCredentials: true }).map((res: PagedList<Product>) => {
-            const products = res.data as Product[];
+        return this._http.get(url, { headers: headers, withCredentials: true }).map((res: PagedList<Receiver>) => {
+            const products = res.data as Receiver[];
             const moreProducts = res.more;
             const hasPreviousProducts = this._toolsSkipSubject$.value != 0;
 
@@ -84,16 +81,18 @@ export class ProductService {
         });
     }
 
-    public addProduct(product) {
-        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    public addReceiver(product) {
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        return this._http.post('/api/v1/products/', product, { headers: headers })
-            .map((res: PagedList<Product>) => {
-                this._hasMoreProductsSubject$.next(res.more);
-            })
-            .finally(() => {
+        return this._http.post('/api/v1/receivers/', product, { headers: headers }).pipe(
+            tap((res: PagedList<Receiver>) => this._hasMoreProductsSubject$.next(res.more)),
+            finalize(() => {
+                this._notificationService.showSuccess('Receiver added')
                 this.doSearch();
-            });
+            }),
+            first(),
+            catchError((err) => Observable.throw(err))
+        );
     }
 
 
@@ -144,13 +143,13 @@ export class ProductService {
     }
 
     public setActiveProduct(productId: string): void {
-        this.products$.map(products => products.filter(product => product._id === productId)[0]).subscribe((activeProduct: Product) => {
+        this.products$.map(products => products.filter(product => product._id === productId)[0]).subscribe((activeProduct: Receiver) => {
             this._activeProductSubject$.next(activeProduct);
         });
     }
 
     public nextPage() {
-        this._router.navigate([`/products`],
+        this._router.navigate([`/receivers`],
             {
                 queryParams:
                     {
@@ -163,7 +162,7 @@ export class ProductService {
 
     public previousPage() {
         if (Number(this._toolsSkipSubject$.value) >= Number(this._toolsTakeSubject$.value)) {
-            this._router.navigate([`/products`],
+            this._router.navigate([`/receivers`],
                 {
                     queryParams:
                         {
