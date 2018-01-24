@@ -1,13 +1,7 @@
-<div class="search-wrapper">
-    <article class="d-flex justify-content-center align-items-center">
-        <input class="form-control col-12" [(ngModel)]="query" placeholder="Search">
-        <button 
-            type="submit" 
-            role="button" 
-            class="btn btn-outline-success btn-search"
-            (click)="doSearch()">
-                <i aria-hidden="true" class="fa fa-search"></i>
-                Search
-        </button>
-    </article>
-</div>
+<article class="d-flex">
+    <input class="form-control col-12" [(ngModel)]="query" placeholder="Search">
+    <button type="submit" role="button" class="btn btn-outline-success btn-search" (click)="doSearch()">
+        <i aria-hidden="true" class="fa fa-search"></i>
+        Search
+    </button>
+</article>
