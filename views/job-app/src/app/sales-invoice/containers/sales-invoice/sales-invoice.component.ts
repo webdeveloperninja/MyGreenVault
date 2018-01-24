@@ -1,6 +1,8 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HeaderService } from 'app/shared/services/header/header.service';
+import { NotificationService } from 'app/shared/services/notification/notification.service';
+import { ConstructionService } from 'app/construction.service';
 
 const headerText: string = 'Sales Invoice / Shipping Manifest';
 
@@ -9,7 +11,7 @@ const headerText: string = 'Sales Invoice / Shipping Manifest';
     templateUrl: './sales-invoice.component.html',
     styleUrls: ['./sales-invoice.component.scss']
 })
-export class SalesInvoiceComponent implements OnInit {
+export class SalesInvoiceComponent implements OnInit, OnDestroy {
     shippingManifest: FormGroup;
 
     showShipperInformation: boolean = false;
@@ -19,9 +21,13 @@ export class SalesInvoiceComponent implements OnInit {
 
     constructor(
         private _fb: FormBuilder, 
-        private _headerService: HeaderService) { }
+        private _headerService: HeaderService,
+        private _notificationService: NotificationService,
+        private _constructionService: ConstructionService) { }
 
     ngOnInit() {
+        setTimeout(() => this._constructionService.turnOnConstruction());
+
         this.shippingManifest = this._fb.group({
             shipperInformation: this._fb.group({
                 stateLicenseNumber: [''],
@@ -85,6 +91,10 @@ export class SalesInvoiceComponent implements OnInit {
         this.shippingManifest.valueChanges.subscribe(data => {
             console.log('data', data);
         });
+    }
+
+    ngOnDestroy() {
+        this._constructionService.turnOffConstruction()
     }
 
     addShipper() {

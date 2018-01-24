@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
-import { Observable, BehaviorSubject } from 'rxjs'
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Router, ActivatedRoute, Params, Event, NavigationEnd } from '@angular/router';
 
 import 'rxjs/add/operator/map';
@@ -8,6 +9,8 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/catch';
+
+import { tap } from 'rxjs/operators';
 
 export const DEFAULT_SKIP: number = 0;
 export const DEFAULT_TAKE: number = 8;
@@ -174,18 +177,18 @@ export class PlantsService {
 
 
     public removePlant(job) {
-        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        let headers = new HttpHeaders();
 
         this._isJobsLoadingSubject$.next(true);
-        return this._http.post('/api/v1/plants/remove', job, {headers: headers})
-            .map((res: HttpResponse<any>) =>  {
+        return this._http.post('/api/v1/plants/remove', job, {headers: headers}).pipe(
+            tap((res:HttpResponse<any>) => {
                 if (this._plantsSubject$.value.length === 0) {
                     this.previousPage();
                 } else {
                     this.doSearch();
                 }
-                return res;
-            });
+            })
+        )
     }
 
     public setActiveJob(jobId: string): void {

@@ -62,7 +62,7 @@ exports.updatePlant = (req, res) => {
     }
 
     doUpdateJob(req.user._id, job).then(data => {
-        res.send(200);
+        res.status(200).send(data);
     }).catch(err => {
         res.status(err.code).send(err);
     })
@@ -73,7 +73,7 @@ exports.removePlant = (req, res) => {
     const job = req.body;
 
     plantQuery.removeJob(job).then(data => {
-        res.send(200);
+        res.status(200).send({ "success": true });
     }).catch(err => {
         res.send(500);
         throw new Error(err);

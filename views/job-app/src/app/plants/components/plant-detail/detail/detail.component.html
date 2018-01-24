@@ -28,28 +28,10 @@
                 <strong>Plant Description:</strong> {{ plantDetail?.plantDescription | empty }}
             </p>
             <p>
-                <strong>Estimated Harvest Date:</strong> ------
-            </p>
-            <p>
-                <strong>Purchaser Name:</strong> ------
-            </p>
-            <p>
-                <strong>Purchaser Email:</strong> ------
-            </p>
-            <p>
-                <strong>Purchaser Phone:</strong> ------
-            </p>
-        </div>
-        <div class="col-md-6">
-            <span class="fa fa-leaf leaf"></span>
-            <p class="status">
-                {{ plantDetail?.plantStatus | jobStatusNumberToTitle | empty }}
+                <strong>Plant Status:</strong> {{ plantDetail?.plantStatus | jobStatusNumberToTitle | empty }}
             </p>
         </div>
     </div>
-
-
-
 </div>
 
 <ng-template #updatePlantRef let-c="close" let-d="dismiss">

@@ -25,6 +25,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { WelcomeComponent } from './welcome/welcome.component';
 import { routes } from './app.routing';
+import { ConstructionService } from 'app/construction.service';
 
 @NgModule({
     declarations: [
@@ -56,7 +57,8 @@ import { routes } from './app.routing';
             provide: HTTP_INTERCEPTORS,
             useClass: RequestInterceptor,
             multi: true
-        }
+        },
+        ConstructionService
     ],
     exports: [
         FlashMessagesModule,
