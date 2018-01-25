@@ -29,6 +29,17 @@ File: Menu
   }
 }
 
+@media(max-width: 768px) {
+    .topbar-left {
+        .long-logo {
+            display: none;
+        }
+        .small-logo {
+            display: block!important;
+        }
+    }
+}
+
 
 
 .navbar-custom {

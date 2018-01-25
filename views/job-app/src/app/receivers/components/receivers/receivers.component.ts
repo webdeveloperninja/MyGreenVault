@@ -118,6 +118,12 @@ export class ReceiversComponent implements OnInit {
         this._addReceiverModalRef.close();
     }
 
+    removeReceiver(receiver) {
+        this._productService.remove(receiver).subscribe(data => {
+            
+        })
+    }
+
     addReceiver() {
         this._addReceiverModalRef = this._modalService.open(this.addReceiverRef, { size: MODAL_SIZE });
     }

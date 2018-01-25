@@ -1,6 +1,17 @@
 article {
     width: 400px;
     margin: auto;
+
+    input { 
+        margin-left: -150px;
+    }
+    
+    @media(max-width: 835px) {
+        width: 251px;
+    }
+    @media(max-width: 709px) {
+        display: none !important;
+    }
 }
 
 input {

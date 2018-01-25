@@ -55,8 +55,8 @@ exports.update = (req, res) => {
 exports.remove = (req, res) => {
     const product = req.body;
 
-    receiverQuery.removeProduct(product).then(data => {
-        res.send(200);
+    receiverQuery.remove(product).then(data => {
+        res.status(200).send(data);
     }).catch(err => {
         res.send(500);
         throw new Error(err);
