@@ -122,27 +122,23 @@ export class ReceiverService {
             });
     }
 
-    public removeProduct(product) {
-        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    public remove(product) {
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         this._isProductsLoadingSubject$.next(true);
-        return this._http.post('/api/v1/products/remove', product, { headers: headers })
-            .map((res: Response) => {
+
+        return this._http.post('/api/v1/receivers/remove', product, { headers: headers }).pipe(
+            finalize(() => {
+                this._notificationService.showSuccess('Removed receiver');
                 if (this._productsSubject$.value.length === 0) {
                     this.previousPage();
                 } else {
                     this.doSearch();
                 }
-                return res;
-            }).catch(err => {
-                if (Number(err.status) === Number(403)) {
-                    const urlOrigin = window.location.origin;
-                    const urlPathName = window.location.pathname;
-                    const loginUrl = 'login';
-                    window.location.href = `${urlOrigin}${urlPathName}${loginUrl}`;
-                }
-                return err;
-            });
+            }),
+            first(),
+            catchError((err) => Observable.throw(err))
+        )
     }
 
     public setActiveProduct(productId: string): void {

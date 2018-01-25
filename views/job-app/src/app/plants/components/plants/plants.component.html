@@ -11,43 +11,46 @@
             </div>
             <div class="row">
                 <div class="col-md-12" *ngIf="!(plants$ | async)?.length === false">
-                    <table class="table table-striped ti-table">
-                        <thead class="ti-table-header">
-                            <tr>
-                                <th>Plant Name</th>
-                                <th>Plant Number</th>
-                                <th class="w-25">Plant Description</th>
-                                <th>Status</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let plant of plants$ | async">
-                                <td>{{ plant.plantName | empty }}</td>
-                                <td>{{ plant.plantNumber | empty }}</td>
-                                <td>{{ plant.plantDescription | empty }}</td>
-                                <td>
-                                    <ti-job-status-chip [jobStatus]="plant.plantStatus">
-                                    </ti-job-status-chip>
-                                </td>
-                                <td>
-                                    <button class="btn btn-outline-danger pull-right" mwlConfirmationPopover [title]="title" [message]="getConfirmationMessage(plant.plantName)"
-                                        placement="left" (confirm)="removePlant(plant)" (cancel)="cancelClicked = true">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
-                                    </button>
-                                    <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdatePlantModal(plant._id)">
-                                        <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
-                                    </button>
-                                    <button class="btn btn-outline-primary pull-right mr-2" routerLink="/plants/{{plant.plantNumber}}">
-                                        <i class="fa fa-eye mr-2" aria-hidden="true"></i>View
-                                    </button>
-                                    <button class="btn btn-outline-primary pull-right mr-2" routerLink="/sales-invoice">
-                                        <i class="fa fa-usd mr-2" aria-hidden="true"></i>Sell Product
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Plant Name</th>
+                                    <th>Plant Number</th>
+                                    <th class="w-25">Plant Description</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let plant of plants$ | async">
+                                    <td>{{ plant.plantName | empty }}</td>
+                                    <td>{{ plant.plantNumber | empty }}</td>
+                                    <td>{{ plant.plantDescription | empty }}</td>
+                                    <td>
+                                        <ti-job-status-chip [jobStatus]="plant.plantStatus">
+                                        </ti-job-status-chip>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-outline-danger pull-right" mwlConfirmationPopover [title]="title" [message]="getConfirmationMessage(plant.plantName)"
+                                            placement="left" (confirm)="removePlant(plant)" (cancel)="cancelClicked = true">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdatePlantModal(plant._id)">
+                                            <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
+                                        </button>
+                                        <button class="btn btn-outline-primary pull-right mr-2" routerLink="/plants/{{plant.plantNumber}}">
+                                            <i class="fa fa-eye mr-2" aria-hidden="true"></i>View
+                                        </button>
+                                        <button class="btn btn-outline-primary pull-right mr-2" routerLink="/sales-invoice">
+                                            <i class="fa fa-usd mr-2" aria-hidden="true"></i>Sell Product
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-12">
                             <button (click)="nextPage()" class="btn btn-outline-primary next pull-right" [disabled]="!(morePlants$ | async)">
