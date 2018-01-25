@@ -13,6 +13,14 @@
                                     <h3 class="text-center">Sign up - Free</h3>
                                 </div>
                             </div>
+                            <% if(messages.errors && messages.errors.length) {%>
+                                <div class="alert alert-danger">
+                                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                    <% for(var i=0; i < messages.errors.length; i++) {%>
+                                        <%= messages.errors[i].msg %>
+                                    <% } %>
+                                </div>
+                            <% } %>
                             <div class="row">
                                 <form class="form-horizontal" id="signup-form" method="POST">
                                     <div class="col-md-6">

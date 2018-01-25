@@ -21,8 +21,18 @@ body.login {
     color: white;
     border: 1px solid white;
     padding: 10px; }
+    body.login .login-wrapper .page-header {
+      margin-top: -10px; }
   body.login .btn-sign-up {
     margin-top: 10px; }
+
+.alert {
+  font-size: 16px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border-radius: 0; }
+  .alert .fa {
+    margin-right: 8px; }
 
 .navbar .navbar-brand img {
   width: 200px; }
