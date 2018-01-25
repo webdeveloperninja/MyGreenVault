@@ -6,13 +6,13 @@ import { AddReceiverComponent } from './components/add-receiver/add-receiver.com
 import { ReceiversComponent } from './components/receivers/receivers.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ReceiverService } from './services/receiver';
-import { UpdateProductComponent } from './components/update-product/update-product.component';
 
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';
 
 import { routes } from './receivers.routing';
+import { UpdateReceiverComponent } from './components/update-receiver/update-receiver.component';
 
 @NgModule({
     imports: [
@@ -26,15 +26,14 @@ import { routes } from './receivers.routing';
     declarations: [
         ReceiversComponent,
         AddReceiverComponent,
-        UpdateProductComponent
+        UpdateReceiverComponent
     ],
     providers: [
         ReceiverService
     ],
     exports: [
         ReceiversComponent,
-        AddReceiverComponent,
-        UpdateProductComponent
+        AddReceiverComponent
     ]
 })
 export class ReceiversModule {}
