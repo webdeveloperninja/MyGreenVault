@@ -96,14 +96,17 @@ export class ReceiverService {
     }
 
 
-    public updateProduct(product) {
-        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    public updateReceiver(receiver) {
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        return this._http.put('/api/v1/products', product, { headers: headers })
-            .map((res: Response) => {
+        return this._http.put('/api/v1/receivers', receiver, { headers: headers }).pipe(
+            finalize(() => {
+                this._notificationService.showSuccess('Updated receiver');
                 this.doSearch();
-                return res;
-            });
+            }),
+            first(),
+            catchError((err) => Observable.throw(err))
+        );
     }
 
     public checkoutTool(checkout) {

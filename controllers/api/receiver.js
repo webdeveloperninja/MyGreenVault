@@ -38,14 +38,14 @@ exports.add = (req, res) => {
 }
 
 exports.update = (req, res) => {
-    const product = req.body;
+    const receiver = req.body;
     
-    if (!product.userId) {
-        product.userId = req.user._id;
+    if (!receiver.userId) {
+        receiver.userId = req.user._id;
     }
 
-    receiverQuery.updateProduct(product).then(data => {
-        res.send(200);
+    receiverQuery.update(receiver).then(data => {
+        res.status(200).send({success: data});
     }).catch(err => {
         res.send(500);
         throw new Error(err);
