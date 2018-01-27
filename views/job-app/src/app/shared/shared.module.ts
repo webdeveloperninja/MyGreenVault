@@ -25,7 +25,7 @@ import { LocalStorageService } from './services/local-storage/local-storage.serv
 import { ReactiveFormsModule } from '@angular/forms';
 import { SearchService } from './services/search/search.service';
 import { AlertComponent } from './components/alert/alert.component';
-import { OmniSearchComponent } from './components/header/omni-search/omni-search.component';
+import { OmniSearchComponent } from './components/omni-search/omni-search.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { CloseComponent } from './components/close/close.component';

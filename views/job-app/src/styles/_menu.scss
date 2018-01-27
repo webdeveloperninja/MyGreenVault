@@ -165,12 +165,20 @@ File: Menu
 }
 
 .content-page {
+    background-color: white!important;
   margin-left: 250px;
+  height: 100vh!important;
   .content {
     padding: 0 5px;
     margin-top: 73px;
   }
 }
+
+#wrapper {
+    height: 100vh!important;
+}
+
+
 
 .side-menu.left {
     position: absolute;
