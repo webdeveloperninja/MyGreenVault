@@ -11,12 +11,7 @@
         </aside>
         <article>
             <form [formGroup]="searchForm" class="w-100" (ngSubmit)="doSearch(null)"> 
-                <ti-omni-search
-                    (isSearch)="doSearch($event)"
-                    [defaultOperatorSkip]="defaultOperatorSkip"
-                    [defaultOperatorTake]="defaultOperatorTake"
-                    [defaultToolSkip]="defaultToolSkip"
-                    [defaultToolTake]="defaultToolTake">
+                <ti-omni-search>
                 </ti-omni-search>
             </form>
         </article>
