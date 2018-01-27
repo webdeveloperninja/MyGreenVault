@@ -65,7 +65,7 @@
                 </div>
             </div>
         </div>
-        <ti-alert [status]="alert.info" message="There are no products" [showAlert]="false" [isLoading]="isReceiversLoading$ | async">
+        <ti-alert [status]="alert.info" message="There are no receivers" [showAlert]="!hasReceivers">
         </ti-alert>
         <ng-template #updateProductRef let-c="close" let-d="dismiss">
             <div class="container mb-3">

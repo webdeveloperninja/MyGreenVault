@@ -26,11 +26,18 @@ export class ShippersComponent implements OnInit {
     @ViewChild('addReceiverRef') addReceiverRef: ElementRef;
 
     receiverFormGroup: FormGroup;
+    hasPlants = false;
     
     private _addReceiverModalRef: NgbModalRef;
     private _updateReceiverModalRef: NgbModalRef;
 
-    receivers$: Observable<Receiver[]> = this._productService.products$;
+    receivers$: Observable<Receiver[]> = this._productService.products$.do(receivers => {
+        if (!receivers || receivers.length === 0) {
+            this.hasPlants = false;
+        } else {
+            this.hasPlants = true;
+        }
+    });
 
     public confirmClicked = false;
     public cancelClicked = false;
