@@ -23,13 +23,19 @@ const PAGE_TITLE: string = 'Receivers';
 export class ReceiversComponent implements OnInit {
     @ViewChild('updateProductRef') updateProductRef: ElementRef;
     @ViewChild('addReceiverRef') addReceiverRef: ElementRef;
-
+    hasReceivers = false;
     receiverFormGroup: FormGroup;
     
     private _addReceiverModalRef: NgbModalRef;
     private _updateReceiverModalRef: NgbModalRef;
 
-    receivers$: Observable<Receiver[]> = this._productService.products$;
+    receivers$: Observable<Receiver[]> = this._productService.products$.do(receivers => {
+        if (!receivers || receivers.length === 0) {
+            this.hasReceivers = false;
+        } else {
+            this.hasReceivers = true;
+        }
+    });
 
     public title = 'Remove receiver';
     public message = 'Are you sure you want to remove receiver: ';
@@ -39,6 +45,7 @@ export class ReceiversComponent implements OnInit {
 
     alert = alert;
     updateReceiverModal: any;
+    
 
     private skip: number;
     private take: number;
