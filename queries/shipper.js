@@ -66,7 +66,7 @@ function update(shipper) {
         Shipper.findOneAndUpdate({
             _id: ObjectId(shipper._id),
             userId: ObjectId(shipper.userId)
-        }, updated).exec(err => {
+        }, shipper).exec(err => {
             if (err) {
                 reject(err);
             }

@@ -8,8 +8,8 @@ const shipperSchema = new mongoose.Schema({
     businessCity: {type: String, require: true},
     businessState: {type: String, require: true},
     businessZip: {type: String, require: true},
-    businessPhoneNumber: {type: String, require: true},
-    businessContactName: {type: String, require: true},
+    phoneNumber: {type: String, require: true},
+    contactName: {type: String, require: true},
     userId: {type: String, required: true } 
 }, { collection: 'shipper'});
 
