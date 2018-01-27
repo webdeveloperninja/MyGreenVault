@@ -1,4 +1,4 @@
-const Shipper = require('../models/shipper');
+const Shipper = require('../models/Shipper');
 const ObjectId = require('mongodb').ObjectID;
 
 function getPaged(userId, skip, take) {
