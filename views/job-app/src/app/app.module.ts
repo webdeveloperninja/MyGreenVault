@@ -16,7 +16,7 @@ import { AppComponent } from './app.component';
 import { ReceiversModule } from './receivers/receivers.module';
 import { PlantsModule } from './plants/plants.module';
 import { SharedModule } from './shared/shared.module';
-import { EmployeesModule } from './employees/employees.module';
+import { ShippersModule } from './shippers/shippers.module';
 import { PreferencesModule } from './preferences/preferences.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { SalesInvoiceModule } from './sales-invoice/sales-invoice.module';
@@ -47,7 +47,7 @@ import { ConstructionService } from 'app/construction.service';
         ReceiversModule,
         PlantsModule,
         AuthenticationModule,
-        EmployeesModule,
+        ShippersModule,
         NgbModule.forRoot(),
         ToastrModule.forRoot(),
     ],

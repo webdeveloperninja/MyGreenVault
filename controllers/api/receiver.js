@@ -2,7 +2,7 @@
 
 const url = require('url');
 const ObjectId = require('mongodb').ObjectID;
-const receiverQuery = require('../../models/queries/receiver');
+const receiverQuery = require('../../queries/receiver');
 
 exports.get = (req, res) => {
     const userId = req.user._id;
