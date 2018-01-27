@@ -35,7 +35,7 @@ function getPaged(userId, skip, take, query = null) {
         }
 
         if (query) {
-            queryObj.name = {'$regex': query, '$options' : 'i'};
+            queryObj.businessName = {'$regex': query, '$options' : 'i'};
         }
 
         Receiver.find(queryObj)

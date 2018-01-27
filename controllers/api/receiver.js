@@ -5,14 +5,14 @@ const ObjectId = require('mongodb').ObjectID;
 const receiverQuery = require('../../queries/receiver');
 
 exports.get = (req, res) => {
-    const userId = req.user._id;
+    this.userId = req.user._id;
 
-    const url_parts = url.parse(req.url, true);
-    const skip = Number(url_parts.query.skip);
-    const take = Number(url_parts.query.take);
-    const query = url_parts.query.query;
+    this.url_parts = url.parse(req.url, true);
+    this.skip = Number(this.url_parts.query.skip);
+    this.take = Number(this.url_parts.query.take);
+    this.query = this.url_parts.query.query;
 
-    receiverQuery.getPaged(userId, skip, take, query).then(paged => {
+    receiverQuery.getPaged(this.userId, this.skip, this.take, this.query).then(paged => {
         res.send(paged);
     }).catch(error => {
         res.send(500);
