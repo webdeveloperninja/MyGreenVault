@@ -148,7 +148,7 @@ export class ReceiverService {
     }
 
     public nextPage() {
-        this._router.navigate([`/receivers`],
+        this._router.navigate([`/shippers`],
             {
                 queryParams:
                     {
@@ -161,7 +161,7 @@ export class ReceiverService {
 
     public previousPage() {
         if (Number(this._toolsSkipSubject$.value) >= Number(this._toolsTakeSubject$.value)) {
-            this._router.navigate([`/receivers`],
+            this._router.navigate([`/shippers`],
                 {
                     queryParams:
                         {
