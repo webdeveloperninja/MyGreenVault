@@ -1,12 +1,16 @@
 const Shipper = require('../models/Shipper');
 const ObjectId = require('mongodb').ObjectID;
 
-function getPaged(userId, skip, take) {
+function getPaged(userId, skip, take, textQuery = null) {
     return new Promise((resolve, reject) => {
         const query = {
             userId: ObjectId(userId)
         }
 
+        if (textQuery) {
+            query.businessName = {'$regex': textQuery, '$options' : 'i'};
+        }
+        
         Shipper.find(query)
             .limit(take + 1)
             .skip(skip)

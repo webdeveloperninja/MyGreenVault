@@ -26,7 +26,7 @@ body {
   .select {
     position: relative;
     display: block;
-    width: 11em;
+    width: 13em;
     height: 3em;
     line-height: 3;
     background: #2c3e50;
@@ -54,6 +54,8 @@ body {
     padding: 0 1em;
     background: #34495e;
     pointer-events: none;
+    color: white;
+    background: #000000;
   }
   /* Transition */
   .select:hover::after {
@@ -84,4 +86,12 @@ body {
   .btn {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+    background-color: #36a834;
+    color: white;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    &:hover {
+        background-color: #2b8529;
+    }
   }
