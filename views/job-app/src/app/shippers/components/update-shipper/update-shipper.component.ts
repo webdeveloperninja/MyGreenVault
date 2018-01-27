@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, AbstractControl } from '@angular/forms';
-import { ReceiverService } from 'app/receivers/services/receiver';
+import { ReceiverService } from 'app/shippers/services/receiver';
 
 @Component({
     selector: 'update-receiver',
