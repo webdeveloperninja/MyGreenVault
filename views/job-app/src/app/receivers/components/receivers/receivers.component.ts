@@ -134,4 +134,10 @@ export class ReceiversComponent implements OnInit {
     addReceiver() {
         this._addReceiverModalRef = this._modalService.open(this.addReceiverRef, { size: MODAL_SIZE });
     }
+
+    receiverUpdated(isUpdated) {
+        if( isUpdated ) {
+            this.closeUpdateReceiverModal();
+        }
+    }
 }
