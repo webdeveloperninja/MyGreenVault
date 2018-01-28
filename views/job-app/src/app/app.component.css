@@ -21,7 +21,7 @@ a, button {
     right: 0;
     bottom: 0;
     z-index: 601;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.3);
     margin-left: 1px;
 }
 
