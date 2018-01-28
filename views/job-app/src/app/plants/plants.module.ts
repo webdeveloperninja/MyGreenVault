@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../shared/shared.module';
+import { TextMaskModule } from 'angular2-text-mask';
 
 import { routes } from './plants.routing';
 
@@ -28,6 +29,7 @@ import { NotesComponent } from './components/plant-detail/notes/notes.component'
     imports: [
         CommonModule,
         FormsModule,
+        TextMaskModule,
         SharedModule,
         ReactiveFormsModule,
         RouterModule.forChild(routes),

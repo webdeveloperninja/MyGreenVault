@@ -1,8 +1,13 @@
 <div class="card-box">
+    <loading [isLoading]="expensesLoading$ | async"></loading>
     <div class="row">
         <div class="col d-flex justify-content-between">
             <p class="card-title">
-                <span class="fa fa-dollar mr-2"></span>Plant Expenses</p>
+                <span class="fa fa-dollar mr-2"></span>Plant Expenses - 
+                <ng-container *ngIf="!(expensesLoading$ | async)">
+                    Total: <label class="label label-success">${{ totalExpense | number }}</label>
+                </ng-container>
+            </p>
             <button class="btn btn-outline-primary" (click)="openAddExpenseModal()">
                 <span class="fa fa-plus"></span>
             </button>
@@ -10,7 +15,7 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <table class="table table-striped">
+            <table class="table table-striped mt-3">
                 <thead>
                     <th>Name</th>
                     <th>Cost</th>
@@ -64,7 +69,7 @@
                         Cost
                         <span class="danger">{{ formErrors.cost}}</span>
                     </label>
-                    <input class="form-control" formControlName="cost">
+                    <input [textMask]="{mask: mask}" class="form-control" formControlName="cost">
                 </div>
             </div>
         </div>

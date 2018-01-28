@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RequestInterceptor } from './interceptors/auth.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
+import { TextMaskModule } from 'angular2-text-mask';
 
 import { AppComponent } from './app.component';
 
@@ -36,6 +37,7 @@ import { ConstructionService } from 'app/construction.service';
         BrowserModule,
         HttpClientModule,
         BrowserAnimationsModule,
+        TextMaskModule,
         RouterModule.forRoot(routes),
         ReactiveFormsModule,
         FormsModule,
@@ -62,7 +64,8 @@ import { ConstructionService } from 'app/construction.service';
     ],
     exports: [
         FlashMessagesModule,
-        RouterModule
+        RouterModule,
+        TextMaskModule
     ],
     bootstrap: [AppComponent]
 })

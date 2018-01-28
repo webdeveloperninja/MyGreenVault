@@ -189,7 +189,7 @@ exports.addPlantExpenses = (req, res) => {
     expense.plantNumber = plantNumber;
 
     expenseQuery.add(expense).then(data => {
-        res.send(200);
+        res.status(200).send(data);
     }).catch(err => {
         res.send(500);
         throw new Error(err);
@@ -200,7 +200,7 @@ exports.removePlantExpenses = (req, res) => {
     const expense = req.body;
 
     expenseQuery.remove(expense).then(data => {
-        res.send(200);
+        res.status(200).send(data);
     }).catch(err => {
         res.send(500);
         throw new Error(err);
