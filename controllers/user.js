@@ -37,11 +37,11 @@ exports.postLogin = (req, res, next) => {
         if (err) { return next(err); }
         if (!user) {
             req.flash('errors', info);
-            return res.redirect('/plants?skip=0&take=8');
+            return res.redirect('/login');
         }
         req.logIn(user, (err) => {
             if (err) { return next(err); }
-            res.redirect('/');
+            res.redirect('/plants?skip=0&take=8');
         });
     })(req, res, next);
 };
