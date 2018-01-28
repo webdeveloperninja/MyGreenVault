@@ -41,7 +41,7 @@ exports.postLogin = (req, res, next) => {
         }
         req.logIn(user, (err) => {
             if (err) { return next(err); }
-            res.redirect('/#/plants?skip=0&take=8');
+            res.redirect('/');
         });
     })(req, res, next);
 };
