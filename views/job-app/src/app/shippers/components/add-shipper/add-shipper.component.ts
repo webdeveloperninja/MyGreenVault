@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angular/forms';
 import { ReceiverService } from '../../services/receiver';
 import { AbstractControl } from '@angular/forms/src/model';
+import * as textMask from 'app/shared/utilities/input-masking';
 
 @Component({
     selector: 'add-receiver',
@@ -10,6 +11,9 @@ import { AbstractControl } from '@angular/forms/src/model';
 export class AddShipperComponent implements OnInit {
     isLoading = false;
     receiverFormGroup: FormGroup;
+
+    phoneMask = textMask.phoneMask;
+    zipMask = textMask.zipMask;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -32,7 +36,12 @@ export class AddShipperComponent implements OnInit {
 
     addProduct() {
         this.isLoading = true;
-        this._productService.addReceiver(this.receiverFormGroup.value).subscribe(data => {
+        const newProduct = {
+            ...this.receiverFormGroup.value,
+            phoneNumber: textMask.removePhoneMask(this.receiverFormGroup.controls.phoneNumber.value)
+        };
+
+        this._productService.addReceiver(newProduct).subscribe(data => {
             this.receiverFormGroup.reset();
             this.isLoading = false;
         });

@@ -10,6 +10,7 @@ const receiverSchema = new mongoose.Schema({
     businessZip: { type: String, required: true },
     phoneNumber: { type: String, required: true },
     contactName: { type: String, required: true },
+    contactEmail: { type: String, required: false },
     userId: {type: String, required: true } 
 }, { collection: 'receiver'});
 

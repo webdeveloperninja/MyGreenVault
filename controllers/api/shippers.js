@@ -30,7 +30,7 @@ exports.add = (req, res) => {
     }, this.shipper);
 
     shipperQuery.add(this.shipperWithUserId).then(newShipper => { 
-        res.status(200).send(newReceiver._doc);
+        res.status(200).send(newShipper._doc);
     }).catch(error => {
         res.send(500);
         throw new Error(error);

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { TextMaskModule } from 'angular2-text-mask';
 
 import { AddShipperComponent } from './components/add-shipper/add-shipper.component';
 import { ShippersComponent } from './components/shippers/shippers.component';
@@ -20,6 +21,7 @@ import { UpdateShipperComponent } from './components/update-shipper/update-shipp
         FormsModule,
         SharedModule,
         ReactiveFormsModule,
+        TextMaskModule,
         RouterModule.forChild(routes),
         NgbModule.forRoot()
     ],

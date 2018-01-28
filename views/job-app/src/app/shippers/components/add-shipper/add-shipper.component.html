@@ -43,14 +43,14 @@
     </div>
     <div class="form-group">
         <label>Business Zip</label>
-        <input class="form-control" formControlName="businessZip">
+        <input class="form-control" [textMask]="{mask: zipMask}" formControlName="businessZip">
         <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.businessZip)">
             Field is required
         </span>
     </div>
     <div class="form-group">
         <label>Phone Number</label>
-        <input class="form-control" formControlName="phoneNumber">
+        <input class="form-control"  [textMask]="{mask: phoneMask}" formControlName="phoneNumber">
         <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.phoneNumber)">
             Field is required
         </span>

@@ -1,75 +1,93 @@
 <form [formGroup]="receiverFormGroup" class="add-product" (ngSubmit)="addProduct()">
-    <div class="form-group">
-        <label>State License Number</label>
-        <input class="form-control" formControlName="stateLicenseNumber">
-        <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.stateLicenseNumber)">
-            Field is required
-        </span>
-    </div>
-    <div class="form-group">
-        <label>Type of License</label>
-        <input class="form-control" formControlName="typeOfLicense">
-        <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.typeOfLicense)">
-            Field is required
-        </span>
-    </div>
-    <div class="form-group">
-        <label>Business Name</label>
-        <input class="form-control" formControlName="businessName">
-        <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.businessName)">
-            Field is required
-        </span>
-    </div>
-    <div class="form-group">
-        <label>Business Address</label>
-        <input class="form-control" formControlName="businessAddress">
-        <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.businessAddress)">
-            Field is required
-        </span>
-    </div>
-    <div class="form-group">
-        <label>Business City</label>
-        <input class="form-control" formControlName="businessCity">
-        <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.businessCity)">
-            Field is required
-        </span>
-    </div>
-    <div class="form-group">
-        <label>Business State</label>
-        <input class="form-control" formControlName="businessState">
-        <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.businessState)">
-            Field is required
-        </span>
-    </div>
-    <div class="form-group">
-        <label>Business Zip</label>
-        <input class="form-control" formControlName="businessZip">
-        <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.businessZip)">
-            Field is required
-        </span>
-    </div>
-    <div class="form-group">
-        <label>Phone Number</label>
-        <input class="form-control" formControlName="phoneNumber">
-        <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.phoneNumber)">
-            Field is required
-        </span>
-    </div>
-    <div class="form-group">
-        <label>Contact Name</label>
-        <input class="form-control" formControlName="contactName">
-        <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.contactName)">
-            Field is required
-        </span>
-    </div>
-    <div class="d-flex mb-3">
-        <button [disabled]="receiverFormGroup.invalid" class="btn w-100" [ngClass]="{'btn-primary': receiverFormGroup.invalid, 'btn-success': receiverFormGroup.valid}" type="submit">
-            <i class='fa fa-spinner fa-spin ' *ngIf="isLoading"></i>
-            Add receiver
-        </button>
-    </div>
-    <div class="isa_warning" *ngIf="receiverFormGroup.invalid">
-        <i class="fa fa-warning"></i>
-        Form is invalid
+    <div class="row">
+        <div class="col-md-6">
+            <div class="grouping">
+                <h3 class="card-title">General</h3>
+                <div class="form-group">
+                    <label>Business Name</label>
+                    <input class="form-control" formControlName="businessName">
+                    <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.businessName)">
+                        Field is required
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label>State License Number</label>
+                    <input class="form-control" formControlName="stateLicenseNumber">
+                    <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.stateLicenseNumber)">
+                        Field is required
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label>Type of License</label>
+                    <input class="form-control" formControlName="typeOfLicense">
+                    <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.typeOfLicense)">
+                        Field is required
+                    </span>
+                </div>
+            </div>
+            <div class="grouping">
+                <h3 class="card-title">Location</h3>
+                <div class="form-group">
+                    <label>City</label>
+                    <input class="form-control" formControlName="businessCity">
+                    <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.businessCity)">
+                        Field is required
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label>State</label>
+                    <input class="form-control" formControlName="businessState">
+                    <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.businessState)">
+                        Field is required
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input class="form-control" formControlName="businessAddress">
+                    <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.businessAddress)">
+                        Field is required
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label>Zip</label>
+                    <input class="form-control" formControlName="businessZip">
+                    <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.businessZip)">
+                        Field is required
+                    </span>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <div class="grouping">
+                <h3 class="card-title">Contact</h3>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input class="form-control" formControlName="contactName">
+                    <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.contactName)">
+                        Field is required
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label>Number</label>
+                    <input class="form-control" formControlName="phoneNumber">
+                    <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.phoneNumber)">
+                        Field is required
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input class="form-control" formControlName="contactEmail">
+                </div>
+            </div>
+
+            <div class="d-flex mb-3">
+                <button class="btn w-100" [ngClass]="{'btn-primary': receiverFormGroup.invalid, 'btn-success': receiverFormGroup.valid}"
+                    type="submit">
+                    <i class='fa fa-spinner fa-spin ' *ngIf="isLoading"></i>
+                    Add receiver
+                </button>
+            </div>
+        </div>
     </div>
 </form>

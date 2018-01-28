@@ -4,7 +4,8 @@ import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angula
 import { ReceiverService } from '../../services/receiver';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { AbstractControl } from '@angular/forms/src/model';
+import { AbstractControl } from '@angular/forms';
+import { markAsDirty } from 'app/shared/utilities/forms';
 
 @Component({
     selector: 'add-receiver',
@@ -30,15 +31,23 @@ export class AddReceiverComponent implements OnInit {
             businessZip: ['', Validators.required],
             phoneNumber: ['', Validators.required],
             contactName: ['', Validators.required],
+            contactEmail: ['']
         });
     }
 
+
+
     addProduct() {
-        this.isLoading = true;
-        this._productService.addReceiver(this.receiverFormGroup.value).subscribe(data => {
-            this.receiverFormGroup.reset();
-            this.isLoading = false;
-        });
+        if (this.receiverFormGroup.valid) {
+            this.isLoading = true;
+            this._productService.addReceiver(this.receiverFormGroup.value).subscribe(data => {
+                this.receiverFormGroup.reset();
+                this.isLoading = false;
+            });
+        } else {
+            markAsDirty(this.receiverFormGroup);
+        }
+
     }
 
     isRequiredValidator(control: AbstractControl) {

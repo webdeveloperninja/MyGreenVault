@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angula
 import { Observable } from 'rxjs/Observable';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 import { NotificationService } from 'app/shared/services/notification/notification.service';
+import * as textMask from 'app/shared/utilities/input-masking';
 
 const MODAL_SIZE = 'lg';
 
@@ -18,7 +19,7 @@ export class ExpensesComponent implements OnInit {
     expenseFormGroup: FormGroup;
     totalExpense = 0;
 
-    mask = numberMask;
+    mask = textMask.dollarAndCentsMask;
 
     private _addExpenseModalRef: NgbModalRef;
 
@@ -85,7 +86,7 @@ export class ExpensesComponent implements OnInit {
     addExpense() {
         let expenseObj = {
             name: this.expenseFormGroup.controls['name'].value,
-            cost: removeNumberMask(this.expenseFormGroup.controls['cost'].value)
+            cost: textMask.removeDollarAndCentsMask(this.expenseFormGroup.controls['cost'].value)
         };
         
         this._expenseService.addExpense(expenseObj).first().subscribe((expense) => {
@@ -105,15 +106,5 @@ export class ExpensesComponent implements OnInit {
         return `Are you sure you want to remove ${name}?`
     }
 
-
 }
 
-const numberMask = createNumberMask({
-    prefix: '',
-    suffix: ' $',
-    allowDecimal: true
-})
-
-function removeNumberMask(maskedNumber) {
-    return maskedNumber.replace('$', '').replace(',', '').trim();
-};
