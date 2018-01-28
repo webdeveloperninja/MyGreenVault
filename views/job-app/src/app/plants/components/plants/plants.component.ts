@@ -91,8 +91,6 @@ export class PlantsComponent implements OnInit {
         }
 
         this._headerService.setHeaderText(`${PAGE_TITLE} ${this.query}`);
-        this.navigate();
-
     }
 
     nextPage() {
@@ -103,10 +101,6 @@ export class PlantsComponent implements OnInit {
         this._plantsService.previousPage();
     }
 
-    navigate() {
-        this._router.navigate([`/plants`], { queryParams: { skip: this.skip, take: this.take } });
-        this.doSearch();
-    }
 
     doSearch() {
         this.isPlantNotFound = false;
