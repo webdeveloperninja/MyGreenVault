@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <form [formGroup]="omniSearchForm" class="d-flex justify-content-center" (ngSubmit)="search()">
+    <form [formGroup]="omniSearchForm" class="d-flex" (ngSubmit)="search()">
         <div class="select">
             <select formControlName="category" id="slct">
                 <option [value]="SearchCategory.plants">Plant name</option>

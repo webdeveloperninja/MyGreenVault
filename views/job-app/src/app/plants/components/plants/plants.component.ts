@@ -25,12 +25,8 @@ export class PlantsComponent implements OnInit {
     public confirmClicked: boolean = false;
     public cancelClicked: boolean = false;
 
-    getConfirmationMessage(operatorName: string): string {
-        return `${this.message} ${operatorName}?`;
-    }
+
     alert = alert;
-    skip: number;
-    take: number;
 
     hasPlants: boolean = false;
 
@@ -71,24 +67,7 @@ export class PlantsComponent implements OnInit {
                 this.hasPlants = false;
             }
         });
-        
-        let skip = this._route.snapshot.queryParams["skip"];
-        let take = this._route.snapshot.queryParams["take"];
-        this.query = this._route.snapshot.queryParams["query"];
 
-        if (this.query) {
-            this.query = ' - ' + this.query;
-        } else {
-            this.query = '';
-        }
-
-        if (skip && take) {
-            this.skip = Number(skip);
-            this.take = Number(take);
-        } else {
-            this.skip = 0;
-            this.take = DEFAULT_TAKE;
-        }
 
         this._headerService.setHeaderText(`${PAGE_TITLE} ${this.query}`);
     }
@@ -137,5 +116,9 @@ export class PlantsComponent implements OnInit {
             });
             this._notificationService.setNotificationOn(REMOVE_JOB_SUCCESS_MESSAGE);
         });
+    }
+
+    getConfirmationMessage(operatorName: string): string {
+        return `${this.message} ${operatorName}?`;
     }
 }

@@ -392,6 +392,9 @@ body.fixed-left .side-menu.left {
 #wrapper.enlarged {
 
     .navbar-custom {
+        .burger-menu-full {
+            display: none;
+        }
         .fa-bars {
             display: none!important;
         }

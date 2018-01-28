@@ -5,6 +5,6 @@ import { PlantContainerComponent } from './components/plant-detail/plant-contain
 
 export const routes: Routes = [
     { path: 'plants', component: PlantsComponent},
-    { path: 'plants/:plantNumber',      component: PlantContainerComponent },
+    { path: 'plants/:plantNumber', component: PlantContainerComponent },
     { path: 'status', component: KanbanComponent }
 ];

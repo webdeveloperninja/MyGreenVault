@@ -84,6 +84,17 @@ body {
       border-bottom-left-radius: 0;
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
+      border-top: 1px solid black;
+      border-bottom: 1px solid black;
+
+      &:focus {
+        border: 1px solid green !important;
+        box-shadow: 0 0 3px green !important;
+        -moz-box-shadow: 0 0 3px green !important;
+        -webkit-box-shadow: 0 0 3px green !important;
+        outline-offset: 0px !important;
+        outline: none !important;
+      }
   }
 
   .btn {
@@ -91,9 +102,7 @@ body {
     border-bottom-left-radius: 0;
     background-color: #36a834;
     color: white;
-    border-top: 1px solid black;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
+    border: 1px solid black;
     &:hover {
         background-color: #2b8529;
     }
