@@ -83,6 +83,7 @@ export class ReceiversComponent implements OnInit {
             businessZip: ['', Validators.required],
             phoneNumber: ['', Validators.required],
             contactName: ['', Validators.required],
+            contactEmail: [''],
             _id: ['']
         });
     }
@@ -114,6 +115,7 @@ export class ReceiversComponent implements OnInit {
         this.receiverFormGroup.controls.businessZip.setValue(receiver.businessZip);
         this.receiverFormGroup.controls.phoneNumber.setValue(receiver.phoneNumber);
         this.receiverFormGroup.controls.contactName.setValue(receiver.contactName);
+        this.receiverFormGroup.controls.contactEmail.setValue(receiver.contactEmail);
         this.receiverFormGroup.controls._id.setValue(receiver._id);
     }
 

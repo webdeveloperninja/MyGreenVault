@@ -45,7 +45,7 @@ export class ReceiverService {
         private _router: Router,
         private _notificationService: NotificationService) {
         _router.events.filter(event => event instanceof NavigationEnd).subscribe((event: NavigationEnd) => {
-            if (event.url.includes('receivers')) {
+            if (event.url.includes('shippers')) {
                 this.doSearch();
             }
         });

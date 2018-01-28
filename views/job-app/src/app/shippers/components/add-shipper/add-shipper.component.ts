@@ -3,6 +3,11 @@ import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angula
 import { ReceiverService } from '../../services/receiver';
 import { AbstractControl } from '@angular/forms/src/model';
 import * as textMask from 'app/shared/utilities/input-masking';
+import { HeaderService } from 'app/shared/services/header/header.service';
+import { markAsTouched } from 'app/shared/utilities/forms';
+import emailMask from 'text-mask-addons/dist/emailMask';
+
+const pageTitle = 'Add shipper';
 
 @Component({
     selector: 'add-receiver',
@@ -14,10 +19,12 @@ export class AddShipperComponent implements OnInit {
 
     phoneMask = textMask.phoneMask;
     zipMask = textMask.zipMask;
+    emailMask = emailMask;
 
     constructor(
         private _formBuilder: FormBuilder,
-        private _productService: ReceiverService
+        private _productService: ReceiverService,
+        private _headerService: HeaderService
     ) { }
 
     ngOnInit() {
@@ -31,20 +38,27 @@ export class AddShipperComponent implements OnInit {
             businessZip: ['', Validators.required],
             phoneNumber: ['', Validators.required],
             contactName: ['', Validators.required],
+            contactEmail: ['']
         });
+
+        this._headerService.setHeaderText(pageTitle);
     }
 
-    addProduct() {
-        this.isLoading = true;
-        const newProduct = {
-            ...this.receiverFormGroup.value,
-            phoneNumber: textMask.removePhoneMask(this.receiverFormGroup.controls.phoneNumber.value)
-        };
-
-        this._productService.addReceiver(newProduct).subscribe(data => {
-            this.receiverFormGroup.reset();
-            this.isLoading = false;
-        });
+    addShipper() {
+        if( this.receiverFormGroup.valid) {
+            this.isLoading = true;
+            const newProduct = {
+                ...this.receiverFormGroup.value,
+                phoneNumber: textMask.removePhoneMask(this.receiverFormGroup.controls.phoneNumber.value)
+            };
+    
+            this._productService.addReceiver(newProduct).subscribe(data => {
+                this.receiverFormGroup.reset();
+                this.isLoading = false;
+            });
+        } else {
+            markAsTouched(this.receiverFormGroup);
+        }
     }
 
     isRequiredValidator(control: AbstractControl) {

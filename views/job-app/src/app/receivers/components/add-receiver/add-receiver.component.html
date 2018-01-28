@@ -1,4 +1,4 @@
-<form [formGroup]="receiverFormGroup" class="add-product" (ngSubmit)="addProduct()">
+<form [formGroup]="receiverFormGroup" class="add-product" (ngSubmit)="addReceiver()">
     <div class="row">
         <div class="col-md-6">
             <div class="grouping">
@@ -50,7 +50,7 @@
                 </div>
                 <div class="form-group">
                     <label>Zip</label>
-                    <input class="form-control" formControlName="businessZip">
+                    <input class="form-control" [textMask]="{mask: zipMask}"  formControlName="businessZip">
                     <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.businessZip)">
                         Field is required
                     </span>
@@ -70,14 +70,14 @@
                 </div>
                 <div class="form-group">
                     <label>Number</label>
-                    <input class="form-control" formControlName="phoneNumber">
+                    <input class="form-control" [textMask]="{mask: phoneMask}"  formControlName="phoneNumber">
                     <span class="error" *ngIf="isRequiredValidator(receiverFormGroup.controls.phoneNumber)">
                         Field is required
                     </span>
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input class="form-control" formControlName="contactEmail">
+                    <input class="form-control" [textMask]="{mask: emailMask}"  formControlName="contactEmail">
                 </div>
             </div>
 
