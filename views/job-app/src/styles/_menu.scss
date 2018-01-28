@@ -391,6 +391,12 @@ body.fixed-left .side-menu.left {
 
 #wrapper.enlarged {
 
+    .navbar-custom {
+        .fa-bars {
+            display: none!important;
+        }
+    }
+
   .menu-title {
     display: none;
   }
