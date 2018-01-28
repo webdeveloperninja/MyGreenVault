@@ -4,8 +4,8 @@ export const zipMask = [/\d/, /\d/, /\d/, /\d/, /\d/];
 export const phoneMask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 
 export const dollarAndCentsMask = createNumberMask({
-    prefix: '',
-    suffix: ' $',
+    prefix: '$',
+    suffix: '',
     allowDecimal: true
 })
 
