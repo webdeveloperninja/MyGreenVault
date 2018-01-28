@@ -9,6 +9,8 @@ import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/catch';
 
+import { finalize, first } from 'rxjs/operators';
+
 @Injectable()
 export class ExpenseService {
 
@@ -17,6 +19,9 @@ export class ExpenseService {
 
     private _expensesSubject$: BehaviorSubject<Array<any>> = new BehaviorSubject<Array<any>>(null);
     public readonly expenses$: Observable<Array<any>> = this._expensesSubject$.asObservable();
+
+    private _expensesLoadingSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public readonly expensesLoading$: Observable<boolean> = this._expensesLoadingSubject$.asObservable();
 
     constructor(
         private _http: HttpClient,
@@ -29,27 +34,37 @@ export class ExpenseService {
     }
 
     public getExpenses() {
-        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
+        this._expensesLoadingSubject$.next(true);
 
-        return this._http.get(`/api/v1/plants/${this._plantNumberSubject$.value}/expenses`,  {headers: headers, withCredentials: true}).first().subscribe((expenses) => {
+        return this._http.get(`/api/v1/plants/${this._plantNumberSubject$.value}/expenses`,  {headers: headers, withCredentials: true})
+        .first().subscribe((expenses) => {
             this._expensesSubject$.next(expenses as Array<any>);
+            this._expensesLoadingSubject$.next(false);
         })
     }
 
     public addExpense(expense) {
-        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
+        this._expensesLoadingSubject$.next(true);
 
         return this._http.post(`/api/v1/plants/${this._plantNumberSubject$.value}/expenses`, expense, { headers: headers }).finally(() => {
-            this.getExpenses()
+            this.getExpenses();
+            this._expensesLoadingSubject$.next(false);
         })
     }
 
     public removeExpense(expense) {
-        let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        
-        return this._http.post(`/api/v1/plants/${this._plantNumberSubject$.value}/expenses/remove`, expense, { headers: headers }).finally(() => {
-            this.getExpenses()
-        }).first().subscribe();
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
+        this._expensesLoadingSubject$.next(true);
+
+        return this._http.post(`/api/v1/plants/${this._plantNumberSubject$.value}/expenses/remove`, expense, { headers: headers }).pipe(
+            finalize(() => {
+                this.getExpenses();
+                this._expensesLoadingSubject$.next(false)
+            }),
+            first()
+        );
     }
 
 }
