@@ -128,4 +128,10 @@ export class ShippersComponent implements OnInit {
     addReceiver() {
         this._addReceiverModalRef = this._modalService.open(this.addReceiverRef, { size: modalSize });
     }
+
+    shipperUpdated(isUpdated) {
+        if (isUpdated) {
+            this.closeUpdateReceiverModal();
+        }
+    }
 }
