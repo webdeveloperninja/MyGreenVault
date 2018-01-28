@@ -59,14 +59,19 @@ export class PlantsService {
         private _http: HttpClient,
         private _route: ActivatedRoute,
         private _router: Router) {
-        _router.events.filter(event => event instanceof NavigationEnd).subscribe(event =>  this.doSearch());    
+            // Only do this on plants route
+        _router.events.filter(event => event instanceof NavigationEnd).subscribe((event: NavigationEnd) => {
+            if (event.url.includes('plants')) {
+                this.doSearch();
+            }
+        });
     }
 
     public doSearch() {
         this._isJobsLoadingSubject$.next(true);
         if (this._router.navigated) {
-            this._jobsSkipSubject$.next(this._route.snapshot.queryParams["skip"]);
-            this._jobsTakeSubject$.next(this._route.snapshot.queryParams["take"]);
+            this._jobsSkipSubject$.next(this._route.snapshot.queryParams["skip"] || 0);
+            this._jobsTakeSubject$.next(this._route.snapshot.queryParams["take"] || 8);
             this._jobsQuerySubject$.next(this._route.snapshot.queryParams['query'] || null);
             this.getJobs().first().subscribe(data => {
                 this._isJobsLoadingSubject$.next(false);

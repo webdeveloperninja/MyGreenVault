@@ -44,14 +44,18 @@ export class ReceiverService {
         private _route: ActivatedRoute,
         private _router: Router,
         private _notificationService: NotificationService) {
-        _router.events.filter(event => event instanceof NavigationEnd).subscribe(event => this.doSearch());
+        _router.events.filter(event => event instanceof NavigationEnd).subscribe((event: NavigationEnd) => {
+            if (event.url.includes('receivers')) {
+                this.doSearch();
+            }
+        });
     }
 
     public doSearch() {
         this._isProductsLoadingSubject$.next(true);
         if (this._router.navigated) {
-            this._toolsSkipSubject$.next(this._route.snapshot.queryParams["skip"]);
-            this._toolsTakeSubject$.next(this._route.snapshot.queryParams["take"]);
+            this._toolsSkipSubject$.next(this._route.snapshot.queryParams['skip'] || 0);
+            this._toolsTakeSubject$.next(this._route.snapshot.queryParams['take'] || 8);
             this._toolsQuerySubject$.next(this._route.snapshot.queryParams['query'] || null);
             this.getProducts().first().subscribe(data => {
                 this._isProductsLoadingSubject$.next(false);
