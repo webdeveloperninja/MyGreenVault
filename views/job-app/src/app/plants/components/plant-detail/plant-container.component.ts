@@ -80,7 +80,6 @@ export class PlantContainerComponent implements OnInit {
         const plantNumber = this._route.snapshot.paramMap.get('plantNumber');
 
         this._plantsService.getPlantDetail(plantNumber);
-        this._plantsService.getJobCheckouts(plantNumber);
 
         
 
