@@ -37,7 +37,7 @@ exports.postLogin = (req, res, next) => {
         if (err) { return next(err); }
         if (!user) {
             req.flash('errors', info);
-            return res.redirect('/login');
+            return res.redirect('/plants?skip=0&take=8');
         }
         req.logIn(user, (err) => {
             if (err) { return next(err); }
