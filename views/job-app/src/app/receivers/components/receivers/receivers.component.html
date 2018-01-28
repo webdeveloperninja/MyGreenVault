@@ -23,6 +23,7 @@
                                 <th>Business zip</th>
                                 <th>Business phone</th>
                                 <th>Contact name</th>
+                                <th>Contact email</th>
                                 <th class="text-center">Actions</th>
                             </tr>
                         </thead>
@@ -37,6 +38,7 @@
                                 <td>{{ receiver.businessZip | empty }}</td>
                                 <td>{{ receiver.phoneNumber | empty }}</td>
                                 <td>{{ receiver.contactName | empty }}</td>
+                                <td>{{ receiver.contactEmail | empty }}</td>
                                 <td class="text-center">
                                     <button class="btn btn-outline-danger pull-right" mwlConfirmationPopover title="Are you sure?" placement="left" (confirm)="removeReceiver(receiver)"
                                         (cancel)="cancelClicked = true">

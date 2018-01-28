@@ -5,7 +5,12 @@ import { ReceiverService } from '../../services/receiver';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { AbstractControl } from '@angular/forms';
-import { markAsDirty } from 'app/shared/utilities/forms';
+import { markAsTouched } from 'app/shared/utilities/forms';
+import { HeaderService } from 'app/shared/services/header/header.service';
+import * as textMask from 'app/shared/utilities/input-masking';
+import emailMask from 'text-mask-addons/dist/emailMask';
+
+const pageTitle = 'Add Receiver';
 
 @Component({
     selector: 'add-receiver',
@@ -15,9 +20,14 @@ export class AddReceiverComponent implements OnInit {
     isLoading = false;
     receiverFormGroup: FormGroup;
 
+    phoneMask = textMask.phoneMask;
+    zipMask = textMask.zipMask;
+    emailMask = emailMask;
+    
     constructor(
         private _formBuilder: FormBuilder,
-        private _productService: ReceiverService
+        private _productService: ReceiverService,
+        private _headerService: HeaderService
     ) { }
 
     ngOnInit() {
@@ -33,19 +43,26 @@ export class AddReceiverComponent implements OnInit {
             contactName: ['', Validators.required],
             contactEmail: ['']
         });
+
+        this._headerService.setHeaderText(pageTitle);
     }
 
 
 
-    addProduct() {
+    addReceiver() {
         if (this.receiverFormGroup.valid) {
             this.isLoading = true;
-            this._productService.addReceiver(this.receiverFormGroup.value).subscribe(data => {
+            const newReceiver = {
+                ...this.receiverFormGroup.value,
+                phoneNumber: textMask.removePhoneMask(this.receiverFormGroup.controls.phoneNumber.value)
+            }
+
+            this._productService.addReceiver(newReceiver).subscribe(data => {
                 this.receiverFormGroup.reset();
                 this.isLoading = false;
             });
         } else {
-            markAsDirty(this.receiverFormGroup);
+            markAsTouched(this.receiverFormGroup);
         }
 
     }

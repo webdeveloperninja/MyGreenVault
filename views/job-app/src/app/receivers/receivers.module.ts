@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { TextMaskModule } from 'angular2-text-mask';
 
 import { AddReceiverComponent } from './components/add-receiver/add-receiver.component';
 import { ReceiversComponent } from './components/receivers/receivers.component';
@@ -19,6 +20,7 @@ import { UpdateReceiverComponent } from './components/update-receiver/update-rec
         CommonModule,
         FormsModule,
         SharedModule,
+        TextMaskModule,
         ReactiveFormsModule,
         RouterModule.forChild(routes),
         NgbModule.forRoot()

@@ -3,8 +3,8 @@
         <loading [isLoading]="isReceiversLoading$ | async"></loading>
         <div class="row mt-3">
             <div class="col-md-12 d-flex justify-content-end">
-                <button class="btn btn-outline-primary mb-2 pull-right" (click)="addReceiver()">
-                    <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add receiver
+                <button class="btn btn-outline-primary mb-2 pull-right" routerLink="/shippers/add">
+                    <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add shipper
                 </button>
             </div>
         </div>
@@ -23,6 +23,7 @@
                                 <th>Business zip</th>
                                 <th>Business phone</th>
                                 <th>Contact name</th>
+                                <th>Contact email</th>
                                 <th class="text-center">Actions</th>
                             </tr>
                         </thead>
@@ -37,6 +38,7 @@
                                 <td>{{ receiver.businessZip | empty }}</td>
                                 <td>{{ receiver.phoneNumber | empty }}</td>
                                 <td>{{ receiver.contactName | empty }}</td>
+                                <td>{{ receiver.contactEmail | empty }}</td>
                                 <td class="text-center">
                                     <button class="btn btn-outline-danger pull-right" mwlConfirmationPopover title="Are you sure?" placement="left" (confirm)="removeReceiver(receiver)"
                                         (cancel)="cancelClicked = true">

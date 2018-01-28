@@ -10,6 +10,7 @@ const shipperSchema = new mongoose.Schema({
     businessZip: {type: String, require: true},
     phoneNumber: {type: String, require: true},
     contactName: {type: String, require: true},
+    contactEmail: {type: String, required: false },
     userId: {type: String, required: true } 
 }, { collection: 'shipper'});
 
