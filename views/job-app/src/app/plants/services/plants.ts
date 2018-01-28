@@ -61,7 +61,8 @@ export class PlantsService {
         private _router: Router) {
             // Only do this on plants route
         _router.events.filter(event => event instanceof NavigationEnd).subscribe((event: NavigationEnd) => {
-            if (event.url.includes('plants')) {
+            console.log(event.url);
+            if (event.url.includes('plants') || (event.url.length === 1 && event.url.includes('/'))) {
                 this.doSearch();
             }
         });
@@ -70,6 +71,8 @@ export class PlantsService {
     public doSearch() {
         this._isJobsLoadingSubject$.next(true);
         if (this._router.navigated) {
+            console.log(this._route.snapshot.queryParams["skip"])
+            console.log(this._route.snapshot.queryParams["take"]);
             this._jobsSkipSubject$.next(this._route.snapshot.queryParams["skip"] || 0);
             this._jobsTakeSubject$.next(this._route.snapshot.queryParams["take"] || 8);
             this._jobsQuerySubject$.next(this._route.snapshot.queryParams['query'] || null);
