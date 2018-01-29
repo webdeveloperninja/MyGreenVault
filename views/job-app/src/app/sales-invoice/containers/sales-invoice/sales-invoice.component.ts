@@ -94,7 +94,8 @@ export class SalesInvoiceComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this._constructionService.turnOffConstruction()
+        this._constructionService.turnOffConstruction();
+        this._constructionService.turnTestFeatureOff();
     }
 
     addShipper() {

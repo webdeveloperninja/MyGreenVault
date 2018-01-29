@@ -11,11 +11,13 @@ import { ConstructionService } from 'app/construction.service';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+    isBeta = false;
     isSideNavOpen$: Observable<boolean>;
     title: string = 'Dashboard';
     headerText$: Observable<string>;
 
     isUnderConstruction$ = this._constructionService.isUnderConstruction$;
+    isTestFeatureOn$ = this._constructionService.isTestFeatureOn$;
 
     constructor(
         private _sideNavService: SideNavService,
@@ -32,6 +34,17 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         this.isSideNavOpen$ = this._sideNavService.isSideNavOpen$;
         this.headerText$ = this._headerService.headerText$;
+    }
+
+    turnOnBeta() {
+        this._constructionService.turnOffConstruction();
+        this._constructionService.turnTestFeatureOn();
+    }
+
+    turnOffBeta() {
+        this.isBeta = false;
+        this._constructionService.turnOnConstruction();
+        this._constructionService.turnTestFeatureOff();
     }
 
 }

@@ -30,3 +30,16 @@ a, button {
     margin: auto;
     margin-top: 43px;
 }
+
+.btn-test {
+    margin: auto;
+    display: block;
+}
+
+.is-beta-block {
+    position: absolute;
+    left: 17px;
+    z-index: 1000;
+    top: 48px;
+    padding-bottom: 10px;
+}
