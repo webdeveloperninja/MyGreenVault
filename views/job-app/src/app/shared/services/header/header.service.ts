@@ -12,4 +12,8 @@ export class HeaderService {
     this._headerTextSubject$.next(text);
   }
 
+  removeHeaderText() {
+      this._headerTextSubject$.next('');
+  }
+
 }

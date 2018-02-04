@@ -10,8 +10,6 @@ import { HeaderService } from 'app/shared/services/header/header.service';
 import * as textMask from 'app/shared/utilities/input-masking';
 import emailMask from 'text-mask-addons/dist/emailMask';
 
-const pageTitle = 'Add Receiver';
-
 @Component({
     selector: 'add-receiver',
     templateUrl: './add-receiver.component.html'
@@ -19,11 +17,14 @@ const pageTitle = 'Add Receiver';
 export class AddReceiverComponent implements OnInit {
     isLoading = false;
     receiverFormGroup: FormGroup;
+    @Input() receiverForm: FormGroup;
+
+    @Input() resetFormOnSubmit = true;
 
     phoneMask = textMask.phoneMask;
     zipMask = textMask.zipMask;
     emailMask = emailMask;
-    
+
     constructor(
         private _formBuilder: FormBuilder,
         private _productService: ReceiverService,
@@ -31,20 +32,11 @@ export class AddReceiverComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.receiverFormGroup = this._formBuilder.group({
-            stateLicenseNumber: ['', Validators.required],
-            typeOfLicense: ['', Validators.required],
-            businessName: ['', Validators.required],
-            businessAddress: ['', Validators.required],
-            businessCity: ['', Validators.required],
-            businessState: ['', Validators.required],
-            businessZip: ['', Validators.required],
-            phoneNumber: ['', Validators.required],
-            contactName: ['', Validators.required],
-            contactEmail: ['']
-        });
-
-        this._headerService.setHeaderText(pageTitle);
+        if (this.receiverForm) {
+            this.receiverFormGroup = this.receiverForm;
+        } else {
+            this.receiverFormGroup = createFormGroup(this._formBuilder);
+        }
     }
 
 
@@ -58,7 +50,10 @@ export class AddReceiverComponent implements OnInit {
             }
 
             this._productService.addReceiver(newReceiver).subscribe(data => {
-                this.receiverFormGroup.reset();
+                if (this.resetFormOnSubmit) {
+                    this.receiverFormGroup.reset();
+                }
+
                 this.isLoading = false;
             });
         } else {
@@ -73,4 +68,19 @@ export class AddReceiverComponent implements OnInit {
         }
         return false;
     }
+}
+
+export function createFormGroup(formBuild: FormBuilder) {
+    return formBuild.group({
+        stateLicenseNumber: ['', Validators.required],
+        typeOfLicense: ['', Validators.required],
+        businessName: ['', Validators.required],
+        businessAddress: ['', Validators.required],
+        businessCity: ['', Validators.required],
+        businessState: ['', Validators.required],
+        businessZip: ['', Validators.required],
+        phoneNumber: ['', Validators.required],
+        contactName: ['', Validators.required],
+        contactEmail: ['']
+    });
 }

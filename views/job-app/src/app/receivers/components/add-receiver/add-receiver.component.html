@@ -1,6 +1,6 @@
 <form [formGroup]="receiverFormGroup" class="add-product" (ngSubmit)="addReceiver()">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col col-12">
             <div class="grouping">
                 <h3 class="card-title">General</h3>
                 <div class="form-group">
@@ -58,7 +58,7 @@
             </div>
 
         </div>
-        <div class="col-md-6">
+        <div class="col col-12">
             <div class="grouping">
                 <h3 class="card-title">Contact</h3>
                 <div class="form-group">
@@ -82,7 +82,7 @@
             </div>
 
             <div class="d-flex mb-3">
-                <button class="btn w-100" [ngClass]="{'btn-primary': receiverFormGroup.invalid, 'btn-success': receiverFormGroup.valid}"
+                <button class="btn" [ngClass]="{'btn-primary': receiverFormGroup.invalid, 'btn-success': receiverFormGroup.valid}"
                     type="submit">
                     <i class='fa fa-spinner fa-spin ' *ngIf="isLoading"></i>
                     Add receiver

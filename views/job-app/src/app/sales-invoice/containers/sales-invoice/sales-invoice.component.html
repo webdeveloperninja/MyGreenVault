@@ -1,36 +1,16 @@
+<ul id="progressbar" class="d-flex align-items-center">
+    <li [ngClass]="{'active': addProduct}" (click)="select('product')">Add product</li>
+    <li [ngClass]="{'active': addReceiver}" (click)="select('receiver')">Add receiver</li>
+    <li [ngClass]="{'active': receiverInformation}" (click)="select('receiver-info')">Receiver Info</li>
+</ul>
 <div class="d-flex justify-content-center">
-    <div class="btn-group split">
-        <button type="button" class="btn btn-lg btn-primary" (click)="addShippedProduct()">Sell Product</button>
-        <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-            <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
-            <div class="dropdown-menu" ngbDropdownMenu>
-                <button class="dropdown-item" (click)="addShipper()">Add Shipper</button>
-                <button class="dropdown-item" (click)="addReceiver()">Add Receiver</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="d-flex justify-content-center">
-    <form [formGroup]="shippingManifest" class="col-md-6">
-        <ti-shipper-information 
-            [shipperInformation]="shippingManifest.controls.shipperInformation" 
-            *ngIf="showShipperInformation"
-            (close)="closeShipper()">
-        </ti-shipper-information>
-        <ti-receiver-information 
-            [receiverInformation]="shippingManifest.controls.receiverInformation"
-            *ngIf="showReceiverInformation"
-            (close)="closeReceiver()">
-        </ti-receiver-information>
-        <ti-distributor-information 
-            [distributorInformation]="shippingManifest.controls.distributorInformation"
-            *ngIf="showDistributorInformation"
-            (close)="closeDistributor()">
-        </ti-distributor-information>
-        <vault-product-shipped-details
-            [productShippedDetails]="shippingManifest.controls.productShippedDetails"
-            *ngIf="showProductShippedDetails"
-            (close)="closeProductShippedInformation()">
-        </vault-product-shipped-details>
+    <form [formGroup]="shippingManifest" class="col col-6" (ngSubmit)="sellProduct()">
+        <vault-product [shipper]="shippingManifest.controls.product" [hidden]="!addProduct"></vault-product>
+        <add-receiver 
+            [resetFormOnSubmit]="false" 
+            [receiverForm]="receiverFormGroup" 
+            [hidden]="!addReceiver">
+        </add-receiver>
+        <vault-receiver [receiver]="shippingManifest.controls.receiver" [hidden]="!receiverInformation"></vault-receiver>
     </form>
 </div>

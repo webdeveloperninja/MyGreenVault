@@ -14,6 +14,7 @@ import { SharedModule } from '../shared/shared.module';
 
 import { routes } from './receivers.routing';
 import { UpdateReceiverComponent } from './components/update-receiver/update-receiver.component';
+import { AddReceiverContainerComponent } from './containers/add-receiver-container/add-receiver-container.component';
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import { UpdateReceiverComponent } from './components/update-receiver/update-rec
     declarations: [
         ReceiversComponent,
         AddReceiverComponent,
-        UpdateReceiverComponent
+        UpdateReceiverComponent,
+        AddReceiverContainerComponent
     ],
     providers: [
         ReceiverService

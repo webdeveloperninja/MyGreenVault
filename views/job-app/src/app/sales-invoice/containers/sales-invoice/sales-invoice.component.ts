@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HeaderService } from 'app/shared/services/header/header.service';
 import { NotificationService } from 'app/shared/services/notification/notification.service';
 import { ConstructionService } from 'app/construction.service';
+import { createFormGroup as createReceiverFormGroup } from 'app/receivers/components/add-receiver/add-receiver.component';
 
 const headerText: string = 'Sales Invoice / Shipping Manifest';
 
@@ -14,13 +15,18 @@ const headerText: string = 'Sales Invoice / Shipping Manifest';
 export class SalesInvoiceComponent implements OnInit, OnDestroy {
     shippingManifest: FormGroup;
 
-    showShipperInformation: boolean = false;
-    showReceiverInformation: boolean = false;
-    showDistributorInformation: boolean = false;
-    showProductShippedDetails: boolean = true;
+    addProduct = true;
+    addReceiver = false;
+    receiverInformation = false;
+
+    resetSteps() {
+        this.addProduct = false;
+        this.addReceiver = false;
+        this.receiverInformation = false;
+    }
 
     constructor(
-        private _fb: FormBuilder, 
+        private _fb: FormBuilder,
         private _headerService: HeaderService,
         private _notificationService: NotificationService,
         private _constructionService: ConstructionService) { }
@@ -29,60 +35,20 @@ export class SalesInvoiceComponent implements OnInit, OnDestroy {
         setTimeout(() => this._constructionService.turnOnConstruction());
 
         this.shippingManifest = this._fb.group({
-            shipperInformation: this._fb.group({
-                stateLicenseNumber: [''],
-                typeOfLicense: [''],
-                businessName: [''],
-                businessAddress: [''],
-                city: [''],
-                state: [''],
-                zip: [''],
-                phoneNumber: [''],
-                contactName: ['']
+            product: this._fb.group({
+                uidTagNumber: [''],
+                itemName: [''],
+                itemDescription: [''],
+                itemWeightOrCount: [''],
+                qtyOrdered: [''],
+                unitCost: [''],
+                totalCost: ['']
             }),
-            receiverInformation: this._fb.group({
-                stateLicenseNumber: [''],
-                typeOfLicense: [''],
-                businessName: [''],
-                businessAddress: [''],
-                city: [''],
-                state: [''],
-                zip: [''],
-                phoneNumber: [''],
-                contactName: ['']
-            }),
-            distributorInformation: this._fb.group({
-                stateLicenseNumber: [''],
-                businessName: [''],
-                businessAddress: [''],
-                city: [''],
-                state: [''],
-                zip: [''],
-                phoneNumber: [''],
-                contactName: [''],
-                driversName: [''],
-                driversLicenseNumber: [''],
-                vehicleMake: [''],
-                vehicleModel: [''],
-                vehicleLicensePlateNumber: [''],
-                actualDateTimeOfArrival: ['']
-            }),
-            productShippedDetails: this._fb.group({
-                isShipper: ['true'],
-                shipper: this._fb.group({
-                    uidTagNumber: [''],
-                    itemName: [''],
-                    itemDescription: [''],
-                    itemWeightOrCount: [''],
-                    qtyOrdered: [''],
-                    unitCost: [''],
-                    totalCost: ['']
-                }),
-                receiver: this._fb.group({
-                    qtyReceived: [''],
-                    unitRetailValue: [''],
-                    totalRetailValue: ['']
-                })
+            receiver: this._fb.group({
+                qtyReceived: [''],
+                unitRetailValue: [''],
+                totalRetailValue: [''],
+                receiverInformation: createReceiverFormGroup(this._fb)
             })
         });
 
@@ -98,48 +64,24 @@ export class SalesInvoiceComponent implements OnInit, OnDestroy {
         this._constructionService.turnTestFeatureOff();
     }
 
-    addShipper() {
-        this.showShipperInformation = true;
-        this.showReceiverInformation = false;
-        this.showDistributorInformation = false;
-        this.showProductShippedDetails = false;
+    sellProduct() {
+        console.log(this.shippingManifest.value);
     }
 
-    addShippedProduct() {
-        this.showShipperInformation = false;
-        this.showReceiverInformation = false;
-        this.showDistributorInformation = false;
-        this.showProductShippedDetails = true;
+    select(type) {
+        this.resetSteps();
+        if (type === 'product') {
+            this.addProduct = true;
+        } else if (type === 'receiver') {
+            this.addReceiver = true;
+        } else if (type === 'receiver-info') {
+            this.receiverInformation = true;
+        } else {
+            this.addProduct = true;
+        }
     }
 
-
-    addDistributor() {
-        this.showDistributorInformation = true;
-        this.showReceiverInformation = false;
-        this.showShipperInformation = false;
-        this.showProductShippedDetails = false;
-    }
-
-    closeShipper(): void {
-        this.showShipperInformation = false;
-    }
-
-    closeReceiver(): void {
-        this.showReceiverInformation = false;
-    }
-
-    closeDistributor(): void {
-        this.showDistributorInformation = false;
-    }
-
-    closeProductShippedInformation(): void {
-        this.showProductShippedDetails = false;
-    }
-
-    addReceiver() {
-        this.showReceiverInformation = true;
-        this.showShipperInformation = false;
-        this.showDistributorInformation = false;
-        this.showProductShippedDetails = false;
+    get receiverFormGroup() {
+        return this.shippingManifest.get('receiver.receiverInformation');
     }
 }

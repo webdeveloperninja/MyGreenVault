@@ -10,7 +10,7 @@ import emailMask from 'text-mask-addons/dist/emailMask';
 const pageTitle = 'Add shipper';
 
 @Component({
-    selector: 'add-receiver',
+    selector: 'add-shipper',
     templateUrl: './add-shipper.component.html'
 })
 export class AddShipperComponent implements OnInit {
