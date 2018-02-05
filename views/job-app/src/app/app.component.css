@@ -12,6 +12,7 @@ a, button {
 
 .content {
     position: relative;
+    height: auto;
 }
 
 .content-blocker {
@@ -37,9 +38,9 @@ a, button {
 }
 
 .is-beta-block {
-    position: absolute;
-    left: 17px;
-    z-index: 1000;
-    top: 48px;
-    padding-bottom: 10px;
+  position: absolute;
+  right: 17px;
+  z-index: 1000;
+  top: -35px;
+  padding-bottom: 10px;
 }

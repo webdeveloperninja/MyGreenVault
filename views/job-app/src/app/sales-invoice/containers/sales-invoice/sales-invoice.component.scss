@@ -11,18 +11,16 @@
 	overflow: hidden;
 	/*CSS counters to number the steps*/
     counter-reset: step;
-    background: 
-    linear-gradient(rgba(196, 102, 0, 0.6), rgba(155, 89, 182, 0.6));
+    background: #36a834;
     margin-top: -20px;
     margin-left: -20px;
     margin-right: -20px;
-    height: 50px;
+    height: 75px;
 }
 #progressbar li {
 	list-style-type: none;
 	color: white;
 	text-transform: uppercase;
-	font-size: 9px;
 	width: 33.33%;
 	float: left;
     position: relative;
@@ -32,12 +30,12 @@
 #progressbar li:before {
 	content: counter(step);
 	counter-increment: step;
-	width: 20px;
+	width: 50px;
 	line-height: 20px;
 	display: block;
 	font-size: 10px;
-	color: #333;
-	background: white;
+  color: #fff;
+  background: black;
 	border-radius: 3px;
 	margin: 0 auto 5px auto;
 }
@@ -46,7 +44,9 @@
 	content: '';
 	width: 100%;
 	height: 2px;
-	background: white;
+  background: #ffffff;
+  color: black;
+  border: 1px solid black;
 	position: absolute;
 	left: -50%;
 	top: 9px;
@@ -59,7 +59,8 @@
 /*marking active/completed steps green*/
 /*The number of the step and the connector before it = green*/
 #progressbar li.active:before,  #progressbar li.active:after{
-	background: #27AE60;
-	color: white;
+  background: #ffffff;
+  color: black;
+  border: 1px solid black;;
 }
 
