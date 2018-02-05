@@ -14,6 +14,7 @@ import { SharedModule } from '../shared/shared.module';
 
 import { routes } from './shippers.routing';
 import { UpdateShipperComponent } from './components/update-shipper/update-shipper.component';
+import { AddShipperContainerComponent } from './containers/add-shipper-container/add-shipper-container.component';
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import { UpdateShipperComponent } from './components/update-shipper/update-shipp
     declarations: [
         ShippersComponent,
         AddShipperComponent,
-        UpdateShipperComponent
+        UpdateShipperComponent,
+        AddShipperContainerComponent
     ],
     providers: [
         ReceiverService
