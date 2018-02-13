@@ -8,6 +8,10 @@ const userSchema = new mongoose.Schema({
   companyName: { type: String, required: true },
   phoneNumber: { type: String, required: true },
   name: { type: String, required: true },
+  billing: { type: String, required: false },
+  stripeCustomer: { type: String, required: false },
+  stripeId: { type: String, required: false },
+  status: { type: String, required: false },
   passwordResetToken: String,
   passwordResetExpires: Date,
 
