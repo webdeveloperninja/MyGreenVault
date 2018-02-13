@@ -1,59 +1,69 @@
 <html>
 <%- include('partials/header') %>
-    </head>
+  </head>
 
-    <body class="sign-up">
-        <%- include('partials/navbar') %>
-            <div class="container-fluid">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8 login-wrapper">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h3 class="text-center">Sign up - Free</h3>
-                                </div>
-                            </div>
-                            <% if(messages.errors && messages.errors.length) {%>
-                                <div class="alert alert-danger">
-                                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                                    <% for(var i=0; i < messages.errors.length; i++) {%>
-                                        <%= messages.errors[i].msg %>
-                                    <% } %>
-                                </div>
-                            <% } %>
-                            <div class="row">
-                                <form class="form-horizontal" id="signup-form" method="POST">
-                                    <div class="col-md-6">
-                                        <input type="hidden" name="_csrf">
-                                        <label class="control-label" for="email">Email</label>
-                                        <input class="form-control" type="email" name="email" id="email" placeholder="Email" autofocus="" required="">
-                                        <label class="control-label" for="companyName">Company Name</label>
-                                        <input class="form-control" type="text" name="companyName" id="companyName" placeholder="Company Name" autofocus="" required="">
-                                        <label class="control-label" for="phoneNumber">Phone Number</label>
-                                        <input class="form-control" type="text" name="phoneNumber" id="phoneNumber" placeholder="Phone Number" autofocus="" required="">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="control-label" for="name">Name</label>
-                                        <input class="form-control" type="text" name="name" id="name" placeholder="Name" autofocus="" required="">
-                                        <label class="control-label" for="password">Password</label>
-                                        <input class="form-control" type="password" name="password" id="password" placeholder="Password" required="">
-                                        <label class="control-label" for="confirmPassword">Confirm Password</label>
-                                        <input class="form-control" type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required="">
-                                        <button class="submit btn btn-success btn-sign-up" type="submit">
-                                            <i class="fa fa-user-plus"></i>Signup</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+  <body class="sign-up">
+    <%- include('partials/navbar') %>
+      <div class="container-fluid">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-8 login-wrapper">
+              <div class="row">
+                <div class="col-md-12">
+                  <h3 class="text-center">Sign up - Free</h3>
                 </div>
+              </div>
+              <% if(messages.errors && messages.errors.length) {%>
+                <div class="alert alert-danger">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  <% for(var i=0; i < messages.errors.length; i++) {%>
+                    <%= messages.errors[i].msg %>
+                      <% } %>
+                </div>
+                <% } %>
+                  <div class="row">
+                    <form class="form-horizontal" id="payment-form" method="POST">
+                      <div class="col-md-6">
+                        <input type="hidden" name="_csrf">
+                        <input id="stripe-token" name="stripeToken" class="display-none" type="text">
+                        <label class="control-label" for="email">Email</label>
+                        <input class="form-control" type="email" name="email" id="email" placeholder="Email" autofocus="" required="">
+                        <label class="control-label" for="companyName">Company Name</label>
+                        <input class="form-control" type="text" name="companyName" id="companyName" placeholder="Company Name" autofocus="" required="">
+                        <label class="control-label" for="phoneNumber">Phone Number</label>
+                        <input class="form-control" type="text" name="phoneNumber" id="phoneNumber" placeholder="Phone Number" autofocus="" required="">
+                        <div class="form-row">
+                          <label for="card-element">
+                            Credit or debit card
+                          </label>
+                          <div id="card-element">
+                          </div>
+                          <div id="card-errors" role="alert"></div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="control-label" for="name">Name</label>
+                        <input class="form-control" type="text" name="name" id="name" placeholder="Name" autofocus="" required="">
+                        <label class="control-label" for="password">Password</label>
+                        <input class="form-control" type="password" name="password" id="password" placeholder="Password" required="">
+                        <label class="control-label" for="confirmPassword">Confirm Password</label>
+                        <input class="form-control" type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required="">
+                        <button class="submit btn btn-success btn-sign-up" id="submitBtn" type="submit">
+                          <i class="fa fa-user-plus"></i>Signup</button>
+                      </div>
+                    </form>
+                  </div>
             </div>
-    </body>
+          </div>
+        </div>
+      </div>
+  </body>
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="./assets/js/payment.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
 
 </html>

@@ -19,7 +19,6 @@ import { PlantsModule } from './plants/plants.module';
 import { SharedModule } from './shared/shared.module';
 import { ShippersModule } from './shippers/shippers.module';
 import { PreferencesModule } from './preferences/preferences.module';
-import { AuthenticationModule } from './authentication/authentication.module';
 import { SalesInvoiceModule } from './sales-invoice/sales-invoice.module';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -48,7 +47,6 @@ import { ConstructionService } from 'app/construction.service';
         PreferencesModule,
         ReceiversModule,
         PlantsModule,
-        AuthenticationModule,
         ShippersModule,
         NgbModule.forRoot(),
         ToastrModule.forRoot(),
