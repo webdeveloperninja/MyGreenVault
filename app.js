@@ -18,6 +18,7 @@ const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
 const multer = require('multer');
 var cons = require('consolidate');
+var forceSSL = require('express-force-ssl');
 
 const isProd = false;
 dotenv.load({ path: '.env.dev' });
@@ -65,6 +66,10 @@ if ('OPTIONS' == req.method) {
 app.use('/views/job-app/dist',express.static(path.join(__dirname, 'views/job-app/dist')));
 app.use(express.static(path.resolve('./views/account')));
 
+app.use(forceSSL);
+app.set('forceSSLOptions', {
+  enable301Redirects: true
+});
 
 /**
  * Connect to MongoDB.
