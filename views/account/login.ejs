@@ -10,14 +10,7 @@
                             <div class="page-header">
                                 <h3>Sign in</h3>
                             </div>
-                            <% if(messages.errors && messages.errors.length) {%>
-                                <div class="alert alert-danger">
-                                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                                    <% for(var i=0; i < messages.errors.length; i++) {%>
-                                        <%= messages.errors[i].msg %>
-                                    <% } %>
-                                </div>
-                            <% } %>
+                            <%- include('partials/flash-messages', { messages: messages }) %>   
                             <form class="form-horizontal" method="POST">
                                 <input type="hidden" name="_csrf">
                                 <div class="form-group"></div>
