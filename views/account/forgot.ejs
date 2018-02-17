@@ -6,6 +6,7 @@
         <div class="container-fluid">
             <div class="col-sm-8 col-sm-offset-2">
             <form method="POST">
+                <%- include('partials/flash-messages', { messages: messages }) %>               
                 <legend>Forgot Password</legend>
                 <input type="hidden" name="_csrf">
                 <div class="form-group">

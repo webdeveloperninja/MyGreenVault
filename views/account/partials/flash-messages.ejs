@@ -1,0 +1,25 @@
+<% if(messages.info && messages.info.length) {%>
+  <div class="alert alert-info">
+    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+    <% for(var i=0; i < messages.info.length; i++) {%>
+      <%= messages.info[i].msg %>
+        <% } %>
+  </div>
+
+  <% } %>
+    <% if(messages.errors && messages.errors.length) {%>
+      <div class="alert alert-danger">
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        <% for(var i=0; i < messages.errors.length; i++) {%>
+          <%= messages.errors[i].msg %>
+            <% } %>
+      </div>
+      <% } %>
+    <% if(messages.success && messages.success.length) {%>
+      <div class="alert alert-success">
+        <i class="fa fa-check" aria-hidden="true"></i>        
+        <% for(var i=0; i < messages.success.length; i++) {%>
+          <%= messages.success[i].msg %>
+            <% } %>
+      </div>
+      <% } %>
