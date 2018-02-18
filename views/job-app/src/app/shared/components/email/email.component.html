@@ -1,0 +1,13 @@
+<div class="tags-default mb-2">
+  <div class="bootstrap-tagsinput d-flex align-items-center justify-content-between">
+    <div class="d-flex w-100 input-wrap">
+      <span class="tag label label-info" *ngFor="let email of emailList; let i = index">
+        {{ email }}
+        <span data-role="remove" (click)="removeEmail(i)"></span>
+      </span>
+      <input type="text" [textMask]="{mask: emailMask}" class="email-input" [(ngModel)]="email" (blur)="addEmailIfValid()" placeholder="add emails">
+    </div>
+    <i class="fa fa-plus-square pull-right add" (click)="addEmail()" aria-hidden="true"></i>
+  </div>
+  <input type="text" value="Amsterdam,Washington,Sydney" data-role="tagsinput" placeholder="add tags" style="display: none;">
+</div>

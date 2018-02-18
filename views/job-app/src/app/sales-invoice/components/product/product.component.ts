@@ -7,7 +7,7 @@ import { FormGroup } from '@angular/forms';
     styleUrls: ['./product.component.scss']
 })
 export class ProductComponent {
-    @Input() shipper: FormGroup;
+    @Input() productForm: FormGroup;
     @Output() close = new EventEmitter<boolean>();
 
     closeForm(): void {

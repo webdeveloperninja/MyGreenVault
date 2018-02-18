@@ -1,4 +1,5 @@
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
+import * as masks from 'text-mask-addons';
 
 export const zipMask = [/\d/, /\d/, /\d/, /\d/, /\d/];
 export const phoneMask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
@@ -16,3 +17,5 @@ export const removeDollarAndCentsMask = (maskedNumber) => {
 export const removePhoneMask = (maskedPhoneNumber) => {
     return maskedPhoneNumber.replace('(', '').replace('-', '').replace(')', '').replace(' ', '').trim();
 }
+
+export const emailMask = masks.emailMask;

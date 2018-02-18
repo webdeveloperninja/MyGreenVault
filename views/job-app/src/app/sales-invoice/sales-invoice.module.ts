@@ -13,26 +13,21 @@ import { routes } from './sales-invoice.routing';
 import { ProductComponent } from './components/product/product.component';
 import { ReceiverComponent } from './components/receiver/receiver.component';
 import { ShippersModule } from 'app/shippers/shippers.module';
+import { SalesService } from './services/sales/sales.service';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        SharedModule,
-        ReactiveFormsModule,
-        ReceiversModule,
-        ShippersModule,
-        RouterModule.forChild(routes),
-        NgbModule.forRoot()
-    ],
-    declarations: [
-        SalesInvoiceComponent,
-        ProductComponent,
-        ReceiverComponent
-    ],
-    providers: [
-    ],
-    exports: [
-    ]
+  imports: [
+    CommonModule,
+    FormsModule,
+    SharedModule,
+    ReactiveFormsModule,
+    ReceiversModule,
+    ShippersModule,
+    RouterModule.forChild(routes),
+    NgbModule.forRoot()
+  ],
+  declarations: [SalesInvoiceComponent, ProductComponent, ReceiverComponent],
+  providers: [SalesService],
+  exports: []
 })
 export class SalesInvoiceModule {}
