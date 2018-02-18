@@ -1,4 +1,5 @@
 <div class="tags-default mb-2">
+  <label *ngIf="title">{{ title }}</label>
   <div class="bootstrap-tagsinput d-flex align-items-center justify-content-between">
     <div class="d-flex w-100 input-wrap">
       <span class="tag label label-info" *ngFor="let email of emailList; let i = index">

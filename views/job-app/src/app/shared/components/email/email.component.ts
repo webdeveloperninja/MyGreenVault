@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { validateEmail, emailMask } from 'app/shared/utilities';
 
 @Component({
@@ -12,6 +12,8 @@ export class EmailComponent {
   emailMask = emailMask;
 
   @Output() emails = new EventEmitter<string[]>();
+
+  @Input() title: string;
 
   removeEmail(index: number): void {
     this.emailList.splice(index, 1);

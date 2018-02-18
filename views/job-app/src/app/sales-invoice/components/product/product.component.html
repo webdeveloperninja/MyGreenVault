@@ -1,36 +1,57 @@
 <div class="shipper-wrapper">
-    <div [formGroup]="productForm">
-        <div class="grouping">
-            <div class="form-group">
-                <label>UID Tag Number:</label>
-                <input class="form-control" formControlName="uidTagNumber">
-            </div>
-            <div class="form-group">
-                <label>Item Name</label>
-                <input class="form-control" formControlName="itemName">
-            </div>
-            <div class="form-group">
-                <label>Item Description</label>
-                <input class="form-control" formControlName="itemDescription">
-            </div>
-        </div>
-        <div class="grouping">
-            <div class="form-group">
-                <label>Item Weight or Count</label>
-                <input class="form-control" formControlName="itemWeightOrCount">
-            </div>
-            <div class="form-group">
-                <label>Qty Ordered</label>
-                <input class="form-control" formControlName="qtyOrdered">
-            </div>
-            <div class="form-group">
-                <label>Unit Cost</label>
-                <input class="form-control" formControlName="unitCost">
-            </div>
-            <div class="form-group">
-                <label>Total Cost</label>
-                <input class="form-control" formControlName="totalCost">
-            </div>
-        </div>
+  <div [formGroup]="productForm">
+    <div class="grouping">
+      <div class="form-group">
+        <label>UID Tag Number:</label>
+        <input class="form-control" formControlName="uidTagNumber">
+        <span class="error" *ngIf="isRequiredValidator(productForm.controls.uidTagNumber)">
+          Field is required
+        </span>
+      </div>
+      <div class="form-group">
+        <label>Item Name</label>
+        <input class="form-control" formControlName="itemName">
+        <span class="error" *ngIf="isRequiredValidator(productForm.controls.itemName)">
+          Field is required
+        </span>
+      </div>
+      <div class="form-group">
+        <label>Item Description</label>
+        <input class="form-control" formControlName="itemDescription">
+        <span class="error" *ngIf="isRequiredValidator(productForm.controls.itemDescription)">
+          Field is required
+        </span>
+      </div>
     </div>
+    <div class="grouping">
+      <div class="form-group">
+        <label>Item Weight or Count</label>
+        <input class="form-control" formControlName="itemWeightOrCount">
+        <span class="error" *ngIf="isRequiredValidator(productForm.controls.itemWeightOrCount)">
+          Field is required
+        </span>
+      </div>
+      <div class="form-group">
+        <label>Qty Ordered</label>
+        <input class="form-control" formControlName="qtyOrdered">
+        <span class="error" *ngIf="isRequiredValidator(productForm.controls.qtyOrdered)">
+          Field is required
+        </span>
+      </div>
+      <div class="form-group">
+        <label>Unit Cost</label>
+        <input class="form-control" formControlName="unitCost">
+        <span class="error" *ngIf="isRequiredValidator(productForm.controls.unitCost)">
+          Field is required
+        </span>
+      </div>
+      <div class="form-group">
+        <label>Total Cost</label>
+        <input class="form-control" formControlName="totalCost">
+        <span class="error" *ngIf="isRequiredValidator(productForm.controls.totalCost)">
+          Field is required
+        </span>
+      </div>
+    </div>
+  </div>
 </div>

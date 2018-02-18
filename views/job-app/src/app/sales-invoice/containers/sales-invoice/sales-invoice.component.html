@@ -1,13 +1,24 @@
 <div class="d-flex justify-content-center">
   <form [formGroup]="saleForm" class="col col-6" (ngSubmit)="sellProduct()">
-    <label>Plant or Product</label>
-    <vault-email (emails)="addEmails($event)"></vault-email>
+    <div class="d-flex justify-content-between">
+      <label>Plant or Product</label>
+      <label *ngIf="hasEmails">{{ emails?.length }}
+        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+      </label>
+    </div>
+
+    <vault-email title="Send report to" (emails)="addEmails($event)"></vault-email>
     <vault-product [productForm]="productFormGroup"></vault-product>
     <label>Receiver</label>
     <add-receiver [resetFormOnSubmit]="false" [showSubmitButton]="false" [receiverForm]="receiverFormGroup">
     </add-receiver>
     <div class="d-flex justify-content-end">
-      <button class="btn btn-primary" type="submit">Submit and email</button>
+      <!-- TODO remove click handler -->
+      <button class="btn btn-primary" type="submit">Submit 
+        <label *ngIf="hasEmails">and email {{ emails?.length }}
+          <i class="fa fa-envelope-o" aria-hidden="true"></i>
+        </label>
+      </button>
     </div>
   </form>
 </div>
