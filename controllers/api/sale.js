@@ -7,7 +7,8 @@ const saleQuery = require('../../queries/sale');
 
 exports.add = (req, res) => {
   const userId = req.user.id;
-  let sale = req.body;
+  const sale = req.body.data;
+  const emails = req.body.emails;
 
   const saleWithUserId = Object.assign(
     {

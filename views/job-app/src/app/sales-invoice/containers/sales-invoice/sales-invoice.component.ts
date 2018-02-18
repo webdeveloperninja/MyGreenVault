@@ -11,31 +11,10 @@ import { NotificationService } from 'app/shared/services/notification/notificati
 import { ConstructionService } from 'app/construction.service';
 import { createFormGroup as createReceiverFormGroup } from 'app/receivers/components/add-receiver/add-receiver.component';
 import { SalesService } from 'app/sales-invoice/services/sales/sales.service';
-import { Sale } from 'app/sales-invoice/models';
+import { Sale, SaleRequest } from 'app/sales-invoice/models';
 
-const headerText: string = 'Sales Invoice / Shipping Manifest';
-
-// productUid: { type: String, require: true },
-// productName: { type: String, require: true },
-// productDescription: { type: String, require: true },
-// productWeightOrCount: { type: Number, require: true },
-// productQtyOrdered: { type: Number, require: true },
-// productUnitCost: { type: Number, require: true },
-// productTotalCost: { type: Number, require: true },
-// receiverQtyReceived: { type: Number, require: true },
-// receiverUnitRetailValue: { type: Number, require: true },
-// receiverTotalRetailValue: { type: Number, require: true },
-// receiverName: { type: String, require: true },
-// receiverEmail: { type: String, require: true },
-// receiverPhoneNumber: { type: String, require: true },
-// receiverBusinessZip: { type: String, require: true },
-// receiverBusinessState: { type: String, require: true },
-// receiverBusinessCity: { type: String, require: true },
-// receiverBusinessAddress: { type: String, require: true },
-// receiverBusinessName: { type: String, require: true },
-// receiverTypeOfLicense: { type: String, require: true },
-// receiverStateLicenseNumber: { type: String, require: true },
-// userId: { type: String, required: true }
+import * as formUtilities from 'app/shared/utilities/forms';
+const headerText = 'Sales Invoice / Shipping Manifest';
 
 @Component({
   selector: 'ti-sales-invoice',
@@ -44,16 +23,7 @@ const headerText: string = 'Sales Invoice / Shipping Manifest';
 })
 export class SalesInvoiceComponent implements OnInit, OnDestroy {
   saleForm: FormGroup;
-
-  addProduct = true;
-  addReceiver = false;
-  receiverInformation = false;
-
-  resetSteps() {
-    this.addProduct = false;
-    this.addReceiver = false;
-    this.receiverInformation = false;
-  }
+  emails: string[];
 
   constructor(
     private _fb: FormBuilder,
@@ -64,26 +34,18 @@ export class SalesInvoiceComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    setTimeout(() => this._constructionService.turnOnConstruction());
+    this.createForm();
+    this.setHeader();
+  }
 
+  createForm(): void {
     this.saleForm = this._fb.group({
-      product: this._fb.group({
-        uidTagNumber: [''],
-        itemName: [''],
-        itemDescription: [''],
-        itemWeightOrCount: [''],
-        qtyOrdered: [''],
-        unitCost: [''],
-        totalCost: ['']
-      }),
-      receiver: this._fb.group({
-        qtyReceived: [''],
-        unitRetailValue: [''],
-        totalRetailValue: [''],
-        receiverInformation: createReceiverFormGroup(this._fb)
-      })
+      product: createProductFormGroup(this._fb),
+      receiver: createReceiverFormGroup(this._fb)
     });
+  }
 
+  setHeader(): void {
     this._headerService.setHeaderText(headerText);
   }
 
@@ -93,29 +55,33 @@ export class SalesInvoiceComponent implements OnInit, OnDestroy {
   }
 
   sellProduct() {
-    const sale: Sale = {
-      ...this.receiverFormGroup.value,
-      ...this.productFormGroup.value
-    };
-
-    this._salesService.makeSale(sale);
-  }
-
-  select(type) {
-    this.resetSteps();
-    if (type === 'product') {
-      this.addProduct = true;
-    } else if (type === 'receiver') {
-      this.addReceiver = true;
-    } else if (type === 'receiver-info') {
-      this.receiverInformation = true;
+    if (this.saleForm.valid) {
+      this.makeSellRequest();
     } else {
-      this.addProduct = true;
+      formUtilities.markFormGroupTouched(this.saleForm);
     }
   }
 
+  
+
+  makeSellRequest() {
+    const request: SaleRequest = {
+      data: this.createSale(),
+      emails: this.emails
+    };
+
+    this._salesService.sell(request);
+  }
+
+  createSale(): Sale {
+    return {
+      ...this.receiverFormGroup.value,
+      ...this.productFormGroup.value
+    };
+  }
+
   get receiverFormGroup() {
-    return this.saleForm.get('receiver.receiverInformation');
+    return this.saleForm.get('receiver');
   }
 
   get productFormGroup() {
@@ -123,7 +89,22 @@ export class SalesInvoiceComponent implements OnInit, OnDestroy {
   }
 
   addEmails(emails: string[]): void {
-    console.log('emails', emails);
+    this.emails = emails;
+  }
+
+  get hasEmails(): boolean {
+    return this.emails && this.emails.length > 0;
   }
 }
 
+export function createProductFormGroup(formBuild: FormBuilder) {
+  return formBuild.group({
+    uidTagNumber: ['', Validators.required],
+    itemName: ['', Validators.required],
+    itemDescription: ['', Validators.required],
+    itemWeightOrCount: ['', Validators.required],
+    qtyOrdered: ['', Validators.required],
+    unitCost: ['', Validators.required],
+    totalCost: ['', Validators.required]
+  });
+}
