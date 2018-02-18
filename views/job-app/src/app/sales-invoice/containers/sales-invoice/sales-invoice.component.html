@@ -1,16 +1,13 @@
-<ul id="progressbar" class="d-flex align-items-center">
-    <li [ngClass]="{'active': addProduct}" (click)="select('product')">Add product</li>
-    <li [ngClass]="{'active': addReceiver}" (click)="select('receiver')">Add receiver</li>
-    <li [ngClass]="{'active': receiverInformation}" (click)="select('receiver-info')">Receiver Info</li>
-</ul>
 <div class="d-flex justify-content-center">
-    <form [formGroup]="shippingManifest" class="col col-6" (ngSubmit)="sellProduct()">
-        <vault-product [shipper]="shippingManifest.controls.product" [hidden]="!addProduct"></vault-product>
-        <add-receiver 
-            [resetFormOnSubmit]="false" 
-            [receiverForm]="receiverFormGroup" 
-            [hidden]="!addReceiver">
-        </add-receiver>
-        <vault-receiver [receiver]="shippingManifest.controls.receiver" [hidden]="!receiverInformation"></vault-receiver>
-    </form>
+  <form [formGroup]="saleForm" class="col col-6" (ngSubmit)="sellProduct()">
+    <label>Plant or Product</label>
+    <vault-email (emails)="addEmails($event)"></vault-email>
+    <vault-product [productForm]="productFormGroup"></vault-product>
+    <label>Receiver</label>
+    <add-receiver [resetFormOnSubmit]="false" [showSubmitButton]="false" [receiverForm]="receiverFormGroup">
+    </add-receiver>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-primary" type="submit">Submit and email</button>
+    </div>
+  </form>
 </div>

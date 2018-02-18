@@ -31,6 +31,7 @@ const apiController = require('./controllers/api');
 const plantsApiController = require('./controllers/api/plant');
 const receiverApiController = require('./controllers/api/receiver');
 const shippersApiController = require('./controllers/api/shippers');
+const saleController = require('./controllers/api/sale');
 const contactController = require('./controllers/contact');
 const toolingInventorySPA = require('./controllers/toolingInventorySpa');
 
@@ -49,6 +50,7 @@ const app = express();
 const receiverRoutes = require('./routes/receiver')(passportConfig, receiverApiController);
 const shippersRoutes = require('./routes/shippers')(passportConfig, shippersApiController);
 const plantsRoutes = require('./routes/plants')(passportConfig, plantsApiController);
+const salesRoutes = require('./routes/sales')(passportConfig, saleController);
 
 app.use(function(req, res, next) {
 res.header('Access-Control-Allow-Credentials', true);
@@ -144,6 +146,7 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
 app.use('/api/v1/receivers', receiverRoutes);
 app.use('/api/v1/shippers', shippersRoutes);
 app.use('/api/v1/plants', plantsRoutes);
+app.use('/api/v1/sales', salesRoutes);
 
 
 

@@ -7,10 +7,15 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./receiver.component.scss']
 })
 export class ReceiverComponent {
-    @Input() receiver: FormGroup;
-    @Output() close = new EventEmitter<boolean>();
+  @Input() receiver: FormGroup;
+  @Output() close = new EventEmitter<boolean>();
+  @Output() submit = new EventEmitter();
 
-    closeForm(): void {
-        this.close.emit(true);
-    }
+  closeForm(): void {
+    this.close.emit(true);
+  }
+
+  submitForm(): void {
+    this.submit.next();
+  }
 }

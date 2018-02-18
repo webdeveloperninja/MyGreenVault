@@ -29,6 +29,8 @@ import { OmniSearchComponent } from './components/omni-search/omni-search.compon
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { CloseComponent } from './components/close/close.component';
+import { EmailComponent } from './components/email/email.component';
+import { TextMaskModule } from 'angular2-text-mask';
 
 
 
@@ -38,6 +40,7 @@ import { CloseComponent } from './components/close/close.component';
         RouterModule,
         ReactiveFormsModule,
         FormsModule,
+        TextMaskModule,
         NgbModule.forRoot(),
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: 'primary'
@@ -58,7 +61,8 @@ import { CloseComponent } from './components/close/close.component';
       JobStatusChipComponent,
       AlertComponent,
       OmniSearchComponent,
-      CloseComponent
+      CloseComponent,
+      EmailComponent
     ],
     providers: [
       NotificationService,
@@ -83,7 +87,9 @@ import { CloseComponent } from './components/close/close.component';
       JobStatusChipComponent,
       FilterJobPipe,
       AlertComponent,
-      CloseComponent
+      CloseComponent,
+      EmailComponent,
+      TextMaskModule
     ]
 })
 export class SharedModule {}
