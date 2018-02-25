@@ -2,12 +2,12 @@
 const cheerio = require('cheerio');
 const LastFmNode = require('lastfm').LastFmNode;
 const clockwork = require('clockwork')({ key: process.env.CLOCKWORK_KEY });
-const User = require('../../models/User');
+const User = require('../models/User');
 const url = require('url');
-const plantQuery = require('../../queries/plant');
-const expenseQuery = require('../../queries/expense');
-const todoQuery = require('../../queries/todo');
-const noteQuery = require('../../queries/note');
+const plantQuery = require('../queries/plant');
+const expenseQuery = require('../queries/expense');
+const todoQuery = require('../queries/todo');
+const noteQuery = require('../queries/note');
 
 
 exports.getPlants = (req, res) => {

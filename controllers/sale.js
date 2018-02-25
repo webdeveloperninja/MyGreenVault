@@ -2,15 +2,15 @@
 
 const url = require('url');
 const ObjectId = require('mongodb').ObjectID;
-const saleQuery = require('../../queries/sale');
-const emailService = require('../../services/email');
+const saleQuery = require('../queries/sale');
+const emailService = require('../services/email');
 
 const emailSubject = 'Latest sale';
 
 exports.add = (req, res) => {
   const userId = req.user.id;
   const sale = req.body.data;
-  const emails = req.body.emails;
+  const email = req.body.emails;
   
   const saleWithUserId = Object.assign(
     {
@@ -22,9 +22,10 @@ exports.add = (req, res) => {
   saleQuery
     .add(saleWithUserId)
     .then(newSale => {
-      if (emails && emails.length > 0) {
+      if (email && email.length > 0) {
         const report = createSaleReport(newSale);
-        emails.forEach(email => emailService.sendEmail(email, emailSubject, report));
+        // emails.forEach(email => emailService.sendEmail(email, emailSubject, report));
+        emailService.sendEmail(email, emailSubject, report)
       }
 
       res.status(200).send(newSale._doc);

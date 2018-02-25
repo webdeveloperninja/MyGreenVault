@@ -40,6 +40,7 @@ export class SalesInvoiceComponent implements OnInit, OnDestroy {
 
   createForm(): void {
     this.saleForm = this._fb.group({
+      email: ['', Validators.required],
       product: createProductFormGroup(this._fb),
       receiver: createReceiverFormGroup(this._fb)
     });
@@ -55,6 +56,7 @@ export class SalesInvoiceComponent implements OnInit, OnDestroy {
   }
 
   sellProduct() {
+    console.log('sell form', this.saleForm.valid);
     if (this.saleForm.valid) {
       this.makeSellRequest();
     } else {
@@ -67,7 +69,7 @@ export class SalesInvoiceComponent implements OnInit, OnDestroy {
   makeSellRequest() {
     const request: SaleRequest = {
       data: this.createSale(),
-      emails: this.emails
+      emails: this.saleForm.controls.email.value
     };
 
     this._salesService.sell(request);

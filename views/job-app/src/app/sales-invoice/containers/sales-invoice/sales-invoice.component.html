@@ -6,8 +6,9 @@
         <i class="fa fa-envelope-o" aria-hidden="true"></i>
       </label>
     </div>
-
-    <vault-email title="Send report to" (emails)="addEmails($event)"></vault-email>
+    <label>Email</label>
+    <input class="form-control mb-2" formControlName="email">
+    <!-- <vault-email title="Send report to" (emails)="addEmails($event)"></vault-email> -->
     <vault-product [productForm]="productFormGroup"></vault-product>
     <label>Receiver</label>
     <add-receiver [resetFormOnSubmit]="false" [showSubmitButton]="false" [receiverForm]="receiverFormGroup">
