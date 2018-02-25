@@ -3,6 +3,6 @@ module.exports = function(passportConfig, saleApiController) {
   const router = require('express').Router();
 
   router.post('/', passportConfig.isAuthenticated, saleApiController.add);
-  
+
   return router;
-}
+};
