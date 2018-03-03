@@ -38,6 +38,10 @@ app.use(express.static(path.join(__dirname, 'views/job-app/dist')));
 app.use(express.static(path.resolve('./views/account')));
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
+app.get('/', function(req, res) {
+  res.sendfile('./views/job-app/dist/index.html')
+})
+
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
 mongoose.connection.on('error', (err) => {
