@@ -11,7 +11,7 @@ exports.add = (req, res) => {
   const userId = req.user.id;
   const sale = req.body.data;
   const email = req.body.emails;
-  
+
   const saleWithUserId = Object.assign(
     {
       userId: ObjectId(userId)
