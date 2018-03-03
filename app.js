@@ -18,6 +18,7 @@ const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
 const multer = require('multer');
 var cons = require('consolidate');
+const greenVaultClient = require('./controllers/green-vault-client');
 
 const isProd = false;
 dotenv.load({ path: '.env.dev' });
@@ -34,7 +35,7 @@ const receiverRoutes = require('./routes/receiver')(passportConfig, receiverApiC
 const plantsRoutes = require('./routes/plants')(passportConfig, plantsApiController);
 const salesRoutes = require('./routes/sales')(passportConfig, saleController);
 
-app.use('/views/job-app/dist',express.static(path.join(__dirname, 'views/job-app/dist')));
+app.use(express.static(path.join(__dirname, 'views/job-app/dist')));
 app.use(express.static(path.resolve('./views/account')));
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
