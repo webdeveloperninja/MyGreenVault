@@ -1,7 +1,7 @@
 const Sale = require('../models/Sale');
 const ObjectId = require('mongodb').ObjectID;
 
-const add = sale => {
+module.exports.add = sale => {
   const newSale = new Sale(sale);
 
   return new Promise((resolve, reject) => {
@@ -12,8 +12,4 @@ const add = sale => {
       resolve(results);
     });
   });
-}
-
-module.exports = {
-  add
 }

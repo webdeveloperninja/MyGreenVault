@@ -1,7 +1,7 @@
 const Shipper = require('../models/Shipper');
 const ObjectId = require('mongodb').ObjectID;
 
-function getPaged(userId, skip, take, textQuery = null) {
+module.getPaged = (userId, skip, take, textQuery = null) => {
   return new Promise((resolve, reject) => {
     const query = {
       userId: ObjectId(userId)
@@ -34,7 +34,7 @@ function getPaged(userId, skip, take, textQuery = null) {
   });
 }
 
-function add(shipper) {
+module.add = (shipper) => {
   const newShipper = new Shipper(shipper);
 
   return new Promise((resolve, reject) => {
@@ -47,7 +47,7 @@ function add(shipper) {
   });
 }
 
-function remove(shipper) {
+module.remove = (shipper) => {
   return new Promise((resolve, reject) => {
     Shipper.find({
       _id: ObjectId(shipper._id),
@@ -63,7 +63,7 @@ function remove(shipper) {
   });
 }
 
-function update(shipper) {
+module.update = (shipper) => {
   return new Promise((resolve, reject) => {
     Shipper.findOneAndUpdate(
       {
@@ -79,10 +79,3 @@ function update(shipper) {
     });
   });
 }
-
-module.exports = {
-  getPaged,
-  add,
-  remove,
-  update
-};
