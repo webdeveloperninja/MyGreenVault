@@ -18,7 +18,6 @@ const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
 const multer = require('multer');
 var cons = require('consolidate');
-const greenVaultClient = require('./controllers/green-vault-client');
 
 const isProd = false;
 dotenv.load({ path: '.env.dev' });
