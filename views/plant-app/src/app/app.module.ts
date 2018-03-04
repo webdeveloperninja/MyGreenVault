@@ -16,41 +16,39 @@ import { PlantsModule } from './plants/plants.module';
 import { SharedModule } from './shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { routes } from './app.routing';
-import { ConstructionService } from 'app/construction.service';
 
 @NgModule({
-    declarations: [
-        AppComponent
-    ],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        TextMaskModule,
-        RouterModule.forRoot(routes),
-        ReactiveFormsModule,
-        FormsModule,
-        ChartsModule,
-        FlashMessagesModule,
-        SharedModule,
-        PlantsModule,
-        NgbModule.forRoot(),
-        ToastrModule.forRoot(),
-    ],
-    providers: [
-        { provide: LocationStrategy, useClass: HashLocationStrategy },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: RequestInterceptor,
-            multi: true
-        },
-        ConstructionService
-    ],
-    exports: [
-        FlashMessagesModule,
-        RouterModule,
-        TextMaskModule
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    TextMaskModule,
+    RouterModule.forRoot(routes),
+    ReactiveFormsModule,
+    FormsModule,
+    ChartsModule,
+    FlashMessagesModule,
+    SharedModule,
+    PlantsModule,
+    NgbModule.forRoot(),
+    ToastrModule.forRoot(),
+  ],
+  providers: [
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestInterceptor,
+      multi: true
+    }
+  ],
+  exports: [
+    FlashMessagesModule,
+    RouterModule,
+    TextMaskModule
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
