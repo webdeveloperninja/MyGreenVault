@@ -30,4 +30,4 @@ bower_components
 .DS_Store
 Thumbs.db
 
-views/job-app/node_modules
+views/plant-app/node_modules

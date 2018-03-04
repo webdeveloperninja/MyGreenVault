@@ -19,27 +19,22 @@ const sass = require('node-sass-middleware');
 const multer = require('multer');
 var cons = require('consolidate');
 
-const isProd = false;
-dotenv.load({ path: '.env.dev' });
+dotenv.load({ path: '.env' });
 
 const userController = require('./controllers/user');
 const plantsApiController = require('./controllers/plant');
-const receiverApiController = require('./controllers/receiver');
-const saleController = require('./controllers/sale');
 
 const passportConfig = require('./config/passport');
 const app = express();
 
-const receiverRoutes = require('./routes/receiver')(passportConfig, receiverApiController);
 const plantsRoutes = require('./routes/plants')(passportConfig, plantsApiController);
-const salesRoutes = require('./routes/sales')(passportConfig, saleController);
 
-app.use(express.static(path.join(__dirname, 'views/job-app/dist')));
+app.use(express.static(path.join(__dirname, 'views/plant-app/dist')));
 app.use(express.static(path.resolve('./views/account')));
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
 app.get('/', function(req, res) {
-  res.sendfile('./views/job-app/dist/index.html')
+  res.sendfile('./views/plant-app/dist/index.html')
 })
 
 mongoose.Promise = global.Promise;
@@ -98,10 +93,7 @@ app.post('/account/password', passportConfig.isAuthenticated, userController.pos
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 
-
-app.use('/api/v1/receivers', receiverRoutes);
 app.use('/api/v1/plants', plantsRoutes);
-app.use('/api/v1/sales', salesRoutes);
 
 app.use(errorHandler());
 
