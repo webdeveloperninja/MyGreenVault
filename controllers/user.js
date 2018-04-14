@@ -57,7 +57,6 @@ exports.getSignup = (req, res) => {
   });
 };
 
-
 exports.postSignup = (req, res, next) => {
   if (!req.body) {
     return;
@@ -71,12 +70,9 @@ exports.postSignup = (req, res, next) => {
     return;
   }
 
-  const stripeToken = req.body.stripeToken;
   const email = req.body.email;
 
-  stripeService
-    .createSubscription(stripeToken, email)
-    .then(subscription => createUser(subscription, req, res))
+  createUser(req, res)
     .then(user => {
       req.logIn(user, err => {
         if (err) {
@@ -84,7 +80,8 @@ exports.postSignup = (req, res, next) => {
         }
         res.redirect('/');
       });
-    }).catch(err => res.satus(500).send(err));
+    })
+    .catch(err => res.status(500).send(err));
 };
 
 function validateSignupInputs(req, res) {
@@ -98,18 +95,14 @@ function validateSignupInputs(req, res) {
   return req.validationErrors();
 }
 
-function createUser(subscription, req, res) {
+function createUser(req, res) {
   return new Promise((resolve, reject) => {
     const user = new User({
       email: req.body.email,
       password: req.body.password,
       companyName: req.body.companyName,
       phoneNumber: req.body.phoneNumber,
-      name: req.body.name,
-      billing: subscription.billing || null,
-      stripeCustomer: subscription.customer || null,
-      stripeId: subscription.id || null,
-      status: subscription.status || null
+      name: req.body.name
     });
 
     User.findOne({ email: req.body.email }, (err, existingUser) => {
