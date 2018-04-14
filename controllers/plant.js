@@ -1,10 +1,10 @@
 'use strict';
 
 const url = require('url');
-const plantQuery = require('../queries/plant');
-const expenseQuery = require('../queries/expense');
-const todoQuery = require('../queries/todo');
-const noteQuery = require('../queries/note');
+const plantQuery = require('../repositories/plant');
+const expenseQuery = require('../repositories/expense');
+const todoQuery = require('../repositories/todo');
+const noteQuery = require('../repositories/note');
 
 exports.getPlants = (req, res) => {
   const userId = req.user._id;
