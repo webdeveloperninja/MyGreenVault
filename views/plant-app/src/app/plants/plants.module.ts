@@ -22,36 +22,34 @@ import { TodoService } from './services/todo';
 import { NoteService } from './services/note';
 import { TodoComponent } from './components/plant-detail/todo/todo.component';
 import { NotesComponent } from './components/plant-detail/notes/notes.component';
+import { KanbanComponent } from './containers/kanban/kanban.component';
+import { PlantCardComponent } from './components/plant-card/plant-card.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        TextMaskModule,
-        SharedModule,
-        ReactiveFormsModule,
-        RouterModule.forChild(routes),
-        NgbModule.forRoot()
-    ],
-    declarations: [
-        PlantsComponent,
-        AddPlantComponent,
-        UpdatePlantComponent,
-        PlantContainerComponent,
-        FilterPipe,
-        JobStatusPipe,
-        DetailComponent,
-        ExpensesComponent,
-        TodoComponent,
-        NotesComponent
-    ],
-    providers: [
-        PlantsService,
-        ExpenseService,
-        TodoService,
-        NoteService
-    ],
-    exports: [
-    ]
+  imports: [
+    CommonModule,
+    FormsModule,
+    TextMaskModule,
+    SharedModule,
+    ReactiveFormsModule,
+    RouterModule.forChild(routes),
+    NgbModule.forRoot()
+  ],
+  declarations: [
+    PlantsComponent,
+    AddPlantComponent,
+    UpdatePlantComponent,
+    PlantContainerComponent,
+    FilterPipe,
+    JobStatusPipe,
+    DetailComponent,
+    ExpensesComponent,
+    TodoComponent,
+    NotesComponent,
+    KanbanComponent,
+    PlantCardComponent
+  ],
+  providers: [PlantsService, ExpenseService, TodoService, NoteService],
+  exports: []
 })
 export class PlantsModule {}

@@ -34,7 +34,7 @@ export class DetailComponent implements OnInit {
     }
 
     openUpdatePlantModal(jobId) {
-        this._plantsService.setActiveJob(jobId);
+        this._plantsService.setActivePlant(jobId);
         this._updatePlantModalRef = this._modalService.open(this.updatePlantRef, { size: MODAL_SIZE });
     }
 
