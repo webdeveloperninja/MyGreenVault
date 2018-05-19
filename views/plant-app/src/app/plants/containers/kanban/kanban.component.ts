@@ -13,42 +13,17 @@ const MODAL_SIZE = 'lg';
   styleUrls: ['./kanban.component.scss']
 })
 export class KanbanComponent implements OnInit {
-  hasGerminating: boolean = false;
   allPlants$ = this._plantsService.allPlants$;
 
+  hasGerminating: boolean = false;
   hasSeedling: boolean = false;
   hasVegetative: boolean = false;
   hasFlowering: boolean = false;
   hasDrying: boolean = false;
   hasDone: boolean = false;
 
-  display = {
-    germinating: {
-      visible: true
-    },
-    seedling: {
-      visible: true
-    },
-    vegetative: {
-      visible: true
-    },
-    flowering: {
-      visible: true
-    },
-    drying: {
-      visible: true
-    },
-    done: {
-      visible: true
-    }
-  };
-
   @ViewChild('addPlantRef') addPlantRef: ElementRef;
   private _addPlantModalRef: NgbModalRef;
-
-  // get hasQuality(): boolean {
-  //     return this._hasQuality;
-  // }
 
   private _hasShipping: boolean = false;
 
@@ -92,13 +67,6 @@ export class KanbanComponent implements OnInit {
         } else if (plant.plantStatus === 5) {
           this.hasDone = true;
         }
-        // else if (job.jobStatus === 3) {
-        //     this._hasShipping = true;
-        // } else if (job.jobStatus === 4) {
-        //     this._hasCompleted = true;
-        // } else if (job.jobStatus === 5) {
-        //     this._hasWaiting = true;
-        // }
       });
     }
   });
@@ -110,7 +78,7 @@ export class KanbanComponent implements OnInit {
 
     this.doSearch();
 
-    this._plantsService.getAllPlants().subscribe();
+    this._plantsService.getAllPlants();
   }
 
   nextPage() {

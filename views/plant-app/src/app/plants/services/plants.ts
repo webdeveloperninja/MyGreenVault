@@ -86,9 +86,12 @@ export class PlantsService extends PlantsState {
 
     let url = `/api/v1/plants/all`;
 
-    return this._http.get(url, { headers: headers, withCredentials: true }).map((res: Plant[]) => {
-      this._allPlants$.next(res);
-    });
+    return this._http
+      .get(url, { headers: headers, withCredentials: true })
+      .map((res: Plant[]) => {
+        this._allPlants$.next(res);
+      })
+      .subscribe();
   }
 
   private getPlant() {
