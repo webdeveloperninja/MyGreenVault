@@ -1,20 +1,6 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  ViewContainerRef,
-  Output,
-  EventEmitter,
-  ViewChild
-} from '@angular/core';
+import { Component, OnInit, Input, ViewContainerRef, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl,
-  NgForm
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angular/forms';
 import { PlantsService } from '../../services/plants';
 import { Observable } from 'rxjs';
 
@@ -31,16 +17,12 @@ export class AddPlantComponent implements OnInit {
 
   @ViewChild('plantForm') plantForm: NgForm;
 
-  @Output('closeAddPlantModal')
-  closeAddPlantModal: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output('closeAddPlantModal') closeAddPlantModal: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Input('skip') skip: number;
   @Input('take') take: number;
 
-  constructor(
-    private _formBuilder: FormBuilder,
-    private _plantsService: PlantsService
-  ) {}
+  constructor(private _formBuilder: FormBuilder, private _plantsService: PlantsService) {}
 
   ngOnInit() {
     this.plantFormGroup = this._formBuilder.group({
@@ -62,6 +44,7 @@ export class AddPlantComponent implements OnInit {
     this._plantsService.addPlant(jobObj).subscribe(job => {
       this.isAddPlantLoading = false;
       this._plantsService.doSearch();
+      this._plantsService.getAllPlants();
     });
   }
 
