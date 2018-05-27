@@ -24,6 +24,7 @@ import { TodoComponent } from './components/plant-detail/todo/todo.component';
 import { NotesComponent } from './components/plant-detail/notes/notes.component';
 import { KanbanComponent } from './containers/kanban/kanban.component';
 import { PlantCardComponent } from './components/plant-card/plant-card.component';
+import { SaleComponent } from './containers/sale/sale.component';
 
 @NgModule({
   imports: [
@@ -47,7 +48,8 @@ import { PlantCardComponent } from './components/plant-card/plant-card.component
     TodoComponent,
     NotesComponent,
     KanbanComponent,
-    PlantCardComponent
+    PlantCardComponent,
+    SaleComponent
   ],
   providers: [PlantsService, ExpenseService, TodoService, NoteService],
   exports: []
