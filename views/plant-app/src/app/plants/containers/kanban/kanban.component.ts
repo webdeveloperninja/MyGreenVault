@@ -47,8 +47,7 @@ export class KanbanComponent implements OnInit {
 
   isJobNotFound: boolean = false;
   isPlantsLoading$: Observable<boolean> = this._plantsService.isPlantsLoading$.do(isLoading => {
-    console.log('loading');
-    console.log(isLoading);
+
   });
 
   plants$ = this._plantsService.allPlants$.do(plants => {

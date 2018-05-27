@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { markAsTouched } from 'app/shared/utilities/forms';
 
 @Component({
   selector: 'gv-sale',
@@ -7,11 +8,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./sale.component.scss']
 })
 export class SaleComponent implements OnInit {
-  defaultUnit = Unit.weight;
-
+  defaultIsQuantity = true;
   saleForm: FormGroup;
   Unit = Unit;
-  WeightUnit = WeightUnit;
 
   constructor(private readonly _formBuilder: FormBuilder) {
     this.createForm();
@@ -19,38 +18,94 @@ export class SaleComponent implements OnInit {
 
   createForm() {
     this.saleForm = this._formBuilder.group({
-      unit: [this.defaultUnit],
-      weight: [],
-      weightUnit: [WeightUnit.grams],
-      cost: []
+      isQuantity: [this.defaultIsQuantity, Validators.required],
+      quantity: [null, Validators.required],
+      weight: [null, Validators.required],
+      unit: [Unit.grams, Validators.required],
+      cost: [null, Validators.required]
     });
+
+    if (this.defaultIsQuantity) {
+      this.enableQuantityForm();
+      this.disableWeightForm();
+    } else {
+      this.enableWeightForm();
+      this.disableQuantityForm();
+    }
+  }
+
+  get isQuantity(): boolean {
+    return this.saleForm.controls.isQuantity.value;
+  }
+
+  get isWeight(): boolean {
+    return !this.isQuantity;
   }
 
   get unitLabel(): string {
-    const unit = this.saleForm.controls.unit.value;
-
-    if (unit === Unit.qty) {
+    if (this.isQuantity === true) {
       return 'Qty';
     }
 
-    if (unit === Unit.weight) {
+    if (this.isQuantity === false) {
       return 'Weight';
     }
   }
 
   sellProduct() {
-    console.log(this.saleForm.value);
+    if (this.saleForm.valid) {
+      console.log(this.saleForm.value);
+    } else {
+      markAsTouched(this.saleForm);
+    }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.saleForm.controls.isQuantity.valueChanges.subscribe(isQuantity => {
+      const isWeight = !isQuantity;
+
+      if (isQuantity) {
+        this.enableQuantityForm();
+        this.disableWeightForm();
+      } else if (isWeight) {
+        this.enableWeightForm();
+        this.disableQuantityForm();
+      }
+    });
+  }
+
+  private enableQuantityForm(): void {
+    this.saleForm.controls.quantity.enable();
+  }
+
+  private enableWeightForm(): void {
+    this.saleForm.controls.weight.enable();
+    this.saleForm.controls.unit.enable();
+  }
+
+  private disableQuantityForm(): void {
+    this.saleForm.controls.quantity.disable();
+  }
+
+  private disableWeightForm(): void {
+    this.saleForm.controls.weight.disable();
+    this.saleForm.controls.unit.disable();
+  }
+
+  get weight() {
+    return this.saleForm.get('weight');
+  }
+
+  get quantity() {
+    return this.saleForm.get('quantity');
+  }
+
+  get cost() {
+    return this.saleForm.get('cost');
+  }
 }
 
 export enum Unit {
-  qty,
-  weight
-}
-
-export enum WeightUnit {
   grams,
   pounds,
   kilograms

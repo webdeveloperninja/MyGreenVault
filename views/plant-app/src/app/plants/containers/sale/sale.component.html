@@ -4,29 +4,39 @@
       <p class="card-title">
         Sale
       </p>
-      <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" formControlName="unit">
+      <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" formControlName="isQuantity">
         <label ngbButtonLabel class="btn-primary">
-          <input ngbButton type="radio" [value]="Unit.qty"> Qty
+          <input ngbButton type="radio" [value]="true"> Qty
         </label>
         <label ngbButtonLabel class="btn-primary">
-          <input ngbButton type="radio" [value]="Unit.weight"> Weight
+          <input ngbButton type="radio" [value]="false"> Weight
         </label>
       </div>
     </div>
     <div class="form-group">
       <div class="d-flex align-items-center mb-2">
         <label class="mr-2">{{ unitLabel }}</label>
-        <select class="form-control col-sm-3 inline-edit unit-select" formControlName="weightUnit">
-          <option [value]="WeightUnit.grams">(Grams)</option>
-          <option [value]="WeightUnit.pounds">(Lbs)</option>
-          <option [value]="WeightUnit.kilograms">(Kgs)</option>
+        <select class="form-control col-sm-3 inline-edit unit-select" *ngIf="isWeight" formControlName="unit">
+          <option [value]="Unit.grams">(Grams)</option>
+          <option [value]="Unit.pounds">(Lbs)</option>
+          <option [value]="Unit.kilograms">(Kgs)</option>
         </select>
       </div>
-      <input formControlName="weight" class="form-control">
+      <input id="weight" formControlName="weight" *ngIf="isWeight" class="form-control">
+      <input id="quantity" formControlName="quantity" *ngIf="isQuantity" class="form-control">
+      <div *ngIf="weight.invalid && (weight.touched || weight.dirty)" class="alert alert-danger mt-1">
+        <p *ngIf="weight.errors.required" class="mb-0">Weight is required</p>
+      </div>
+      <div *ngIf="quantity.invalid && (quantity.touched || quantity.dirty)" class="alert alert-danger mt-1">
+        <p *ngIf="quantity.errors.required" class="mb-0">Quantity is required</p>
+      </div>
     </div>
     <div class="form-group">
       <label>Cost</label>
       <input formControlName="cost" class="form-control">
+      <div *ngIf="cost.invalid && (cost.touched || cost.dirty)" class="alert alert-danger mt-1">
+        <p *ngIf="cost.errors.required" class="mb-0">Cost is required</p>
+      </div>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>

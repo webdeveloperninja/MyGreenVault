@@ -57,7 +57,6 @@ export class HeaderComponent implements OnInit {
 
     doSearch(event) {
         if (event) {
-            console.log('event', event);
             // const searchQuery = event.query;
             // const skip = 0;
             // const take = this._route.snapshot.queryParams["take"];

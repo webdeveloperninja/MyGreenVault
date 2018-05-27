@@ -26,8 +26,6 @@ export class PlantsService extends PlantsState {
   public doSearch() {
     this._isPlantsLoading$.next(true);
     if (this._router.navigated) {
-      console.log(this._route.snapshot.queryParams['skip']);
-      console.log(this._route.snapshot.queryParams['take']);
       this._plantsSkip$.next(this._route.snapshot.queryParams['skip'] || 0);
       this._plantsTake$.next(this._route.snapshot.queryParams['take'] || 8);
       this._plantsQuery$.next(this._route.snapshot.queryParams['query'] || null);
@@ -70,7 +68,6 @@ export class PlantsService extends PlantsState {
     }
 
     return this._http.get(url, { headers: headers, withCredentials: true }).map((res: PagedList<any>) => {
-      console.log('in response', res);
       const jobs = res.data;
       const moreJobs = res.more;
       const hasPreviousJobs = this._plantsSkip$.value != 0;
@@ -187,7 +184,6 @@ export class PlantsService extends PlantsState {
 
   private doSearchOnPlantsPage() {
     this._router.events.filter(event => event instanceof NavigationEnd).subscribe((event: NavigationEnd) => {
-      console.log(event.url);
       if (event.url.includes('plants') || (event.url.length === 1 && event.url.includes('/'))) {
         this.doSearch();
       }
