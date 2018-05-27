@@ -1,0 +1,33 @@
+<div class="card-box">
+  <form [formGroup]="saleForm" (submit)="sellProduct()">
+    <div class="d-flex justify-content-between">
+      <p class="card-title">
+        Sale
+      </p>
+      <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" formControlName="unit">
+        <label ngbButtonLabel class="btn-primary">
+          <input ngbButton type="radio" [value]="Unit.qty"> Qty
+        </label>
+        <label ngbButtonLabel class="btn-primary">
+          <input ngbButton type="radio" [value]="Unit.weight"> Weight
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="d-flex align-items-center mb-2">
+        <label class="mr-2">{{ unitLabel }}</label>
+        <select class="form-control col-sm-3 inline-edit unit-select" formControlName="weightUnit">
+          <option [value]="WeightUnit.grams">(Grams)</option>
+          <option [value]="WeightUnit.pounds">(Lbs)</option>
+          <option [value]="WeightUnit.kilograms">(Kgs)</option>
+        </select>
+      </div>
+      <input formControlName="weight" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Cost</label>
+      <input formControlName="cost" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
