@@ -1,4 +1,6 @@
 .card-box {
-  height: 350px;
-  overflow-y: scroll;
+  .scroll-wrapper {
+    height: 350px;
+    overflow-y: scroll;
+  }
 }
