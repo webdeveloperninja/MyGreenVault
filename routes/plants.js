@@ -14,6 +14,7 @@ module.exports = function (passportConfig) {
   router.get('/:plantNumber', passportConfig.isAuthenticated, crud.get);
 
   router.post('/:plantNumber/sales', passportConfig.isAuthenticated, saleController.addSale);
+  router.get('/:plantNumber/sales', passportConfig.isAuthenticated, saleController.getAll);
 
   router.get('/:plantNumber/expenses', passportConfig.isAuthenticated, expenseController.getAll);
   router.post('/:plantNumber/expenses', passportConfig.isAuthenticated, expenseController.add);

@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SaleService } from 'app/plants/services/sale.service';
 import { markAsTouched } from 'app/shared/utilities/forms';
 
+import { Unit } from '../../models';
+
 @Component({
   selector: 'gv-sale',
   templateUrl: './sale.component.html',
@@ -14,6 +16,8 @@ export class SaleComponent implements OnInit {
   defaultIsQuantity = true;
   saleForm: FormGroup;
   Unit = Unit;
+
+  sellingPlantLoading$ = this._saleService.sellingPlantLoading$;
 
   constructor(private readonly _formBuilder: FormBuilder, private readonly _saleService: SaleService) {
     this.createForm();
@@ -80,6 +84,20 @@ export class SaleComponent implements OnInit {
         this.disableQuantityForm();
       }
     });
+
+    this._saleService.saleSucceded$.subscribe(() => {
+      this.resetForm();
+    });
+  }
+
+  private resetForm(): void {
+    this.saleForm.controls.quantity.setValue(null);
+    this.saleForm.controls.weight.setValue(null);
+    this.saleForm.controls.cost.setValue(null);
+
+    this.saleForm.controls.quantity.markAsPending();
+    this.saleForm.controls.weight.markAsPending();
+    this.saleForm.controls.cost.markAsPending();
   }
 
   private enableQuantityForm(): void {
@@ -111,10 +129,4 @@ export class SaleComponent implements OnInit {
   get cost() {
     return this.saleForm.get('cost');
   }
-}
-
-export enum Unit {
-  grams,
-  pounds,
-  kilograms
 }
