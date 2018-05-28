@@ -1,29 +1,23 @@
 const saleController = require('../controllers/plants/sale');
+const expenseController = require('../controllers/plants/expense');
+const crud = require('../controllers/plants/crud');
 
-module.exports = function (passportConfig, plantsApiController) {
+module.exports = function (passportConfig) {
   'use strict';
   const router = require('express').Router();
 
-  router.get('/', passportConfig.isAuthenticated, plantsApiController.getPlants);
-  router.get('/all', passportConfig.isAuthenticated, plantsApiController.getAllPlants);
-  router.post('/', passportConfig.isAuthenticated, plantsApiController.addPlant);
-  router.put('/', passportConfig.isAuthenticated, plantsApiController.updatePlant);
-  router.post('/remove', passportConfig.isAuthenticated, plantsApiController.removePlant);
-  router.get('/:plantNumber', passportConfig.isAuthenticated, plantsApiController.getPlant);
+  router.get('/', passportConfig.isAuthenticated, crud.getPaged);
+  router.get('/all', passportConfig.isAuthenticated, crud.getAll);
+  router.post('/', passportConfig.isAuthenticated, crud.add);
+  router.put('/', passportConfig.isAuthenticated, crud.update);
+  router.post('/remove', passportConfig.isAuthenticated, crud.remove);
+  router.get('/:plantNumber', passportConfig.isAuthenticated, crud.get);
 
   router.post('/:plantNumber/sales', passportConfig.isAuthenticated, saleController.addSale);
 
-  router.get('/:plantNumber/expenses', passportConfig.isAuthenticated, plantsApiController.getPlantExpenses);
-  router.post('/:plantNumber/expenses', passportConfig.isAuthenticated, plantsApiController.addPlantExpenses);
-  router.post('/:plantNumber/expenses/remove', passportConfig.isAuthenticated, plantsApiController.removePlantExpenses);
-
-  router.get('/:plantNumber/todos', passportConfig.isAuthenticated, plantsApiController.getPlantTodos);
-  router.post('/:plantNumber/todos', passportConfig.isAuthenticated, plantsApiController.addPlantTodo);
-  router.post('/:plantNumber/todos/remove', passportConfig.isAuthenticated, plantsApiController.removePlantTodo);
-
-  router.get('/:plantNumber/notes', passportConfig.isAuthenticated, plantsApiController.getPlantNotes);
-  router.post('/:plantNumber/notes', passportConfig.isAuthenticated, plantsApiController.addPlantNote);
-  router.post('/:plantNumber/notes/remove', passportConfig.isAuthenticated, plantsApiController.removePlantNote);
+  router.get('/:plantNumber/expenses', passportConfig.isAuthenticated, expenseController.getAll);
+  router.post('/:plantNumber/expenses', passportConfig.isAuthenticated, expenseController.add);
+  router.post('/:plantNumber/expenses/remove', passportConfig.isAuthenticated, expenseController.remove);
 
   return router;
 };

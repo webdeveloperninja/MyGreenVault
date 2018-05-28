@@ -19,10 +19,12 @@ const sass = require('node-sass-middleware');
 const multer = require('multer');
 var cons = require('consolidate');
 
-dotenv.load({ path: '.env' });
+dotenv.load({
+  path: '.env'
+});
 
 const userController = require('./controllers/user');
-const plantsApiController = require('./controllers/plant');
+const plantsApiController = require('./controllers/plants/crud');
 
 const passportConfig = require('./config/passport');
 const app = express();
@@ -31,9 +33,11 @@ const plantsRoutes = require('./routes/plants')(passportConfig, plantsApiControl
 
 app.use(express.static(path.join(__dirname, 'views/plant-app/dist')));
 app.use(express.static(path.resolve('./views/account')));
-app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
+app.use(express.static(path.join(__dirname, 'public'), {
+  maxAge: 31557600000
+}));
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   res.sendfile('./views/plant-app/dist/index.html')
 })
 
@@ -52,7 +56,9 @@ app.use(expressStatusMonitor());
 app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(expressValidator());
 app.use(session({
   resave: true,
