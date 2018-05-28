@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SaleService } from 'app/plants/services/sale.service';
 import { markAsTouched } from 'app/shared/utilities/forms';
 
 @Component({
@@ -8,11 +9,13 @@ import { markAsTouched } from 'app/shared/utilities/forms';
   styleUrls: ['./sale.component.scss']
 })
 export class SaleComponent implements OnInit {
+  @Input() plantNumber: number;
+
   defaultIsQuantity = true;
   saleForm: FormGroup;
   Unit = Unit;
 
-  constructor(private readonly _formBuilder: FormBuilder) {
+  constructor(private readonly _formBuilder: FormBuilder, private readonly _saleService: SaleService) {
     this.createForm();
   }
 
@@ -54,7 +57,12 @@ export class SaleComponent implements OnInit {
 
   sellProduct() {
     if (this.saleForm.valid) {
-      console.log(this.saleForm.value);
+      const saleRequest = {
+        ...this.saleForm.value,
+        plantNumber: this.plantNumber
+      };
+
+      this._saleService.sellProduct(saleRequest);
     } else {
       markAsTouched(this.saleForm);
     }

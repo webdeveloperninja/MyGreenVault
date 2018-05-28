@@ -1,4 +1,6 @@
-module.exports = function(passportConfig, plantsApiController) {
+const saleController = require('../controllers/plants/sale');
+
+module.exports = function (passportConfig, plantsApiController) {
   'use strict';
   const router = require('express').Router();
 
@@ -8,6 +10,8 @@ module.exports = function(passportConfig, plantsApiController) {
   router.put('/', passportConfig.isAuthenticated, plantsApiController.updatePlant);
   router.post('/remove', passportConfig.isAuthenticated, plantsApiController.removePlant);
   router.get('/:plantNumber', passportConfig.isAuthenticated, plantsApiController.getPlant);
+
+  router.post('/:plantNumber/sales', passportConfig.isAuthenticated, saleController.addSale);
 
   router.get('/:plantNumber/expenses', passportConfig.isAuthenticated, plantsApiController.getPlantExpenses);
   router.post('/:plantNumber/expenses', passportConfig.isAuthenticated, plantsApiController.addPlantExpenses);
