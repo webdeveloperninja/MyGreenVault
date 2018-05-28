@@ -24,10 +24,3 @@ const quantitySale = new mongoose.Schema({
 const QuantitySale = mongoose.model('QuantitySale', quantitySale);
 
 module.exports = QuantitySale;
-
-// TODO us typescript 
-// export enum Unit {
-//   grams,
-//   pounds,
-//   kilograms
-// }
