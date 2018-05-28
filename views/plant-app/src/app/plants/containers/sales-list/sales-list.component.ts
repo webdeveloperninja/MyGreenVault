@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { combineLatest } from 'rxjs/observable/combineLatest';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 import { SaleService } from '../../services/sale.service';
 
@@ -18,6 +18,15 @@ export class SalesListComponent implements OnChanges {
   noSales$ = combineLatest(this.sales$, this.salesLoading$).pipe(
     map(([sales, loading]) => {
       return !!sales && sales.length === 0 && !loading;
+    })
+  );
+
+  totalExpense$ = this.sales$.pipe(
+    filter(sales => !!sales),
+    map(sales => {
+      return sales.reduce((acc, sale) => {
+        return (acc += Number(sale.cost));
+      }, 0);
     })
   );
 

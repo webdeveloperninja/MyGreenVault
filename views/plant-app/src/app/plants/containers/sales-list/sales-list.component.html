@@ -1,33 +1,41 @@
 <div class="card-box">
   <loading [isLoading]="salesLoading$ | async"></loading>
-  <p class="card-title">Sales</p>
+  <div class="row">
+    <div class="col d-flex justify-content-between">
+      <p class="card-title">
+        <span class="fa fa-dollar mr-2"></span>Plant Profit -
+        <ng-container *ngIf="!(salesLoading$ | async)">
+          Total:
+          <label class="label label-success">${{ totalExpense$ | async | number }}</label>
+        </ng-container>
+      </p>
+    </div>
+  </div>
   <div class="row">
     <div class="col-12">
-      <div class="scroll-wrapper">
-        <div class="table-responsive">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>
-                  Qty/Weight
-                </th>
-                <th>
-                  Cost
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let sale of sales$ | async">
-                <td>
-                  <qty-weight-value [sale]="sale"></qty-weight-value>
-                </td>
-                <td>${{ sale.cost | number }}</td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="w-100" *ngIf="noSales$ | async">
-            <td>There are no sales</td>
-          </div>
+      <div class="table-responsive scroll-wrapper mt-3">
+        <table class="table table-striped mt-3">
+          <thead>
+            <tr>
+              <th>
+                Qty/Weight
+              </th>
+              <th>
+                Cost
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sale of sales$ | async">
+              <td>
+                <qty-weight-value [sale]="sale"></qty-weight-value>
+              </td>
+              <td>${{ sale.cost | number }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="w-100" *ngIf="noSales$ | async">
+          <td>There are no sales</td>
         </div>
       </div>
     </div>
