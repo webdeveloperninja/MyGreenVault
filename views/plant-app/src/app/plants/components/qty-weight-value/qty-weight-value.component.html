@@ -1,2 +1,2 @@
 <p *ngIf="sale.isQuantity">Qty: {{ sale.quantity }}</p>
-<p *ngIf="!sale.isQuantity">Weight ({{ sale.unit | unit }}): {{ sale.weight }}</p>
+<p *ngIf="!sale.isQuantity">{{ sale.weight}} {{ sale.unit | unit }}</p>

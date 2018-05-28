@@ -1,33 +1,35 @@
 <div class="card-box">
   <loading [isLoading]="salesLoading$ | async"></loading>
   <p class="card-title">Sales</p>
-  <div class="table-responsive">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>
-            Qty/Weight
-          </th>
-          <th>
-            Cost
-          </th>
-          <th>
-            Date
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let sale of sales$ | async">
-          <td>
-            <qty-weight-value [sale]="sale"></qty-weight-value>
-          </td>
-          <td>{{ sale.cost }}</td>
-          <td>5/5/5</td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="w-100" *ngIf="noSales$ | async">
-      <td>There are no sales</td>
+  <div class="row">
+    <div class="col-12">
+      <div class="scroll-wrapper">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>
+                  Qty/Weight
+                </th>
+                <th>
+                  Cost
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let sale of sales$ | async">
+                <td>
+                  <qty-weight-value [sale]="sale"></qty-weight-value>
+                </td>
+                <td>${{ sale.cost | number }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="w-100" *ngIf="noSales$ | async">
+            <td>There are no sales</td>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

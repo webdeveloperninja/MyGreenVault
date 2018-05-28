@@ -16,32 +16,34 @@
   </div>
   <div class="row">
     <div class="col-12">
-      <table class="table table-striped mt-3">
-        <thead>
-          <th>Name</th>
-          <th>Cost</th>
-        </thead>
-        <tbody>
-          <tr *ngFor="let expense of expenses$ | async">
-            <td>{{ expense.name }}</td>
-            <td>
-              ${{ expense.cost | number }}
-              <button mwlConfirmationPopover [title]="title" placement="left" (confirm)="removeExpense(expense)" (cancel)="cancelClicked = true"
-                [message]="getConfirmationMessage(expense.name)" class="btn btn-outline-danger pull-right">
-                <i aria-hidden="true" class="fa fa-trash"></i>
-              </button>
-            </td>
-          </tr>
-          <tr *ngIf="!hasExpenses">
-            <td>There are no expense</td>
-            <td>
-              <button class="btn btn-outline-primary pull-right" (click)="openAddExpenseModal()">
-                <span class="fa fa-plus"></span> Add Expense
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="scroll-wrapper mt-3">
+        <table class="table table-striped mt-3">
+          <thead>
+            <th>Name</th>
+            <th>Cost</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let expense of expenses$ | async">
+              <td>{{ expense.name }}</td>
+              <td>
+                ${{ expense.cost | number }}
+                <button mwlConfirmationPopover [title]="title" placement="left" (confirm)="removeExpense(expense)" (cancel)="cancelClicked = true"
+                  [message]="getConfirmationMessage(expense.name)" class="btn btn-outline-danger pull-right">
+                  <i aria-hidden="true" class="fa fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="!hasExpenses">
+              <td>There are no expense</td>
+              <td>
+                <button class="btn btn-outline-primary pull-right" (click)="openAddExpenseModal()">
+                  <span class="fa fa-plus"></span> Add Expense
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
