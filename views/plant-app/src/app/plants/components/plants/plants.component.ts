@@ -1,13 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { PlantsService } from '../../services/plants';
-import { Pipe, PipeTransform } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { NotificationService, DEFAULT_NOTIFICATION_TIME } from '../../../shared/services/notification/notification.service';
-import { HeaderService } from 'app/shared/services/header/header.service';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { alert } from 'app/shared/components/alert/alert.component';
-import { Plant } from '../../models';
+import { HeaderService } from 'app/shared/services/header/header.service';
+import { Observable } from 'rxjs';
+
+import { NotificationService } from '../../../shared/services/notification/notification.service';
+import { PlantsService } from '../../services/plants';
 
 const DEFAULT_TAKE: number = 8;
 const REMOVE_JOB_SUCCESS_MESSAGE: string = 'Successfully removed plant';
@@ -56,7 +55,7 @@ export class PlantsComponent implements OnInit {
 
   ngOnInit() {
     this.plants$ = this._plantsService.plants$.do(plants => {
-      if (plants) {
+      if (!!plants && !!plants.length) {
         if (plants.length > 0) {
           this.hasPlants = true;
         } else {
