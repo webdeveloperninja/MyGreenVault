@@ -2,7 +2,7 @@
   <form [formGroup]="saleForm" (submit)="sellProduct()">
     <div class="d-flex justify-content-between">
       <p class="card-title">
-        Sale
+        Sell Plant
       </p>
       <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" formControlName="isQuantity">
         <label ngbButtonLabel class="btn-primary">
@@ -38,6 +38,9 @@
         <p *ngIf="cost.errors.required" class="mb-0">Cost is required</p>
       </div>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">
+      <i class='fa fa-spinner fa-spin' *ngIf="sellingPlantLoading$ | async"></i>
+      Submit
+    </button>
   </form>
 </div>

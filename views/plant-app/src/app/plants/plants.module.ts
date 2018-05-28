@@ -25,6 +25,9 @@ import { NoteService } from './services/note';
 import { PlantsService } from './services/plants';
 import { SaleService } from './services/sale.service';
 import { TodoService } from './services/todo';
+import { SalesListComponent } from './containers/sales-list/sales-list.component';
+import { QtyWeightValueComponent } from './components/qty-weight-value/qty-weight-value.component';
+import { UnitPipe } from './pipes/unit.pipe';
 
 @NgModule({
   imports: [
@@ -49,7 +52,10 @@ import { TodoService } from './services/todo';
     NotesComponent,
     KanbanComponent,
     PlantCardComponent,
-    SaleComponent
+    SaleComponent,
+    SalesListComponent,
+    QtyWeightValueComponent,
+    UnitPipe,
   ],
   providers: [PlantsService, ExpenseService, TodoService, NoteService, SaleService],
   exports: []

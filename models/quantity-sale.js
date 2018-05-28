@@ -9,6 +9,10 @@ const quantitySale = new mongoose.Schema({
     type: Number,
     required: true
   },
+  plantNumber: {
+    type: Number,
+    required: true
+  },
   cost: {
     type: Number,
     required: true
