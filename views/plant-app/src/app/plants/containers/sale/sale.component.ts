@@ -79,9 +79,11 @@ export class SaleComponent implements OnInit {
       if (isQuantity) {
         this.enableQuantityForm();
         this.disableWeightForm();
+        this.saleForm.updateValueAndValidity();
       } else if (isWeight) {
         this.enableWeightForm();
         this.disableQuantityForm();
+        this.saleForm.updateValueAndValidity();
       }
     });
 
