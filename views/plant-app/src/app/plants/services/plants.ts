@@ -145,7 +145,8 @@ export class PlantsService extends PlantsState {
     this._isPlantsLoading$.next(true);
     return this._http.post('/api/v1/plants/remove', plant, { headers: headers }).pipe(
       tap((res: HttpResponse<any>) => {
-        if (this._allPlants$.value.length === 0) {
+        const plants = this._allPlants$.value;
+        if (!!plants && plants.length === 0) {
           this.previousPage();
         } else {
           this.doSearch();
