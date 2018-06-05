@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { filter, map } from 'rxjs/operators';
 
@@ -11,6 +11,7 @@ import { SaleService } from '../../services/sale.service';
 })
 export class SalesListComponent implements OnChanges {
   @Input() plantNumber: number;
+  @Output() openAddSale = new EventEmitter();
 
   sales$ = this._saleService.sales$;
   salesLoading$ = this._saleService.salesLoading$;
@@ -36,5 +37,9 @@ export class SalesListComponent implements OnChanges {
     if (!!changes.plantNumber.currentValue) {
       this._saleService.getAll(this.plantNumber);
     }
+  }
+
+  addSale() {
+    this.openAddSale.emit();
   }
 }

@@ -5,7 +5,7 @@ import { NotificationService } from 'app/shared/services/notification/notificati
 import * as textMask from 'app/shared/utilities/input-masking';
 import { Observable } from 'rxjs/Observable';
 
-import { ExpenseService } from '../../../services/expense';
+import { ExpenseService } from '../../services/expense';
 
 const MODAL_SIZE = 'lg';
 

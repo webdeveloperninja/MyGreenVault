@@ -7,27 +7,27 @@ import { TextMaskModule } from 'angular2-text-mask';
 
 import { SharedModule } from '../shared/shared.module';
 import { AddPlantComponent } from './components/add-plant/add-plant.component';
+import { DetailComponent } from './components/detail/detail.component';
+import { ExpensesComponent } from './components/expenses/expenses.component';
 import { PlantCardComponent } from './components/plant-card/plant-card.component';
-import { DetailComponent } from './components/plant-detail/detail/detail.component';
-import { ExpensesComponent } from './components/plant-detail/expenses/expenses.component';
-import { NotesComponent } from './components/plant-detail/notes/notes.component';
-import { PlantContainerComponent } from './components/plant-detail/plant-container.component';
-import { TodoComponent } from './components/plant-detail/todo/todo.component';
 import { PlantsComponent } from './components/plants/plants.component';
+import { QtyWeightValueComponent } from './components/qty-weight-value/qty-weight-value.component';
 import { UpdatePlantComponent } from './components/update-plant/update-plant.component';
+import { BasicInfoComponent } from './containers/basic-info/basic-info.component';
 import { KanbanComponent } from './containers/kanban/kanban.component';
 import { SaleComponent } from './containers/sale/sale.component';
+import { SalesListComponent } from './containers/sales-list/sales-list.component';
+import { TransactionComponent } from './containers/transaction/transaction.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { JobStatusPipe } from './pipes/job-status.pipe';
+import { UnitPipe } from './pipes/unit.pipe';
 import { routes } from './plants.routing';
 import { ExpenseService } from './services/expense';
 import { NoteService } from './services/note';
 import { PlantsService } from './services/plants';
 import { SaleService } from './services/sale.service';
 import { TodoService } from './services/todo';
-import { SalesListComponent } from './containers/sales-list/sales-list.component';
-import { QtyWeightValueComponent } from './components/qty-weight-value/qty-weight-value.component';
-import { UnitPipe } from './pipes/unit.pipe';
+import { SaleAdapterComponent } from './components/sale-adapter/sale-adapter.component';
 
 @NgModule({
   imports: [
@@ -40,22 +40,22 @@ import { UnitPipe } from './pipes/unit.pipe';
     NgbModule.forRoot()
   ],
   declarations: [
+    BasicInfoComponent,
     PlantsComponent,
     AddPlantComponent,
     UpdatePlantComponent,
-    PlantContainerComponent,
     FilterPipe,
     JobStatusPipe,
     DetailComponent,
     ExpensesComponent,
-    TodoComponent,
-    NotesComponent,
     KanbanComponent,
     PlantCardComponent,
     SaleComponent,
     SalesListComponent,
     QtyWeightValueComponent,
     UnitPipe,
+    TransactionComponent,
+    SaleAdapterComponent
   ],
   providers: [PlantsService, ExpenseService, TodoService, NoteService, SaleService],
   exports: []
