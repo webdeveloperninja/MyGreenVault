@@ -1,4 +1,4 @@
-<form [formGroup]="saleForm" (submit)="sellProduct()">
+<form [formGroup]="saleForm" (ngSubmit)="sellProduct()">
   <div class="d-flex justify-content-end">
     <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" formControlName="isQuantity">
       <label ngbButtonLabel class="btn-primary">
@@ -12,13 +12,18 @@
   <div class="form-group">
     <div class="d-flex align-items-center mb-2">
       <label class="mr-2">{{ unitLabel }}</label>
-      <select class="form-control col-sm-3 inline-edit unit-select" *ngIf="isWeight" formControlName="unit">
+      <select class="form-control col-sm-3 " *ngIf="isWeight" formControlName="unit">
         <option [value]="Unit.grams">(Grams)</option>
         <option [value]="Unit.pounds">(Lbs)</option>
         <option [value]="Unit.kilograms">(Kgs)</option>
       </select>
     </div>
-    <input id="weight" formControlName="weight" *ngIf="isWeight" class="form-control">
+    <div class="input-group mb-3" *ngIf="isWeight">
+      <input id="weight" type="number" formControlName="weight" class="form-control">
+      <div class="input-group-append">
+        <span class="input-group-text">{{ unitCode | unit }}</span>
+      </div>
+    </div>
     <input id="quantity" formControlName="quantity" *ngIf="isQuantity" class="form-control">
     <div *ngIf="weight.invalid && (weight.touched || weight.dirty)" class="alert alert-danger mt-1">
       <p *ngIf="weight.errors.required" class="mb-0">Weight is required</p>
@@ -29,12 +34,21 @@
   </div>
   <div class="form-group">
     <label>Cost</label>
-    <input formControlName="cost" class="form-control">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">$</span>
+      </div>
+      <input formControlName="cost" type="number" class="form-control">
+      <div class="input-group-append">
+        <span class="input-group-text">.00</span>
+      </div>
+    </div>
+
     <div *ngIf="cost.invalid && (cost.touched || cost.dirty)" class="alert alert-danger mt-1">
       <p *ngIf="cost.errors.required" class="mb-0">Cost is required</p>
     </div>
   </div>
-  <button type="submit" class="btn btn-primary" *ngIf="showSellButton">
+  <button type="submit" class="btn btn-primary" [hidden]="!showSellButton">
     <i class='fa fa-spinner fa-spin' *ngIf="sellingPlantLoading$ | async"></i>
     Submit
   </button>
