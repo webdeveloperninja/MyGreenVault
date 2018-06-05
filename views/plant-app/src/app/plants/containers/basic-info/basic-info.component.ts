@@ -1,19 +1,19 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { HeaderService } from 'app/shared/services/header/header.service';
 import { Observable } from 'rxjs/Observable';
 
-import { HeaderService } from '../../../shared/services/header/header.service';
 import { PlantsService } from '../../services/plants';
 
 const MODAL_SIZE = 'lg';
 
 @Component({
-  selector: 'ti-job-detail',
-  templateUrl: './plant-container.component.html',
-  styleUrls: ['./plant-container.component.scss']
+  selector: 'basic-info',
+  templateUrl: './basic-info.component.html',
+  styleUrls: ['./basic-info.component.scss']
 })
-export class PlantContainerComponent implements OnInit {
+export class BasicInfoComponent implements OnInit {
   model: NgbDateStruct;
   date: { year: number; month: number };
   t;

@@ -12,6 +12,7 @@ import { Unit } from '../../models';
 })
 export class SaleComponent implements OnInit {
   @Input() plantNumber: number;
+  @Input() showSellButton: boolean = true;
 
   defaultIsQuantity = true;
   saleForm: FormGroup;

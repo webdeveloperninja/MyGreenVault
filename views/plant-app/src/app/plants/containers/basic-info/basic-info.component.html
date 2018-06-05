@@ -1,15 +1,12 @@
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-12">
     <plant-detail [plantDetail]="plantDetail$ | async"></plant-detail>
   </div>
   <div class="col-md-6">
-    <gv-sale [plantNumber]="plantNumber$ | async"></gv-sale>
+    <transaction [plantNumber]="plantNumber$ | async"></transaction>
   </div>
   <div class="col-md-6">
     <plant-expenses [plantNumber]="plantNumber$ | async"></plant-expenses>
-  </div>
-  <div class="col-md-6">
-    <sales-list [plantNumber]="plantNumber$ | async"></sales-list>
   </div>
 </div>
 
