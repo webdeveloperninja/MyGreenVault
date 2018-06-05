@@ -1,5 +1,6 @@
 const WeightedSale = require('../models/weighted-sale');
 const QuantitySale = require('../models/quantity-sale');
+const ObjectId = require('mongodb').ObjectID;
 
 exports.addWeightedSale = sale => {
   const weightedSale = new WeightedSale(sale);
@@ -43,6 +44,20 @@ exports.getAll = (userId, plantNumber) => {
       } else {
         resolve(results);
       }
+    });
+  });
+}
+
+exports.remove = (sale) => {
+  return new Promise((resolve, reject) => {
+    QuantitySale.find({
+      _id: ObjectId(sale._id),
+      userId: sale.userId
+    }).remove().exec((err, result) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(result);
     });
   });
 }

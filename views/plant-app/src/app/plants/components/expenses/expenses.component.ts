@@ -86,7 +86,7 @@ export class ExpensesComponent implements OnInit {
   }
 
   openAddExpenseModal() {
-    this._addExpenseModalRef = this._modalService.open(this.addExpenseRef, { size: MODAL_SIZE });
+    this._addExpenseModalRef = this._modalService.open(this.addExpenseRef);
   }
 
   closeModal() {
