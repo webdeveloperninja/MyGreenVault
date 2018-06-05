@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { filter, map } from 'rxjs/operators';
 
+import { Sale } from '../../models';
 import { SaleService } from '../../services/sale.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class SalesListComponent implements OnChanges {
 
   sales$ = this._saleService.sales$;
   salesLoading$ = this._saleService.salesLoading$;
+  hasNoSales$ = this.sales$.pipe(map(sales => !!sales && !sales.length));
 
   noSales$ = combineLatest(this.sales$, this.salesLoading$).pipe(
     map(([sales, loading]) => {
@@ -41,5 +43,9 @@ export class SalesListComponent implements OnChanges {
 
   addSale() {
     this.openAddSale.emit();
+  }
+
+  remove(sale: Sale) {
+    this._saleService.remove(sale);
   }
 }

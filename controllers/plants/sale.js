@@ -37,3 +37,24 @@ exports.getAll = (req, res) => {
       throw new Error(err);
     });
 }
+
+exports.remove = (req, res) => {
+  let sale;
+
+  if (req.body._id) {
+    sale = req.body;
+  } else {
+    sale = req.body;
+    sale.userId = req.user._id;
+  }
+
+  saleRepository
+    .remove(sale)
+    .then(data => {
+      res.status(200).send(data);
+    })
+    .catch(err => {
+      res.send(500);
+      throw new Error(err);
+    });
+};

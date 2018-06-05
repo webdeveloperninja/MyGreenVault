@@ -54,4 +54,18 @@ export class SaleService {
         this._sales$.next(weightedSales);
       });
   }
+
+  public remove(sale) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    this._salesLoading$.next(true);
+
+    return this._http
+      .post(`/api/v1/plants/${sale.plantNumber}/sales/remove`, sale, { headers: headers })
+      .pipe(
+        finalize(() => {
+          this.getAll(sale.plantNumber);
+        })
+      )
+      .subscribe();
+  }
 }
