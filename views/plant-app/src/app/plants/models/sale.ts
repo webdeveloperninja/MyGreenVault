@@ -8,4 +8,7 @@ export interface Sale {
   quantity?: any;
   cost: number;
   plantNumber: number;
+  name?: string;
+  email?: string;
+  phone?: number;
 }

@@ -1,3 +1,20 @@
 .unit-select {
   margin-top: -5px;
 }
+
+.form-wrapper {
+  border: 1px solid #a4a4a4;
+  margin-top: 1rem;
+  padding: 1rem;
+  padding-top: 2rem;
+  position: relative;
+  .include-contact {
+    padding-left: .25rem;
+    position: absolute;
+    top: -12px;
+    background-color: white;
+    label {
+      cursor: pointer;
+    }
+  }
+}
