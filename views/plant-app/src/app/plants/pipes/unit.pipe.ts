@@ -7,15 +7,15 @@ import { Unit } from '../models';
 })
 export class UnitPipe implements PipeTransform {
   transform(unit: Unit): any {
-    if (unit === Unit.grams) {
+    if (Number(unit) === Unit.grams) {
       return 'grams';
     }
 
-    if (unit === Unit.kilograms) {
+    if (Number(unit) === Unit.kilograms) {
       return 'kilograms';
     }
 
-    if (unit === Unit.pounds) {
+    if (Number(unit) === Unit.pounds) {
       return 'pounds';
     }
   }

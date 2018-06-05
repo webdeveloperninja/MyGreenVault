@@ -14,7 +14,7 @@ export class SaleComponent implements OnInit {
   @Input() plantNumber: number;
   @Input() showSellButton: boolean = true;
 
-  defaultIsQuantity = true;
+  defaultIsQuantity = false;
   saleForm: FormGroup;
   Unit = Unit;
 
@@ -131,5 +131,9 @@ export class SaleComponent implements OnInit {
 
   get cost() {
     return this.saleForm.get('cost');
+  }
+
+  get unitCode() {
+    return this.saleForm.get('unit').value;
   }
 }
