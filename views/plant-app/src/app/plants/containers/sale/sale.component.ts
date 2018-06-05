@@ -26,11 +26,21 @@ export class SaleComponent implements OnInit {
 
   createForm() {
     this.saleForm = this._formBuilder.group({
-      isQuantity: [this.defaultIsQuantity, Validators.required],
-      quantity: [null, Validators.required],
-      weight: [null, Validators.required],
-      unit: [Unit.grams, Validators.required],
-      cost: [null, Validators.required]
+      data: this._formBuilder.group({
+        isQuantity: [this.defaultIsQuantity, Validators.required],
+        quantity: [null, Validators.required],
+        weight: [null, Validators.required],
+        unit: [Unit.grams, Validators.required],
+        cost: [null, Validators.required],
+        contact: this._formBuilder.group({
+          name: [null],
+          email: [null],
+          phone: [null]
+        })
+      }),
+      metaData: this._formBuilder.group({
+        includeContact: [false]
+      })
     });
 
     if (this.defaultIsQuantity) {
@@ -43,11 +53,15 @@ export class SaleComponent implements OnInit {
   }
 
   get isQuantity(): boolean {
-    return this.saleForm.controls.isQuantity.value;
+    return this.saleDataForm.controls.isQuantity.value;
   }
 
   get isWeight(): boolean {
     return !this.isQuantity;
+  }
+
+  get includeContact(): boolean {
+    return this.saleMetaDataForm.controls.includeContact.value;
   }
 
   get unitLabel(): string {
@@ -62,19 +76,33 @@ export class SaleComponent implements OnInit {
 
   sellProduct() {
     if (this.saleForm.valid) {
-      const saleRequest = {
-        ...this.saleForm.value,
-        plantNumber: this.plantNumber
-      };
+      let saleRequest;
+
+      if (this.includeContact) {
+        saleRequest = {
+          ...this.saleDataForm.value,
+          ...this.contactForm.value,
+          plantNumber: this.plantNumber
+        };
+      } else {
+        saleRequest = {
+          ...this.saleDataForm.value,
+          plantNumber: this.plantNumber
+        };
+
+        delete saleRequest.contact;
+        console.log(saleRequest);
+      }
 
       this._saleService.sellProduct(saleRequest);
     } else {
-      markAsTouched(this.saleForm);
+      markAsTouched(this.saleDataForm);
+      markAsTouched(this.contactForm);
     }
   }
 
   ngOnInit() {
-    this.saleForm.controls.isQuantity.valueChanges.subscribe(isQuantity => {
+    this.saleDataForm.controls.isQuantity.valueChanges.subscribe(isQuantity => {
       const isWeight = !isQuantity;
 
       if (isQuantity) {
@@ -88,52 +116,95 @@ export class SaleComponent implements OnInit {
       }
     });
 
+    this.saleMetaDataForm.controls.includeContact.valueChanges.subscribe(includeContact => {
+      if (includeContact) {
+        this.contactForm.controls.name.setValidators(Validators.required);
+        this.contactForm.controls.email.setValidators(Validators.required);
+        this.contactForm.controls.phone.setValidators(Validators.required);
+        this.contactForm.updateValueAndValidity();
+      } else {
+        this.contactForm.controls.name.clearValidators();
+        this.contactForm.controls.email.clearValidators();
+        this.contactForm.controls.phone.clearValidators();
+        this.contactForm.updateValueAndValidity();
+      }
+    });
     this._saleService.saleSucceded$.subscribe(() => {
       this.resetForm();
+      this.saleForm.updateValueAndValidity();
+      this.contactForm.clearValidators();
+      this.contactForm.updateValueAndValidity();
+      this.saleDataForm.controls.quantity.clearValidators();
+      this.saleDataForm.controls.quantity.setValue(null);
+      this.saleDataForm.updateValueAndValidity();
     });
   }
 
   private resetForm(): void {
-    this.saleForm.controls.quantity.setValue(null);
-    this.saleForm.controls.weight.setValue(null);
-    this.saleForm.controls.cost.setValue(null);
+    this.saleDataForm.controls.quantity.setValue(null);
+    this.saleDataForm.controls.weight.setValue(null);
+    this.saleDataForm.controls.cost.setValue(null);
 
-    this.saleForm.controls.quantity.markAsPending();
-    this.saleForm.controls.weight.markAsPending();
-    this.saleForm.controls.cost.markAsPending();
+    this.saleDataForm.controls.quantity.markAsPending();
+    this.saleDataForm.controls.weight.markAsPending();
+    this.saleDataForm.controls.cost.markAsPending();
   }
 
   private enableQuantityForm(): void {
-    this.saleForm.controls.quantity.enable();
+    this.saleDataForm.controls.quantity.enable();
   }
 
   private enableWeightForm(): void {
-    this.saleForm.controls.weight.enable();
-    this.saleForm.controls.unit.enable();
+    this.saleDataForm.controls.weight.enable();
+    this.saleDataForm.controls.unit.enable();
   }
 
   private disableQuantityForm(): void {
-    this.saleForm.controls.quantity.disable();
+    this.saleDataForm.controls.quantity.disable();
   }
 
   private disableWeightForm(): void {
-    this.saleForm.controls.weight.disable();
-    this.saleForm.controls.unit.disable();
+    this.saleDataForm.controls.weight.disable();
+    this.saleDataForm.controls.unit.disable();
   }
 
   get weight() {
-    return this.saleForm.get('weight');
+    return this.saleDataForm.get('weight');
+  }
+
+  get phone() {
+    return this.contactForm.get('phone');
+  }
+
+  get name() {
+    return this.contactForm.get('name');
+  }
+
+  get email() {
+    return this.contactForm.get('email');
   }
 
   get quantity() {
-    return this.saleForm.get('quantity');
+    return this.saleDataForm.get('quantity');
   }
 
   get cost() {
-    return this.saleForm.get('cost');
+    return this.saleDataForm.get('cost');
   }
 
   get unitCode() {
-    return this.saleForm.get('unit').value;
+    return this.saleDataForm.get('unit').value;
+  }
+
+  get saleDataForm(): FormGroup {
+    return this.saleForm.get('data') as FormGroup;
+  }
+
+  get saleMetaDataForm(): FormGroup {
+    return this.saleForm.get('metaData') as FormGroup;
+  }
+
+  get contactForm(): FormGroup {
+    return this.saleDataForm.get('contact') as FormGroup;
   }
 }

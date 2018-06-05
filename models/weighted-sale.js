@@ -21,6 +21,18 @@ const weightedSale = new mongoose.Schema({
     type: Number,
     required: true
   },
+  name: {
+    type: String,
+    required: false
+  },
+  phone: {
+    type: Number,
+    required: false
+  },
+  email: {
+    type: String,
+    required: false
+  },
   userId: {
     type: String,
     required: true
