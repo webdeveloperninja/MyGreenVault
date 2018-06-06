@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col d-flex justify-content-between">
       <p class="card-title">
-        <span class="fa fa-dollar mr-2"></span>Plant Profit -
+        <span class="fa fa-dollar mr-2"></span>Profit -
         <ng-container *ngIf="!(salesLoading$ | async)">
           Total:
           <label class="label label-success">${{ totalExpense$ | async | number }}</label>
@@ -27,7 +27,10 @@
                 Name
               </th>
               <th>
-                Contact
+                Phone
+              </th>
+              <th>
+                Email
               </th>
               <th>
                 Cost
@@ -43,8 +46,10 @@
                 {{ sale.name | empty }}
               </td>
               <td>
-                <p class="mb-0">Ph:{{ sale.phone | empty }}</p>
-                <p class="mb-0">Email: {{ sale.email | empty }}</p>
+                <p class="mb-0">{{ sale.phone | empty }}</p>
+              </td>
+              <td>
+                <p class="mb-0">{{ sale.email | empty }}</p>
               </td>
               <td>
                 ${{ sale.cost | number }}
@@ -55,6 +60,7 @@
             </tr>
             <tr *ngIf="hasNoSales$ | async">
               <td>There are no sales</td>
+              <td></td>
               <td></td>
               <td></td>
               <td>
