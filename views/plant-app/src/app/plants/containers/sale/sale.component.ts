@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SaleService } from 'app/plants/services/sale.service';
 import { markAsTouched } from 'app/shared/utilities/forms';
+import * as textMask from 'app/shared/utilities/input-masking';
 
 import { Unit } from '../../models';
 
@@ -13,10 +14,12 @@ import { Unit } from '../../models';
 export class SaleComponent implements OnInit {
   @Input() plantNumber: number;
   @Input() showSellButton: boolean = true;
+  @Output() saleSuccess = new EventEmitter();
 
   defaultIsQuantity = false;
   saleForm: FormGroup;
   Unit = Unit;
+  dollarAndCents = textMask.dollarAndCentsMask;
 
   sellingPlantLoading$ = this._saleService.sellingPlantLoading$;
 
@@ -74,19 +77,30 @@ export class SaleComponent implements OnInit {
     }
   }
 
+  getSale() {
+    const sale = this.saleDataForm.value;
+    const costWithoutDollar = this.saleDataForm.controls.cost.value.replace('$', '').replace(/,/g, '');
+
+    return {
+      ...sale,
+      cost: costWithoutDollar
+    };
+  }
+
   sellProduct() {
     if (this.saleForm.valid) {
       let saleRequest;
+      const sale = this.getSale();
 
       if (this.includeContact) {
         saleRequest = {
-          ...this.saleDataForm.value,
+          ...sale,
           ...this.contactForm.value,
           plantNumber: this.plantNumber
         };
       } else {
         saleRequest = {
-          ...this.saleDataForm.value,
+          ...sale,
           plantNumber: this.plantNumber
         };
 
@@ -129,15 +143,8 @@ export class SaleComponent implements OnInit {
         this.contactForm.updateValueAndValidity();
       }
     });
-    this._saleService.saleSucceded$.subscribe(() => {
-      this.resetForm();
-      this.saleForm.updateValueAndValidity();
-      this.contactForm.clearValidators();
-      this.contactForm.updateValueAndValidity();
-      this.saleDataForm.controls.quantity.clearValidators();
-      this.saleDataForm.controls.quantity.setValue(null);
-      this.saleDataForm.updateValueAndValidity();
-    });
+
+    this._saleService.saleSucceded$.subscribe(() => this.saleSuccess.emit());
   }
 
   private resetForm(): void {

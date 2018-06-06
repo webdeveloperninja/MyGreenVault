@@ -24,6 +24,12 @@
                 Qty/Weight
               </th>
               <th>
+                Name
+              </th>
+              <th>
+                Contact
+              </th>
+              <th>
                 Cost
               </th>
             </tr>
@@ -34,6 +40,13 @@
                 <qty-weight-value [sale]="sale"></qty-weight-value>
               </td>
               <td>
+                {{ sale.name | empty }}
+              </td>
+              <td>
+                <p class="mb-0">Ph:{{ sale.phone | empty }}</p>
+                <p class="mb-0">Email: {{ sale.email | empty }}</p>
+              </td>
+              <td>
                 ${{ sale.cost | number }}
                 <button class="pull-right btn btn-outline-danger" (click)="remove(sale)">
                   <i class="fa fa-trash"></i>
@@ -42,6 +55,8 @@
             </tr>
             <tr *ngIf="hasNoSales$ | async">
               <td>There are no sales</td>
+              <td></td>
+              <td></td>
               <td>
                 <button class="btn btn-outline-primary pull-right" (click)="addSale()">
                   <span class="fa fa-plus"></span> Add Sale

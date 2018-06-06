@@ -22,6 +22,9 @@ label {
   }
   .ng-touched {
     &.ng-invalid {
+      &:focus {
+        box-shadow: 0 0 0 0.1rem rgba(244, 67, 54, 0.23);
+      }
       border: 1px solid $danger !important;
       border-left: 3px solid $danger !important;
     }
