@@ -1,4 +1,4 @@
-const saleRepository = require('../../repositories/sale');
+const saleRepository = require('../repositories/sale');
 
 exports.addSale = (req, res) => {
   let sale = {};
@@ -34,7 +34,6 @@ exports.getAll = (req, res) => {
     })
     .catch(err => {
       res.send(500);
-      throw new Error(err);
     });
 }
 
@@ -55,6 +54,5 @@ exports.remove = (req, res) => {
     })
     .catch(err => {
       res.send(500);
-      throw new Error(err);
     });
 };

@@ -98,9 +98,7 @@ export class PlantsComponent implements OnInit {
   }
 
   addPlant() {
-    this._addPlantModalRef = this._modalService.open(this.addPlantRef, {
-      size: MODAL_SIZE
-    });
+    this._addPlantModalRef = this._modalService.open(this.addPlantRef);
   }
 
   stopPropogation(event) {}

@@ -66,6 +66,9 @@
               <span class="danger">{{ formErrors.name}}</span>
             </label>
             <input class="form-control" formControlName="name">
+            <div *ngIf="name.invalid && (name.touched || name.dirty)" class="alert alert-danger mt-1">
+              <p *ngIf="name.errors.required" class="mb-0">Name is required</p>
+            </div>
           </div>
           <div class="form-group">
             <label>
@@ -73,6 +76,9 @@
               <span class="danger">{{ formErrors.cost}}</span>
             </label>
             <input [textMask]="{mask: mask}" class="form-control" formControlName="cost">
+            <div *ngIf="cost.invalid && (cost.touched || cost.dirty)" class="alert alert-danger mt-1">
+              <p *ngIf="cost.errors.required" class="mb-0">Cost is required</p>
+            </div>
           </div>
         </div>
       </div>

@@ -1,55 +1,57 @@
 <form [formGroup]="plantFormGroup" #plantForm="ngForm" class="add-job" (ngSubmit)="addJob(plantFormGroup)">
-    <div class="modal-header">
-        <h4 class="modal-title">Add Plant</h4>
-        <div class="alert alert-success" *ngIf="plantSuccessfullyAdded" role="alert">
-            <strong>Plant Saved</strong>
-        </div>
-        <button type="button" (click)="closeModal()" class="close" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+  <div class="modal-header">
+    <h4 class="modal-title">Add Plant</h4>
+    <div class="alert alert-success" *ngIf="plantSuccessfullyAdded" role="alert">
+      <strong>Plant Saved</strong>
     </div>
-    <div class="modal-body">
-        <div class="row">
-            <div class="form-group col-md-6">
-                <label>
-                    Plant Name
-                    <span class="danger">{{ formErrors.plantName}}</span>
-                </label>
-                <input class="form-control" formControlName="plantName">
-            </div>
-            <div class="form-group col-md-6">
-                <label>
-                    Plant Number
-                    <span class="danger">{{ formErrors.plantNumber}}</span>
-                </label>
-                <input class="form-control" formControlName="plantNumber">
-            </div>
+    <button type="button" (click)="closeModal()" class="close" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>
+            Plant Name
+            <span class="danger">{{ formErrors.plantName}}</span>
+          </label>
+          <input class="form-control" formControlName="plantName">
+        </div>
+        <div class="form-group">
+          <label>
+            Plant Number
+            <span class="danger">{{ formErrors.plantNumber}}</span>
+          </label>
+          <input class="form-control" formControlName="plantNumber">
+        </div>
 
-            <div class="form-group col-md-6">
-                <label>
-                    Plant Description
-                    <span class="danger">{{ formErrors.plantDescription}}</span>
-                </label>
-                <input class="form-control" formControlName="plantDescription">
-            </div>
-            <div class="form-group col-md-6">
-                <label>Plant Status</label>
-                <select class="form-control" placeholder="Status" formControlName="plantStatus">
-                    <option>Select Status</option>
-                    <option value="0">Germinating</option>
-                    <option value="1">Seedling</option>
-                    <option value="2">Vegetative</option>
-                    <option value="3">Flowering</option>
-                    <option value="4">Drying/Curying</option>
-                    <option value="5">Done</option>
-                </select>
-            </div>
+        <div class="form-group">
+          <label>
+            Plant Description
+            <span class="danger">{{ formErrors.plantDescription}}</span>
+          </label>
+          <input class="form-control" formControlName="plantDescription">
         </div>
+        <div class="form-group">
+          <label>Plant Status</label>
+          <select class="form-control" placeholder="Status" formControlName="plantStatus">
+            <option>Select Status</option>
+            <option value="0">Germinating</option>
+            <option value="1">Seedling</option>
+            <option value="2">Vegetative</option>
+            <option value="3">Flowering</option>
+            <option value="4">Drying/Curying</option>
+            <option value="5">Done</option>
+          </select>
+        </div>
+      </div>
     </div>
-    <div class="modal-footer">
-        <button [disabled]="plantFormGroup.invalid" class="btn btn-primary pull-right" type="submit">
-            <i class='fa fa-spinner fa-spin ' *ngIf="isAddPlantLoading"></i>
-            Add Plant
-        </button>
-    </div>
+  </div>
+  <div class="modal-footer">
+    <button [disabled]="plantFormGroup.invalid" class="btn btn-primary pull-right" type="submit">
+      <i class='fa fa-spinner fa-spin ' *ngIf="isAddPlantLoading"></i>
+      Add Plant
+    </button>
+  </div>
 </form>

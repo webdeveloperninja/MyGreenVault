@@ -5,6 +5,7 @@ import { NotificationService } from 'app/shared/services/notification/notificati
 import * as textMask from 'app/shared/utilities/input-masking';
 import { Observable } from 'rxjs/Observable';
 
+import { markAsTouched } from '../../../shared/utilities/forms';
 import { ExpenseService } from '../../services/expense';
 
 const MODAL_SIZE = 'lg';
@@ -94,19 +95,23 @@ export class ExpensesComponent implements OnInit {
   }
 
   addExpense() {
-    let expenseObj = {
-      name: this.expenseFormGroup.controls['name'].value,
-      cost: textMask.removeDollarAndCentsMask(this.expenseFormGroup.controls['cost'].value)
-    };
+    if (this.expenseFormGroup.valid) {
+      let expenseObj = {
+        name: this.expenseFormGroup.controls['name'].value,
+        cost: textMask.removeDollarAndCentsMask(this.expenseFormGroup.controls['cost'].value)
+      };
 
-    this._expenseService
-      .addExpense(expenseObj)
-      .first()
-      .subscribe(expense => {
-        this.expenseFormGroup.reset();
-        this._notificationService.showSuccess('Added expense');
-        this._expenseService.getExpenses();
-      });
+      this._expenseService
+        .addExpense(expenseObj)
+        .first()
+        .subscribe(expense => {
+          this.expenseFormGroup.reset();
+          this._notificationService.showSuccess('Added expense');
+          this._expenseService.getExpenses();
+        });
+    } else {
+      markAsTouched(this.expenseFormGroup);
+    }
   }
 
   removeExpense(expense) {
@@ -117,5 +122,13 @@ export class ExpensesComponent implements OnInit {
 
   getConfirmationMessage(name: string) {
     return `Are you sure you want to remove ${name}?`;
+  }
+
+  get name() {
+    return this.expenseFormGroup.controls.name;
+  }
+
+  get cost() {
+    return this.expenseFormGroup.controls.cost;
   }
 }

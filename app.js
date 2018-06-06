@@ -24,12 +24,11 @@ dotenv.load({
 });
 
 const userController = require('./controllers/user');
-const plantsApiController = require('./controllers/plants/crud');
 
-const passportConfig = require('./config/passport');
+const passportMiddleware = require('./middleware/passport');
 const app = express();
 
-const plantsRoutes = require('./routes/plants')(passportConfig, plantsApiController);
+const plantsRoutes = require('./routes/plant')();
 
 app.use(express.static(path.join(__dirname, 'views/plant-app/dist')));
 app.use(express.static(path.resolve('./views/account')));
@@ -93,13 +92,13 @@ app.get('/signup', userController.getSignup);
 app.post('/signup', userController.postSignup);
 
 
-app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
-app.post('/account/profile', passportConfig.isAuthenticated, userController.postUpdateProfile);
-app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
-app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
-app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
+app.get('/account', passportMiddleware.isAuthenticated, userController.getAccount);
+app.post('/account/profile', passportMiddleware.isAuthenticated, userController.postUpdateProfile);
+app.post('/account/password', passportMiddleware.isAuthenticated, userController.postUpdatePassword);
+app.post('/account/delete', passportMiddleware.isAuthenticated, userController.postDeleteAccount);
+app.get('/account/unlink/:provider', passportMiddleware.isAuthenticated, userController.getOauthUnlink);
 
-app.use('/api/v1/plants', plantsRoutes);
+app.use('/api/v1/plants', passportMiddleware.isAuthenticated, plantsRoutes);
 
 app.use(errorHandler());
 
