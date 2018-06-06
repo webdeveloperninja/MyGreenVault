@@ -1,4 +1,4 @@
-const expenseRepository = require('../../repositories/expense');
+const expenseRepository = require('../repositories/expense');
 
 exports.getAll = (req, res) => {
   const plantNumber = req.params.plantNumber;
@@ -11,7 +11,6 @@ exports.getAll = (req, res) => {
     })
     .catch(error => {
       res.send(500);
-      throw new Error(error);
     });
 };
 
@@ -33,7 +32,6 @@ exports.add = (req, res) => {
     })
     .catch(err => {
       res.send(500);
-      throw new Error(err);
     });
 };
 
@@ -47,6 +45,5 @@ exports.remove = (req, res) => {
     })
     .catch(err => {
       res.send(500);
-      throw new Error(err);
     });
 };

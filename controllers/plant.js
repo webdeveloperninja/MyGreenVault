@@ -1,7 +1,7 @@
 'use strict';
 
 const url = require('url');
-const plantQuery = require('../../repositories/plant');
+const plantQuery = require('../repositories/plant');
 
 exports.getPaged = (req, res) => {
   const userId = req.user._id;
@@ -17,7 +17,6 @@ exports.getPaged = (req, res) => {
     })
     .catch(error => {
       res.send(500);
-      throw new Error(error);
     });
 };
 
@@ -31,7 +30,6 @@ exports.getAll = (req, res) => {
     })
     .catch(error => {
       res.send(500);
-      throw new Error(error);
     });
 };
 
@@ -46,7 +44,6 @@ exports.get = (req, res) => {
     })
     .catch(err => {
       res.send(500);
-      throw new Error(err);
     });
 };
 
@@ -97,7 +94,6 @@ exports.remove = (req, res) => {
     })
     .catch(err => {
       res.send(500);
-      throw new Error(err);
     });
 };
 
