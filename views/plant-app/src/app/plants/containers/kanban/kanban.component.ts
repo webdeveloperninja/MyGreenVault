@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { PlantsService } from '../../services/plants';
-import { NgbModal, NgbActiveModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, Subscription } from 'rxjs';
-import { HeaderService } from 'app/shared/services/header/header.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { alert } from 'app/shared/components/alert/alert.component';
+import { HeaderService } from 'app/shared/services/header/header.service';
+import { Observable } from 'rxjs';
+
+import { PlantsService } from '../../services/plants';
 
 const MODAL_SIZE = 'lg';
 
@@ -46,9 +47,7 @@ export class KanbanComponent implements OnInit {
   alert = alert;
 
   isJobNotFound: boolean = false;
-  isPlantsLoading$: Observable<boolean> = this._plantsService.isPlantsLoading$.do(isLoading => {
-
-  });
+  isPlantsLoading$: Observable<boolean> = this._plantsService.isPlantsLoading$.do(isLoading => {});
 
   plants$ = this._plantsService.allPlants$.do(plants => {
     if (plants) {
@@ -93,6 +92,6 @@ export class KanbanComponent implements OnInit {
   }
 
   addPlant() {
-    this._addPlantModalRef = this._modalService.open(this.addPlantRef, { size: MODAL_SIZE });
+    this._addPlantModalRef = this._modalService.open(this.addPlantRef);
   }
 }

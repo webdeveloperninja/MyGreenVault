@@ -15,11 +15,16 @@
   <div class="d-flex">
     <div>
       <img class="mr-3 placeholder" src="assets/images/placeholder.jpg">
-      <p>{{ plantDetail?.plantName | empty }} - #{{ plantDetail?.plantNumber | empty }}</p>
     </div>
     <div>
       <!-- <img class="grow" src="assets/images/outdoor-grow.png">
       <img class="grow" src="assets/images/indoor-grow.png"> -->
+      <p>
+        <strong>Plant Name:</strong> {{ plantDetail?.plantName | empty }}
+      </p>
+      <p>
+        <strong>Plant Number:</strong> {{ plantDetail?.plantNumber | empty }}
+      </p>
       <p>
         <strong>Plant Status:</strong> {{ plantDetail?.plantStatus | jobStatusNumberToTitle | empty }}
       </p>

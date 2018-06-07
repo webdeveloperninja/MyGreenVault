@@ -84,9 +84,7 @@ export class PlantsComponent implements OnInit {
 
   openUpdatePlantModal(jobId) {
     this._plantsService.setActivePlant(jobId);
-    this._updatePlantModalRef = this._modalService.open(this.updatePlantRef, {
-      size: MODAL_SIZE
-    });
+    this._updatePlantModalRef = this._modalService.open(this.updatePlantRef);
   }
 
   closeUpdatePlantModal() {
