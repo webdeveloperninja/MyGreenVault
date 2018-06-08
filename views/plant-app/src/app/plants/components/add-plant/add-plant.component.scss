@@ -1,9 +1,9 @@
 .add-job {
   .ng-touched {
     &.ng-invalid {
-      border: 1px solid red!important;
+      border: 1px solid red !important;
     }
-  } 
+  }
   .danger {
     color: red;
     position: absolute;
@@ -13,5 +13,8 @@
   }
   .form-group {
     position: relative;
+  }
+  .room-type {
+    width: 50px;
   }
 }

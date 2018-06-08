@@ -94,4 +94,8 @@ export class KanbanComponent implements OnInit {
   addPlant() {
     this._addPlantModalRef = this._modalService.open(this.addPlantRef);
   }
+
+  closeAddPlantModal() {
+    this._addPlantModalRef.close();
+  }
 }

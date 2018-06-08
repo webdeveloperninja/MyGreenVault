@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, ViewContainerRef, Output, EventEmitter, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { markAsTouched } from 'app/shared/utilities/forms';
+
+import { Medium, RoomType } from '../../models';
 import { PlantsService } from '../../services/plants';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'add-plant',
@@ -11,13 +12,13 @@ import { Observable } from 'rxjs';
 })
 export class AddPlantComponent implements OnInit {
   plantFormGroup: FormGroup;
-
-  plantSuccessfullyAdded: boolean = false;
+  roomType = RoomType;
+  medium = Medium;
   isAddPlantLoading: boolean = false;
 
   @ViewChild('plantForm') plantForm: NgForm;
 
-  @Output('closeAddPlantModal') closeAddPlantModal: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() closeAddPlantModal = new EventEmitter();
 
   @Input('skip') skip: number;
   @Input('take') take: number;
@@ -29,75 +30,71 @@ export class AddPlantComponent implements OnInit {
       plantName: ['', Validators.required],
       plantNumber: ['', Validators.required],
       plantDescription: ['', Validators.required],
-      plantStatus: ['', Validators.required]
+      plantStatus: ['', Validators.required],
+      roomType: [this.roomType.indoor, Validators.required],
+      medium: [this.roomType.indoor, Validators.required]
     });
   }
 
-  addJob(plantFormGroup) {
-    this.isAddPlantLoading = true;
-    let jobObj = {
-      plantName: this.plantFormGroup.controls['plantName'].value,
-      plantNumber: this.plantFormGroup.controls['plantNumber'].value,
-      plantDescription: this.plantFormGroup.controls['plantDescription'].value,
-      plantStatus: this.plantFormGroup.controls['plantStatus'].value
-    };
-    this._plantsService.addPlant(jobObj).subscribe(job => {
-      this.isAddPlantLoading = false;
-      this._plantsService.doSearch();
-      this._plantsService.getAllPlants();
-    });
+  addPlant(plantFormGroup) {
+    if (this.plantFormGroup.valid) {
+      this.isAddPlantLoading = true;
+      const plant = {
+        plantName: this.plantFormGroup.controls['plantName'].value,
+        plantNumber: this.plantFormGroup.controls['plantNumber'].value,
+        plantDescription: this.plantFormGroup.controls['plantDescription'].value,
+        plantStatus: this.plantFormGroup.controls['plantStatus'].value,
+        roomType: Number(this.plantFormGroup.controls['roomType'].value),
+        medium: Number(this.plantFormGroup.controls['medium'].value)
+      };
+
+      this._plantsService.addPlant(plant).subscribe(job => {
+        this.isAddPlantLoading = false;
+        this._plantsService.doSearch();
+        this._plantsService.getAllPlants();
+        this.closeModal();
+      });
+    } else {
+      markAsTouched(this.plantFormGroup);
+    }
   }
 
   closeModal() {
     this.closeAddPlantModal.emit(true);
   }
 
-  ngAfterViewChecked() {
-    this.formChanged();
+  get plantName() {
+    return this.plantFormGroup.controls.plantName;
   }
 
-  formChanged() {
-    if (this.plantForm) {
-      this.plantForm.valueChanges.subscribe(data => this.onValueChanged(data));
-    }
+  get plantNumber() {
+    return this.plantFormGroup.controls.plantNumber;
   }
 
-  onValueChanged(data?: any) {
-    if (!this.plantForm) {
-      return;
-    }
-    const form = this.plantForm.form;
-    for (const field in this.formErrors) {
-      this.formErrors[field] = '';
-      const control = form.get(field);
-      if (control && control.dirty && !control.valid) {
-        const messages = this.validationMessages[field];
-        for (const key in control.errors) {
-          this.formErrors[field] += messages[key] + ' ';
-        }
-      }
-    }
+  get plantDescription() {
+    return this.plantFormGroup.controls.plantDescription;
   }
 
-  formErrors = {
-    plantNumber: '',
-    plantName: '',
-    plantDescription: '',
-    plantStatus: ''
-  };
+  get plantStatus() {
+    return this.plantFormGroup.controls.plantStatus;
+  }
 
-  validationMessages = {
-    plantNumber: {
-      required: 'Plant Number is required.'
-    },
-    plantName: {
-      required: 'Plant Name is required.'
-    },
-    plantDescription: {
-      required: 'Plant Description is required.'
-    },
-    plantStatus: {
-      required: 'Plant Status is required.'
-    }
-  };
+  get isIndoor() {
+    return this.plantFormGroup.controls.roomType.value === RoomType.indoor;
+  }
+
+  get isOutdoor() {
+    return this.plantFormGroup.controls.roomType.value === RoomType.outdoor;
+  }
+
+  get isSoil() {
+    return this.plantFormGroup.controls.medium.value === Medium.soil;
+  }
+
+  get isSoilless() {
+    return this.plantFormGroup.controls.medium.value === Medium.soilless;
+  }
+  get isWater() {
+    return this.plantFormGroup.controls.medium.value === Medium.water;
+  }
 }

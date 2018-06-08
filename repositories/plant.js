@@ -25,8 +25,8 @@ exports.getPlant = (userId, plantNumber) => {
   });
 };
 
-exports.addJob = job => {
-  const newJob = new Plant(job);
+exports.addPlant = plant => {
+  const newJob = new Plant(plant);
 
   return new Promise((resolve, reject) => {
     newJob.save((err, results) => {
@@ -41,7 +41,13 @@ exports.addJob = job => {
 exports.addExpense = expense => {
   // todo append to expenses array
   return new Promise((resolve, reject) => {
-    Plant.update({ userId: ObjectId(expense.userId) }, { $push: { expenses: expense } }).exec((err, res) => {
+    Plant.update({
+      userId: ObjectId(expense.userId)
+    }, {
+      $push: {
+        expenses: expense
+      }
+    }).exec((err, res) => {
       if (err) {
         reject(err);
       } else {
@@ -53,7 +59,9 @@ exports.addExpense = expense => {
 
 exports.getExpenses = (userId, plantNumber) => {
   return new Promise((resolve, reject) => {
-    Plant.find({ userId: ObjectId(userId) }, 'expenses').exec((err, results) => {
+    Plant.find({
+      userId: ObjectId(userId)
+    }, 'expenses').exec((err, results) => {
       if (err) {
         reject(err);
       } else {
@@ -71,7 +79,10 @@ exports.getPlants = (userId, skip, take, query = null) => {
     };
 
     if (query) {
-      queryObj.plantName = { $regex: query, $options: 'i' };
+      queryObj.plantName = {
+        $regex: query,
+        $options: 'i'
+      };
     }
 
     Plant.find(queryObj)
@@ -115,8 +126,7 @@ exports.getAllPlants = userId => {
 
 exports.updateJob = updatedJob => {
   return new Promise((resolve, reject) => {
-    Plant.findOneAndUpdate(
-      {
+    Plant.findOneAndUpdate({
         _id: ObjectId(updatedJob._id),
         userId: ObjectId(updatedJob.userId)
       },
@@ -133,9 +143,9 @@ exports.updateJob = updatedJob => {
 exports.removeJob = job => {
   return new Promise((resolve, reject) => {
     Plant.find({
-      _id: ObjectId(job._id),
-      userId: job.userId
-    })
+        _id: ObjectId(job._id),
+        userId: job.userId
+      })
       .remove()
       .exec((err, result) => {
         if (err) {

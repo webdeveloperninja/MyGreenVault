@@ -1,9 +1,6 @@
-<form [formGroup]="plantFormGroup" #plantForm="ngForm" class="add-job" (ngSubmit)="addJob(plantFormGroup)">
+<form [formGroup]="plantFormGroup" #plantForm="ngForm" class="add-job" (ngSubmit)="addPlant(plantFormGroup)">
   <div class="modal-header">
     <h4 class="modal-title">Add Plant</h4>
-    <div class="alert alert-success" *ngIf="plantSuccessfullyAdded" role="alert">
-      <strong>Plant Saved</strong>
-    </div>
     <button type="button" (click)="closeModal()" class="close" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -14,29 +11,65 @@
         <div class="form-group">
           <label>
             Plant Name
-            <span class="danger">{{ formErrors.plantName}}</span>
           </label>
           <input class="form-control" formControlName="plantName">
+          <div *ngIf="plantName.invalid && (plantName.touched || plantName.dirty)" class="alert alert-danger mt-1">
+            <p *ngIf="plantName.errors.required" class="mb-0">Plant name is required</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="d-block">Room Type</label>
+          <div class="btn-group btn-group-toggle mr-3" ngbRadioGroup name="radioBasic" formControlName="roomType">
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" [value]="roomType.indoor">Indoor
+            </label>
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" [value]="roomType.outdoor"> Outdoor
+            </label>
+          </div>
+          <img class="room-type" src="assets/images/indoor-grow.png" [hidden]="!isIndoor">
+          <img class="room-type" src="assets/images/outdoor-grow.png" [hidden]="!isOutdoor">
+        </div>
+        <div class="form-group">
+          <label class="d-block">Medium</label>
+          <div class="btn-group btn-group-toggle mr-3" ngbRadioGroup name="radioBasic" formControlName="medium">
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" [value]="medium.soil">Soil
+            </label>
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" [value]="medium.water"> Water
+            </label>
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" [value]="medium.soilless">Soilless
+            </label>
+          </div>
+          <img class="room-type" [hidden]="!isSoil" src="assets/images/soil.jpg">
+          <img class="room-type" [hidden]="!isSoilless" src="assets/images/soilless.jpg">
+          <img class="room-type" [hidden]="!isWater" src="assets/images/water.jpg">
         </div>
         <div class="form-group">
           <label>
             Plant Number
-            <span class="danger">{{ formErrors.plantNumber}}</span>
           </label>
           <input class="form-control" formControlName="plantNumber">
+          <div *ngIf="plantNumber.invalid && (plantNumber.touched || plantNumber.dirty)" class="alert alert-danger mt-1">
+            <p *ngIf="plantNumber.errors.required" class="mb-0">Plant number is required</p>
+          </div>
         </div>
 
         <div class="form-group">
           <label>
             Plant Description
-            <span class="danger">{{ formErrors.plantDescription}}</span>
           </label>
           <textarea class="form-control" formControlName="plantDescription"></textarea>
+          <div *ngIf="plantDescription.invalid && (plantDescription.touched || plantDescription.dirty)" class="alert alert-danger mt-1">
+            <p *ngIf="plantDescription.errors.required" class="mb-0">Plant description is required</p>
+          </div>
         </div>
         <div class="form-group">
           <label>Plant Status</label>
           <select class="form-control" placeholder="Status" formControlName="plantStatus">
-            <option>Select Status</option>
+            <option value="">--- Select Status ---</option>
             <option value="0">Germinating</option>
             <option value="1">Seedling</option>
             <option value="2">Vegetative</option>
@@ -44,14 +77,18 @@
             <option value="4">Drying/Curying</option>
             <option value="5">Done</option>
           </select>
+          <div *ngIf="plantStatus.invalid && (plantStatus.touched || plantStatus.dirty)" class="alert alert-danger mt-1">
+            <p *ngIf="plantStatus.errors.required" class="mb-0">Plant status is required</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div class="modal-footer">
-    <button [disabled]="plantFormGroup.invalid" class="btn btn-primary pull-right" type="submit">
+    <button class="btn btn-primary pull-right" type="submit">
       <i class='fa fa-spinner fa-spin ' *ngIf="isAddPlantLoading"></i>
       Add Plant
     </button>
+    <button type="button" (click)="closeModal()" class="btn btn-outline-dark">Close</button>
   </div>
 </form>

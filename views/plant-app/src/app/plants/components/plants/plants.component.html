@@ -31,8 +31,7 @@
                   </ti-job-status-chip>
                 </td>
                 <td>
-                  <button class="btn btn-outline-danger pull-right" mwlConfirmationPopover [title]="title" [message]="getConfirmationMessage(plant.plantName)"
-                    placement="left" (confirm)="removePlant(plant)" (cancel)="cancelClicked = true">
+                  <button class="btn btn-outline-danger pull-right" (click)="removePlant(plant)">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                   </button>
                   <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdatePlantModal(plant._id)">
@@ -66,7 +65,7 @@
       </update-plant>
     </ng-template>
     <ng-template #addPlantRef let-c="close" let-d="dismiss">
-      <add-plant (closeAddJobModal)="closeAddJobModal($event)" [skip]="skip" [take]="take">
+      <add-plant (closeAddPlantModal)="closeAddPlantModal()" [skip]="skip" [take]="take">
       </add-plant>
     </ng-template>
   </div>
