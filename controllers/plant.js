@@ -48,16 +48,16 @@ exports.get = (req, res) => {
 };
 
 exports.add = (req, res) => {
-  let job = {};
+  let plant = {};
 
   if (req.body._id) {
-    job = req.body;
+    plant = req.body;
   } else {
-    job = req.body;
-    job.userId = req.user._id;
+    plant = req.body;
+    plant.userId = req.user._id;
   }
 
-  addPlant(req.user._id, job, res)
+  addPlant(req.user._id, plant, res)
     .then(data => {
       res.status(200).send(data);
     })
@@ -145,7 +145,7 @@ function addPlant(userId, plant) {
     Promise.all([getPlant(userId, plant.plantNumber)]).then(data => {
       if (!data[0].plantNumber) {
         plantQuery
-          .addJob(plant)
+          .addPlant(plant)
           .then(jobResponse => {
             resolve(jobResponse._doc);
           })

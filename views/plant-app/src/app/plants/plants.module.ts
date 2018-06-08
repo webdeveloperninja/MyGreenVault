@@ -12,6 +12,7 @@ import { ExpensesComponent } from './components/expenses/expenses.component';
 import { PlantCardComponent } from './components/plant-card/plant-card.component';
 import { PlantsComponent } from './components/plants/plants.component';
 import { QtyWeightValueComponent } from './components/qty-weight-value/qty-weight-value.component';
+import { SaleAdapterComponent } from './components/sale-adapter/sale-adapter.component';
 import { UpdatePlantComponent } from './components/update-plant/update-plant.component';
 import { BasicInfoComponent } from './containers/basic-info/basic-info.component';
 import { KanbanComponent } from './containers/kanban/kanban.component';
@@ -20,6 +21,7 @@ import { SalesListComponent } from './containers/sales-list/sales-list.component
 import { TransactionComponent } from './containers/transaction/transaction.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { JobStatusPipe } from './pipes/job-status.pipe';
+import { RoomTypeImagePipe } from './pipes/room-type-image.pipe';
 import { UnitPipe } from './pipes/unit.pipe';
 import { routes } from './plants.routing';
 import { ExpenseService } from './services/expense';
@@ -27,7 +29,11 @@ import { NoteService } from './services/note';
 import { PlantsService } from './services/plants';
 import { SaleService } from './services/sale.service';
 import { TodoService } from './services/todo';
-import { SaleAdapterComponent } from './components/sale-adapter/sale-adapter.component';
+import { RoomTypeComponent } from './components/room-type/room-type.component';
+import { MediumComponent } from './components/medium/medium.component';
+import { MediumTypeImagePipe } from './pipes/medium-type-image.pipe';
+import { MediumTypeLabelPipe } from './pipes/medium-type-label.pipe';
+import { RoomTypeLabelPipe } from './pipes/room-type-label.pipe';
 
 @NgModule({
   imports: [
@@ -55,7 +61,13 @@ import { SaleAdapterComponent } from './components/sale-adapter/sale-adapter.com
     QtyWeightValueComponent,
     UnitPipe,
     TransactionComponent,
-    SaleAdapterComponent
+    SaleAdapterComponent,
+    RoomTypeImagePipe,
+    RoomTypeComponent,
+    MediumComponent,
+    MediumTypeImagePipe,
+    MediumTypeLabelPipe,
+    RoomTypeLabelPipe
   ],
   providers: [PlantsService, ExpenseService, TodoService, NoteService, SaleService],
   exports: []

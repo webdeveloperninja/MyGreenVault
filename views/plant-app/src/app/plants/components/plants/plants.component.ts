@@ -91,7 +91,7 @@ export class PlantsComponent implements OnInit {
     this._updatePlantModalRef.close();
   }
 
-  closeAddJobModal() {
+  closeAddPlantModal() {
     this._addPlantModalRef.close();
   }
 

@@ -15,6 +15,10 @@
   <div class="d-flex">
     <div>
       <img class="mr-3 placeholder" src="assets/images/placeholder.jpg">
+      <div class="d-flex mt-2">
+        <room-type [type]="plantDetail?.roomType"></room-type>
+        <medium [type]="plantDetail?.medium" class="ml-2"></medium>
+      </div>
     </div>
     <div>
       <!-- <img class="grow" src="assets/images/outdoor-grow.png">
