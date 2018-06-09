@@ -1,9 +1,9 @@
-'use strict';
+import { Request, Response } from 'express';
+import url from 'url';
 
-const url = require('url');
-const plantQuery = require('../repositories/plant');
+import * as plantQuery from '../repositories/plant';
 
-exports.getPaged = (req, res) => {
+export const getPaged = (req: Request, res: Response) => {
   const userId = req.user._id;
   let url_parts = url.parse(req.url, true);
   let skip = Number(url_parts.query.skip);
@@ -12,43 +12,43 @@ exports.getPaged = (req, res) => {
 
   plantQuery
     .getPlants(userId, skip, take, query)
-    .then(jobs => {
+    .then((jobs: any) => {
       res.send(jobs);
     })
-    .catch(error => {
-      res.send(500);
+    .catch((error: any) => {
+      res.status(500).json(error);
     });
 };
 
-exports.getAll = (req, res) => {
+export const getAll = (req: Request, res: Response) => {
   const userId = req.user._id;
 
   plantQuery
     .getAllPlants(userId)
-    .then(plants => {
+    .then((plants: any) => {
       res.send(plants);
     })
-    .catch(error => {
+    .catch((error: any) => {
       res.send(500);
     });
 };
 
-exports.get = (req, res) => {
+export const get = (req: Request, res: Response) => {
   const plantNumber = req.params.plantNumber;
   const userId = req.user._id;
 
   plantQuery
     .getPlant(userId, plantNumber)
-    .then(job => {
+    .then((job: any) => {
       res.json(job);
     })
-    .catch(err => {
+    .catch((err: any) => {
       res.send(500);
     });
 };
 
-exports.add = (req, res) => {
-  let plant = {};
+export const add = (req: Request, res: Response) => {
+  let plant = {} as any;
 
   if (req.body._id) {
     plant = req.body;
@@ -57,7 +57,7 @@ exports.add = (req, res) => {
     plant.userId = req.user._id;
   }
 
-  addPlant(req.user._id, plant, res)
+  addPlant(req.user._id, plant)
     .then(data => {
       res.status(200).send(data);
     })
@@ -66,7 +66,7 @@ exports.add = (req, res) => {
     });
 };
 
-exports.update = (req, res) => {
+export const update = (req: Request, res: Response) => {
   const job = req.body;
 
   if (!job.userId) {
@@ -82,34 +82,34 @@ exports.update = (req, res) => {
     });
 };
 
-exports.remove = (req, res) => {
+export const remove = (req: Request, res: Response) => {
   const job = req.body;
 
   plantQuery
     .removeJob(job)
-    .then(data => {
+    .then((data: any) => {
       res.status(200).send({
         success: true
       });
     })
-    .catch(err => {
+    .catch((err: any) => {
       res.send(500);
     });
 };
 
-function doUpdatePlant(userId, job) {
+function doUpdatePlant(userId: any, job: any) {
   return new Promise((resolve, reject) => {
     Promise.all([
       // Only returning 1 job not all
       plantQuery.findJobsByJobNumber(userId, job.jobNumber)
-    ]).then(data => {
+    ]).then((data: any) => {
       if (data) {
         plantQuery
           .updateJob(job)
-          .then(data => {
+          .then((data: any[]) => {
             resolve(true);
           })
-          .catch(err => {
+          .catch((err: any) => {
             reject({
               code: 417,
               message: `Job with job number ${data[0].jobNumber} exists please use another one`,
@@ -127,29 +127,29 @@ function doUpdatePlant(userId, job) {
   });
 }
 
-function getPlant(userId, plantNumber) {
+function getPlant(userId: any, plantNumber: any) {
   return new Promise((resolve, reject) => {
     plantQuery
       .getPlant(userId, plantNumber)
-      .then(job => {
+      .then((job: any) => {
         resolve(job);
       })
-      .catch(err => {
+      .catch((err: any) => {
         reject(err);
       });
   });
 }
 
-function addPlant(userId, plant) {
+function addPlant(userId: any, plant: any) {
   return new Promise((resolve, reject) => {
-    Promise.all([getPlant(userId, plant.plantNumber)]).then(data => {
+    Promise.all([getPlant(userId, plant.plantNumber)]).then((data: any) => {
       if (!data[0].plantNumber) {
         plantQuery
           .addPlant(plant)
-          .then(jobResponse => {
+          .then((jobResponse: any) => {
             resolve(jobResponse._doc);
           })
-          .catch(err => {
+          .catch((err: any) => {
             reject({
               code: 500,
               message: err

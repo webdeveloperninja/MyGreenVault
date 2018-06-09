@@ -1,26 +1,25 @@
 const Expense = require('../models/Expense');
-const ObjectId = require('mongodb').ObjectID;
+const ObjId = require('mongodb').ObjectID;
 
-exports.add = expense => {
+export const add = (expense: any) => {
   const newExpense = new Expense(expense);
 
   return new Promise((resolve, reject) => {
-    newExpense.save((err, results) => {
+    newExpense.save((err: any, results: any) => {
       if (err) {
         reject(err);
       }
       resolve(results);
     });
   });
-}
+};
 
-exports.get = (userId, plantNumber) => {
-
+export const get = (userId: any, plantNumber: any) => {
   return new Promise((resolve, reject) => {
     Expense.find({
-      userId: ObjectId(userId),
+      userId: ObjId(userId),
       plantNumber: plantNumber
-    }).exec((err, data) => {
+    }).exec((err: any, data: any) => {
       if (err) {
         reject(err);
       } else {
@@ -28,18 +27,20 @@ exports.get = (userId, plantNumber) => {
       }
     });
   });
-}
+};
 
-exports.remove = (expense) => {
+export const remove = (expense: any) => {
   return new Promise((resolve, reject) => {
     Expense.find({
-      _id: ObjectId(expense._id),
+      _id: ObjId(expense._id),
       userId: expense.userId
-    }).remove().exec((err, result) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(result);
-    });
+    })
+      .remove()
+      .exec((err: any, result: any) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(result);
+      });
   });
-}
+};

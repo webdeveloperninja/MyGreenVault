@@ -1,20 +1,22 @@
-const expenseRepository = require('../repositories/expense');
+import { Request, Response } from 'express';
 
-exports.getAll = (req, res) => {
+import * as expenseRepository from '../repositories/expense';
+
+export const getAll = (req: Request, res: Response) => {
   const plantNumber = req.params.plantNumber;
   const userId = req.user._id;
 
   expenseRepository
     .get(userId, plantNumber)
-    .then(expenses => {
+    .then((expenses: any) => {
       res.send(expenses);
     })
-    .catch(error => {
+    .catch((error: any) => {
       res.send(500);
     });
 };
 
-exports.add = (req, res) => {
+export const add = (req: Request, res: Response) => {
   const plantNumber = req.params.plantNumber;
   if (!plantNumber) {
     res.send(403);
@@ -27,23 +29,23 @@ exports.add = (req, res) => {
 
   expenseRepository
     .add(expense)
-    .then(data => {
+    .then((data: any) => {
       res.status(200).send(data);
     })
-    .catch(err => {
+    .catch((err: any) => {
       res.send(500);
     });
 };
 
-exports.remove = (req, res) => {
+export const remove = (req: Request, res: Response) => {
   const expense = req.body;
 
   expenseRepository
     .remove(expense)
-    .then(data => {
+    .then((data: any) => {
       res.status(200).send(data);
     })
-    .catch(err => {
+    .catch((err: any) => {
       res.send(500);
     });
 };

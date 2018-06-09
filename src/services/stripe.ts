@@ -2,18 +2,18 @@ const stripe = require('stripe')(process.env.STRIPE_TEST_SECRET);
 
 const planId = 'green-vault-basic';
 
-module.exports.createSubscription = (token, email) => {
-  return createCustomer(email, token).then(customer => createStripeSubscription(customer.id));
+module.exports.createSubscription = (token: any, email: any) => {
+  return createCustomer(email, token).then((customer: any) => createStripeSubscription(customer.id));
 };
 
-function createCustomer(email, token) {
+function createCustomer(email: any, token: any) {
   return new Promise((resolve, reject) => {
     stripe.customers.create(
       {
         description: email,
         source: token
       },
-      (err, customer) => {
+      (err: any, customer: any) => {
         if (err) {
           reject(err);
         }
@@ -23,7 +23,7 @@ function createCustomer(email, token) {
   });
 }
 
-function createStripeSubscription(customer) {
+function createStripeSubscription(customer: any) {
   return new Promise((resolve, reject) => {
     stripe.subscriptions.create(
       {
@@ -34,7 +34,7 @@ function createStripeSubscription(customer) {
           }
         ]
       },
-      function(err, subscription) {
+      function(err: any, subscription: any) {
         if (err) {
           reject(err);
         }

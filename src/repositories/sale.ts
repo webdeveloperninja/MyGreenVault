@@ -1,12 +1,13 @@
-const WeightedSale = require('../models/weighted-sale');
-const QuantitySale = require('../models/quantity-sale');
+import { QuantitySale } from '../models/quantity-sale';
+import { WeightedSale } from '../models/weighted-sale';
+
 const ObjectId = require('mongodb').ObjectID;
 
-exports.addWeightedSale = sale => {
+export const addWeightedSale = (sale: any) => {
   const weightedSale = new WeightedSale(sale);
 
   return new Promise((resolve, reject) => {
-    weightedSale.save((err, results) => {
+    weightedSale.save((err: any, results: any) => {
       if (err) {
         reject(err);
       }
@@ -15,11 +16,11 @@ exports.addWeightedSale = sale => {
   });
 };
 
-exports.addQuantitySale = sale => {
+export const addQuantitySale = (sale: any) => {
   const quantitySale = new QuantitySale(sale);
 
   return new Promise((resolve, reject) => {
-    quantitySale.save((err, results) => {
+    quantitySale.save((err: any, results: any) => {
       if (err) {
         reject(err);
       }
@@ -28,17 +29,17 @@ exports.addQuantitySale = sale => {
   });
 };
 
-exports.getAll = (userId, plantNumber) => {
+export const getAll = (userId: any, plantNumber: any) => {
   /**
    * QuantiySale and WeightedSale are in the same collection
-   * calling QuantitySale.find returns all documents in sale 
+   * calling QuantitySale.find returns all documents in sale
    * collection
    */
   return new Promise((resolve, reject) => {
     QuantitySale.find({
       userId: userId,
       plantNumber: plantNumber
-    }).exec((err, results) => {
+    }).exec((err: any, results: any) => {
       if (err) {
         reject(err);
       } else {
@@ -46,18 +47,20 @@ exports.getAll = (userId, plantNumber) => {
       }
     });
   });
-}
+};
 
-exports.remove = (sale) => {
+export const remove = (sale: any) => {
   return new Promise((resolve, reject) => {
     QuantitySale.find({
       _id: ObjectId(sale._id),
       userId: sale.userId
-    }).remove().exec((err, result) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(result);
-    });
+    })
+      .remove()
+      .exec((err: any, result: any) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(result);
+      });
   });
-}
+};

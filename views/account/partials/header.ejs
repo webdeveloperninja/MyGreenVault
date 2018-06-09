@@ -1,16 +1,105 @@
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <title>Navbar Template for Bootstrap</title>
+  <title>Navbar Template for Bootstrap</title>
 
-    <!-- Latest compiled and minified CSS -->
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-        crossorigin="anonymous">
-    <link rel="stylesheet" href="./dist/css/style.css">
+  <!-- Latest compiled and minified CSS
+  <!-- Latest compiled and minified CSS -->
+  <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+
+  <style>
+    body.sign-up {
+      background-image: url("http://app.mygreenvault.com/assets/images/plant.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    body.sign-up .login-wrapper {
+      background-color: rgba(57, 57, 57, 0.9);
+      border-radius: 5px;
+      color: white;
+      border: 1px solid white;
+      padding: 10px;
+    }
+
+    body.sign-up .btn-sign-up {
+      margin-top: 10px;
+    }
+
+    body.sign-up .display-none {
+      display: none;
+    }
+
+    body.sign-up .StripeElement {
+      background-color: white;
+      height: 40px;
+      padding: 10px 12px;
+      border-radius: 4px;
+      border: 1px solid transparent;
+      box-shadow: 0 1px 3px 0 #e6ebf1;
+      -webkit-transition: box-shadow 150ms ease;
+      transition: box-shadow 150ms ease;
+    }
+
+    body.sign-up .StripeElement--focus {
+      box-shadow: 0 1px 3px 0 #cfd7df;
+    }
+
+    body.sign-up .StripeElement--invalid {
+      border-color: #fa755a;
+    }
+
+    body.sign-up .StripeElement--webkit-autofill {
+      background-color: #fefde5 !important;
+    }
+
+    body.login {
+      background-image: url("http://app.mygreenvault.com/assets/images/guy-holding-plant.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    body.login .login-wrapper {
+      background-color: rgba(57, 57, 57, 0.9);
+      border-radius: 5px;
+      color: white;
+      border: 1px solid white;
+      padding: 10px;
+    }
+
+    body.login .login-wrapper .page-header {
+      margin-top: -10px;
+    }
+
+    body.login .btn-sign-up {
+      margin-top: 10px;
+    }
+
+    .alert {
+      font-size: 16px;
+      padding-top: 6px;
+      padding-bottom: 6px;
+      border-radius: 0;
+    }
+
+    .alert .fa {
+      margin-right: 8px;
+    }
+
+    .navbar .navbar-brand img {
+      width: 200px;
+    }
+
+    @media screen and (max-width: 500px) {
+      .navbar .navbar-brand img {
+        width: 200px;
+      }
+    }
+  </style>

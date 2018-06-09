@@ -1,11 +1,12 @@
+import { User } from '../models/User';
+
 const bluebird = require('bluebird');
-const crypto = bluebird.promisifyAll(require('crypto'));
+const cryptoHash = bluebird.promisifyAll(require('crypto'));
 const nodemailer = require('nodemailer');
-const passport = require('passport');
-const User = require('../models/User');
+const authPassport = require('passport');
 const stripeService = require('../services/stripe');
 
-exports.getLogin = (req, res) => {
+export const getLogin = (req: any, res: any) => {
   if (req.user) {
     return res.redirect('/');
   }
@@ -14,7 +15,7 @@ exports.getLogin = (req, res) => {
   });
 };
 
-exports.postLogin = (req, res, next) => {
+export const postLogin = (req: any, res: any, next: any) => {
   req.assert('email', 'Email is not valid').isEmail();
   req.assert('password', 'Password cannot be blank').notEmpty();
   req.sanitize('email').normalizeEmail({ remove_dots: false });
@@ -26,7 +27,7 @@ exports.postLogin = (req, res, next) => {
     return res.redirect('/login');
   }
 
-  passport.authenticate('local', (err, user, info) => {
+  authPassport.authenticate('local', (err: any, user: any, info: any) => {
     if (err) {
       return next(err);
     }
@@ -34,7 +35,7 @@ exports.postLogin = (req, res, next) => {
       req.flash('errors', info);
       return res.redirect('/login');
     }
-    req.logIn(user, err => {
+    req.logIn(user, (err: any) => {
       if (err) {
         return next(err);
       }
@@ -43,12 +44,12 @@ exports.postLogin = (req, res, next) => {
   })(req, res, next);
 };
 
-exports.logout = (req, res) => {
+export const logout = (req: any, res: any) => {
   req.logout();
   res.redirect('/login');
 };
 
-exports.getSignup = (req, res) => {
+export const getSignup = (req: any, res: any) => {
   if (req.user) {
     return res.redirect('/');
   }
@@ -57,7 +58,7 @@ exports.getSignup = (req, res) => {
   });
 };
 
-exports.postSignup = (req, res, next) => {
+export const postSignup = (req: any, res: any, next: any) => {
   if (!req.body) {
     return;
   }
@@ -74,28 +75,26 @@ exports.postSignup = (req, res, next) => {
 
   createUser(req, res)
     .then(user => {
-      req.logIn(user, err => {
-        if (err) {
-          reject(err);
-        }
+      req.logIn(user, (err: any) => {
+        // if (err) {
+        //   reject(err);
+        // }
         res.redirect('/');
       });
     })
     .catch(err => res.status(500).send(err));
 };
 
-function validateSignupInputs(req, res) {
+function validateSignupInputs(req: any, res: any) {
   req.assert('email', 'Email is not valid').isEmail();
   req.assert('password', 'Password must be at least 4 characters long').len(4);
-  req
-    .assert('confirmPassword', 'Passwords do not match')
-    .equals(req.body.password);
+  req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
   req.sanitize('email').normalizeEmail({ remove_dots: false });
 
   return req.validationErrors();
 }
 
-function createUser(req, res) {
+function createUser(req: any, res: any) {
   return new Promise((resolve, reject) => {
     const user = new User({
       email: req.body.email,
@@ -105,7 +104,7 @@ function createUser(req, res) {
       name: req.body.name
     });
 
-    User.findOne({ email: req.body.email }, (err, existingUser) => {
+    User.findOne({ email: req.body.email }, (err: any, existingUser: any) => {
       if (err) {
         reject(err);
       }
@@ -115,7 +114,7 @@ function createUser(req, res) {
         });
         return res.redirect('/signup');
       }
-      user.save(err => {
+      user.save((err: any) => {
         if (err) {
           reject(err);
         }
@@ -125,19 +124,19 @@ function createUser(req, res) {
   });
 }
 
-exports.getAccount = (req, res) => {
+export const getAccount = (req: any, res: any) => {
   res.render('account/profile', {
     title: 'Account Management'
   });
 };
 
-exports.getRoadmap = (req, res) => {
+export const getRoadmap = (req: any, res: any) => {
   res.render('roadmap', {
     title: 'Product Roadmap'
   });
 };
 
-exports.postUpdateProfile = (req, res, next) => {
+export const postUpdateProfile = (req: any, res: any, next: any) => {
   req.assert('email', 'Please enter a valid email address.').isEmail();
   req.sanitize('email').normalizeEmail({ remove_dots: false });
 
@@ -148,7 +147,7 @@ exports.postUpdateProfile = (req, res, next) => {
     return res.redirect('/account');
   }
 
-  User.findById(req.user.id, (err, user) => {
+  User.findById(req.user.id, (err: any, user: any) => {
     if (err) {
       return next(err);
     }
@@ -157,12 +156,11 @@ exports.postUpdateProfile = (req, res, next) => {
     user.profile.gender = req.body.gender || '';
     user.profile.location = req.body.location || '';
     user.profile.website = req.body.website || '';
-    user.save(err => {
+    user.save((err: any) => {
       if (err) {
         if (err.code === 11000) {
           req.flash('errors', {
-            msg:
-              'The email address you have entered is already associated with an account.'
+            msg: 'The email address you have entered is already associated with an account.'
           });
           return res.redirect('/account');
         }
@@ -174,11 +172,9 @@ exports.postUpdateProfile = (req, res, next) => {
   });
 };
 
-exports.postUpdatePassword = (req, res, next) => {
+export const postUpdatePassword = (req: any, res: any, next: any) => {
   req.assert('password', 'Password must be at least 4 characters long').len(4);
-  req
-    .assert('confirmPassword', 'Passwords do not match')
-    .equals(req.body.password);
+  req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
 
   const errors = req.validationErrors();
 
@@ -187,12 +183,12 @@ exports.postUpdatePassword = (req, res, next) => {
     return res.redirect('/account');
   }
 
-  User.findById(req.user.id, (err, user) => {
+  User.findById(req.user.id, (err: any, user: any) => {
     if (err) {
       return next(err);
     }
     user.password = req.body.password;
-    user.save(err => {
+    user.save((err: any) => {
       if (err) {
         return next(err);
       }
@@ -202,8 +198,8 @@ exports.postUpdatePassword = (req, res, next) => {
   });
 };
 
-exports.postDeleteAccount = (req, res, next) => {
-  User.remove({ _id: req.user.id }, err => {
+export const postDeleteAccount = (req: any, res: any, next: any) => {
+  User.remove({ _id: req.user.id }, (err: any) => {
     if (err) {
       return next(err);
     }
@@ -213,15 +209,15 @@ exports.postDeleteAccount = (req, res, next) => {
   });
 };
 
-exports.getOauthUnlink = (req, res, next) => {
+export const getOauthUnlink = (req: any, res: any, next: any) => {
   const provider = req.params.provider;
-  User.findById(req.user.id, (err, user) => {
+  User.findById(req.user.id, (err: any, user: any) => {
     if (err) {
       return next(err);
     }
     user[provider] = undefined;
-    user.tokens = user.tokens.filter(token => token.kind !== provider);
-    user.save(err => {
+    user.tokens = user.tokens.filter((token: any) => token.kind !== provider);
+    user.save((err: any) => {
       if (err) {
         return next(err);
       }
@@ -231,14 +227,14 @@ exports.getOauthUnlink = (req, res, next) => {
   });
 };
 
-exports.getReset = (req, res, next) => {
+export const getReset = (req: any, res: any, next: any) => {
   if (req.isAuthenticated()) {
     return res.redirect('/');
   }
   User.findOne({ passwordResetToken: req.params.token })
     .where('passwordResetExpires')
     .gt(Date.now())
-    .exec((err, user) => {
+    .exec((err: any, user: any) => {
       if (err) {
         return next(err);
       }
@@ -254,7 +250,7 @@ exports.getReset = (req, res, next) => {
     });
 };
 
-exports.postReset = (req, res, next) => {
+export const postReset = (req: any, res: any, next: any) => {
   req.assert('password', 'Password must be at least 4 characters long.').len(4);
   req.assert('confirm', 'Passwords must match.').equals(req.body.password);
 
@@ -269,7 +265,7 @@ exports.postReset = (req, res, next) => {
     User.findOne({ passwordResetToken: req.params.token })
       .where('passwordResetExpires')
       .gt(Date.now())
-      .then(user => {
+      .then((user: any) => {
         if (!user) {
           req.flash('errors', {
             msg: 'Password reset token is invalid or has expired.'
@@ -282,7 +278,7 @@ exports.postReset = (req, res, next) => {
         return user.save().then(
           () =>
             new Promise((resolve, reject) => {
-              req.logIn(user, err => {
+              req.logIn(user, (err: any) => {
                 if (err) {
                   return reject(err);
                 }
@@ -292,7 +288,7 @@ exports.postReset = (req, res, next) => {
         );
       });
 
-  const sendResetPasswordEmail = user => {
+  const sendResetPasswordEmail = (user: any) => {
     if (!user) {
       return;
     }
@@ -307,9 +303,7 @@ exports.postReset = (req, res, next) => {
       to: user.email,
       from: 'rsmith5901@gmail.com',
       subject: 'Your Green Vault password has been changed',
-      text: `Hello,\n\nThis is a confirmation that the password for your account ${
-        user.email
-      } has just been changed.\n`
+      text: `Hello,\n\nThis is a confirmation that the password for your account ${user.email} has just been changed.\n`
     };
     return transporter.sendMail(mailOptions).then(() => {
       req.flash('success', { msg: 'Success! Your password has been changed.' });
@@ -321,10 +315,10 @@ exports.postReset = (req, res, next) => {
     .then(() => {
       if (!res.finished) res.redirect('/');
     })
-    .catch(err => next(err));
+    .catch((err: any) => next(err));
 };
 
-exports.getForgot = (req, res) => {
+export const getForgot = (req: any, res: any) => {
   if (req.isAuthenticated()) {
     return res.redirect('/');
   }
@@ -333,7 +327,7 @@ exports.getForgot = (req, res) => {
   });
 };
 
-exports.postForgot = (req, res, next) => {
+export const postForgot = (req: any, res: any, next: any) => {
   req.assert('email', 'Please enter a valid email address.').isEmail();
   req.sanitize('email').normalizeEmail({ remove_dots: false });
 
@@ -344,12 +338,10 @@ exports.postForgot = (req, res, next) => {
     return res.redirect('/forgot');
   }
 
-  const createRandomToken = crypto
-    .randomBytesAsync(16)
-    .then(buf => buf.toString('hex'));
+  const createRandomToken = cryptoHash.randomBytesAsync(16).then((buf: any) => buf.toString('hex'));
 
-  const setRandomToken = token =>
-    User.findOne({ email: req.body.email }).then(user => {
+  const setRandomToken = (token: any) =>
+    User.findOne({ email: req.body.email }).then((user: any) => {
       if (!user) {
         req.flash('errors', {
           msg: 'Account with that email address does not exist.'
@@ -362,7 +354,7 @@ exports.postForgot = (req, res, next) => {
       return user;
     });
 
-  const sendForgotPasswordEmail = user => {
+  const sendForgotPasswordEmail = (user: any) => {
     if (!user) {
       return;
     }
@@ -385,9 +377,7 @@ exports.postForgot = (req, res, next) => {
     };
     return transporter.sendMail(mailOptions).then(() => {
       req.flash('info', {
-        msg: `An e-mail has been sent to ${
-          user.email
-        } with further instructions.`
+        msg: `An e-mail has been sent to ${user.email} with further instructions.`
       });
     });
   };

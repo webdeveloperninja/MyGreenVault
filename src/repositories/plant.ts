@@ -1,17 +1,18 @@
-const User = require('../models/User');
-const Plant = require('../models/Plant');
-const ObjectId = require('mongodb').ObjectID;
+import { Plant } from '../models/Plant';
 
-exports.getPlant = (userId, plantNumber) => {
+const User = require('../models/User');
+const MongoObjectId = require('mongodb').ObjectID;
+
+export const getPlant = (userId: any, plantNumber: any) => {
   return new Promise((resolve, reject) => {
     let queryObj = {
-      userId: ObjectId(userId),
+      userId: MongoObjectId(userId),
       plantNumber: plantNumber
     };
 
     Plant.find(queryObj)
       .limit(1)
-      .exec((err, results) => {
+      .exec((err: any, results: any) => {
         if (err) {
           reject(err);
         }
@@ -25,11 +26,11 @@ exports.getPlant = (userId, plantNumber) => {
   });
 };
 
-exports.addPlant = plant => {
+export const addPlant = (plant: any) => {
   const newJob = new Plant(plant);
 
   return new Promise((resolve, reject) => {
-    newJob.save((err, results) => {
+    newJob.save((err: any, results: any) => {
       if (err) {
         reject(err);
       }
@@ -38,16 +39,19 @@ exports.addPlant = plant => {
   });
 };
 
-exports.addExpense = expense => {
+export const addExpense = (expense: any) => {
   // todo append to expenses array
   return new Promise((resolve, reject) => {
-    Plant.update({
-      userId: ObjectId(expense.userId)
-    }, {
-      $push: {
-        expenses: expense
+    Plant.update(
+      {
+        userId: MongoObjectId(expense.userId)
+      },
+      {
+        $push: {
+          expenses: expense
+        }
       }
-    }).exec((err, res) => {
+    ).exec((err: any, res: any) => {
       if (err) {
         reject(err);
       } else {
@@ -57,26 +61,29 @@ exports.addExpense = expense => {
   });
 };
 
-exports.getExpenses = (userId, plantNumber) => {
+export const getExpenses = (userId: any, plantNumber: any) => {
   return new Promise((resolve, reject) => {
-    Plant.find({
-      userId: ObjectId(userId)
-    }, 'expenses').exec((err, results) => {
+    Plant.find(
+      {
+        userId: MongoObjectId(userId)
+      },
+      'expenses'
+    ).exec((err: any, results: any) => {
       if (err) {
         reject(err);
       } else {
-        const expenses = results.map(results => results.expenses.filter(expense => expense.plantNumber == plantNumber));
+        const expenses = results.map((results: any) => results.expenses.filter((expense: any) => expense.plantNumber == plantNumber));
         resolve(expenses[0]);
       }
     });
   });
 };
 
-exports.getPlants = (userId, skip, take, query = null) => {
+export const getPlants = (userId: any, skip: any, take: any, query: any = null) => {
   return new Promise((resolve, reject) => {
     let queryObj = {
-      userId: ObjectId(userId)
-    };
+      userId: MongoObjectId(userId)
+    } as any;
 
     if (query) {
       queryObj.plantName = {
@@ -88,7 +95,7 @@ exports.getPlants = (userId, skip, take, query = null) => {
     Plant.find(queryObj)
       .limit(take + 1)
       .skip(skip)
-      .exec((err, results) => {
+      .exec((err: any, results: any) => {
         if (err) {
           reject(err);
         }
@@ -108,13 +115,13 @@ exports.getPlants = (userId, skip, take, query = null) => {
   });
 };
 
-exports.getAllPlants = userId => {
+export const getAllPlants = (userId: any) => {
   return new Promise((resolve, reject) => {
     let queryObj = {
-      userId: ObjectId(userId)
+      userId: MongoObjectId(userId)
     };
 
-    Plant.find(queryObj).exec((err, results) => {
+    Plant.find(queryObj).exec((err: any, results: any) => {
       if (err) {
         reject(err);
       }
@@ -124,14 +131,15 @@ exports.getAllPlants = userId => {
   });
 };
 
-exports.updateJob = updatedJob => {
+export const updateJob = (updatedJob: any) => {
   return new Promise((resolve, reject) => {
-    Plant.findOneAndUpdate({
-        _id: ObjectId(updatedJob._id),
-        userId: ObjectId(updatedJob.userId)
+    Plant.findOneAndUpdate(
+      {
+        _id: MongoObjectId(updatedJob._id),
+        userId: MongoObjectId(updatedJob.userId)
       },
       updatedJob
-    ).exec(err => {
+    ).exec((err: any) => {
       if (err) {
         reject(err);
       }
@@ -140,14 +148,14 @@ exports.updateJob = updatedJob => {
   });
 };
 
-exports.removeJob = job => {
+export const removeJob = (job: any) => {
   return new Promise((resolve, reject) => {
     Plant.find({
-        _id: ObjectId(job._id),
-        userId: job.userId
-      })
+      _id: MongoObjectId(job._id),
+      userId: job.userId
+    })
       .remove()
-      .exec((err, result) => {
+      .exec((err: any, result: any) => {
         if (err) {
           reject(err);
         }
@@ -156,28 +164,12 @@ exports.removeJob = job => {
   });
 };
 
-exports.doesJobExist = (userId, jobNumber) => {
-  return new Promise((resolve, reject) => {
-    getJob(userId, jobNumber)
-      .then(job => {
-        if (job.jobNumber) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
-};
-
-exports.findJobsByJobNumber = (userId, jobNumber) => {
+export const findJobsByJobNumber = (userId: any, jobNumber: any) => {
   return new Promise((resolve, reject) => {
     Plant.find({
       userId: userId,
       jobNumber: jobNumber
-    }).exec((err, results) => {
+    }).exec((err: any, results: any) => {
       if (err) {
         reject(err);
       }

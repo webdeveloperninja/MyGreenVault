@@ -1,12 +1,12 @@
-const mongoose = require('mongoose');
+import { model, Schema } from 'mongoose';
 
-const expenseSchema = new mongoose.Schema({
+const expenseSchema = new Schema({
   name: { type: String, require: true },
   cost: { type: String, require: true },
   userId: { type: String, require: true },
   plantNumber: { type: String, require: true }
 });
 
-const Expense = mongoose.model('Expense', expenseSchema);
+const Expense = model('Expense', expenseSchema);
 
 module.exports = Expense;

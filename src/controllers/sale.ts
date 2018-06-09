@@ -1,7 +1,9 @@
-const saleRepository = require('../repositories/sale');
+import { Request, Response } from 'express';
 
-exports.addSale = (req, res) => {
-  let sale = {};
+import * as saleRepository from '../repositories/sale';
+
+export const addSale = (req: Request, res: Response) => {
+  let sale = {} as any;
   let salePromise;
 
   if (req.body._id) {
@@ -13,31 +15,32 @@ exports.addSale = (req, res) => {
 
   if (sale.isQuantity) {
     salePromise = saleRepository.addQuantitySale(sale);
-
   } else {
     salePromise = saleRepository.addWeightedSale(sale);
   }
 
-  salePromise.then(data => {
-    res.status(200).send(data)
-  }).catch(err => res.status(err.code).send(err));
+  salePromise
+    .then((data: any) => {
+      res.status(200).send(data);
+    })
+    .catch((err: any) => res.status(err.code).send(err));
 };
 
-exports.getAll = (req, res) => {
+export const getAll = (req: Request, res: Response) => {
   const plantNumber = req.params.plantNumber;
   const userId = req.user._id;
 
   saleRepository
     .getAll(userId, plantNumber)
-    .then(sales => {
+    .then((sales: any) => {
       res.json(sales);
     })
-    .catch(err => {
+    .catch((err: any) => {
       res.send(500);
     });
-}
+};
 
-exports.remove = (req, res) => {
+export const remove = (req: Request, res: Response) => {
   let sale;
 
   if (req.body._id) {
@@ -49,10 +52,10 @@ exports.remove = (req, res) => {
 
   saleRepository
     .remove(sale)
-    .then(data => {
+    .then((data: any) => {
       res.status(200).send(data);
     })
-    .catch(err => {
+    .catch((err: any) => {
       res.send(500);
     });
 };
