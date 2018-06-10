@@ -9,7 +9,7 @@
   "author": "Sahat Yalkabov",
   "license": "MIT",
   "scripts": {
-    "start": "node app.js",
+    "start": "node ./dist/app.js",
     "start-dev": "npm run watch-ts && npm run dev",
     "build": "npm run build-ts",
     "build-ts": "tsc",
@@ -18,7 +18,7 @@
     "postinstall": "npm rebuild node-sass",
     "dev": "nodemon --inspect=5858 ./dist/app.js",
     "debug": "node --nolazy --debug-brk=5858 myProgram.js",
-    "heroku-log": "heroku logs --app toolinginventory2 --tail"
+    "heroku-log": "heroku logs --app toolinginventory2-pr-189 --tail"
   },
   "dependencies": {
     "@sendgrid/mail": "^6.2.1",
