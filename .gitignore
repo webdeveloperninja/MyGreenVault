@@ -39,3 +39,6 @@ views/account/dist
 
 angular-plant-app/node_modules
 angular-plant-app/dist
+
+static-pages/node_modules
+static-pages/dist
