@@ -10,7 +10,7 @@ export const getLogin = (req: any, res: any) => {
   if (req.user) {
     return res.redirect('/');
   }
-  res.render('account/login', {
+  res.render('login', {
     title: 'Login'
   });
 };
@@ -53,7 +53,7 @@ export const getSignup = (req: any, res: any) => {
   if (req.user) {
     return res.redirect('/');
   }
-  res.render('account/signup', {
+  res.render('signup', {
     title: 'Create Account'
   });
 };
@@ -125,7 +125,7 @@ function createUser(req: any, res: any) {
 }
 
 export const getAccount = (req: any, res: any) => {
-  res.render('account/profile', {
+  res.render('profile', {
     title: 'Account Management'
   });
 };
@@ -244,7 +244,7 @@ export const getReset = (req: any, res: any, next: any) => {
         });
         return res.redirect('/forgot');
       }
-      res.render('account/reset', {
+      res.render('reset', {
         title: 'Password Reset'
       });
     });
@@ -322,7 +322,7 @@ export const getForgot = (req: any, res: any) => {
   if (req.isAuthenticated()) {
     return res.redirect('/');
   }
-  res.render('account/forgot', {
+  res.render('forgot', {
     title: 'Forgot Password'
   });
 };

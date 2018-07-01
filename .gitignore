@@ -36,3 +36,6 @@ views/plant-app/node_modules
 views/plant-app/dist
 
 views/account/dist
+
+angular-plant-app/node_modules
+angular-plant-app/dist
