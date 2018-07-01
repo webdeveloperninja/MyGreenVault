@@ -28,8 +28,7 @@ const app = express();
 
 const plantsRoutes = require('./routes/plant')();
 
-app.use(express.static(path.join(__dirname, '../views/plant-app/dist')));
-// app.use(express.static(path.resolve('../views/account')));
+app.use(express.static(path.resolve('../static-pages')));
 
 app.use(
   express.static(path.join(__dirname, 'public'), {
@@ -37,8 +36,9 @@ app.use(
   })
 );
 
+app.use(express.static(path.join(__dirname, '../../angular-plant-app/dist')));
 app.get('/', function(req: any, res: any) {
-  res.sendfile('../views/plant-app/dist/index.html');
+  res.sendfile('../../angular-plant-app/dist/index.html');
 });
 
 app.use(
@@ -63,7 +63,7 @@ connection.on('error', (err: any) => {
 });
 
 app.set('port', process.env.PORT || 3000);
-app.set('views', path.join(__dirname, '../views'));
+app.set('views', path.join(__dirname, '../../static-pages'));
 app.set('view engine', 'ejs');
 app.use(expressStatusMonitor());
 app.use(compression());
