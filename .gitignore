@@ -32,3 +32,4 @@ bower_components
 Thumbs.db
 
 views/plant-app/node_modules
+views/plant-app/dist
