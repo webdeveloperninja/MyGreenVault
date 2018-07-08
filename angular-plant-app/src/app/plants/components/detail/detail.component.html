@@ -13,15 +13,12 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-4">
-      <img class="mr-3 img-fluid placeholder" [src]="plantProfileImageSource" (error)="setDefaultPlantProfileImage($event)">
+    <div class="col-xl-5">
+      <img class="mr-3 img-profile img-fluid" [src]="plantProfileImageSource" (error)="setDefaultPlantProfileImage($event)">
       <file-upload (fileChange)="saveProfileImage($event)"></file-upload>
-      <div class="d-flex">
-        <room-type [type]="plantDetail?.roomType"></room-type>
-        <medium [type]="plantDetail?.medium" class="ml-2"></medium>
-      </div>
+
     </div>
-    <div class="col-md-8">
+    <div class="col-xl-7">
       <p>
         <strong>Plant Name:</strong> {{ plantDetail?.plantName | empty }}
       </p>
@@ -34,6 +31,10 @@
       <p>
         <strong>Plant Description:</strong> {{ plantDetail?.plantDescription | empty }}
       </p>
+      <div class="d-flex">
+        <room-type [type]="plantDetail?.roomType"></room-type>
+        <medium [type]="plantDetail?.medium" class="ml-2"></medium>
+      </div>
     </div>
   </div>
 </div>
