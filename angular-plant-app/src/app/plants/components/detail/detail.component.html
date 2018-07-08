@@ -12,16 +12,16 @@
       </div>
     </div>
   </div>
-  <div class="d-flex">
-    <div>
-      <img class="mr-3 placeholder" [src]="plantProfileImageSource" (error)="setDefaultPlantProfileImage($event)">
+  <div class="row">
+    <div class="col-md-4">
+      <img class="mr-3 img-fluid placeholder" [src]="plantProfileImageSource" (error)="setDefaultPlantProfileImage($event)">
       <file-upload (fileChange)="saveProfileImage($event)"></file-upload>
-      <div class="d-flex mt-2">
+      <div class="d-flex">
         <room-type [type]="plantDetail?.roomType"></room-type>
         <medium [type]="plantDetail?.medium" class="ml-2"></medium>
       </div>
     </div>
-    <div>
+    <div class="col-md-8">
       <p>
         <strong>Plant Name:</strong> {{ plantDetail?.plantName | empty }}
       </p>
@@ -36,7 +36,6 @@
       </p>
     </div>
   </div>
-
 </div>
 
 <ng-template #updatePlantRef let-c="close" let-d="dismiss">

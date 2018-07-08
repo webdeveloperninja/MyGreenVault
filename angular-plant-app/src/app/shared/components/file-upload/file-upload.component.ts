@@ -1,6 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild, TemplateRef } from '@angular/core';
 
 import { FileData } from '../../models/file-data';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'file-upload',
@@ -8,34 +9,46 @@ import { FileData } from '../../models/file-data';
   styleUrls: ['./file-upload.component.scss']
 })
 export class FileUploadComponent implements OnInit {
-  fileToUpload: File = null;
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  cropModalRefrence: any;
+  initialFileUpload: File = null;
+  @ViewChild('cropModal', { read: TemplateRef })
+  cropModal: TemplateRef<any>;
 
   @Output() fileChange = new EventEmitter<FileData>();
   file: FileData;
   filedata;
 
-  constructor() {}
+  constructor(private readonly _modalService: NgbModal) {}
 
   ngOnInit() {}
-  handleFileInput(files: FileList) {
-    this.fileToUpload = files[0];
+  initialFileUploadEvent(file) {
+    this.initialFileUpload = file;
 
-    let reader = new FileReader();
+    this.cropModalRefrence = this._modalService.open(this.cropModal);
+  }
 
-    reader.readAsDataURL(this.fileToUpload);
+  imageCropped(image: string) {
+    const imageParts = image.split(',');
 
-    reader.onload = () => {
-      const file: FileData = {
-        filename: files[0].name,
-        filetype: files[0].type,
-        value: reader.result
-      };
-      this.filedata = reader.result;
-      this.file = file;
+    this.croppedImage = image;
+  }
+  imageLoaded() {
+    // show cropper
+  }
+  loadImageFailed() {
+    // show message
+  }
 
-      console.log(file);
-
-      this.fileChange.next(file);
+  saveImage() {
+    const file: FileData = {
+      filename: '',
+      filetype: 'image/jpg',
+      value: this.croppedImage
     };
+
+    this.fileChange.next(file);
+    this.cropModalRefrence.close();
   }
 }

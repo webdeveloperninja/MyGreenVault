@@ -1,6 +1,7 @@
 <div class="card m-b-20" ngClass="{{ status }}">
   <h3 class="card-header">
     {{plant.plantName | empty}}
+    <img [src]="plant._id | plantProfile" class="plant-thumbnail img-thumbnail rounded-circle">
   </h3>
   <div class="card-block">
     <h4 class="card-title">Plant Number: {{ plant.plantNumber | empty }}</h4>

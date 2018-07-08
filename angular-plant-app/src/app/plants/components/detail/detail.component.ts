@@ -13,7 +13,7 @@ const MODAL_SIZE = 'lg';
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss']
 })
-export class DetailComponent implements OnInit, OnChanges {
+export class DetailComponent implements OnInit, OnChanges, OnDestroy {
   private _updatePlantModalRef: NgbModalRef;
   plantProfileImageSource: string;
 
@@ -30,6 +30,10 @@ export class DetailComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit() {}
+
+  ngOnDestroy() {
+    this.plantProfileImageSource = '';
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (!!changes && !!changes.plantDetail && !!changes.plantDetail.currentValue) {
@@ -53,7 +57,9 @@ export class DetailComponent implements OnInit, OnChanges {
   }
 
   saveProfileImage(file: File) {
-    this._plantsService.saveProfileImage(this.plantDetail._id, file);
+    this._plantsService.saveProfileImage(this.plantDetail._id, file).subscribe(res => {
+      this.updatePlantProfileImage(this.plantDetail._id);
+    });
   }
 
   setDefaultPlantProfileImage() {

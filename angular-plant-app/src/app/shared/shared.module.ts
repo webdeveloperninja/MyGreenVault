@@ -31,11 +31,13 @@ import { SearchService } from './services/search/search.service';
 import { SideNavService } from './services/side-nav/side-nav.service';
 import { TokenService } from './services/token/token.service';
 import { PlantProfilePipe } from './pipes/plant-profile/plant-profile.pipe';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
+    ImageCropperModule,
     ReactiveFormsModule,
     FormsModule,
     TextMaskModule,

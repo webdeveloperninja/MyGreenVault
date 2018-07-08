@@ -84,7 +84,7 @@ export class PlantsService extends PlantsState {
 
     const imagesRequest = { images: images, plantId };
 
-    return this._http.post(url, imagesRequest, { headers: headers }).subscribe();
+    return this._http.post(url, imagesRequest, { headers: headers });
   }
 
   public getAllPlants() {
