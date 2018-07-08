@@ -14,7 +14,7 @@
   </div>
   <div class="row">
     <div class="col-xl-5">
-      <img class="mr-3 img-profile img-fluid" [src]="plantProfileImageSource" (error)="setDefaultPlantProfileImage($event)">
+      <img *ngIf="showProfileImage" class="mr-3 img-profile img-fluid" [src]="plantProfileImageSource" (error)="setDefaultPlantProfileImage($event)">
       <file-upload (fileChange)="saveProfileImage($event)"></file-upload>
 
     </div>

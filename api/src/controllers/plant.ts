@@ -109,7 +109,7 @@ export const uploadPlantProfilePhoto = (req, res, next) => {
   plantProfileImageService
     .upload(uploadRequest)
     .then(t => {
-      res.send('ok').status(200);
+      res.status(200).end();
     })
     .catch(err => {
       res.send(err).status(500);

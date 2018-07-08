@@ -1,10 +1,12 @@
-import { Component, ElementRef, Input, OnInit, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, OnChanges, SimpleChanges, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PlantsService } from 'app/plants/services/plants';
 import { NotificationService } from 'app/shared/services/notification/notification.service';
 
 import { Plant } from '../../models';
 import { PlantProfilePipe } from 'app/shared/pipes/plant-profile/plant-profile.pipe';
+import { catchError, finalize } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
 
 const MODAL_SIZE = 'lg';
 
@@ -16,7 +18,7 @@ const MODAL_SIZE = 'lg';
 export class DetailComponent implements OnInit, OnChanges, OnDestroy {
   private _updatePlantModalRef: NgbModalRef;
   plantProfileImageSource: string;
-
+  showProfileImage = true;
   @Input() plantDetail: Plant;
   @Input() isPlantDetailLoading = false;
 
@@ -26,7 +28,8 @@ export class DetailComponent implements OnInit, OnChanges, OnDestroy {
     private _plantsService: PlantsService,
     private _modalService: NgbModal,
     private _notificationService: NotificationService,
-    private _plantProfilePipe: PlantProfilePipe
+    private _plantProfilePipe: PlantProfilePipe,
+    private _changeDectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {}
@@ -43,7 +46,12 @@ export class DetailComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   updatePlantProfileImage(plantId: string) {
-    this.plantProfileImageSource = this._plantProfilePipe.transform(plantId);
+    const cacheBuster = new Date().getTime();
+    this.plantProfileImageSource = '';
+    setTimeout(() => this._changeDectorRef.detectChanges());
+    this.plantProfileImageSource = `${this._plantProfilePipe.transform(plantId)}?${cacheBuster}`;
+    console.log(this.plantProfileImageSource);
+    setTimeout(() => this._changeDectorRef.detectChanges());
   }
 
   closeUpdatePlantModal(event) {
@@ -57,9 +65,19 @@ export class DetailComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   saveProfileImage(file: File) {
-    this._plantsService.saveProfileImage(this.plantDetail._id, file).subscribe(res => {
-      this.updatePlantProfileImage(this.plantDetail._id);
-    });
+    console.log('save');
+    this._plantsService
+      .saveProfileImage(this.plantDetail._id, file)
+      .pipe(
+        finalize(() => {
+          console.log('finalizs');
+          this.updatePlantProfileImage(this.plantDetail._id);
+        })
+      )
+      .subscribe(res => {
+        console.log('update');
+        this.updatePlantProfileImage(this.plantDetail._id);
+      });
   }
 
   setDefaultPlantProfileImage() {
