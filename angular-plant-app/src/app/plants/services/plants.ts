@@ -78,6 +78,15 @@ export class PlantsService extends PlantsState {
     });
   }
 
+  public saveProfileImage(plantId, images) {
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let url = `/api/v1/plants/${plantId}/profile-image`;
+
+    const imagesRequest = { images: images, plantId };
+
+    return this._http.post(url, imagesRequest, { headers: headers }).subscribe();
+  }
+
   public getAllPlants() {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
 

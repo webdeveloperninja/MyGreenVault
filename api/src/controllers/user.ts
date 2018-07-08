@@ -36,6 +36,7 @@ export const postLogin = (req: any, res: any, next: any) => {
       return res.redirect('/login');
     }
     req.logIn(user, (err: any) => {
+      res.cookie('userId', user._id.toString());
       if (err) {
         return next(err);
       }
@@ -45,6 +46,7 @@ export const postLogin = (req: any, res: any, next: any) => {
 };
 
 export const logout = (req: any, res: any) => {
+  res.clearCookie('userId');
   req.logout();
   res.redirect('/login');
 };
@@ -74,8 +76,10 @@ export const postSignup = (req: any, res: any, next: any) => {
   const email = req.body.email;
 
   createUser(req, res)
-    .then(user => {
+    .then((user: any) => {
       req.logIn(user, (err: any) => {
+        res.cookie('userId', user._id.toString());
+
         // if (err) {
         //   reject(err);
         // }

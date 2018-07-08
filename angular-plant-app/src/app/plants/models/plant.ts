@@ -1,13 +1,11 @@
 export interface Plant {
-  companyName: string;
-  contactEmail: string;
-  contactName: string;
-  jobId: number;
-  jobName: string;
-  process: number;
-  jobStatus: number;
-  jobNumber: string;
-  userId: string;
-  __v: number;
+  expenses: any[];
+  medium: number;
   _id: string;
+  plantDescription: string;
+  plantName: string;
+  plantNumber: number;
+  plantStatus: number;
+  roomType: number;
+  userId: string;
 }

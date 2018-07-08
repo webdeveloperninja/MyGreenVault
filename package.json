@@ -12,7 +12,6 @@
     "start": "npm run start-api",
     "start-api": "node ./api/dist/app.js",
     "watch-api-ts": "cd ./api && npm run watch-ts",
-    "start-api-dev": "cd ./api && npm run dev",
     "build-api": "cd ./api && npm run build-ts",
     "test-api": "cd ./api && mocha --reporter  spec",
     "postinstall": "cd ./api && npm install && npm run build-ts && cd ../angular-plant-app && npm install && npm run build && cd ../static-pages && npm install && npm run build:css",

@@ -14,15 +14,14 @@
   </div>
   <div class="d-flex">
     <div>
-      <img class="mr-3 placeholder" src="assets/images/placeholder.jpg">
+      <img class="mr-3 placeholder" [src]="plantProfileImageSource" (error)="setDefaultPlantProfileImage($event)">
+      <file-upload (fileChange)="saveProfileImage($event)"></file-upload>
       <div class="d-flex mt-2">
         <room-type [type]="plantDetail?.roomType"></room-type>
         <medium [type]="plantDetail?.medium" class="ml-2"></medium>
       </div>
     </div>
     <div>
-      <!-- <img class="grow" src="assets/images/outdoor-grow.png">
-      <img class="grow" src="assets/images/indoor-grow.png"> -->
       <p>
         <strong>Plant Name:</strong> {{ plantDetail?.plantName | empty }}
       </p>

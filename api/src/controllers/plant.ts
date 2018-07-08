@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import url from 'url';
 
 import * as plantQuery from '../repositories/plant';
+import * as plantProfileImageService from '../services/plant-profile-image';
+import { uploadRequest } from '../services/plant-profile-image';
 
 export const getPaged = (req: Request, res: Response) => {
   const userId = req.user._id;
@@ -94,6 +96,23 @@ export const remove = (req: Request, res: Response) => {
     })
     .catch((err: any) => {
       res.send(500);
+    });
+};
+
+export const uploadPlantProfilePhoto = (req, res, next) => {
+  const uploadRequest: uploadRequest = {
+    file: req.body.images.value,
+    userId: req.user._id.toString(),
+    plantId: req.body.plantId
+  };
+
+  plantProfileImageService
+    .upload(uploadRequest)
+    .then(t => {
+      res.send('ok').status(200);
+    })
+    .catch(err => {
+      res.send(err).status(500);
     });
 };
 
