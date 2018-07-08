@@ -13,10 +13,10 @@
     </button>
   </div>
   <div class="modal-body">
-    <image-cropper format="jpg" [imageChangedEvent]="initialFileUpload" [maintainAspectRatio]="true" [aspectRatio]="4 / 4" [resizeToWidth]="128"
-      (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (loadImageFailed)="loadImageFailed()"></image-cropper>
+    <image-cropper format="jpg" [imageChangedEvent]="initialFileUpload" [maintainAspectRatio]="true" [aspectRatio]="4 / 4" (imageCropped)="imageCropped($event)"
+      (imageLoaded)="imageLoaded()" (loadImageFailed)="loadImageFailed()"></image-cropper>
     <hr>
-    <img [src]="croppedImage" />
+    <img [src]="croppedImage" style="width: 100%" />
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="saveImage()">Save</button>
