@@ -3,7 +3,7 @@ const expense = require('../controllers/expense');
 const plant = require('../controllers/plant');
 const passportMiddleware = require('../middleware/passport');
 
-module.exports = function () {
+module.exports = function() {
   'use strict';
   const router = require('express').Router();
 
@@ -13,6 +13,7 @@ module.exports = function () {
   router.put('/', plant.update);
   router.post('/remove', plant.remove);
   router.get('/:plantNumber', plant.get);
+  router.post('/:plantNumber/profile-image', plant.uploadPlantProfilePhoto);
 
   router.post('/:plantNumber/sales', sale.addSale);
   router.get('/:plantNumber/sales', sale.getAll);

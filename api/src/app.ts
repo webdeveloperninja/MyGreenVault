@@ -68,9 +68,10 @@ app.set('view engine', 'ejs');
 app.use(expressStatusMonitor());
 app.use(compression());
 app.use(logger('dev'));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '3.5mb', extended: true }));
 app.use(
   bodyParser.urlencoded({
+    limit: '3.5mb',
     extended: true
   })
 );
