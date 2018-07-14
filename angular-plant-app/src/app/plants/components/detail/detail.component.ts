@@ -7,6 +7,7 @@ import { Plant } from '../../models';
 import { PlantProfilePipe } from 'app/shared/pipes/plant-profile/plant-profile.pipe';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
+import { NgProgress } from 'ngx-progressbar';
 
 const MODAL_SIZE = 'lg';
 
@@ -32,7 +33,8 @@ export class DetailComponent implements OnInit, OnChanges, OnDestroy {
     private _modalService: NgbModal,
     private _notificationService: NotificationService,
     private _plantProfilePipe: PlantProfilePipe,
-    private _changeDectorRef: ChangeDetectorRef
+    private _changeDectorRef: ChangeDetectorRef,
+    private _ngProgress: NgProgress
   ) {}
 
   ngOnInit() {}
@@ -50,12 +52,14 @@ export class DetailComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getPlantProfileImage() {
+    this._ngProgress.start();
     this.imageLoading = true;
     this._plantsService
       .getPlantProfileImage(this.plantDetail._id)
       .pipe(
         catchError(err => {
           this.noImage = true;
+          this._ngProgress.done();
           return of(err);
         })
       )
@@ -63,6 +67,7 @@ export class DetailComponent implements OnInit, OnChanges, OnDestroy {
         if (!!plantPhoto.error) {
           return;
         }
+        this._ngProgress.done();
         this.imageLoading = false;
         this.noImage = false;
         console.log('yay', plantPhoto);
@@ -96,6 +101,7 @@ export class DetailComponent implements OnInit, OnChanges, OnDestroy {
 
   saveProfileImage(file: File) {
     console.log('save');
+    this._ngProgress.start();
     this._plantsService
       .saveProfileImage(this.plantDetail._id, file)
       .pipe(

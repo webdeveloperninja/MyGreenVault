@@ -4,6 +4,7 @@ import { markAsTouched } from 'app/shared/utilities/forms';
 
 import { Medium, RoomType } from '../../models';
 import { PlantsService } from '../../services/plants';
+import { NgProgress } from 'ngx-progressbar';
 
 @Component({
   selector: 'add-plant',
@@ -23,7 +24,7 @@ export class AddPlantComponent implements OnInit {
   @Input('skip') skip: number;
   @Input('take') take: number;
 
-  constructor(private _formBuilder: FormBuilder, private _plantsService: PlantsService) {}
+  constructor(private _formBuilder: FormBuilder, private _plantsService: PlantsService, private _ngProgress: NgProgress) {}
 
   ngOnInit() {
     this.plantFormGroup = this._formBuilder.group({
@@ -39,6 +40,8 @@ export class AddPlantComponent implements OnInit {
   addPlant(plantFormGroup) {
     if (this.plantFormGroup.valid) {
       this.isAddPlantLoading = true;
+      console.log('loading');
+      this._ngProgress.start();
       const plant = {
         plantName: this.plantFormGroup.controls['plantName'].value,
         plantNumber: this.plantFormGroup.controls['plantNumber'].value,
@@ -50,6 +53,7 @@ export class AddPlantComponent implements OnInit {
 
       this._plantsService.addPlant(plant).subscribe(job => {
         this.isAddPlantLoading = false;
+        this._ngProgress.done();
         this._plantsService.doSearch();
         this._plantsService.getAllPlants();
         this.closeModal();

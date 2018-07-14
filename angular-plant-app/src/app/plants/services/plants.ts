@@ -111,9 +111,6 @@ export class PlantsService extends PlantsState {
     });
   }
 
-  https://mygreenvault.blob.core.windows.net/plant-profile-photo/5aff8346a2f994050857025f:5b1aee6be9e3f024f8ec7472:profile.jpg
-  https://mygreenvault.blob.core.windows.net/plant-profile-photo/5aff8346a2f994050857025f:5b1aee6be9e3f024f8ec7472:profile?1531589055742
-
   public getAllPlants() {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
 

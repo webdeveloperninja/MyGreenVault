@@ -16,6 +16,7 @@ import { PlantsModule } from './plants/plants.module';
 import { SharedModule } from './shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { routes } from './app.routing';
+import { NgProgressModule } from 'ngx-progressbar';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { routes } from './app.routing';
     TextMaskModule,
     RouterModule.forRoot(routes),
     ReactiveFormsModule,
-    FormsModule,
+    FormsModule,NgProgressModule,
     ChartsModule,
     FlashMessagesModule,
     SharedModule,
