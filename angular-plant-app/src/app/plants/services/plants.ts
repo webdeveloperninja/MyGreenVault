@@ -12,13 +12,19 @@ import { tap } from 'rxjs/operators';
 
 import { Plant } from '../models';
 import { PlantsState } from './plants-state';
+import { TokenService } from 'app/shared/services/token/token.service';
 
 export const DEFAULT_SKIP: number = 0;
 export const DEFAULT_TAKE: number = 8;
 
 @Injectable()
 export class PlantsService extends PlantsState {
-  constructor(private _http: HttpClient, private _route: ActivatedRoute, private _router: Router) {
+  constructor(
+    private _http: HttpClient,
+    private _route: ActivatedRoute,
+    private _router: Router,
+    private readonly _tokenService: TokenService
+  ) {
     super();
     this.doSearchOnPlantsPage();
   }
@@ -95,6 +101,18 @@ export class PlantsService extends PlantsState {
 
     return this._http.post(url, request, { headers: headers });
   }
+
+  public getPlantProfileImage(plantId) {
+    const userId = this._tokenService.getToken('userId');
+    const url = `https://mygreenvault.blob.core.windows.net/plant-profile-photo/${userId}:${plantId}:profile`;
+
+    return this._http.get(url, {
+      responseType: 'blob'
+    });
+  }
+
+  https://mygreenvault.blob.core.windows.net/plant-profile-photo/5aff8346a2f994050857025f:5b1aee6be9e3f024f8ec7472:profile.jpg
+  https://mygreenvault.blob.core.windows.net/plant-profile-photo/5aff8346a2f994050857025f:5b1aee6be9e3f024f8ec7472:profile?1531589055742
 
   public getAllPlants() {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');

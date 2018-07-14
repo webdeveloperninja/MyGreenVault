@@ -17,11 +17,13 @@ const MODAL_SIZE = 'lg';
 })
 export class DetailComponent implements OnInit, OnChanges, OnDestroy {
   noImage = false;
+  imageLoading = false;
   private _updatePlantModalRef: NgbModalRef;
   plantProfileImageSource: string;
   showProfileImage = true;
   @Input() plantDetail: Plant;
   @Input() isPlantDetailLoading = false;
+  @ViewChild('heroImage') image: ElementRef;
 
   @ViewChild('updatePlantRef') updatePlantRef: ElementRef;
 
@@ -42,11 +44,34 @@ export class DetailComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges) {
     if (!!changes && !!changes.plantDetail && !!changes.plantDetail.currentValue) {
       const plantId = changes.plantDetail.currentValue._id;
+      this.getPlantProfileImage();
       this.updatePlantProfileImage(plantId);
     }
   }
 
+  getPlantProfileImage() {
+    this.imageLoading = true;
+    this._plantsService
+      .getPlantProfileImage(this.plantDetail._id)
+      .pipe(
+        catchError(err => {
+          this.noImage = true;
+          return of(err);
+        })
+      )
+      .subscribe(plantPhoto => {
+        if (!!plantPhoto.error) {
+          return;
+        }
+        this.imageLoading = false;
+        this.noImage = false;
+        console.log('yay', plantPhoto);
+        this.image.nativeElement.src = URL.createObjectURL(plantPhoto);
+      });
+  }
+
   updatePlantProfileImage(plantId: string) {
+    this.imageLoading = true;
     const cacheBuster = new Date().getTime();
     this.plantProfileImageSource = '';
     setTimeout(() => this._changeDectorRef.detectChanges());
@@ -76,16 +101,12 @@ export class DetailComponent implements OnInit, OnChanges, OnDestroy {
       .pipe(
         finalize(() => {
           console.log('finalizs');
-          this.updatePlantProfileImage(this.plantDetail._id);
+          this.getPlantProfileImage();
         })
       )
       .subscribe(res => {
         console.log('update');
         this.updatePlantProfileImage(this.plantDetail._id);
       });
-  }
-
-  setDefaultPlantProfileImage() {
-    this.plantProfileImageSource = './assets/images/placeholder.jpg';
   }
 }

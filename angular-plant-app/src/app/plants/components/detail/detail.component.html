@@ -14,10 +14,12 @@
   </div>
   <div class="row">
     <div class="col-xl-5">
-      <img *ngIf="showProfileImage && !noImage" class="mr-3 img-profile img-fluid" [src]="plantProfileImageSource" (error)="setDefaultPlantProfileImage($event)">
-      <img class="img-fluid" src="./assets/images/placeholder.jpg" *ngIf="noImage">
-      <file-upload (fileChange)="saveProfileImage($event)"></file-upload>
-      <vault-delete-image (imageDeleted)="imageDeleted()" [plantId]="plantDetail?._id"></vault-delete-image>
+      <div class="position-relative">
+        <img [hidden]="noImage" class="img-fluid" #heroImage>
+        <img *ngIf="noImage" src="./assets/images/placeholder.jpg" class="img-fluid">
+        <file-upload (fileChange)="saveProfileImage($event)"></file-upload>
+        <vault-delete-image (imageDeleted)="imageDeleted()" [plantId]="plantDetail?._id"></vault-delete-image>
+      </div>
     </div>
     <div class="col-xl-7">
       <p>
