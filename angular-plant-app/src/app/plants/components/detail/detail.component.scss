@@ -6,3 +6,14 @@
 .img-profile {
   width: 100%;
 }
+
+.delete-image {
+  display: none;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.profile-wrapper:hover .delete-image {
+  display: block !important;
+}

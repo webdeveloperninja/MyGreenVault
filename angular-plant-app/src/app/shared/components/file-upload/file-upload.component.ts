@@ -26,7 +26,7 @@ export class FileUploadComponent implements OnInit {
   initialFileUploadEvent(file) {
     this.initialFileUpload = file;
 
-    this.cropModalRefrence = this._modalService.open(this.cropModal);
+    this.cropModalRefrence = this._modalService.open(this.cropModal, { size: 'lg' });
   }
 
   imageCropped(image: string) {
