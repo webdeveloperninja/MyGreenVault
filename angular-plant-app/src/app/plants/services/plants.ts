@@ -87,6 +87,15 @@ export class PlantsService extends PlantsState {
     return this._http.post(url, imagesRequest, { headers: headers });
   }
 
+  public deleteProfileImage(plantId: string) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const url = `/api/v1/plants/${plantId}/delete-profile-image`;
+
+    const request = { plantId };
+
+    return this._http.post(url, request, { headers: headers });
+  }
+
   public getAllPlants() {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
 

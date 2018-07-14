@@ -16,7 +16,7 @@
     <div class="col-xl-5">
       <img *ngIf="showProfileImage" class="mr-3 img-profile img-fluid" [src]="plantProfileImageSource" (error)="setDefaultPlantProfileImage($event)">
       <file-upload (fileChange)="saveProfileImage($event)"></file-upload>
-
+      <vault-delete-image [plantId]="plantDetail?._id"></vault-delete-image>
     </div>
     <div class="col-xl-7">
       <p>

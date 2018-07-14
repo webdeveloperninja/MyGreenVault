@@ -116,6 +116,13 @@ export const uploadPlantProfilePhoto = (req, res, next) => {
     });
 };
 
+export const deletePlantProfilePhoto = (req, res, next) => {
+  const plantId = req.body.plantId;
+  const userId = req.user._id.toString();
+
+  plantProfileImageService.deleteImage(plantId, userId);
+};
+
 function doUpdatePlant(userId: any, job: any) {
   return new Promise((resolve, reject) => {
     Promise.all([
