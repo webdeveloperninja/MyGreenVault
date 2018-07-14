@@ -16,6 +16,7 @@ const MODAL_SIZE = 'lg';
   styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit, OnChanges, OnDestroy {
+  noImage = false;
   private _updatePlantModalRef: NgbModalRef;
   plantProfileImageSource: string;
   showProfileImage = true;
@@ -62,6 +63,10 @@ export class DetailComponent implements OnInit, OnChanges, OnDestroy {
   openUpdatePlantModal(jobId) {
     this._plantsService.setActivePlant(jobId);
     this._updatePlantModalRef = this._modalService.open(this.updatePlantRef, { size: MODAL_SIZE });
+  }
+
+  imageDeleted() {
+    this.noImage = true;
   }
 
   saveProfileImage(file: File) {

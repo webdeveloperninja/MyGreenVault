@@ -120,7 +120,9 @@ export const deletePlantProfilePhoto = (req, res, next) => {
   const plantId = req.body.plantId;
   const userId = req.user._id.toString();
 
-  plantProfileImageService.deleteImage(plantId, userId);
+  plantProfileImageService.deleteImage(plantId, userId).then(t => {
+    res.status(200).end();
+  });
 };
 
 function doUpdatePlant(userId: any, job: any) {
