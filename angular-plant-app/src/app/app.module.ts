@@ -16,11 +16,10 @@ import { PlantsModule } from './plants/plants.module';
 import { SharedModule } from './shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { routes } from './app.routing';
+import { NgProgressModule, NgProgressInterceptor } from 'ngx-progressbar';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -29,12 +28,13 @@ import { routes } from './app.routing';
     RouterModule.forRoot(routes),
     ReactiveFormsModule,
     FormsModule,
+    NgProgressModule,
     ChartsModule,
     FlashMessagesModule,
     SharedModule,
     PlantsModule,
     NgbModule.forRoot(),
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot()
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -42,13 +42,10 @@ import { routes } from './app.routing';
       provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptor,
       multi: true
-    }
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true }
   ],
-  exports: [
-    FlashMessagesModule,
-    RouterModule,
-    TextMaskModule
-  ],
+  exports: [FlashMessagesModule, RouterModule, TextMaskModule],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

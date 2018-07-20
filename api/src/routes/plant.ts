@@ -14,6 +14,7 @@ module.exports = function() {
   router.post('/remove', plant.remove);
   router.get('/:plantNumber', plant.get);
   router.post('/:plantNumber/profile-image', plant.uploadPlantProfilePhoto);
+  router.post('/:plantNumber/delete-profile-image', plant.deletePlantProfilePhoto);
 
   router.post('/:plantNumber/sales', sale.addSale);
   router.get('/:plantNumber/sales', sale.getAll);

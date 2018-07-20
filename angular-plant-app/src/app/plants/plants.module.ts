@@ -34,6 +34,7 @@ import { MediumComponent } from './components/medium/medium.component';
 import { MediumTypeImagePipe } from './pipes/medium-type-image.pipe';
 import { MediumTypeLabelPipe } from './pipes/medium-type-label.pipe';
 import { RoomTypeLabelPipe } from './pipes/room-type-label.pipe';
+import { DeleteImageComponent } from './components/delete-image/delete-image.component';
 
 @NgModule({
   imports: [
@@ -67,7 +68,8 @@ import { RoomTypeLabelPipe } from './pipes/room-type-label.pipe';
     MediumComponent,
     MediumTypeImagePipe,
     MediumTypeLabelPipe,
-    RoomTypeLabelPipe
+    RoomTypeLabelPipe,
+    DeleteImageComponent
   ],
   providers: [PlantsService, ExpenseService, TodoService, NoteService, SaleService],
   exports: []

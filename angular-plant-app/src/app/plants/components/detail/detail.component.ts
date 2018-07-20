@@ -7,6 +7,7 @@ import { Plant } from '../../models';
 import { PlantProfilePipe } from 'app/shared/pipes/plant-profile/plant-profile.pipe';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
+import { NgProgress } from 'ngx-progressbar';
 
 const MODAL_SIZE = 'lg';
 
@@ -16,11 +17,14 @@ const MODAL_SIZE = 'lg';
   styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit, OnChanges, OnDestroy {
+  noImage = false;
+  imageLoading = false;
   private _updatePlantModalRef: NgbModalRef;
   plantProfileImageSource: string;
   showProfileImage = true;
   @Input() plantDetail: Plant;
   @Input() isPlantDetailLoading = false;
+  @ViewChild('heroImage') image: ElementRef;
 
   @ViewChild('updatePlantRef') updatePlantRef: ElementRef;
 
@@ -29,7 +33,8 @@ export class DetailComponent implements OnInit, OnChanges, OnDestroy {
     private _modalService: NgbModal,
     private _notificationService: NotificationService,
     private _plantProfilePipe: PlantProfilePipe,
-    private _changeDectorRef: ChangeDetectorRef
+    private _changeDectorRef: ChangeDetectorRef,
+    private _ngProgress: NgProgress
   ) {}
 
   ngOnInit() {}
@@ -41,11 +46,37 @@ export class DetailComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges) {
     if (!!changes && !!changes.plantDetail && !!changes.plantDetail.currentValue) {
       const plantId = changes.plantDetail.currentValue._id;
+      this.getPlantProfileImage();
       this.updatePlantProfileImage(plantId);
     }
   }
 
+  getPlantProfileImage() {
+    this._ngProgress.start();
+    this.imageLoading = true;
+    this._plantsService
+      .getPlantProfileImage(this.plantDetail._id)
+      .pipe(
+        catchError(err => {
+          this.noImage = true;
+          this._ngProgress.done();
+          return of(err);
+        })
+      )
+      .subscribe(plantPhoto => {
+        if (!!plantPhoto.error) {
+          return;
+        }
+        this._ngProgress.done();
+        this.imageLoading = false;
+        this.noImage = false;
+        console.log('yay', plantPhoto);
+        this.image.nativeElement.src = URL.createObjectURL(plantPhoto);
+      });
+  }
+
   updatePlantProfileImage(plantId: string) {
+    this.imageLoading = true;
     const cacheBuster = new Date().getTime();
     this.plantProfileImageSource = '';
     setTimeout(() => this._changeDectorRef.detectChanges());
@@ -64,23 +95,24 @@ export class DetailComponent implements OnInit, OnChanges, OnDestroy {
     this._updatePlantModalRef = this._modalService.open(this.updatePlantRef, { size: MODAL_SIZE });
   }
 
+  imageDeleted() {
+    this.noImage = true;
+  }
+
   saveProfileImage(file: File) {
     console.log('save');
+    this._ngProgress.start();
     this._plantsService
       .saveProfileImage(this.plantDetail._id, file)
       .pipe(
         finalize(() => {
           console.log('finalizs');
-          this.updatePlantProfileImage(this.plantDetail._id);
+          this.getPlantProfileImage();
         })
       )
       .subscribe(res => {
         console.log('update');
         this.updatePlantProfileImage(this.plantDetail._id);
       });
-  }
-
-  setDefaultPlantProfileImage() {
-    this.plantProfileImageSource = './assets/images/placeholder.jpg';
   }
 }

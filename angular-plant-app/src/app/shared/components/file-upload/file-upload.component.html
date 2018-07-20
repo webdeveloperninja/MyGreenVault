@@ -1,9 +1,10 @@
-<div class="upload-btn-wrapper mt-2">
-  <button class="btn">
-    <i class="fa fa-cloud-upload" aria-hidden="true"></i> Upload profile image</button>
-  <input type="file" id="file" (change)="initialFileUploadEvent($event)">
+<div class="file-upload">
+  <div class="file-select">
+    <div class="file-select-button" id="fileName">Choose File</div>
+    <div class="file-select-name" id="noFile">No file chosen...</div>
+    <input type="file" name="chooseFile" id="chooseFile" (change)="initialFileUploadEvent($event)">
+  </div>
 </div>
-
 
 <ng-template #cropModal let-c="close" let-d="dismiss">
   <div class="modal-header">
@@ -13,12 +14,19 @@
     </button>
   </div>
   <div class="modal-body">
-    <image-cropper format="jpg" [imageChangedEvent]="initialFileUpload" [maintainAspectRatio]="true" [aspectRatio]="4 / 4" (imageCropped)="imageCropped($event)"
-      (imageLoaded)="imageLoaded()" (loadImageFailed)="loadImageFailed()"></image-cropper>
+    <div class="row">
+      <div class="col-md-6">
+        <image-cropper format="jpg" [imageChangedEvent]="initialFileUpload" [maintainAspectRatio]="true" [aspectRatio]="4 / 4" (imageCropped)="imageCropped($event)"
+          (imageLoaded)="imageLoaded()" (loadImageFailed)="loadImageFailed()"></image-cropper>
+      </div>
+      <div class="col-md-6">
+        <img [src]="croppedImage" style="width: 100%" />
+      </div>
+    </div>
+
     <hr>
-    <img [src]="croppedImage" style="width: 100%" />
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="saveImage()">Save</button>
+    <button type="button" class="btn btn-primary" (click)="saveImage()">Save</button>
   </div>
 </ng-template>
