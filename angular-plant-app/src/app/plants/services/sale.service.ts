@@ -3,7 +3,6 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { catchError, finalize } from 'rxjs/operators';
-
 import { NotificationService } from '../../shared/services/notification/notification.service';
 
 @Injectable()
@@ -33,11 +32,11 @@ export class SaleService {
           this.getAll(saleRequest.plantNumber);
           this._sellingPlantLoading$.next(false);
           this._notifaction.setNotificationOn('Successfully sold plant');
-        }),
-        catchError(err => {
-          this._notifaction.setNotificationOn('There was an error selling plant', 'danger');
-          return Observable.of(err);
         })
+        // catchError(err => {
+        //   this._notifaction.setNotificationOn('There was an error selling plant', 'danger');
+
+        // })
       )
       .subscribe(() => this.saleSucceded$.emit());
   }
