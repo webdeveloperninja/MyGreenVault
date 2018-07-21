@@ -39,7 +39,10 @@
                     <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
                   </button>
                   <button class="btn btn-outline-primary pull-right mr-2" routerLink="/plants/{{plant.plantNumber}}">
-                    <i class="fa fa-eye mr-2" aria-hidden="true"></i>View
+                    <i class="fa fa-usd mr-2" aria-hidden="true"></i>Profit/Loss
+                  </button>
+                  <button class="btn btn-outline-primary pull-right mr-2" [routerLink]="['/details', plant._id]">
+                    <i class="fa fa-eye mr-2" aria-hidden="true"></i>Details
                   </button>
                 </td>
               </tr>
