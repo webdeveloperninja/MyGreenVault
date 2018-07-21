@@ -17,6 +17,11 @@ import { SharedModule } from './shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { routes } from './app.routing';
 import { NgProgressModule, NgProgressInterceptor } from 'ngx-progressbar';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { reducers, metaReducers } from './reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { PlantDetailsModule } from './plant-details/plant-details.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,7 +30,15 @@ import { NgProgressModule, NgProgressInterceptor } from 'ngx-progressbar';
     HttpClientModule,
     BrowserAnimationsModule,
     TextMaskModule,
+    PlantDetailsModule,
     RouterModule.forRoot(routes),
+    StoreModule.forRoot(reducers, { metaReducers }),
+    //todo logOnly based on if production
+    StoreDevtoolsModule.instrument({
+      name: 'NgRx Book Store DevTools',
+      logOnly: false
+    }),
+    EffectsModule.forRoot([]),
     ReactiveFormsModule,
     FormsModule,
     NgProgressModule,
