@@ -30,3 +30,5 @@ export function reducer(state = initialState, action: fromActions.All): State {
     }
   }
 }
+
+export const getDetailsState = (state: State) => state;

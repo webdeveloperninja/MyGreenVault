@@ -13,3 +13,5 @@ export interface State extends fromRoot.State {
 export const reducers: ActionReducerMap<DetailsState> = {
   details: fromDetails.reducer
 };
+
+export const getPlantState = createFeatureSelector<State>('plant');
