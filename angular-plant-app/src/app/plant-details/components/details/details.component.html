@@ -1,0 +1,13 @@
+{{ details | json }}
+<div class="row">
+  <div class="col-xl-4">
+    <img src="./assets/images/placeholder.jpg" class="img-fluid">
+  </div>
+  <div class="col-xl-8">
+    <h3>{{ details?.plantName }} - # {{ details?.plantNumber }}</h3>
+    <div class="d-flex">
+      <room-type [type]="details?.roomType"></room-type>
+      <medium [type]="details?.medium" class="ml-2"></medium>
+    </div>
+  </div>
+</div>

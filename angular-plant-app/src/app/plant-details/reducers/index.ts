@@ -1,17 +1,37 @@
-import { createSelector, createFeatureSelector, ActionReducerMap } from '@ngrx/store';
-import * as fromDetails from './plant-details.reducer';
+import { createSelector, createFeatureSelector, ActionReducerMap, combineReducers } from '@ngrx/store';
+import * as fromDetailsEntity from './plant-details.reducer';
+import * as fromDetailsCollection from './collection.reducer';
 import * as fromRoot from '../../reducers';
+import { InjectionToken } from '@angular/core';
+
+export const featureName = 'plant';
+
+export const FEATURE_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<State>>(`${featureName} - Feature Reducer`);
+export const reducerProvider = [{ provide: FEATURE_REDUCER_TOKEN, useFactory: getReducers }];
 
 export interface DetailsState {
-  details: fromDetails.State;
+  entities: {
+    details: fromDetailsEntity.State;
+  };
+  collection: fromDetailsCollection.State;
 }
 
 export interface State extends fromRoot.State {
-  details: DetailsState;
+  entities: {
+    details: fromDetailsEntity.State;
+  };
+  collection: fromDetailsCollection.State;
 }
 
-export const reducers: ActionReducerMap<DetailsState> = {
-  details: fromDetails.reducer
+const plantReducers = {
+  details: fromDetailsEntity.reducer
 };
+
+export function getReducers() {
+  return {
+    entities: combineReducers(plantReducers),
+    collection: fromDetailsCollection.reducer
+  };
+}
 
 export const getPlantState = createFeatureSelector<State>('plant');

@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-
-import { Medium } from '../../models';
+import { Medium } from '../../models/medium';
 
 @Component({
   selector: 'medium',

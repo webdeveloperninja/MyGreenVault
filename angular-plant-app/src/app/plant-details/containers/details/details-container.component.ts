@@ -6,14 +6,15 @@ import * as fromDetailsSelectors from '../../selectors/details';
 import { Store } from '@ngrx/store';
 
 @Component({
-  selector: 'vault-details',
-  templateUrl: './details.component.html',
-  styleUrls: ['./details.component.scss']
+  selector: 'vault-details-container',
+  templateUrl: './details-container.component.html',
+  styleUrls: ['./details-container.component.scss']
 })
-export class DetailsComponent implements OnInit {
+export class DetailsContainerComponent implements OnInit {
   routeParameters$ = this._activatedRoute.params;
   plantId: string;
   details$ = this._store.select(fromDetailsSelectors.getDetails);
+
   constructor(private readonly _activatedRoute: ActivatedRoute, private _store: Store<fromDetails.State>) {}
 
   ngOnInit() {

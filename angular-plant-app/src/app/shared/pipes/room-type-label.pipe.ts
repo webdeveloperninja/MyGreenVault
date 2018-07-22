@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-
-import { RoomType } from '../models';
+import { RoomType } from '../models/room-type';
 
 @Pipe({
   name: 'roomTypeLabel'

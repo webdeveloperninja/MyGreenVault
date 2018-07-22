@@ -1,17 +1,32 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { reducers } from './reducers';
+import * as fromFeature from './reducers';
 import { PlantDetailsRoutingModule } from './plant-details-routing.module';
-import { DetailsComponent } from './containers/details/details.component';
+import { DetailsContainerComponent } from './containers/details/details-container.component';
 import { PlantDetailsService } from './services/plant.service';
 import { DetailsEffects } from './effects/details.effects';
+import { DetailsComponent } from './components/details/details.component';
+import { SharedModule } from 'app/shared/shared.module';
 
 @NgModule({
-  imports: [CommonModule, PlantDetailsRoutingModule, StoreModule.forFeature('plant', reducers), EffectsModule.forFeature([DetailsEffects])],
-  declarations: [DetailsComponent],
+  imports: [
+    CommonModule,
+    SharedModule,
+    PlantDetailsRoutingModule,
+    StoreModule.forFeature('plant', fromFeature.FEATURE_REDUCER_TOKEN),
+    EffectsModule.forFeature([DetailsEffects])
+  ],
+  declarations: [DetailsContainerComponent, DetailsComponent],
   providers: [PlantDetailsService]
 })
-export class PlantDetailsModule {}
+export class PlantDetailsModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: PlantDetailsModule,
+      providers: [fromFeature.reducerProvider]
+    };
+  }
+}

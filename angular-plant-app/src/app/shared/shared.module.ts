@@ -32,6 +32,12 @@ import { SideNavService } from './services/side-nav/side-nav.service';
 import { TokenService } from './services/token/token.service';
 import { PlantProfilePipe } from './pipes/plant-profile/plant-profile.pipe';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { MediumComponent } from './components/medium/medium.component';
+import { RoomTypeComponent } from './components/room-type/room-type.component';
+import { RoomTypeLabelPipe } from './pipes/room-type-label.pipe';
+import { RoomTypeImagePipe } from './pipes/room-type-image.pipe';
+import { MediumTypeLabelPipe } from './pipes/medium-type-label.pipe';
+import { MediumTypeImagePipe } from './pipes/medium-type-image.pipe';
 
 @NgModule({
   imports: [
@@ -54,6 +60,10 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     EmptyPipe,
     ToasterComponent,
     SideNavComponent,
+    RoomTypeLabelPipe,
+    RoomTypeImagePipe,
+    MediumTypeLabelPipe,
+    MediumTypeImagePipe,
     SideNavLinkComponent,
     DisplayOptionsComponent,
     JobStatusNumberToTitlePipe,
@@ -64,7 +74,9 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     CloseComponent,
     EmailComponent,
     FileUploadComponent,
-    PlantProfilePipe
+    PlantProfilePipe,
+    RoomTypeComponent,
+    MediumComponent
   ],
   providers: [
     NotificationService,
@@ -83,12 +95,18 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     CamelCaseToRegularPipe,
     JobStatusNumberToTitlePipe,
     EmptyPipe,
+    RoomTypeLabelPipe,
+    RoomTypeImagePipe,
+    MediumTypeLabelPipe,
+    MediumTypeImagePipe,
     ToasterComponent,
     SideNavComponent,
     ConfirmationPopoverModule,
     DisplayOptionsComponent,
     JobStatusChipComponent,
     FilterJobPipe,
+    RoomTypeComponent,
+    MediumComponent,
     AlertComponent,
     CloseComponent,
     EmailComponent,

@@ -1,8 +1,8 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { NotificationService } from 'app/shared/services/notification/notification.service';
-import * as textMask from 'app/shared/utilities/input-masking';
+import { NotificationService } from '../../../shared/services/notification/notification.service';
+import * as textMask from '../../../shared/utilities/input-masking';
 import { Observable } from 'rxjs/Observable';
 
 import { markAsTouched } from '../../../shared/utilities/forms';

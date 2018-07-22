@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SaleService } from 'app/plants/services/sale.service';
-import { markAsTouched } from 'app/shared/utilities/forms';
-import * as textMask from 'app/shared/utilities/input-masking';
+import { SaleService } from '../../services/sale.service';
+import { markAsTouched } from '../../../shared/utilities/forms';
+import * as textMask from '../../../shared/utilities/input-masking';
 
 import { Unit } from '../../models';
 

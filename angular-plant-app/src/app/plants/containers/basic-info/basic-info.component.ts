@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { HeaderService } from 'app/shared/services/header/header.service';
+import { HeaderService } from '../../../shared/services/header/header.service';
 import { Observable } from 'rxjs/Observable';
 
 import { PlantsService } from '../../services/plants';
@@ -58,9 +58,9 @@ export class BasicInfoComponent implements OnInit {
 
   ngOnInit() {
     this.isJobLoading = true;
-    const plantNumber = this._route.snapshot.paramMap.get('plantNumber');
+    const plantId = this._route.snapshot.paramMap.get('id');
 
-    this._plantsService.getPlantDetail(plantNumber);
+    this._plantsService.getPlantDetail(plantId);
 
     // this._plantsService.getPlantDetail(plantNumber).subscribe(job => {
     //   this.isJobLoading = false;

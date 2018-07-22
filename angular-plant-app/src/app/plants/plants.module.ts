@@ -21,7 +21,7 @@ import { SalesListComponent } from './containers/sales-list/sales-list.component
 import { TransactionComponent } from './containers/transaction/transaction.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { JobStatusPipe } from './pipes/job-status.pipe';
-import { RoomTypeImagePipe } from './pipes/room-type-image.pipe';
+import { RoomTypeImagePipe } from '../shared/pipes/room-type-image.pipe';
 import { UnitPipe } from './pipes/unit.pipe';
 import { routes } from './plants.routing';
 import { ExpenseService } from './services/expense';
@@ -29,11 +29,6 @@ import { NoteService } from './services/note';
 import { PlantsService } from './services/plants';
 import { SaleService } from './services/sale.service';
 import { TodoService } from './services/todo';
-import { RoomTypeComponent } from './components/room-type/room-type.component';
-import { MediumComponent } from './components/medium/medium.component';
-import { MediumTypeImagePipe } from './pipes/medium-type-image.pipe';
-import { MediumTypeLabelPipe } from './pipes/medium-type-label.pipe';
-import { RoomTypeLabelPipe } from './pipes/room-type-label.pipe';
 import { DeleteImageComponent } from './components/delete-image/delete-image.component';
 
 @NgModule({
@@ -63,12 +58,6 @@ import { DeleteImageComponent } from './components/delete-image/delete-image.com
     UnitPipe,
     TransactionComponent,
     SaleAdapterComponent,
-    RoomTypeImagePipe,
-    RoomTypeComponent,
-    MediumComponent,
-    MediumTypeImagePipe,
-    MediumTypeLabelPipe,
-    RoomTypeLabelPipe,
     DeleteImageComponent
   ],
   providers: [PlantsService, ExpenseService, TodoService, NoteService, SaleService],

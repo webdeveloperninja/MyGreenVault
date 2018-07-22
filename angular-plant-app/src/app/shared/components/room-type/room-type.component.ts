@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-
-import { RoomType } from '../../models';
+import { RoomType } from '../../models/room-type';
 
 @Component({
   selector: 'room-type',

@@ -30,7 +30,7 @@ import { PlantDetailsModule } from './plant-details/plant-details.module';
     HttpClientModule,
     BrowserAnimationsModule,
     TextMaskModule,
-    PlantDetailsModule,
+    PlantDetailsModule.forRoot(),
     RouterModule.forRoot(routes),
     StoreModule.forRoot(reducers, { metaReducers }),
     //todo logOnly based on if production

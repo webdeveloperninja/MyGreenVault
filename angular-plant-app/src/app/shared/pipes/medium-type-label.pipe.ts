@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-
-import { Medium } from '../models';
+import { Medium } from '../models/medium';
 
 @Pipe({
   name: 'mediumTypeLabel'

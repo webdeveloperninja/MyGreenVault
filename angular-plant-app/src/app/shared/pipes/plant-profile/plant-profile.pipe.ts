@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TokenService } from 'app/shared/services/token/token.service';
+import { TokenService } from '../../services/token/token.service';
 
 @Pipe({
   name: 'plantProfile'

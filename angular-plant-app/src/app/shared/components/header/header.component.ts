@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, Event } from '@angular/router';
-import { SideNavService } from 'app/shared/services/side-nav/side-nav.service';
+import { SideNavService } from '../../services/side-nav/side-nav.service';
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 

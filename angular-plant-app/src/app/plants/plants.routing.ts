@@ -6,6 +6,6 @@ import { KanbanComponent } from './containers/kanban/kanban.component';
 
 export const routes: Routes = [
   { path: 'plants', pathMatch: 'full', component: PlantsComponent },
-  { path: 'plants/:plantNumber', component: BasicInfoComponent },
+  { path: 'plants/:id', component: BasicInfoComponent },
   { path: 'kanban', component: KanbanComponent }
 ];

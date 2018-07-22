@@ -1,10 +1,10 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnChanges, SimpleChanges, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { PlantsService } from 'app/plants/services/plants';
-import { NotificationService } from 'app/shared/services/notification/notification.service';
+import { PlantsService } from '../../services/plants';
+import { NotificationService } from '../../../shared/services/notification/notification.service';
 
 import { Plant } from '../../models';
-import { PlantProfilePipe } from 'app/shared/pipes/plant-profile/plant-profile.pipe';
+import { PlantProfilePipe } from '../../../shared/pipes/plant-profile/plant-profile.pipe';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { NgProgress } from 'ngx-progressbar';

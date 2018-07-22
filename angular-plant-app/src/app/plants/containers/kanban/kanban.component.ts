@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { alert } from 'app/shared/components/alert/alert.component';
-import { HeaderService } from 'app/shared/services/header/header.service';
+import { alert } from '../../../shared/components/alert/alert.component';
+import { HeaderService } from '../../../shared/services/header/header.service';
 import { Observable } from 'rxjs';
 
 import { PlantsService } from '../../services/plants';

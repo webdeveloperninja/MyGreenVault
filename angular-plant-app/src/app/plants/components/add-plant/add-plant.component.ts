@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { markAsTouched } from 'app/shared/utilities/forms';
+import { markAsTouched } from '../../../shared/utilities/forms';
 
-import { Medium, RoomType } from '../../models';
 import { PlantsService } from '../../services/plants';
 import { NgProgress } from 'ngx-progressbar';
+import { RoomType } from 'app/shared/models/room-type';
+import { Medium } from 'app/shared/models/medium';
 
 @Component({
   selector: 'add-plant',
