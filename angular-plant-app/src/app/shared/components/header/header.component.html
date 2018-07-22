@@ -1,33 +1,27 @@
 <div class="topbar">
-    <div class="topbar-left d-flex justify-content-center align-items-center">
-        <button (click)="toggleSideBar()" class="button-menu-mobile open-left waves-light waves-effect small-logo">
-            <i class="fa fa-bars" aria-hidden="true"></i>
-        </button>  
-        <img src="./assets/images/logo-sm.png" class="long-logo">
+  <nav class="navbar-custom d-flex align-items-center">
+    <aside class="burger-menu-full">
+      <button (click)="toggleSideBar()" class="button-menu-mobile open-left waves-light waves-effect">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+      </button>
+    </aside>
+    <article>
+      <form [formGroup]="searchForm" class="w-100" (ngSubmit)="doSearch(null)">
+        <ti-omni-search>
+        </ti-omni-search>
+      </form>
+    </article>
+    <div>
+      <div ngbDropdown placement="bottom-right" class="d-inline-block">
+        <i class="fa fa-user-o" ngbDropdownToggle aria-hidden="true"></i>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <a href="account" class="dropdown-item">My Account</a>
+          <a href="logout" class="dropdown-item">Logout</a>
+        </div>
+      </div>
     </div>
-    <nav class="navbar-custom d-flex align-items-center">
-        <aside class="burger-menu-full">
-            <button (click)="toggleSideBar()" class="button-menu-mobile open-left waves-light waves-effect">
-                <i class="fa fa-bars" aria-hidden="true"></i>
-            </button>  
-        </aside>
-        <article>
-            <form [formGroup]="searchForm" class="w-100" (ngSubmit)="doSearch(null)"> 
-                <ti-omni-search>
-                </ti-omni-search>
-            </form>
-        </article>
-        <div>
-        <div ngbDropdown placement="bottom-right" class="d-inline-block">
-            <i class="fa fa-user-o" ngbDropdownToggle aria-hidden="true"></i>
-            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                <a href="account" class="dropdown-item">My Account</a>
-                <a href="logout" class="dropdown-item">Logout</a>
-            </div>
-        </div>
-        </div>
 
-    </nav>
+  </nav>
 
 
 </div>
