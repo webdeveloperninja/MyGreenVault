@@ -18,9 +18,6 @@
         <img [hidden]="noImage" class="img-fluid profile" #heroImage>
         <img *ngIf="noImage" src="./assets/images/placeholder.jpg" class="img-fluid">
         <file-upload (fileChange)="saveProfileImage($event)"></file-upload>
-        <div class="delete-image">
-          <vault-delete-image [hidden]="noImage" (imageDeleted)="imageDeleted()" [plantId]="plantDetail?._id"></vault-delete-image>
-        </div>
       </div>
     </div>
     <div class="col-xl-7">

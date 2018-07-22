@@ -9,13 +9,11 @@ import { SharedModule } from '../shared/shared.module';
 import { AddPlantComponent } from './components/add-plant/add-plant.component';
 import { DetailComponent } from './components/detail/detail.component';
 import { ExpensesComponent } from './components/expenses/expenses.component';
-import { PlantCardComponent } from './components/plant-card/plant-card.component';
 import { PlantsComponent } from './components/plants/plants.component';
 import { QtyWeightValueComponent } from './components/qty-weight-value/qty-weight-value.component';
 import { SaleAdapterComponent } from './components/sale-adapter/sale-adapter.component';
 import { UpdatePlantComponent } from './components/update-plant/update-plant.component';
 import { BasicInfoComponent } from './containers/basic-info/basic-info.component';
-import { KanbanComponent } from './containers/kanban/kanban.component';
 import { SaleComponent } from './containers/sale/sale.component';
 import { SalesListComponent } from './containers/sales-list/sales-list.component';
 import { TransactionComponent } from './containers/transaction/transaction.component';
@@ -29,7 +27,6 @@ import { NoteService } from './services/note';
 import { PlantsService } from './services/plants';
 import { SaleService } from './services/sale.service';
 import { TodoService } from './services/todo';
-import { DeleteImageComponent } from './components/delete-image/delete-image.component';
 
 @NgModule({
   imports: [
@@ -50,15 +47,12 @@ import { DeleteImageComponent } from './components/delete-image/delete-image.com
     JobStatusPipe,
     DetailComponent,
     ExpensesComponent,
-    KanbanComponent,
-    PlantCardComponent,
     SaleComponent,
     SalesListComponent,
     QtyWeightValueComponent,
     UnitPipe,
     TransactionComponent,
-    SaleAdapterComponent,
-    DeleteImageComponent
+    SaleAdapterComponent
   ],
   providers: [PlantsService, ExpenseService, TodoService, NoteService, SaleService],
   exports: []
