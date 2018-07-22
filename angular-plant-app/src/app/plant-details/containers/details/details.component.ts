@@ -23,6 +23,6 @@ export class DetailsComponent implements OnInit {
   }
 
   getPlantDetails(plantId: string) {
-    this._store.dispatch(new fromDetailsActions.TestAction());
+    this._store.dispatch(new fromDetailsActions.LoadDetailsAction({ plantId }));
   }
 }

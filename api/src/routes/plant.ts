@@ -12,7 +12,7 @@ module.exports = function() {
   router.post('/', plant.add);
   router.put('/', plant.update);
   router.post('/remove', plant.remove);
-  router.get('/:plantNumber', plant.get);
+  router.get('/:plantId', plant.get);
   router.post('/:plantNumber/profile-image', plant.uploadPlantProfilePhoto);
   router.post('/:plantNumber/delete-profile-image', plant.deletePlantProfilePhoto);
 

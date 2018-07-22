@@ -3,11 +3,11 @@ import { Plant } from '../models/Plant';
 const User = require('../models/User');
 const MongoObjectId = require('mongodb').ObjectID;
 
-export const getPlant = (userId: any, plantNumber: any) => {
+export const getPlant = (userId: any, plantId: any) => {
   return new Promise((resolve, reject) => {
     let queryObj = {
       userId: MongoObjectId(userId),
-      plantNumber: plantNumber
+      _id: MongoObjectId(plantId)
     };
 
     Plant.find(queryObj)

@@ -36,11 +36,11 @@ export const getAll = (req: Request, res: Response) => {
 };
 
 export const get = (req: Request, res: Response) => {
-  const plantNumber = req.params.plantNumber;
+  const plantId = req.params.plantId;
   const userId = req.user._id;
 
   plantQuery
-    .getPlant(userId, plantNumber)
+    .getPlant(userId, plantId)
     .then((job: any) => {
       res.json(job);
     })
