@@ -170,7 +170,7 @@ function getPlant(userId: any, plantNumber: any) {
 
 function addPlant(userId: any, plant: any) {
   return new Promise((resolve, reject) => {
-    Promise.all([getPlant(userId, plant.plantNumber)]).then((data: any) => {
+    Promise.all([getPlant(userId, plant._id)]).then((data: any) => {
       if (!data[0].plantNumber) {
         plantQuery
           .addPlant(plant)
