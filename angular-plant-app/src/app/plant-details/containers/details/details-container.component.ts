@@ -7,8 +7,7 @@ import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'vault-details-container',
-  templateUrl: './details-container.component.html',
-  styleUrls: ['./details-container.component.scss']
+  templateUrl: './details-container.component.html'
 })
 export class DetailsContainerComponent implements OnInit {
   routeParameters$ = this._activatedRoute.params;

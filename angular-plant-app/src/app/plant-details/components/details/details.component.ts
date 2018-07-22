@@ -1,14 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Details } from '../../models/details';
 
 @Component({
   selector: 'vault-details',
-  templateUrl: './details.component.html',
-  styleUrls: ['./details.component.scss']
+  templateUrl: './details.component.html'
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent {
   @Input() details: Details;
-  constructor() {}
-
-  ngOnInit() {}
 }

@@ -18,7 +18,7 @@ export const DEFAULT_SKIP: number = 0;
 export const DEFAULT_TAKE: number = 8;
 
 @Injectable()
-export class PlantsService extends PlantsState {
+export class PlantsSearchService extends PlantsState {
   constructor(
     private _http: HttpClient,
     private _route: ActivatedRoute,

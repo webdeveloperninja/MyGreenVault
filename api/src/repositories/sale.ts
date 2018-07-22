@@ -29,7 +29,7 @@ export const addQuantitySale = (sale: any) => {
   });
 };
 
-export const getAll = (userId: any, plantNumber: any) => {
+export const getAll = (userId: any, plantId: any) => {
   /**
    * QuantiySale and WeightedSale are in the same collection
    * calling QuantitySale.find returns all documents in sale
@@ -38,7 +38,7 @@ export const getAll = (userId: any, plantNumber: any) => {
   return new Promise((resolve, reject) => {
     QuantitySale.find({
       userId: userId,
-      plantNumber: plantNumber
+      plantId: plantId
     }).exec((err: any, results: any) => {
       if (err) {
         reject(err);

@@ -12,7 +12,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { TextMaskModule } from 'angular2-text-mask';
 import { AppComponent } from './app.component';
-import { PlantsModule } from './plants/plants.module';
+import { ProfitLossModule } from './profit-loss/profit-loss.module';
 import { SharedModule } from './shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { routes } from './app.routing';
@@ -22,6 +22,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { PlantDetailsModule } from './plant-details/plant-details.module';
+import { PlantsModule } from './plants/plants.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,6 +32,7 @@ import { PlantDetailsModule } from './plant-details/plant-details.module';
     BrowserAnimationsModule,
     TextMaskModule,
     PlantDetailsModule.forRoot(),
+    PlantsModule.forRoot(),
     RouterModule.forRoot(routes),
     StoreModule.forRoot(reducers, { metaReducers }),
     //todo logOnly based on if production
@@ -45,7 +47,7 @@ import { PlantDetailsModule } from './plant-details/plant-details.module';
     ChartsModule,
     FlashMessagesModule,
     SharedModule,
-    PlantsModule,
+    ProfitLossModule,
     NgbModule.forRoot(),
     ToastrModule.forRoot()
   ],

@@ -10,8 +10,8 @@ const quantitySale = new Schema(
       type: Number,
       required: true
     },
-    plantNumber: {
-      type: Number,
+    plantId: {
+      type: String,
       required: true
     },
     cost: {

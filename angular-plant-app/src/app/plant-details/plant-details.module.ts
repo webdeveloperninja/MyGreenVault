@@ -9,7 +9,7 @@ import { DetailsContainerComponent } from './containers/details/details-containe
 import { PlantDetailsService } from './services/plant.service';
 import { DetailsEffects } from './effects/details.effects';
 import { DetailsComponent } from './components/details/details.component';
-import { SharedModule } from 'app/shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
