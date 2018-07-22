@@ -38,7 +38,7 @@ import { PlantsModule } from './plants/plants.module';
     //todo logOnly based on if production
     StoreDevtoolsModule.instrument({
       name: 'NgRx Book Store DevTools',
-      logOnly: false
+      logOnly: true
     }),
     EffectsModule.forRoot([]),
     ReactiveFormsModule,
