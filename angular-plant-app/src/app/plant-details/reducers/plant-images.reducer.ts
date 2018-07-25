@@ -19,6 +19,14 @@ export function reducer(state = initialState, action: fromActions.All): State {
         profileImage: imageSource.imageUrl
       };
     }
+    case fromActions.ActionTypes.DetailsLoaded: {
+      console.log('action', action.payload);
+      const imageSource = action.payload.profilePictures[action.payload.profilePictures.length - 1];
+      return {
+        ...state,
+        profileImage: imageSource ? imageSource: './assets/images/placeholder.jpg';
+      };
+    }
     default: {
       return state;
     }
