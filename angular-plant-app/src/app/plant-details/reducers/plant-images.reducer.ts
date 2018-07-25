@@ -2,11 +2,11 @@ import * as fromRoot from '../../reducers';
 import * as fromActions from '../actions/details.actions';
 
 export interface State {
-  profileImage: string;
+  profileImages: string[];
 }
 
 export const initialState: State = {
-  profileImage: ''
+  profileImages: []
 };
 
 export function reducer(state = initialState, action: fromActions.All): State {
@@ -16,15 +16,16 @@ export function reducer(state = initialState, action: fromActions.All): State {
 
       return {
         ...state,
-        profileImage: imageSource.imageUrl
+        profileImages: [...state.profileImages, ...imageSource.imageUrl]
       };
     }
     case fromActions.ActionTypes.DetailsLoaded: {
       console.log('action', action.payload);
-      const imageSource = action.payload.profilePictures[action.payload.profilePictures.length - 1];
+      const profilePictures = action.payload.profilePictures;
+
       return {
-        ...state,
-        profileImage: imageSource ? imageSource: './assets/images/placeholder.jpg';
+        ...initialState,
+        profileImages: profilePictures
       };
     }
     default: {

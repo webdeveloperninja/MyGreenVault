@@ -11,4 +11,9 @@ export const getDetails = createSelector(getPlantState, getSelected, (plants: an
   return plants.entities.details[selected];
 });
 
-export const getPlantProfileImage = createSelector(getPlantState, plant => plant.images.profileImage);
+export const getPlantProfileImage = createSelector(getPlantState, plant => {
+  if (plant.images.profileImages.length === 0) {
+    return './assets/images/placeholder.jpg';
+  }
+  return plant.images.profileImages[plant.images.profileImages.length - 1];
+});

@@ -38,6 +38,7 @@ import { RoomTypeLabelPipe } from './pipes/room-type-label.pipe';
 import { RoomTypeImagePipe } from './pipes/room-type-image.pipe';
 import { MediumTypeLabelPipe } from './pipes/medium-type-label.pipe';
 import { MediumTypeImagePipe } from './pipes/medium-type-image.pipe';
+import { ProfileImages } from './pipes/profile-images';
 
 @NgModule({
   imports: [
@@ -61,6 +62,7 @@ import { MediumTypeImagePipe } from './pipes/medium-type-image.pipe';
     ToasterComponent,
     SideNavComponent,
     RoomTypeLabelPipe,
+    ProfileImages,
     RoomTypeImagePipe,
     MediumTypeLabelPipe,
     MediumTypeImagePipe,
@@ -96,6 +98,7 @@ import { MediumTypeImagePipe } from './pipes/medium-type-image.pipe';
     JobStatusNumberToTitlePipe,
     EmptyPipe,
     RoomTypeLabelPipe,
+    ProfileImages,
     RoomTypeImagePipe,
     MediumTypeLabelPipe,
     MediumTypeImagePipe,
