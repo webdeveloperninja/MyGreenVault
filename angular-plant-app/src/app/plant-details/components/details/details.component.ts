@@ -7,4 +7,5 @@ import { Details } from '../../models/details';
 })
 export class DetailsComponent {
   @Input() details: Details;
+  @Input() profileImage: string;
 }
