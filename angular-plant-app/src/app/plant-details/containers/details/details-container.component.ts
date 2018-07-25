@@ -13,6 +13,7 @@ export class DetailsContainerComponent implements OnInit {
   routeParameters$ = this._activatedRoute.params;
   plantId: string;
   details$ = this._store.select(fromDetailsSelectors.getDetails);
+  plantProfileImage$ = this._store.select(fromDetailsSelectors.getPlantProfileImage);
 
   constructor(private readonly _activatedRoute: ActivatedRoute, private _store: Store<fromDetails.State>) {}
 

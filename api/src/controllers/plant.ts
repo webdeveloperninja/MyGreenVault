@@ -111,10 +111,7 @@ export const uploadPlantProfilePhoto = async (req, res, next) => {
     const blobUrl = plantProfileImageService.getBlobUrl(blobName);
 
     await plantQuery.addProfilImage(req.body.plantId, blobUrl);
-    res
-      .send(blobUrl)
-      .status(200)
-      .end();
+    res.send({ imageUrl: blobUrl }).sendStatus(200);
   } catch (err) {
     res
       .send(err)

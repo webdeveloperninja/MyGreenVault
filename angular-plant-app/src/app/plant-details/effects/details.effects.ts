@@ -43,7 +43,7 @@ export class DetailsEffects {
     map(action => action.payload),
     switchMap(image => {
       return this._plantService.saveProfileImage(image.plantId, image.image).pipe(
-        map((imageResponse: any) => new fromDetailsActions.PlantProfileImageLoaded(imageResponse)),
+        map((imageSource: any) => new fromDetailsActions.PlantProfileImageLoaded({ imageSource })),
         catchError(err => of(new fromDetailsActions.PlantProfileImageLoadFailed(err)))
       );
     })

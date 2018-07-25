@@ -10,3 +10,5 @@ export const getDetails = createSelector(getPlantState, getSelected, (plants: an
   }
   return plants.entities.details[selected];
 });
+
+export const getPlantProfileImage = createSelector(getPlantState, plant => plant.images.profileImage);
