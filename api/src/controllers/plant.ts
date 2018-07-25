@@ -99,21 +99,28 @@ export const remove = (req: Request, res: Response) => {
     });
 };
 
-export const uploadPlantProfilePhoto = (req, res, next) => {
+export const uploadPlantProfilePhoto = async (req, res, next) => {
   const uploadRequest: uploadRequest = {
     file: req.body.images.value,
     userId: req.user._id.toString(),
     plantId: req.body.plantId
   };
 
-  plantProfileImageService
-    .upload(uploadRequest)
-    .then(t => {
-      res.status(200).end();
-    })
-    .catch(err => {
-      res.send(err).status(500);
-    });
+  try {
+    const blobName = (await plantProfileImageService.upload(uploadRequest)) as string;
+    const blobUrl = plantProfileImageService.getBlobUrl(blobName);
+
+    await plantQuery.addProfilImage(req.body.plantId, blobUrl);
+    res
+      .send(blobUrl)
+      .status(200)
+      .end();
+  } catch (err) {
+    res
+      .send(err)
+      .status(500)
+      .end();
+  }
 };
 
 export const deletePlantProfilePhoto = (req, res, next) => {

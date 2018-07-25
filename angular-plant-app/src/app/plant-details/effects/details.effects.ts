@@ -37,6 +37,18 @@ export class DetailsEffects {
     })
   );
 
+  @Effect()
+  loadPlantProfileImage$: Observable<Action> = this.actions$.pipe(
+    ofType<fromDetailsActions.LoadPlantProfileImage>(fromDetailsActions.ActionTypes.LoadPlantProfileImage),
+    map(action => action.payload),
+    switchMap(image => {
+      return this._plantService.saveProfileImage(image.plantId, image.image).pipe(
+        map((imageResponse: any) => new fromDetailsActions.PlantProfileImageLoaded(imageResponse)),
+        catchError(err => of(new fromDetailsActions.PlantProfileImageLoadFailed(err)))
+      );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private _plantService: PlantDetailsService,

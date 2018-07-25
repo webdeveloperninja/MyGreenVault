@@ -1,4 +1,5 @@
 import { Plant } from '../models/Plant';
+import { resolve } from 'dns';
 
 const User = require('../models/User');
 const MongoObjectId = require('mongodb').ObjectID;
@@ -127,6 +128,17 @@ export const getAllPlants = (userId: any) => {
       }
 
       resolve(results);
+    });
+  });
+};
+
+export const addProfilImage = (plantId: string, plantProfileImage) => {
+  return new Promise((resolve, reject) => {
+    Plant.update({ _id: MongoObjectId(plantId) }, { $push: { profilePictures: plantProfileImage } }, (err, res) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(res);
     });
   });
 };

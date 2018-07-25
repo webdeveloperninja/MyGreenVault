@@ -23,6 +23,10 @@ export class DetailsContainerComponent implements OnInit {
     });
   }
 
+  saveProfileImage(image) {
+    this._store.dispatch(new fromDetailsActions.LoadPlantProfileImage({ plantId: this.plantId, image }));
+  }
+
   getPlantDetails(plantId: string) {
     this._store.dispatch(new fromDetailsActions.LoadDetailsAction({ plantId }));
   }

@@ -33,6 +33,10 @@ const plantSchema = new Schema(
     expenses: {
       type: Array,
       required: false
+    },
+    profilePictures: {
+      type: Array,
+      required: false
     }
   },
   {
