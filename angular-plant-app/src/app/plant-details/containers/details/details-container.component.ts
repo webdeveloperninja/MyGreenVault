@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as fromDetails from '../../reducers/plant-details.reducer';
 import * as fromDetailsActions from '../../actions/details.actions';

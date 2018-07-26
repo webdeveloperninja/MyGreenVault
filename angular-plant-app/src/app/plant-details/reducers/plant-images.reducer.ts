@@ -20,12 +20,11 @@ export function reducer(state = initialState, action: fromActions.All): State {
       };
     }
     case fromActions.ActionTypes.DetailsLoaded: {
-      console.log('action', action.payload);
-      const profilePictures = action.payload.profilePictures;
+      const profileImages = action.payload.profileImages;
 
       return {
         ...initialState,
-        profileImages: profilePictures
+        profileImages: profileImages
       };
     }
     default: {

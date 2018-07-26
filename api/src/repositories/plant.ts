@@ -134,7 +134,7 @@ export const getAllPlants = (userId: any) => {
 
 export const addProfilImage = (plantId: string, plantProfileImage) => {
   return new Promise((resolve, reject) => {
-    Plant.update({ _id: MongoObjectId(plantId) }, { $push: { profilePictures: plantProfileImage } }, (err, res) => {
+    Plant.update({ _id: MongoObjectId(plantId) }, { $push: { profileImages: plantProfileImage } }, (err, res) => {
       if (err) {
         reject(err);
       }

@@ -34,7 +34,7 @@ const plantSchema = new Schema(
       type: Array,
       required: false
     },
-    profilePictures: {
+    profileImages: {
       type: Array,
       required: false
     }
