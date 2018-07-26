@@ -22,7 +22,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let plant of plants$ | async" [routerLink]="['/details', plant._id]">
+              <tr *ngFor="let plant of plants$ | async">
                 <td>
                   <img [src]="plant.profileImages | profileImages" class="plant-thumbnail img-thumbnail rounded-circle"> {{ plant.plantName | empty }}</td>
                 <td>{{ plant.plantNumber | empty }}</td>
