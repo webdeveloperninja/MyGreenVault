@@ -1,10 +1,11 @@
 import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { asyncScheduler, empty, Observable, of } from 'rxjs';
-import { catchError, debounceTime, map, skip, switchMap, takeUntil } from 'rxjs/operators';
-
+import { catchError, debounceTime, map, skip, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
+import * as fromDetailsSelectors from '../selectors/details';
 import * as fromDetailsActions from '../actions/details.actions';
+import * as fromDetails from '../reducers/plant-details.reducer';
 
 import { Scheduler } from 'rxjs/internal/Scheduler';
 import { PlantDetailsService } from '../services/plant.service';
@@ -40,28 +41,15 @@ export class DetailsEffects {
   @Effect()
   loadPlantProfileImage$: Observable<Action> = this.actions$.pipe(
     ofType<fromDetailsActions.LoadPlantProfileImage>(fromDetailsActions.ActionTypes.LoadPlantProfileImage),
-    map(action => action.payload),
-    switchMap(image => {
+    withLatestFrom(this._store.select(fromDetailsSelectors.getSelected)),
+    map(([action, plantId]) => [action.payload, plantId]),
+    switchMap(([image, plantId]: [any, string]) => {
       return this._plantService.saveProfileImage(image.plantId, image.image).pipe(
-        map((imageSource: any) => new fromDetailsActions.PlantProfileImageLoaded({ imageSource })),
+        map((imageSource: any) => new fromDetailsActions.PlantProfileImageLoaded({ imageSource, plantId })),
         catchError(err => of(new fromDetailsActions.PlantProfileImageLoadFailed(err)))
       );
     })
   );
 
-  constructor(
-    private actions$: Actions,
-    private _plantService: PlantDetailsService,
-    @Optional()
-    @Inject(SEARCH_DEBOUNCE)
-    private debounce: number,
-    /**
-     * You inject an optional Scheduler that will be undefined
-     * in normal application usage, but its injected here so that you can mock out
-     * during testing using the RxJS TestScheduler for simulating passages of time.
-     */
-    @Optional()
-    @Inject(SEARCH_SCHEDULER)
-    private scheduler: Scheduler
-  ) {}
+  constructor(private actions$: Actions, private _plantService: PlantDetailsService, private _store: Store<fromDetails.State>) {}
 }

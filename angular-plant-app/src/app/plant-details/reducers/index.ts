@@ -13,28 +13,27 @@ export const reducerProvider = [{ provide: FEATURE_REDUCER_TOKEN, useFactory: ge
 export interface DetailsState {
   entities: {
     details: fromDetailsEntity.State;
+    images: fromDetailsImages.State;
   };
-  images: fromDetailsImages.State;
   collection: fromDetailsCollection.State;
 }
 
 export interface State extends fromRoot.State {
   entities: {
     details: fromDetailsEntity.State;
+    profileImages: fromDetailsImages.State;
   };
-  images: fromDetailsImages.State;
   collection: fromDetailsCollection.State;
 }
 
 const plantReducers = {
   details: fromDetailsEntity.reducer,
-  images: fromDetailsImages.reducer
+  profileImages: fromDetailsImages.reducer
 };
 
 export function getReducers() {
   return {
     entities: combineReducers(plantReducers),
-    images: fromDetailsImages.reducer,
     collection: fromDetailsCollection.reducer
   };
 }

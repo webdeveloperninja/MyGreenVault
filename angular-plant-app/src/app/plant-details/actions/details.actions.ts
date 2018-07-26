@@ -18,7 +18,7 @@ export class LoadPlantProfileImage implements Action {
 export class PlantProfileImageLoaded implements Action {
   readonly type = ActionTypes.PlantProfileImageLoaded;
 
-  constructor(public payload: { imageSource: any }) {}
+  constructor(public payload: { imageSource: any; plantId: string }) {}
 }
 
 export class PlantProfileImageLoadFailed implements Action {
