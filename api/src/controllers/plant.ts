@@ -96,7 +96,7 @@ export const remove = async (req: Request, res: Response) => {
     const plant = (await plantQuery.getPlant(req.user._id, req.body._id)) as any;
 
     if (!!plant && !!plant.profileImages.length && plant.profileImages.length > 0) {
-      await asyncDeleteImages(plant.profileImages);
+      await deleteImages(plant.profileImages);
     }
 
     const removedPlant = await plantQuery.remove(plantToDelete);
@@ -109,7 +109,7 @@ export const remove = async (req: Request, res: Response) => {
   }
 };
 
-async function asyncDeleteImages(images) {
+async function deleteImages(images) {
   for (let index = 0; index < images.length; index++) {
     await plantProfileImageService.deleteBlob(images[index]);
   }
@@ -134,15 +134,6 @@ export const uploadPlantProfilePhoto = async (req, res, next) => {
       .status(500)
       .end();
   }
-};
-
-export const deletePlantProfilePhoto = (req, res, next) => {
-  const plantId = req.body.plantId;
-  const userId = req.user._id.toString();
-
-  plantProfileImageService.deleteImage(plantId, userId).then(t => {
-    res.status(200).end();
-  });
 };
 
 function doUpdatePlant(userId: any, job: any) {

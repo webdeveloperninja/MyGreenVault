@@ -10,19 +10,6 @@ export interface uploadRequest {
   plantId: string;
 }
 
-export const deleteImage = (plantId: string, userId: string) => {
-  return new Promise((resolve, reject) => {
-    const imageName = `${userId}:${plantId}:profile`;
-
-    blobService.deleteBlob(containerName, imageName, (err, result) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(result);
-    });
-  });
-};
-
 export const upload = (uploadRequest: uploadRequest) => {
   return new Promise((resolve, reject) => {
     // https://stackoverflow.com/questions/39582878/successfully-saving-base64-image-to-azure-blob-storage-but-blob-image-always-bro
