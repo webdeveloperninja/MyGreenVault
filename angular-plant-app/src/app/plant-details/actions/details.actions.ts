@@ -12,7 +12,7 @@ export enum ActionTypes {
 export class LoadPlantProfileImage implements Action {
   readonly type = ActionTypes.LoadPlantProfileImage;
 
-  constructor(public payload: { plantId: string; image: any }) {}
+  constructor(public payload: { image: any }) {}
 }
 
 export class PlantProfileImageLoaded implements Action {

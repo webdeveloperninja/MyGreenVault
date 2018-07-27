@@ -39,6 +39,7 @@ import { RoomTypeImagePipe } from './pipes/room-type-image.pipe';
 import { MediumTypeLabelPipe } from './pipes/medium-type-label.pipe';
 import { MediumTypeImagePipe } from './pipes/medium-type-image.pipe';
 import { ProfileImages } from './pipes/profile-images';
+import { TruncatePipe } from './pipes/truncate.pipe';
 
 @NgModule({
   imports: [
@@ -78,7 +79,8 @@ import { ProfileImages } from './pipes/profile-images';
     FileUploadComponent,
     PlantProfilePipe,
     RoomTypeComponent,
-    MediumComponent
+    MediumComponent,
+    TruncatePipe
   ],
   providers: [
     NotificationService,
@@ -107,6 +109,7 @@ import { ProfileImages } from './pipes/profile-images';
     ConfirmationPopoverModule,
     DisplayOptionsComponent,
     JobStatusChipComponent,
+    TruncatePipe,
     FilterJobPipe,
     RoomTypeComponent,
     MediumComponent,

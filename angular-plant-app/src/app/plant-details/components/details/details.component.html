@@ -6,9 +6,13 @@
     <h3>{{ details?.plantName }} - # {{ details?.plantNumber }}</h3>
     <ti-job-status-chip [jobStatus]="details?.plantStatus">
     </ti-job-status-chip>
-    <div class="d-flex">
+    <div class="d-flex mt-2">
       <room-type [type]="details?.roomType"></room-type>
       <medium [type]="details?.medium" class="ml-2"></medium>
+    </div>
+    <h4 class="header-title">Description</h4>
+    <div class="d-flex">
+      {{ details?.plantDescription }}
     </div>
   </div>
 </div>

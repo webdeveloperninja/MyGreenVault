@@ -26,7 +26,7 @@
                 <td>
                   <img [src]="plant.profileImages | profileImages" class="plant-thumbnail img-thumbnail rounded-circle"> {{ plant.plantName | empty }}</td>
                 <td>{{ plant.plantNumber | empty }}</td>
-                <td>{{ plant.plantDescription | empty }}</td>
+                <td>{{ plant.plantDescription | truncate : 255 | empty }}</td>
                 <td>
                   <ti-job-status-chip [jobStatus]="plant.plantStatus">
                   </ti-job-status-chip>

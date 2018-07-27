@@ -25,7 +25,7 @@ export class DetailsContainerComponent implements OnInit {
   }
 
   saveProfileImage(image) {
-    this._store.dispatch(new fromDetailsActions.LoadPlantProfileImage({ plantId: this.plantId, image }));
+    this._store.dispatch(new fromDetailsActions.LoadPlantProfileImage({ image }));
   }
 
   getPlantDetails(plantId: string) {

@@ -13,8 +13,11 @@ export const getDetails = createSelector(getPlantState, getSelected, (plants: an
 
 export const getPlantProfileImage = createSelector(getPlantState, getSelected, (plant, selectedPlantId) => {
   const images = plant.entities.profileImages[selectedPlantId];
-  if (!images || !images.length) {
-    return;
+  if (!images || !images.length || !images[images.length - 1]) {
+    return './assets/images/placeholder.jpg';
   }
-  return images[images.length - 1];
+
+  const image = images[images.length - 1];
+
+  return image;
 });

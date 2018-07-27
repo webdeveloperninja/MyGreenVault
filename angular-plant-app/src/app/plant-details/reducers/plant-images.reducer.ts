@@ -22,8 +22,8 @@ export function reducer(state = initialState, action: fromActions.All): State {
       const profileImages = action.payload.profileImages;
 
       return {
-        ...initialState,
-        [action.payload._id]: [...action.payload.profileImages]
+        ...state,
+        [action.payload.details._id]: [...profileImages]
       };
     }
     default: {

@@ -8,8 +8,8 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { PagedList } from '../../shared/models';
-import { tap } from 'rxjs/operators';
-
+import { tap, map } from 'rxjs/operators';
+import { Details as DetailsContract } from 'app/plant-details/contracts/details';
 export const DEFAULT_SKIP: number = 0;
 export const DEFAULT_TAKE: number = 8;
 
@@ -21,7 +21,19 @@ export class PlantDetailsService {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     let url = `/api/v1/plants/${plantId}`;
 
-    return this._http.get(url, { headers: headers, withCredentials: true });
+    return this._http.get(url, { headers: headers, withCredentials: true }).pipe(
+      map((fullDetails: DetailsContract) => {
+        const detailsResponse = {
+          details: { ...fullDetails },
+          profileImages: fullDetails.profileImages
+        };
+
+        delete detailsResponse.details.profileImages;
+        delete detailsResponse.details.expenses;
+
+        return detailsResponse;
+      })
+    );
   }
 
   public saveProfileImage(plantId, images) {

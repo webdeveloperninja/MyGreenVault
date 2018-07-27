@@ -14,7 +14,7 @@ export const initialState: State = {
 export function reducer(state = initialState, action: fromActions.All): State {
   switch (action.type) {
     case fromActions.ActionTypes.DetailsLoaded: {
-      const plantId = action.payload._id;
+      const plantId = action.payload.details._id;
 
       return {
         ...state,

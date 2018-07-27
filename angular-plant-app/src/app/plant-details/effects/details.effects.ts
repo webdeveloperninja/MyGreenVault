@@ -42,9 +42,9 @@ export class DetailsEffects {
   loadPlantProfileImage$: Observable<Action> = this.actions$.pipe(
     ofType<fromDetailsActions.LoadPlantProfileImage>(fromDetailsActions.ActionTypes.LoadPlantProfileImage),
     withLatestFrom(this._store.select(fromDetailsSelectors.getSelected)),
-    map(([action, plantId]) => [action.payload, plantId]),
+    map(([action, plantId]) => [action.payload.image, plantId]),
     switchMap(([image, plantId]: [any, string]) => {
-      return this._plantService.saveProfileImage(image.plantId, image.image).pipe(
+      return this._plantService.saveProfileImage(plantId, image).pipe(
         map((imageSource: any) => new fromDetailsActions.PlantProfileImageLoaded({ imageSource, plantId })),
         catchError(err => of(new fromDetailsActions.PlantProfileImageLoadFailed(err)))
       );

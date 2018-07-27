@@ -4,6 +4,7 @@ import url from 'url';
 import * as plantQuery from '../repositories/plant';
 import * as plantProfileImageService from '../services/plant-profile-image';
 import { uploadRequest } from '../services/plant-profile-image';
+import { PlantDetails } from '../contracts/plant-details';
 
 export const getPaged = (req: Request, res: Response) => {
   const userId = req.user._id;
@@ -35,18 +36,22 @@ export const getAll = (req: Request, res: Response) => {
     });
 };
 
-export const get = (req: Request, res: Response) => {
+export const get = async (req: Request, res: Response) => {
   const plantId = req.params.plantId;
   const userId = req.user._id;
 
-  plantQuery
-    .getPlant(userId, plantId)
-    .then((job: any) => {
-      res.json(job);
-    })
-    .catch((err: any) => {
-      res.send(500);
-    });
+  try {
+    const plant = await plantQuery.getPlant(userId, plantId);
+    res
+      .send(plant)
+      .status(200)
+      .end();
+  } catch (err) {
+    res
+      .send(err)
+      .status(500)
+      .end();
+  }
 };
 
 export const add = (req: Request, res: Response) => {
