@@ -53,6 +53,21 @@ export const upload = (uploadRequest: uploadRequest) => {
   });
 };
 
+export const deleteBlob = (blobPath: string) => {
+  return new Promise((resolve, reject) => {
+    const urlPath = 'https://mygreenvault.blob.core.windows.net/plant-profile-photo/';
+    const containerName = 'plant-profile-photo';
+    const blobName = blobPath.replace(urlPath, '');
+
+    blobService.deleteBlob(containerName, blobName, (error, result, response) => {
+      if (error) {
+        reject(error);
+      }
+      resolve(result);
+    });
+  });
+};
+
 export const getBlobUrl = (blobName: string) => {
   return `https://mygreenvault.blob.core.windows.net/${containerName}/${blobName}`;
 };

@@ -89,21 +89,31 @@ export const update = (req: Request, res: Response) => {
     });
 };
 
-export const remove = (req: Request, res: Response) => {
-  const job = req.body;
+export const remove = async (req: Request, res: Response) => {
+  const plantToDelete = req.body;
 
-  plantQuery
-    .removeJob(job)
-    .then((data: any) => {
-      res.status(200).send({
-        success: true
-      });
-    })
-    .catch((err: any) => {
-      res.send(500);
-    });
+  try {
+    const plant = (await plantQuery.getPlant(req.user._id, req.body._id)) as any;
+
+    if (!!plant && !!plant.profileImages.length && plant.profileImages.length > 0) {
+      await asyncDeleteImages(plant.profileImages);
+    }
+
+    const removedPlant = await plantQuery.remove(plantToDelete);
+    res
+      .send(removedPlant)
+      .status(200)
+      .end();
+  } catch (err) {
+    res.send(err).status(500);
+  }
 };
 
+async function asyncDeleteImages(images) {
+  for (let index = 0; index < images.length; index++) {
+    await plantProfileImageService.deleteBlob(images[index]);
+  }
+}
 export const uploadPlantProfilePhoto = async (req, res, next) => {
   const uploadRequest: uploadRequest = {
     file: req.body.images.value,
