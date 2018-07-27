@@ -15,20 +15,16 @@ import { HeaderComponent } from './components/header/header.component';
 import { JobStatusChipComponent } from './components/job-status-chip/job-status-chip.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { OmniSearchComponent } from './components/omni-search/omni-search.component';
-import { SideNavLinkComponent } from './components/side-nav-link/side-nav-link.component';
-import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { ToasterComponent } from './components/toaster/toaster.component';
 import { CamelCaseToRegularPipe } from './pipes/camel-case-to-regular';
 import { EmptyPipe } from './pipes/empty/empty.pipe';
 import { FilterJobPipe } from './pipes/filter-job/filter-job.pipe';
 import { JobStatusNumberToTitlePipe } from './pipes/job-status-number-to-title/job-status-number-to-status-title.pipe';
 import { KeysPipe } from './pipes/object-keys.pipe';
-import { HeaderService } from './services/header/header.service';
 import { LocalStorageService } from './services/local-storage/local-storage.service';
 import { PlantsNavigationService } from './services/navigation.plants';
 import { NotificationService } from './services/notification/notification.service';
 import { SearchService } from './services/search/search.service';
-import { SideNavService } from './services/side-nav/side-nav.service';
 import { TokenService } from './services/token/token.service';
 import { PlantProfilePipe } from './pipes/plant-profile/plant-profile.pipe';
 import { ImageCropperModule } from 'ngx-image-cropper';
@@ -61,13 +57,11 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     CamelCaseToRegularPipe,
     EmptyPipe,
     ToasterComponent,
-    SideNavComponent,
     RoomTypeLabelPipe,
     ProfileImages,
     RoomTypeImagePipe,
     MediumTypeLabelPipe,
     MediumTypeImagePipe,
-    SideNavLinkComponent,
     DisplayOptionsComponent,
     JobStatusNumberToTitlePipe,
     FilterJobPipe,
@@ -82,16 +76,7 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     MediumComponent,
     TruncatePipe
   ],
-  providers: [
-    NotificationService,
-    SideNavService,
-    TokenService,
-    HeaderService,
-    LocalStorageService,
-    SearchService,
-    PlantsNavigationService,
-    PlantProfilePipe
-  ],
+  providers: [NotificationService, TokenService, LocalStorageService, SearchService, PlantsNavigationService, PlantProfilePipe],
   exports: [
     HeaderComponent,
     LoadingComponent,
@@ -105,7 +90,6 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     MediumTypeLabelPipe,
     MediumTypeImagePipe,
     ToasterComponent,
-    SideNavComponent,
     ConfirmationPopoverModule,
     DisplayOptionsComponent,
     JobStatusChipComponent,

@@ -1,9 +1,7 @@
-<div class="container-fluid">
-    <form [formGroup]="omniSearchForm" class="d-flex" (ngSubmit)="search()">
-        <input class="form-control col-md-4" formControlName="search">
-        <button type="submit" role="button" class="btn btn-outline-success btn-search">
-            <i aria-hidden="true" class="fa fa-search"></i>
-            Search
-        </button>
-    </form>
-</div>
+<form [formGroup]="omniSearchForm" class="d-flex" (ngSubmit)="search()">
+  <input class="form-control" formControlName="search">
+  <button type="submit" role="button" class="btn btn-outline-success btn-search">
+    <i aria-hidden="true" class="fa fa-search"></i>
+    Search
+  </button>
+</form>

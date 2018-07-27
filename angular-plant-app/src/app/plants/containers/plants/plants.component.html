@@ -72,7 +72,7 @@
             <button (click)="nextPage()" class="btn btn-outline-primary next pull-right" [disabled]="!(morePlants$ | async)">
               Next Page
             </button>
-            <button (click)="previousPage()" class="btn btn-outline-primary pull-right mr-2" [disabled]="isLoading">
+            <button (click)="previousPage()" class="btn btn-outline-primary pull-right mr-2" [disabled]="isPlantsLoading$ | async">
               Previous Page
             </button>
           </div>
