@@ -114,6 +114,7 @@ async function asyncDeleteImages(images) {
     await plantProfileImageService.deleteBlob(images[index]);
   }
 }
+
 export const uploadPlantProfilePhoto = async (req, res, next) => {
   const uploadRequest: uploadRequest = {
     file: req.body.images.value,
