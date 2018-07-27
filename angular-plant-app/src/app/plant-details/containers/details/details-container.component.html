@@ -1,8 +1,5 @@
 <div class="row">
   <div class="col-lg-8">
-    <vault-details [profileImage]="plantProfileImage$ | async" [details]="details$ | async"></vault-details>
-    <div class="row">
-      <file-upload class="col-xl-4" (fileChange)="saveProfileImage($event)"></file-upload>
-    </div>
+    <vault-details (profileImageSaved)="saveProfileImage($event)" [profileImage]="plantProfileImage$ | async" [details]="details$ | async"></vault-details>
   </div>
 </div>
