@@ -30,7 +30,7 @@ const plantSchema = new Schema(
       type: String,
       required: true
     },
-    expenses: {
+    profileImages: {
       type: Array,
       required: false
     }

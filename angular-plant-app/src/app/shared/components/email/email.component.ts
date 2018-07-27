@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
-import { validateEmail, emailMask } from 'app/shared/utilities';
+import { validateEmail, emailMask } from '../../utilities';
 
 @Component({
   selector: 'vault-email',

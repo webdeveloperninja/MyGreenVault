@@ -4,6 +4,7 @@ import url from 'url';
 import * as plantQuery from '../repositories/plant';
 import * as plantProfileImageService from '../services/plant-profile-image';
 import { uploadRequest } from '../services/plant-profile-image';
+import { PlantDetails } from '../contracts/plant-details';
 
 export const getPaged = (req: Request, res: Response) => {
   const userId = req.user._id;
@@ -35,18 +36,22 @@ export const getAll = (req: Request, res: Response) => {
     });
 };
 
-export const get = (req: Request, res: Response) => {
-  const plantNumber = req.params.plantNumber;
+export const get = async (req: Request, res: Response) => {
+  const plantId = req.params.plantId;
   const userId = req.user._id;
 
-  plantQuery
-    .getPlant(userId, plantNumber)
-    .then((job: any) => {
-      res.json(job);
-    })
-    .catch((err: any) => {
-      res.send(500);
-    });
+  try {
+    const plant = await plantQuery.getPlant(userId, plantId);
+    res
+      .send(plant)
+      .status(200)
+      .end();
+  } catch (err) {
+    res
+      .send(err)
+      .status(500)
+      .end();
+  }
 };
 
 export const add = (req: Request, res: Response) => {
@@ -84,45 +89,51 @@ export const update = (req: Request, res: Response) => {
     });
 };
 
-export const remove = (req: Request, res: Response) => {
-  const job = req.body;
+export const remove = async (req: Request, res: Response) => {
+  const plantToDelete = req.body;
 
-  plantQuery
-    .removeJob(job)
-    .then((data: any) => {
-      res.status(200).send({
-        success: true
-      });
-    })
-    .catch((err: any) => {
-      res.send(500);
-    });
+  try {
+    const plant = (await plantQuery.getPlant(req.user._id, req.body._id)) as any;
+
+    if (!!plant && !!plant.profileImages.length && plant.profileImages.length > 0) {
+      await deleteImages(plant.profileImages);
+    }
+
+    const removedPlant = await plantQuery.remove(plantToDelete);
+    res
+      .send(removedPlant)
+      .status(200)
+      .end();
+  } catch (err) {
+    res.send(err).status(500);
+  }
 };
 
-export const uploadPlantProfilePhoto = (req, res, next) => {
+async function deleteImages(images) {
+  for (let index = 0; index < images.length; index++) {
+    await plantProfileImageService.deleteBlob(images[index]);
+  }
+}
+
+export const uploadPlantProfilePhoto = async (req, res, next) => {
   const uploadRequest: uploadRequest = {
     file: req.body.images.value,
     userId: req.user._id.toString(),
     plantId: req.body.plantId
   };
 
-  plantProfileImageService
-    .upload(uploadRequest)
-    .then(t => {
-      res.status(200).end();
-    })
-    .catch(err => {
-      res.send(err).status(500);
-    });
-};
+  try {
+    const blobName = (await plantProfileImageService.upload(uploadRequest)) as string;
+    const blobUrl = plantProfileImageService.getBlobUrl(blobName);
 
-export const deletePlantProfilePhoto = (req, res, next) => {
-  const plantId = req.body.plantId;
-  const userId = req.user._id.toString();
-
-  plantProfileImageService.deleteImage(plantId, userId).then(t => {
-    res.status(200).end();
-  });
+    await plantQuery.addProfilImage(req.body.plantId, blobUrl);
+    res.send({ imageUrl: blobUrl }).sendStatus(200);
+  } catch (err) {
+    res
+      .send(err)
+      .status(500)
+      .end();
+  }
 };
 
 function doUpdatePlant(userId: any, job: any) {
@@ -170,7 +181,7 @@ function getPlant(userId: any, plantNumber: any) {
 
 function addPlant(userId: any, plant: any) {
   return new Promise((resolve, reject) => {
-    Promise.all([getPlant(userId, plant.plantNumber)]).then((data: any) => {
+    Promise.all([getPlant(userId, plant._id)]).then((data: any) => {
       if (!data[0].plantNumber) {
         plantQuery
           .addPlant(plant)

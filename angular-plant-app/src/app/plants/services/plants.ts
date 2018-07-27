@@ -7,18 +7,18 @@ import 'rxjs/add/operator/map';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { PagedList } from 'app/shared/models';
+import { PagedList } from '../../shared/models';
 import { tap } from 'rxjs/operators';
 
 import { Plant } from '../models';
 import { PlantsState } from './plants-state';
-import { TokenService } from 'app/shared/services/token/token.service';
+import { TokenService } from '../../shared/services/token/token.service';
 
 export const DEFAULT_SKIP: number = 0;
 export const DEFAULT_TAKE: number = 8;
 
 @Injectable()
-export class PlantsService extends PlantsState {
+export class PlantsSearchService extends PlantsState {
   constructor(
     private _http: HttpClient,
     private _route: ActivatedRoute,

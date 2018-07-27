@@ -27,11 +27,11 @@ export const addSale = (req: Request, res: Response) => {
 };
 
 export const getAll = (req: Request, res: Response) => {
-  const plantNumber = req.params.plantNumber;
+  const plantId = req.params.plantId;
   const userId = req.user._id;
 
   saleRepository
-    .getAll(userId, plantNumber)
+    .getAll(userId, plantId)
     .then((sales: any) => {
       res.json(sales);
     })

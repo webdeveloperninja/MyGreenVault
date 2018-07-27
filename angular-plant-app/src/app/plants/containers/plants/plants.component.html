@@ -1,0 +1,91 @@
+<div class="row">
+  <div class="col">
+    <loading [isLoading]="isPlantsLoading$ | async"></loading>
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <button class="btn btn-outline-primary mb-2 pull-right" (click)="addPlant()">
+          <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Plant
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>Plant Name</th>
+                <th>Plant Number</th>
+                <th class="w-25">Plant Description</th>
+                <th>Status</th>
+                <th class="text-center actions">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let plant of plants$ | async">
+                <td>
+                  <a [routerLink]="['/details', plant._id]">
+                    <img [src]="plant.profileImages | profileImages" class="plant-thumbnail img-thumbnail rounded-circle"> {{ plant.plantName | empty }}
+                  </a>
+                </td>
+                <td>
+                  <a [routerLink]="['/details', plant._id]">
+                    {{ plant.plantNumber | empty }}
+                  </a>
+                </td>
+                <td>
+                  <a [routerLink]="['/details', plant._id]">
+                    {{ plant.plantDescription | truncate : 255 | empty }}
+
+                  </a>
+                </td>
+                <td>
+                  <ti-job-status-chip [jobStatus]="plant.plantStatus">
+                  </ti-job-status-chip>
+                </td>
+                <td>
+                  <button class="btn btn-outline-danger pull-right" (click)="removePlant(plant)">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </button>
+                  <button class="btn btn-outline-primary pull-right mr-2" (click)="openUpdatePlantModal(plant._id)">
+                    <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit
+                  </button>
+                  <button class="btn btn-outline-primary pull-right mr-2" [routerLink]="['/plants', plant._id]">
+                    <i class="fa fa-usd mr-2" aria-hidden="true"></i>Profit/Loss
+                  </button>
+                  <button class="btn btn-outline-primary pull-right mr-2" [routerLink]="['/details', plant._id]">
+                    <i class="fa fa-eye mr-2" aria-hidden="true"></i>Details
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="!hasPlants && !(isPlantsLoading$ | async)">
+                <td colspan="10">
+                  No results found.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <button (click)="nextPage()" class="btn btn-outline-primary next pull-right" [disabled]="!(morePlants$ | async)">
+              Next Page
+            </button>
+            <button (click)="previousPage()" class="btn btn-outline-primary pull-right mr-2" [disabled]="isPlantsLoading$ | async">
+              Previous Page
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #updatePlantRef let-c="close" let-d="dismiss">
+      <update-plant [activePlant]="activePlant$ | async" (closeUpdateModal)="closeUpdatePlantModal($event)">
+      </update-plant>
+    </ng-template>
+    <ng-template #addPlantRef let-c="close" let-d="dismiss">
+      <add-plant (closeAddPlantModal)="closeAddPlantModal()" [skip]="skip" [take]="take">
+      </add-plant>
+    </ng-template>
+  </div>
+</div>

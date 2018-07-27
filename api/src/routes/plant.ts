@@ -12,13 +12,12 @@ module.exports = function() {
   router.post('/', plant.add);
   router.put('/', plant.update);
   router.post('/remove', plant.remove);
-  router.get('/:plantNumber', plant.get);
+  router.get('/:plantId', plant.get);
   router.post('/:plantNumber/profile-image', plant.uploadPlantProfilePhoto);
-  router.post('/:plantNumber/delete-profile-image', plant.deletePlantProfilePhoto);
 
-  router.post('/:plantNumber/sales', sale.addSale);
-  router.get('/:plantNumber/sales', sale.getAll);
-  router.post('/:plantNumber/sales/remove', sale.remove);
+  router.post('/:plantId/sales', sale.addSale);
+  router.get('/:plantId/sales', sale.getAll);
+  router.post('/:plantId/sales/remove', sale.remove);
 
   router.get('/:plantNumber/expenses', expense.getAll);
   router.post('/:plantNumber/expenses', expense.add);

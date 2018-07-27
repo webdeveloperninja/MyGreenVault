@@ -1,13 +1,14 @@
 import { Plant } from '../models/Plant';
+import { resolve } from 'dns';
 
 const User = require('../models/User');
 const MongoObjectId = require('mongodb').ObjectID;
 
-export const getPlant = (userId: any, plantNumber: any) => {
+export const getPlant = (userId: any, plantId: any) => {
   return new Promise((resolve, reject) => {
     let queryObj = {
       userId: MongoObjectId(userId),
-      plantNumber: plantNumber
+      _id: MongoObjectId(plantId)
     };
 
     Plant.find(queryObj)
@@ -131,6 +132,17 @@ export const getAllPlants = (userId: any) => {
   });
 };
 
+export const addProfilImage = (plantId: string, plantProfileImage) => {
+  return new Promise((resolve, reject) => {
+    Plant.update({ _id: MongoObjectId(plantId) }, { $push: { profileImages: plantProfileImage } }, (err, res) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(res);
+    });
+  });
+};
+
 export const updateJob = (updatedJob: any) => {
   return new Promise((resolve, reject) => {
     Plant.findOneAndUpdate(
@@ -148,7 +160,7 @@ export const updateJob = (updatedJob: any) => {
   });
 };
 
-export const removeJob = (job: any) => {
+export const remove = (job: any) => {
   return new Promise((resolve, reject) => {
     Plant.find({
       _id: MongoObjectId(job._id),

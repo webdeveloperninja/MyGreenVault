@@ -1,4 +1,4 @@
-import * as masks from 'text-mask-addons';
+import * as masks from 'text-mask-addons/dist/textMaskAddons';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 export const zipMask = [/\d/, /\d/, /\d/, /\d/, /\d/];

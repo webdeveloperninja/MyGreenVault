@@ -2,27 +2,13 @@ const storage = require('azure-storage');
 const blobService = storage.createBlobService(
   'DefaultEndpointsProtocol=https;AccountName=mygreenvault;AccountKey=vYtRW695qL2ej9LVFwwwIqlD5qba8KK6KtUWmRqoXPQyTr8W6/I93Y2+wtnAQS27DomQcwmrcUhFP+oTk2tU5A==;EndpointSuffix=core.windows.net'
 );
-
+const uuidv1 = require('uuid/v1');
+const containerName = 'plant-profile-photo';
 export interface uploadRequest {
   file: string;
   userId: string;
   plantId: string;
 }
-
-export const deleteImage = (plantId: string, userId: string) => {
-  return new Promise((resolve, reject) => {
-    const containerName = 'plant-profile-photo';
-
-    const imageName = `${userId}:${plantId}:profile`;
-
-    blobService.deleteBlob(containerName, imageName, (err, result) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(result);
-    });
-  });
-};
 
 export const upload = (uploadRequest: uploadRequest) => {
   return new Promise((resolve, reject) => {
@@ -32,7 +18,7 @@ export const upload = (uploadRequest: uploadRequest) => {
     const contentType = fileParts[1];
     const imageBuffer = new Buffer(fileParts[2], 'base64');
 
-    const blobName = `${uploadRequest.userId}:${uploadRequest.plantId}:profile`;
+    const blobName = `${uploadRequest.userId}:${uploadRequest.plantId}:${uuidv1()}:profile`;
 
     blobService.createBlockBlobFromText(
       containerName,
@@ -47,9 +33,28 @@ export const upload = (uploadRequest: uploadRequest) => {
         if (error) {
           reject(error);
         } else {
-          resolve({ message: `Upload of '${blobName}' complete` });
+          resolve(blobName);
         }
       }
     );
   });
+};
+
+export const deleteBlob = (blobPath: string) => {
+  return new Promise((resolve, reject) => {
+    const urlPath = 'https://mygreenvault.blob.core.windows.net/plant-profile-photo/';
+    const containerName = 'plant-profile-photo';
+    const blobName = blobPath.replace(urlPath, '');
+
+    blobService.deleteBlob(containerName, blobName, (error, result, response) => {
+      if (error) {
+        reject(error);
+      }
+      resolve(result);
+    });
+  });
+};
+
+export const getBlobUrl = (blobName: string) => {
+  return `https://mygreenvault.blob.core.windows.net/${containerName}/${blobName}`;
 };

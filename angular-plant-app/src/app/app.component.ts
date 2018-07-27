@@ -1,33 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { SideNavService } from './shared/services/side-nav/side-nav.service';
-import { Observable } from 'rxjs/Observable';
-import { HeaderService } from './shared/services/header/header.service';
-import { Router, ActivatedRoute, Params, Event, NavigationEnd } from '@angular/router';
+import { Component } from '@angular/core';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-    isBeta = false;
-    isSideNavOpen$: Observable<boolean>;
-    title: string = 'Dashboard';
-    headerText$: Observable<string>;
-
-    constructor(
-        private _sideNavService: SideNavService,
-        private _headerService: HeaderService,
-        private _router: Router) {
-
-    }
-
-    clearHeader(): void {
-        this._headerService.setHeaderText('------');
-    }
-
-    ngOnInit() {
-        this.isSideNavOpen$ = this._sideNavService.isSideNavOpen$;
-        this.headerText$ = this._headerService.headerText$;
-    }
-}
+export class AppComponent {}
