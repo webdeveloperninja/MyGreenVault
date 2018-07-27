@@ -10,7 +10,7 @@
         </ng-container>
       </p>
       <button class="btn btn-outline-primary" (click)="openAddExpenseModal()">
-        <span class="fa fa-plus"></span>
+        <span class="fa fa-plus"></span> Expense
       </button>
     </div>
   </div>
@@ -32,11 +32,11 @@
                 </button>
               </td>
             </tr>
-            <tr *ngIf="!hasExpenses">
+            <tr *ngIf="!hasExpenses && !(expensesLoading$ | async)">
               <td>There are no expense</td>
               <td>
                 <button class="btn btn-outline-primary pull-right" (click)="openAddExpenseModal()">
-                  <span class="fa fa-plus"></span> Add Expense
+                  <span class="fa fa-plus"></span> Expense
                 </button>
               </td>
             </tr>

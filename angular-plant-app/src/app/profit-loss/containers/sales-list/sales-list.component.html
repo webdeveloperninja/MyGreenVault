@@ -10,7 +10,7 @@
         </ng-container>
       </p>
       <button class="btn btn-outline-primary" (click)="addSale()">
-        <span class="fa fa-plus"></span>
+        <span class="fa fa-plus"></span> Sell
       </button>
     </div>
   </div>
@@ -58,14 +58,14 @@
                 </button>
               </td>
             </tr>
-            <tr *ngIf="hasNoSales$ | async">
+            <tr *ngIf="(hasNoSales$ | async) && !(salesLoading$ | async)">
               <td>There are no sales</td>
               <td></td>
               <td></td>
               <td></td>
               <td>
                 <button class="btn btn-outline-primary pull-right" (click)="addSale()">
-                  <span class="fa fa-plus"></span> Add Sale
+                  <span class="fa fa-plus"></span> Sell
                 </button>
               </td>
             </tr>
