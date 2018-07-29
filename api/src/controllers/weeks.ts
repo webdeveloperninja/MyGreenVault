@@ -25,7 +25,7 @@ export const update = async (req: Request, res: Response) => {
   try {
     const weeks = await weeksRepository.updateWeek(weekId, updated);
     res
-      .send(weeks)
+      .send({ weeks: weeks })
       .status(200)
       .end();
   } catch (err) {
