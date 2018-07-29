@@ -40,5 +40,18 @@ export class DetailsEffects {
     })
   );
 
+  @Effect()
+  loadPlantWeeks$: Observable<Action> = this.actions$.pipe(
+    ofType<fromDetailsActions.DetailsLoadedAction>(fromDetailsActions.ActionTypes.DetailsLoaded),
+    withLatestFrom(this._store.select(fromDetailsSelectors.getDetails)),
+    map(([action, details]) => [action.payload, details.weeks]),
+    switchMap(([_, weeks]: [any, string[]]) => {
+      return this._plantService.getPlantWeeks(weeks).pipe(
+        map((weeks: any) => new fromDetailsActions.PlantWeeksLoaded(weeks)),
+        catchError(err => of(new fromDetailsActions.PlantWeeksLoadFailed(err)))
+      );
+    })
+  );
+
   constructor(private actions$: Actions, private _plantService: PlantDetailsService, private _store: Store<fromDetails.State>) {}
 }

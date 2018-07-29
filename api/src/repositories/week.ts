@@ -31,3 +31,17 @@ export const addMany = newWeeks => {
     });
   });
 };
+
+export const getWeeks = (weekIds: string[]) => {
+  return new Promise((resolve, reject) => {
+    Week.find()
+      .where('_id')
+      .in(weekIds)
+      .exec((err, weeks) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(weeks);
+      });
+  });
+};

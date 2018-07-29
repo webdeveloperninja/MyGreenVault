@@ -36,6 +36,13 @@ export class PlantDetailsService {
     );
   }
 
+  public getPlantWeeks(weekIds: string[]) {
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let url = `/api/v1/plants/weeks`;
+
+    return this._http.post(url, weekIds, { headers: headers, withCredentials: true });
+  }
+
   public saveProfileImage(plantId, images) {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     let url = `/api/v1/plants/${plantId}/profile-image`;
