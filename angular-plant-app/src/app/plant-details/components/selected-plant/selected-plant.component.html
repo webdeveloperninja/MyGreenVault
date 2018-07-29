@@ -1,4 +1,7 @@
-<button (click)="toggleEdit()" class="btn btn-primary">
-  Edit</button>
-<vault-update-week [weekId]="selectedWeek?._id" [week]="selectedWeek" *ngIf="isEdit"></vault-update-week>
-<vault-week [week]="selectedWeek" *ngIf="!isEdit"></vault-week>
+<div class="container-fluid mt-4">
+  <div class="row">
+    <div class="col-12">
+      <vault-update-week [weekId]="selectedWeek?._id" [week]="selectedWeek"></vault-update-week>
+    </div>
+  </div>
+</div>

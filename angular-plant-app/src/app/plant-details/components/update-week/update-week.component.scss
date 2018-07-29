@@ -1,0 +1,23 @@
+label {
+  width: 200px;
+}
+
+.readonly {
+  input {
+    background-color: transparent !important;
+    border: none !important;
+    &:hover {
+      border: 1px dashed grey !important;
+      cursor: pointer;
+    }
+  }
+}
+
+.actions {
+  position: absolute;
+  right: 0;
+}
+
+.edit {}
+
+.submit {}

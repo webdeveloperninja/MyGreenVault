@@ -1,10 +1,17 @@
-<div class="d-flex">
-  <div class="d-flex" *ngFor="let week of weeks; let i = index">
-    <button (click)="selectWeek(week)" class="btn btn-primary">
-      Week {{ i + 1 }}
-    </button>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex">
+        <div class="d-flex" *ngFor="let week of weeks; let i = index">
+          <button (click)="selectWeek(week)" class="btn btn-primary" [ngClass]="{'active': week?._id === selected?._id}">
+            Week {{ i + 1 }}
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
 <div class="d-flex">
-  <vault-selected-plant [selectedWeek]="selectedWeek$ | async"></vault-selected-plant>
+  <vault-selected-plant style="width: 100%;" [selectedWeek]="selectedWeek$ | async"></vault-selected-plant>
 </div>

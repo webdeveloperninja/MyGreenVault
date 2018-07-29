@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as fromDetails from '../../reducers/plant-details.reducer';
 import * as fromDetailsActions from '../../actions/details.actions';
+import { Actions, ofType } from '@ngrx/effects';
+import { NotificationService } from 'app/shared/services/notification/notification.service';
 
 @Component({
   selector: 'vault-update-week',
@@ -10,11 +12,17 @@ import * as fromDetailsActions from '../../actions/details.actions';
   styleUrls: ['./update-week.component.scss']
 })
 export class UpdateWeekComponent implements OnInit, OnChanges {
+  isReadOnly = true;
   @Input() weekId: string;
   @Input() week: any;
   weekFormGroup: FormGroup;
 
-  constructor(private _formBuilder: FormBuilder, private _store: Store<fromDetails.State>) {
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _store: Store<fromDetails.State>,
+    private actions$: Actions,
+    private readonly notifiactionService: NotificationService
+  ) {
     this.createForm();
   }
 
@@ -36,7 +44,20 @@ export class UpdateWeekComponent implements OnInit, OnChanges {
     this._store.dispatch(new fromDetailsActions.UpdateWeek({ weekId: this.weekId, week: this.weekFormGroup.value }));
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.actions$.pipe(ofType<fromDetailsActions.WeekUpdated>(fromDetailsActions.ActionTypes.WeekUpdated)).subscribe(updated => {
+      this.isReadOnly = true;
+      this.notifiactionService.setNotificationOn('Updated plant');
+    });
+  }
+
+  toggleReadOnly() {
+    if (this.isReadOnly) {
+      this.isReadOnly = false;
+    } else {
+      this.isReadOnly = true;
+    }
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     this.weekFormGroup.reset();

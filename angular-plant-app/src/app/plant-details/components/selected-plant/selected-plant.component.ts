@@ -7,7 +7,7 @@ import { trigger, transition, style, animate, query, group } from '@angular/anim
   styleUrls: ['./selected-plant.component.scss']
 })
 export class SelectedPlantComponent implements OnInit {
-  isEdit = true;
+  isEdit = false;
   @Input() selectedWeek;
 
   constructor() {}
