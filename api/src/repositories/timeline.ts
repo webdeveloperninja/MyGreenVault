@@ -1,4 +1,4 @@
-import { Timeline } from '../models/timeline';
+import { Timeline } from '../models/Timeline';
 
 export const add = (weeks: string[]) => {
   const newTimeline = new Timeline({ weeks });

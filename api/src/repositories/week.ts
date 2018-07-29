@@ -1,4 +1,4 @@
-import { Week } from '../models/week';
+import { Week } from '../models/Week';
 import { resolve } from 'url';
 import { weekdaysShort } from 'moment';
 const MongoObjectId = require('mongodb').ObjectID;
