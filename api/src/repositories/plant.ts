@@ -160,6 +160,22 @@ export const updateJob = (updatedJob: any) => {
   });
 };
 
+export const update = (id, updated: any) => {
+  return new Promise((resolve, reject) => {
+    Plant.findOneAndUpdate(
+      {
+        _id: MongoObjectId(id)
+      },
+      updated
+    ).exec((err: any, updated) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(updated);
+    });
+  });
+};
+
 export const remove = (job: any) => {
   return new Promise((resolve, reject) => {
     Plant.find({
