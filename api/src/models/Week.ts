@@ -12,39 +12,39 @@ const weekSchema = new Schema(
     },
     height: {
       type: Number,
-      required: true
+      required: false
     },
     lightSchedule: {
       type: Number,
-      required: true
+      required: false
     },
     dayAirTemperature: {
       type: Number,
-      required: true
+      required: false
     },
     nightAirTemperature: {
       type: Number,
-      required: true
+      required: false
     },
     ph: {
       type: Number,
-      required: true
+      required: false
     },
     airHumidity: {
       type: Number,
-      required: true
+      required: false
     },
     smell: {
       type: String,
-      required: true
+      required: false
     },
     soilTemperature: {
       type: Number,
-      required: true
+      required: false
     },
     lampToPlantDistance: {
       type: Number,
-      required: true
+      required: false
     }
   },
   {
