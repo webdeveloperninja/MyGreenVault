@@ -12,7 +12,6 @@ import { NotificationService } from 'app/shared/services/notification/notificati
   styleUrls: ['./update-week.component.scss']
 })
 export class UpdateWeekComponent implements OnInit, OnChanges {
-  isReadOnly = true;
   @Input() weekId: string;
   @Input() week: any;
   weekFormGroup: FormGroup;
@@ -46,17 +45,8 @@ export class UpdateWeekComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.actions$.pipe(ofType<fromDetailsActions.WeekUpdated>(fromDetailsActions.ActionTypes.WeekUpdated)).subscribe(updated => {
-      this.isReadOnly = true;
       this.notifiactionService.setNotificationOn('Updated plant');
     });
-  }
-
-  toggleReadOnly() {
-    if (this.isReadOnly) {
-      this.isReadOnly = false;
-    } else {
-      this.isReadOnly = true;
-    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
