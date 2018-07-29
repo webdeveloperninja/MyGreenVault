@@ -1,55 +1,39 @@
-<form>
-  <div class="form-group d-flex align-items-center">
+<form [formGroup]="weekFormGroup" (ngSubmit)="addWeek()">
+  <div class="form-group">
     <label for="exampleInputEmail1" class="mr-3">Height</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+    <input class="form-control" formControlName="height">
   </div>
-  <div class="form-group d-flex align-items-center">
+  <div class="form-group">
     <label for="exampleInputEmail1" class="mr-3">Light Schedule</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+    <input class="form-control" formControlName="lightSchedule">
   </div>
-  <div class="form-group d-flex align-items-center">
+  <div class="form-group">
     <label for="exampleInputEmail1" class="mr-3">Day Air Temperature</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+    <input class="form-control" formControlName="dayAirTemperature">
   </div>
-  <div class="form-group d-flex align-items-center">
-    <label for="exampleInputEmail1" class="mr-3">PH</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-  </div>
-  <div class="form-group d-flex align-items-center">
-    <label for="exampleInputEmail1" class="mr-3">TDS</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-  </div>
-  <div class="form-group d-flex align-items-center">
-    <label for="exampleInputEmail1" class="mr-3">Air Humidity</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-  </div>
-  <div class="form-group d-flex align-items-center">
-    <label for="exampleInputEmail1" class="mr-3">Smell</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-  </div>
-  <div class="form-group d-flex align-items-center">
-    <label for="exampleInputEmail1" class="mr-3">Solution Temperature</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-  </div>
-  <div class="form-group d-flex align-items-center">
-    <label for="exampleInputEmail1" class="mr-3">Substrate Temperature</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-  </div>
-  <div class="form-group d-flex align-items-center">
+  <div class="form-group">
     <label for="exampleInputEmail1" class="mr-3">Night Air Temperature</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+    <input class="form-control" formControlName="nightAirTemperature">
   </div>
-  <div class="form-group d-flex align-items-center">
-    <label for="exampleInputEmail1" class="mr-3">Pot Size</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+  <div class="form-group">
+    <label for="exampleInputEmail1" class="mr-3">Ph</label>
+    <input class="form-control" formControlName="ph">
   </div>
-  <div class="form-group d-flex align-items-center">
+  <div class="form-group">
+    <label for="exampleInputEmail1" class="mr-3">Air Humidity</label>
+    <input class="form-control" formControlName="airHumidity">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1" class="mr-3">Smell</label>
+    <input class="form-control" formControlName="smell">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1" class="mr-3">Soil Temperature</label>
+    <input class="form-control" formControlName="soilTemperature">
+  </div>
+  <div class="form-group">
     <label for="exampleInputEmail1" class="mr-3">Lamp to plant distance</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-  </div>
-  <div class="form-group d-flex align-items-center">
-    <label for="exampleInputEmail1" class="mr-3">WATERING VOLUME PER PLANT PER 24H</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+    <input class="form-control" formControlName="lampToPlantDistance">
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { trigger, transition, style, animate, query, group } from '@angular/animations';
 
 @Component({
   selector: 'vault-selected-plant',
@@ -6,10 +7,18 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./selected-plant.component.scss']
 })
 export class SelectedPlantComponent implements OnInit {
+  isEdit = true;
   @Input() selectedWeek;
-  constructor() { }
 
-  ngOnInit() {
+  constructor() {}
+
+  ngOnInit() {}
+
+  toggleEdit() {
+    if (this.isEdit) {
+      this.isEdit = false;
+    } else {
+      this.isEdit = true;
+    }
   }
-
 }

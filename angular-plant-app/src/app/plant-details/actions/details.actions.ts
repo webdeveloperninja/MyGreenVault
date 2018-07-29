@@ -10,7 +10,10 @@ export enum ActionTypes {
   LoadPlantWeeks = '[Plant Details] Load Plant Weeks',
   PlantWeeksLoaded = '[Plant Details] Plant Weeks Loaded',
   PlantWeeksLoadFailed = '[Plant Details] Plant Weeks Load Failed',
-  SelectPlantWeek = '[Plant Details] Plant Week Clicked'
+  SelectPlantWeek = '[Plant Details] Plant Week Clicked',
+  UpdateWeek = '[Plant Details] Update Week',
+  WeekUpdated = '[Plant Details] Week Updated',
+  UpdateWeekFailed = '[Plant Details] Update Week Failed'
 }
 
 export class LoadPlantProfileImage implements Action {
@@ -66,6 +69,20 @@ export class SelectPlantWeek implements Action {
   constructor(public payload: string) {}
 }
 
+export class UpdateWeek implements Action {
+  readonly type = ActionTypes.UpdateWeek;
+  constructor(public payload: { weekId: string; week: any }) {}
+}
+
+export class WeekUpdated implements Action {
+  readonly type = ActionTypes.WeekUpdated;
+  constructor(public payload: any) {}
+}
+export class UpdateWeekFailed implements Action {
+  readonly type = ActionTypes.UpdateWeekFailed;
+  constructor(public payload: any) {}
+}
+
 export type All =
   | LoadDetailsAction
   | DetailsLoadedAction
@@ -76,4 +93,7 @@ export type All =
   | LoadPlantWeeks
   | PlantWeeksLoaded
   | PlantWeeksLoadFailed
-  | SelectPlantWeek;
+  | SelectPlantWeek
+  | UpdateWeek
+  | WeekUpdated
+  | UpdateWeekFailed;

@@ -51,4 +51,11 @@ export class PlantDetailsService {
 
     return this._http.post(url, imagesRequest, { headers: headers });
   }
+
+  public updateWeek(weekId, updated) {
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let url = `/api/v1/plants/${weekId}/weeks/update`;
+
+    return this._http.post(url, updated, { headers: headers });
+  }
 }

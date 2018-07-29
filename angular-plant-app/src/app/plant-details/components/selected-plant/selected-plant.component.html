@@ -1,3 +1,4 @@
-<p>Start: {{ selectedWeek?.start | date }}</p>
-<p>End: {{ selectedWeek?.end | date }}</p>
-<vault-update-week></vault-update-week>
+<button (click)="toggleEdit()" class="btn btn-primary">
+  Edit</button>
+<vault-update-week [weekId]="selectedWeek?._id" [week]="selectedWeek" *ngIf="isEdit"></vault-update-week>
+<vault-week [week]="selectedWeek" *ngIf="!isEdit"></vault-week>
