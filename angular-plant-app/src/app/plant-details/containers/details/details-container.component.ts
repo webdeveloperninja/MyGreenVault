@@ -14,6 +14,7 @@ export class DetailsContainerComponent implements OnInit {
   plantId: string;
   details$ = this._store.select(fromDetailsSelectors.getDetails);
   plantProfileImage$ = this._store.select(fromDetailsSelectors.getPlantProfileImage);
+  weeks$ = this._store.select(fromDetailsSelectors.getWeeks);
 
   constructor(private readonly _activatedRoute: ActivatedRoute, private _store: Store<fromDetails.State>) {}
 

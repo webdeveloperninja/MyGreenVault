@@ -1,10 +1,13 @@
 import { Request, Response } from 'express';
 import url from 'url';
-
 import * as plantQuery from '../repositories/plant';
+import * as timelineQuery from '../repositories/timeline';
+import * as weekQuery from '../repositories/week';
+import * as plantProvider from '../providers/plant';
 import * as plantProfileImageService from '../services/plant-profile-image';
 import { uploadRequest } from '../services/plant-profile-image';
 import { PlantDetails } from '../contracts/plant-details';
+const moment = require('moment');
 
 export const getPaged = (req: Request, res: Response) => {
   const userId = req.user._id;
@@ -54,23 +57,25 @@ export const get = async (req: Request, res: Response) => {
   }
 };
 
-export const add = (req: Request, res: Response) => {
-  let plant = {} as any;
+export const add = async (req: Request, res: Response) => {
+  let plantRequest = {} as any;
 
   if (req.body._id) {
-    plant = req.body;
+    plantRequest = req.body;
   } else {
-    plant = req.body;
-    plant.userId = req.user._id;
+    plantRequest = req.body;
+    plantRequest.userId = req.user._id;
   }
 
-  addPlant(req.user._id, plant)
-    .then(data => {
-      res.status(200).send(data);
-    })
-    .catch(err => {
-      res.status(err.code).send(err);
-    });
+  try {
+    const added = await plantProvider.add(plantRequest);
+    res
+      .send(added)
+      .status(200)
+      .end();
+  } catch (err) {
+    res.send(err).status(500);
+  }
 };
 
 export const update = (req: Request, res: Response) => {
@@ -179,12 +184,17 @@ function getPlant(userId: any, plantNumber: any) {
   });
 }
 
-function addPlant(userId: any, plant: any) {
+async function addPlant(userId: any, plantRequest: any) {
+  const plant = await getPlant(userId, plantRequest._id);
+
+  if (!!plant) {
+  }
+
   return new Promise((resolve, reject) => {
-    Promise.all([getPlant(userId, plant._id)]).then((data: any) => {
+    Promise.all([getPlant(userId, plantRequest._id)]).then((data: any) => {
       if (!data[0].plantNumber) {
         plantQuery
-          .addPlant(plant)
+          .addPlant(plantRequest)
           .then((jobResponse: any) => {
             resolve(jobResponse._doc);
           })

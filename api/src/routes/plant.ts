@@ -2,6 +2,7 @@ const sale = require('../controllers/sale');
 const expense = require('../controllers/expense');
 const plant = require('../controllers/plant');
 const passportMiddleware = require('../middleware/passport');
+const weeks = require('../controllers/weeks');
 
 module.exports = function() {
   'use strict';
@@ -15,6 +16,8 @@ module.exports = function() {
   router.get('/:plantId', plant.get);
   router.post('/:plantNumber/profile-image', plant.uploadPlantProfilePhoto);
 
+  router.post('/weeks', weeks.get);
+  router.post('/:weekId/weeks/update', weeks.update);
   router.post('/:plantId/sales', sale.addSale);
   router.get('/:plantId/sales', sale.getAll);
   router.post('/:plantId/sales/remove', sale.remove);

@@ -13,17 +13,6 @@ import { PlantDetailsService } from '../services/plant.service';
 export const SEARCH_DEBOUNCE = new InjectionToken<number>('Search Debounce');
 export const SEARCH_SCHEDULER = new InjectionToken<Scheduler>('Search Scheduler');
 
-/**
- * Effects offer a way to isolate and easily test side-effects within your
- * application.
- *
- * If you are unfamiliar with the operators being used in these examples, please
- * check out the sources below:
- *
- * Official Docs: http://reactivex.io/rxjs/manual/overview.html#categories-of-operators
- * RxJS 5 Operators By Example: https://gist.github.com/btroncone/d6cf141d6f2c00dc6b35
- */
-
 @Injectable()
 export class DetailsEffects {
   @Effect()
@@ -49,6 +38,43 @@ export class DetailsEffects {
         catchError(err => of(new fromDetailsActions.PlantProfileImageLoadFailed(err)))
       );
     })
+  );
+
+  @Effect()
+  loadPlantWeeks$: Observable<Action> = this.actions$.pipe(
+    ofType<fromDetailsActions.DetailsLoadedAction>(fromDetailsActions.ActionTypes.DetailsLoaded),
+    withLatestFrom(this._store.select(fromDetailsSelectors.getDetails)),
+    map(([action, details]) => [action.payload, details.weeks]),
+    switchMap(([_, weeks]: [any, string[]]) => {
+      return this._plantService.getPlantWeeks(weeks).pipe(
+        map((weeks: any) => new fromDetailsActions.PlantWeeksLoaded(weeks)),
+        catchError(err => of(new fromDetailsActions.PlantWeeksLoadFailed(err)))
+      );
+    })
+  );
+
+  @Effect()
+  updateWeek$: Observable<Action> = this.actions$.pipe(
+    ofType<fromDetailsActions.UpdateWeek>(fromDetailsActions.ActionTypes.UpdateWeek),
+    map(action => action.payload),
+    switchMap(weekRequest => {
+      return this._plantService.updateWeek(weekRequest.weekId, weekRequest.week).pipe(
+        map((weeks: any) => new fromDetailsActions.WeekUpdated(weeks)),
+        catchError(err => of(new fromDetailsActions.UpdateWeekFailed(err)))
+      );
+    })
+  );
+
+  @Effect()
+  weekUpdated$: Observable<Action> = this.actions$.pipe(
+    ofType<fromDetailsActions.WeekUpdated>(fromDetailsActions.ActionTypes.WeekUpdated),
+    withLatestFrom(this._store.select(fromDetailsSelectors.getSelected)),
+    map(([action, plantId]) => plantId),
+    switchMap(
+      (plantId): any => {
+        return of(new fromDetailsActions.LoadDetailsAction({ plantId }));
+      }
+    )
   );
 
   constructor(private actions$: Actions, private _plantService: PlantDetailsService, private _store: Store<fromDetails.State>) {}

@@ -36,6 +36,13 @@ export class PlantDetailsService {
     );
   }
 
+  public getPlantWeeks(weekIds: string[]) {
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let url = `/api/v1/plants/weeks`;
+
+    return this._http.post(url, weekIds, { headers: headers, withCredentials: true });
+  }
+
   public saveProfileImage(plantId, images) {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     let url = `/api/v1/plants/${plantId}/profile-image`;
@@ -43,5 +50,12 @@ export class PlantDetailsService {
     const imagesRequest = { images: images, plantId };
 
     return this._http.post(url, imagesRequest, { headers: headers });
+  }
+
+  public updateWeek(weekId, updated) {
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let url = `/api/v1/plants/${weekId}/weeks/update`;
+
+    return this._http.post(url, updated, { headers: headers });
   }
 }

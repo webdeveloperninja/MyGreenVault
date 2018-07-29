@@ -1,6 +1,7 @@
 import { createSelector, createFeatureSelector, ActionReducerMap, combineReducers } from '@ngrx/store';
 import * as fromDetailsEntity from './plant-details.reducer';
 import * as fromDetailsImages from './plant-images.reducer';
+import * as fromPlantWeeks from './plant-weeks.reducer';
 import * as fromDetailsCollection from './collection.reducer';
 import * as fromRoot from '../../reducers';
 import { InjectionToken } from '@angular/core';
@@ -14,6 +15,7 @@ export interface DetailsState {
   entities: {
     details: fromDetailsEntity.State;
     images: fromDetailsImages.State;
+    weeks: fromPlantWeeks.State;
   };
   collection: fromDetailsCollection.State;
 }
@@ -22,13 +24,15 @@ export interface State extends fromRoot.State {
   entities: {
     details: fromDetailsEntity.State;
     profileImages: fromDetailsImages.State;
+    weeks: fromPlantWeeks.State;
   };
   collection: fromDetailsCollection.State;
 }
 
 const plantReducers = {
   details: fromDetailsEntity.reducer,
-  profileImages: fromDetailsImages.reducer
+  profileImages: fromDetailsImages.reducer,
+  weeks: fromPlantWeeks.reducer
 };
 
 export function getReducers() {

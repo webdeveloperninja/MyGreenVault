@@ -33,6 +33,10 @@ const plantSchema = new Schema(
     profileImages: {
       type: Array,
       required: false
+    },
+    weeks: {
+      type: Array,
+      required: false
     }
   },
   {

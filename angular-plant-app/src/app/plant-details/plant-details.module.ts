@@ -10,16 +10,31 @@ import { PlantDetailsService } from './services/plant.service';
 import { DetailsEffects } from './effects/details.effects';
 import { DetailsComponent } from './components/details/details.component';
 import { SharedModule } from '../shared/shared.module';
+import { TimelineComponent } from './containers/timeline/timeline.component';
+import { SelectedPlantComponent } from './components/selected-plant/selected-plant.component';
+import { UpdateWeekComponent } from './components/update-week/update-week.component';
+import { WeekComponent } from './components/week/week.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     SharedModule,
+    BrowserAnimationsModule,
     PlantDetailsRoutingModule,
     StoreModule.forFeature('plant', fromFeature.FEATURE_REDUCER_TOKEN),
     EffectsModule.forFeature([DetailsEffects])
   ],
-  declarations: [DetailsContainerComponent, DetailsComponent],
+  declarations: [
+    DetailsContainerComponent,
+    DetailsComponent,
+    TimelineComponent,
+    SelectedPlantComponent,
+    UpdateWeekComponent,
+    WeekComponent
+  ],
   providers: [PlantDetailsService]
 })
 export class PlantDetailsModule {
