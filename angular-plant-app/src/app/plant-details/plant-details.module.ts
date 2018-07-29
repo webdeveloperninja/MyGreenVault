@@ -10,6 +10,8 @@ import { PlantDetailsService } from './services/plant.service';
 import { DetailsEffects } from './effects/details.effects';
 import { DetailsComponent } from './components/details/details.component';
 import { SharedModule } from '../shared/shared.module';
+import { TimelineComponent } from './containers/timeline/timeline.component';
+import { SelectedPlantComponent } from './components/selected-plant/selected-plant.component';
 
 @NgModule({
   imports: [
@@ -19,7 +21,7 @@ import { SharedModule } from '../shared/shared.module';
     StoreModule.forFeature('plant', fromFeature.FEATURE_REDUCER_TOKEN),
     EffectsModule.forFeature([DetailsEffects])
   ],
-  declarations: [DetailsContainerComponent, DetailsComponent],
+  declarations: [DetailsContainerComponent, DetailsComponent, TimelineComponent, SelectedPlantComponent],
   providers: [PlantDetailsService]
 })
 export class PlantDetailsModule {

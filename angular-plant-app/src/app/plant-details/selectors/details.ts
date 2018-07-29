@@ -3,6 +3,7 @@ import { State as DetailsState, getPlantState } from '../reducers';
 import { State } from '../../reducers';
 
 export const getSelected = createSelector(getPlantState, plant => (!!plant ? plant.collection.selected : null));
+export const getSelectedWeekId = createSelector(getPlantState, plant => (!!plant ? plant.collection.selectedWeek : null));
 
 export const getDetails = createSelector(getPlantState, getSelected, (plants: any, selected: string) => {
   if (!plants || !selected) {
@@ -37,4 +38,12 @@ export const getWeeks = createSelector(getWeekIds, getWeekEntities, (weekIds: st
   }
 
   return weekIds.map(weekId => weeks[weekId]);
+});
+
+export const getSelectedWeek = createSelector(getWeekEntities, getSelectedWeekId, (weeks: any, selectedWeekId: string) => {
+  if (!weeks || !selectedWeekId) {
+    return;
+  }
+
+  return weeks[selectedWeekId];
 });

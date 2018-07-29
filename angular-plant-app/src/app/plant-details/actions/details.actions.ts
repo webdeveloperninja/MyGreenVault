@@ -9,7 +9,8 @@ export enum ActionTypes {
   PlantProfileImageLoadFailed = '[Plant Details] Plant Profile Image Load Failed',
   LoadPlantWeeks = '[Plant Details] Load Plant Weeks',
   PlantWeeksLoaded = '[Plant Details] Plant Weeks Loaded',
-  PlantWeeksLoadFailed = '[Plant Details] Plant Weeks Load Failed'
+  PlantWeeksLoadFailed = '[Plant Details] Plant Weeks Load Failed',
+  SelectPlantWeek = '[Plant Details] Plant Week Clicked'
 }
 
 export class LoadPlantProfileImage implements Action {
@@ -60,6 +61,11 @@ export class PlantWeeksLoadFailed implements Action {
   constructor(public payload: any) {}
 }
 
+export class SelectPlantWeek implements Action {
+  readonly type = ActionTypes.SelectPlantWeek;
+  constructor(public payload: string) {}
+}
+
 export type All =
   | LoadDetailsAction
   | DetailsLoadedAction
@@ -69,4 +75,5 @@ export type All =
   | PlantProfileImageLoadFailed
   | LoadPlantWeeks
   | PlantWeeksLoaded
-  | PlantWeeksLoadFailed;
+  | PlantWeeksLoadFailed
+  | SelectPlantWeek;

@@ -5,10 +5,12 @@ export interface PlantDetailsState {}
 
 export interface State {
   selected: string;
+  selectedWeek: string;
 }
 
 export const initialState: State = {
-  selected: null
+  selected: null,
+  selectedWeek: null
 };
 
 export function reducer(state = initialState, action: fromActions.All): State {
@@ -19,6 +21,14 @@ export function reducer(state = initialState, action: fromActions.All): State {
       return {
         ...state,
         selected: plantId
+      };
+    }
+    case fromActions.ActionTypes.SelectPlantWeek: {
+      const selectedWeekId = action.payload;
+
+      return {
+        ...state,
+        selectedWeek: selectedWeekId
       };
     }
     default: {
