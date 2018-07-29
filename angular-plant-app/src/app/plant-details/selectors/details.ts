@@ -21,3 +21,20 @@ export const getPlantProfileImage = createSelector(getPlantState, getSelected, (
 
   return image;
 });
+
+export const getWeekEntities = createSelector(getPlantState, plantState => plantState.entities.weeks);
+
+export const getWeekIds = createSelector(getDetails, (details: any) => {
+  if (!details) {
+    return;
+  }
+  return details.weeks;
+});
+
+export const getWeeks = createSelector(getWeekIds, getWeekEntities, (weekIds: string[], weeks) => {
+  if (!weekIds || !weeks) {
+    return;
+  }
+
+  return weekIds.map(weekId => weeks[weekId]);
+});
