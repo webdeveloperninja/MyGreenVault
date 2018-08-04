@@ -36,6 +36,7 @@ import { MediumTypeLabelPipe } from './pipes/medium-type-label.pipe';
 import { MediumTypeImagePipe } from './pipes/medium-type-image.pipe';
 import { ProfileImages } from './pipes/profile-images';
 import { TruncatePipe } from './pipes/truncate.pipe';
+import { MomentFormatPipe } from './pipes/moment-format.pipe';
 
 @NgModule({
   imports: [
@@ -74,7 +75,8 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     PlantProfilePipe,
     RoomTypeComponent,
     MediumComponent,
-    TruncatePipe
+    TruncatePipe,
+    MomentFormatPipe
   ],
   providers: [NotificationService, TokenService, LocalStorageService, SearchService, PlantsNavigationService, PlantProfilePipe],
   exports: [
@@ -102,7 +104,8 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     EmailComponent,
     TextMaskModule,
     FileUploadComponent,
-    PlantProfilePipe
+    PlantProfilePipe,
+    MomentFormatPipe
   ]
 })
 export class SharedModule {}

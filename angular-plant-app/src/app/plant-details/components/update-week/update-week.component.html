@@ -1,3 +1,7 @@
+<p class="text-center">
+  <strong>From</strong> {{week?.start | momentFormat: 'LL'}} -
+  <strong>through</strong> {{week?.end | momentFormat: 'LL'}}
+</p>
 <form [formGroup]="weekFormGroup" (ngSubmit)="addWeek()">
   <div class="form-group d-flex align-items-center">
     <label for="exampleInputEmail1" class="mr-3">Height</label>

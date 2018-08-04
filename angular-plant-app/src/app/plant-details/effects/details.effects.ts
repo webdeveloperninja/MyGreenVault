@@ -6,9 +6,10 @@ import { catchError, debounceTime, map, skip, switchMap, takeUntil, withLatestFr
 import * as fromDetailsSelectors from '../selectors/details';
 import * as fromDetailsActions from '../actions/details.actions';
 import * as fromDetails from '../reducers/plant-details.reducer';
-
+import * as moment from 'moment';
 import { Scheduler } from 'rxjs/internal/Scheduler';
 import { PlantDetailsService } from '../services/plant.service';
+import { Week } from '../models/week';
 
 export const SEARCH_DEBOUNCE = new InjectionToken<number>('Search Debounce');
 export const SEARCH_SCHEDULER = new InjectionToken<Scheduler>('Search Scheduler');
@@ -62,6 +63,27 @@ export class DetailsEffects {
         map((weeks: any) => new fromDetailsActions.WeekUpdated(weeks)),
         catchError(err => of(new fromDetailsActions.UpdateWeekFailed(err)))
       );
+    })
+  );
+
+  @Effect()
+  selectDefaultWeek$: Observable<Action> = this.actions$.pipe(
+    ofType<fromDetailsActions.PlantWeeksLoaded>(fromDetailsActions.ActionTypes.PlantWeeksLoaded),
+    withLatestFrom(this._store.select(fromDetailsSelectors.getWeekEntities)),
+    switchMap(([_, entities]) => {
+      let selectedWeek: Week;
+
+      for (const prop in entities) {
+        const week: Week = entities[prop];
+
+        if (moment().isSameOrAfter(week.start, 'day') && moment().isSameOrBefore(week.end, 'day')) {
+          selectedWeek = week;
+        }
+      }
+
+      // if selectedWeek null return last week
+
+      return of(new fromDetailsActions.SelectPlantWeek(selectedWeek._id));
     })
   );
 

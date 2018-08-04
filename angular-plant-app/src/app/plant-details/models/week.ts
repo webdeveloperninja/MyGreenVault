@@ -1,6 +1,7 @@
 import * as moment from 'moment';
 
 export interface Week {
+  _id: string;
   airHumidity: number;
   dayAirTemperature: number;
   end: moment.Moment;
