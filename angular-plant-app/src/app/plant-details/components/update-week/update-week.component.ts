@@ -5,6 +5,7 @@ import * as fromDetails from '../../reducers/plant-details.reducer';
 import * as fromDetailsActions from '../../actions/details.actions';
 import { Actions, ofType } from '@ngrx/effects';
 import { NotificationService } from 'app/shared/services/notification/notification.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'vault-update-week',
@@ -15,6 +16,8 @@ export class UpdateWeekComponent implements OnInit, OnChanges {
   @Input() weekId: string;
   @Input() week: any;
   weekFormGroup: FormGroup;
+  startDate: moment.Moment;
+  endDate: moment.Moment;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -52,7 +55,7 @@ export class UpdateWeekComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     this.weekFormGroup.reset();
     if (!!changes && !!changes.week) {
-      console.log('changes');
+      console.log('changes', changes.week.currentValue);
       const week = changes.week.currentValue;
       if (week.height) {
         this.weekFormGroup.controls.height.setValue(week.height);

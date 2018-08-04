@@ -92,13 +92,13 @@ select {
 }
 
 input {
-  width: 450px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   border-top: 1px solid black;
   border-bottom: 1px solid black;
+  border-left: 1px solid black;
   &:focus {
     border: 1px solid green !important;
     box-shadow: 0 0 3px green !important;
