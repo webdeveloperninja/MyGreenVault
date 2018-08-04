@@ -1,9 +1,9 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-12">
-      <div class="d-flex">
-        <div class="d-flex" *ngFor="let week of weeks; let i = index">
-          <button (click)="selectWeek(week)" class="btn btn-primary" [ngClass]="{'active': week?._id === selected?._id}">
+      <div class="d-inline-flex flex-wrap justify-content-center">
+        <div *ngFor="let week of weeks; let i = index">
+          <button (click)="selectWeek(week)" class="btn btn-primary mb-2 btn-week" [ngClass]="{'active': week?._id === selected?._id}">
             Week {{ i + 1 }}
           </button>
         </div>
