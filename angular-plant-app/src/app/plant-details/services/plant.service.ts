@@ -10,6 +10,10 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { PagedList } from '../../shared/models';
 import { tap, map } from 'rxjs/operators';
 import { Details as DetailsContract } from 'app/plant-details/contracts/details';
+import { Week } from '../models/week';
+import { tryMomentConvert } from '../../shared/utilities/date';
+import { WeekData } from '../contracts/week-data';
+import { Observable } from 'rxjs';
 export const DEFAULT_SKIP: number = 0;
 export const DEFAULT_TAKE: number = 8;
 
@@ -36,11 +40,21 @@ export class PlantDetailsService {
     );
   }
 
-  public getPlantWeeks(weekIds: string[]) {
+  public getPlantWeeks(weekIds: string[]): Observable<Week[]> {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     let url = `/api/v1/plants/weeks`;
 
-    return this._http.post(url, weekIds, { headers: headers, withCredentials: true });
+    return this._http.post(url, weekIds, { headers: headers, withCredentials: true }).pipe(
+      map((weeks: WeekData[]) =>
+        weeks.map(week => {
+          return {
+            ...week,
+            start: tryMomentConvert(week.start),
+            end: tryMomentConvert(week.end)
+          } as Week;
+        })
+      )
+    );
   }
 
   public saveProfileImage(plantId, images) {
