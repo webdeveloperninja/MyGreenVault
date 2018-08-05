@@ -55,7 +55,6 @@ export class UpdateWeekComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     this.weekFormGroup.reset();
     if (!!changes && !!changes.week) {
-      console.log('changes', changes.week.currentValue);
       const week = changes.week.currentValue;
       if (!!week && week.height) {
         this.weekFormGroup.controls.height.setValue(week.height);
