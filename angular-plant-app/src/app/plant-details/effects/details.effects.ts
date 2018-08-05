@@ -69,8 +69,8 @@ export class DetailsEffects {
   @Effect()
   selectDefaultWeek$: Observable<Action> = this.actions$.pipe(
     ofType<fromDetailsActions.PlantWeeksLoaded>(fromDetailsActions.ActionTypes.PlantWeeksLoaded),
-    withLatestFrom(this._store.select(fromDetailsSelectors.getWeekEntities)),
-    switchMap(([_, entities]) => {
+    withLatestFrom(this._store.select(fromDetailsSelectors.getWeekEntities), this._store.select(fromDetailsSelectors.getPlantWeekIds)),
+    switchMap(([_, entities, ids]) => {
       let selectedWeek: Week;
 
       for (const prop in entities) {
@@ -81,7 +81,10 @@ export class DetailsEffects {
         }
       }
 
-      // if selectedWeek null return last week
+      if (!selectedWeek) {
+        const selectedId = ids[ids.length - 1];
+        selectedWeek = entities[selectedId];
+      }
 
       return of(new fromDetailsActions.SelectPlantWeek(selectedWeek._id));
     })

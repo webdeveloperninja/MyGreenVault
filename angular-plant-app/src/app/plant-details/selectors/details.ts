@@ -4,6 +4,7 @@ import { State } from '../../reducers';
 
 export const getSelected = createSelector(getPlantState, plant => (!!plant ? plant.collection.selected : null));
 export const getSelectedWeekId = createSelector(getPlantState, plant => (!!plant ? plant.collection.selectedWeek : null));
+export const getPlantWeekIds = createSelector(getPlantState, plant => (!!plant ? plant.collection.weekIds : null));
 
 export const getDetails = createSelector(getPlantState, getSelected, (plants: any, selected: string) => {
   if (!plants || !selected) {
