@@ -57,31 +57,31 @@ export class UpdateWeekComponent implements OnInit, OnChanges {
     if (!!changes && !!changes.week) {
       console.log('changes', changes.week.currentValue);
       const week = changes.week.currentValue;
-      if (week.height) {
+      if (!!week && week.height) {
         this.weekFormGroup.controls.height.setValue(week.height);
       }
-      if (week.lightSchedule) {
+      if (!!week && week.lightSchedule) {
         this.weekFormGroup.controls.lightSchedule.setValue(week.lightSchedule);
       }
-      if (week.dayAirTemperature) {
+      if (!!week && week.dayAirTemperature) {
         this.weekFormGroup.controls.dayAirTemperature.setValue(week.dayAirTemperature);
       }
-      if (week.nightAirTemperature) {
+      if (!!week && week.nightAirTemperature) {
         this.weekFormGroup.controls.nightAirTemperature.setValue(week.nightAirTemperature);
       }
-      if (week.ph) {
+      if (!!week && week.ph) {
         this.weekFormGroup.controls.ph.setValue(week.ph);
       }
-      if (week.airHumidity) {
+      if (!!week && week.airHumidity) {
         this.weekFormGroup.controls.airHumidity.setValue(week.airHumidity);
       }
-      if (week.smell) {
+      if (!!week && week.smell) {
         this.weekFormGroup.controls.smell.setValue(week.smell);
       }
-      if (week.soilTemperature) {
+      if (!!week && week.soilTemperature) {
         this.weekFormGroup.controls.soilTemperature.setValue(week.soilTemperature);
       }
-      if (week.lampToPlantDistance) {
+      if (!!week && week.lampToPlantDistance) {
         this.weekFormGroup.controls.lampToPlantDistance.setValue(week.lampToPlantDistance);
       }
     }

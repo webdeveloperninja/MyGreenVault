@@ -6,11 +6,13 @@ export interface PlantDetailsState {}
 export interface State {
   selected: string;
   selectedWeek: string;
+  weekIds: string[];
 }
 
 export const initialState: State = {
   selected: null,
-  selectedWeek: null
+  selectedWeek: null,
+  weekIds: []
 };
 
 export function reducer(state = initialState, action: fromActions.All): State {
@@ -29,6 +31,19 @@ export function reducer(state = initialState, action: fromActions.All): State {
       return {
         ...state,
         selectedWeek: selectedWeekId
+      };
+    }
+    case fromActions.ActionTypes.PlantWeeksLoaded: {
+      return {
+        ...state,
+        weekIds: action.payload.map(week => week._id)
+      };
+    }
+    case fromActions.ActionTypes.PlantWeeksLoadFailed:
+    case fromActions.ActionTypes.LoadPlantWeeks: {
+      return {
+        ...state,
+        weekIds: []
       };
     }
     default: {
