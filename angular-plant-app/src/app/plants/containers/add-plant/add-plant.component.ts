@@ -40,8 +40,8 @@ export class AddPlantComponent implements OnInit {
   addPlant(plantFormGroup) {
     if (this.plantFormGroup.valid) {
       this.isAddPlantLoading = true;
-      console.log('loading');
       this._ngProgress.start();
+
       const plant = {
         plantName: this.plantFormGroup.controls['plantName'].value,
         plantNumber: this.plantFormGroup.controls['plantNumber'].value,
