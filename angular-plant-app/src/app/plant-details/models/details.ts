@@ -6,4 +6,5 @@ export interface Details {
   plantStatus: number;
   roomType: number;
   medium: number;
+  deviceId: string;
 }

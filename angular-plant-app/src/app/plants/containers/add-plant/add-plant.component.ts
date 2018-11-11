@@ -33,7 +33,8 @@ export class AddPlantComponent implements OnInit {
       plantDescription: ['', Validators.required],
       plantStatus: ['', Validators.required],
       roomType: [this.roomType.indoor, Validators.required],
-      medium: [this.roomType.indoor, Validators.required]
+      medium: [this.roomType.indoor, Validators.required],
+      deviceId: ['']
     });
   }
 
@@ -48,7 +49,8 @@ export class AddPlantComponent implements OnInit {
         plantDescription: this.plantFormGroup.controls['plantDescription'].value,
         plantStatus: this.plantFormGroup.controls['plantStatus'].value,
         roomType: Number(this.plantFormGroup.controls['roomType'].value),
-        medium: Number(this.plantFormGroup.controls['medium'].value)
+        medium: Number(this.plantFormGroup.controls['medium'].value),
+        deviceId: this.plantFormGroup.controls['deviceId'].value
       };
 
       this._plantsSearchService.addPlant(plant).subscribe(job => {
