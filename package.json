@@ -1,6 +1,9 @@
 {
   "name": "hackathon-starter",
   "version": "4.3.0",
+  "engines": {
+    "npm": "6.x"
+  },
   "description": "A boilerplate for Node.js web applications",
   "repository": {
     "type": "git",
