@@ -4,6 +4,7 @@ import url from 'url';
 import * as plantProvider from '../providers/plant';
 import * as plantQuery from '../repositories/plant';
 import * as plantProfileImageService from '../services/plant-profile-image';
+import { uploadRequest } from '../services/plant-profile-image';
 
 const moment = require('moment');
 
