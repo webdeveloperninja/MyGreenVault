@@ -1,12 +1,10 @@
 import { Request, Response } from 'express';
 import url from 'url';
-import * as plantQuery from '../repositories/plant';
-import * as timelineQuery from '../repositories/timeline';
-import * as weekQuery from '../repositories/week';
+
 import * as plantProvider from '../providers/plant';
+import * as plantQuery from '../repositories/plant';
 import * as plantProfileImageService from '../services/plant-profile-image';
-import { uploadRequest } from '../services/plant-profile-image';
-import { PlantDetails } from '../contracts/plant-details';
+
 const moment = require('moment');
 
 export const getPaged = (req: Request, res: Response) => {
@@ -79,13 +77,13 @@ export const add = async (req: Request, res: Response) => {
 };
 
 export const update = (req: Request, res: Response) => {
-  const job = req.body;
+  const plant = req.body;
 
-  if (!job.userId) {
-    job.userId = req.user._id;
+  if (!plant.userId) {
+    plant.userId = req.user._id;
   }
 
-  doUpdatePlant(req.user._id, job)
+  doUpdatePlant(req.user._id, plant)
     .then(data => {
       res.status(200).send(data);
     })

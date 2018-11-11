@@ -1,7 +1,10 @@
 import * as plantRepository from '../repositories/plant';
 import * as timelineRepository from '../repositories/timeline';
 import * as weekRepository from '../repositories/week';
+import { EventClient } from '../services/event';
 import moment from 'moment';
+
+const eventClient = new EventClient();
 
 export const add = async (newPlant: any) => {
   const plant = (await plantRepository.addPlant(newPlant)) as any;
@@ -9,10 +12,11 @@ export const add = async (newPlant: any) => {
   const timelineWeeks = get12Weeks(moment());
   const weeks = (await weekRepository.addMany(timelineWeeks)) as any[];
   const weekIds = weeks.map(week => week._id);
-  console.log(plant._id);
-  const updated = await plantRepository.update(plant._id, { weeks: weekIds });
+  const plantWithTimeline = await plantRepository.update(plant._id, { weeks: weekIds });
 
-  return updated;
+  eventClient.addPlant(plantWithTimeline);
+
+  return plantWithTimeline;
 };
 
 function get12Weeks(start) {
