@@ -48,14 +48,14 @@ app.use(
     secret: process.env.SESSION_SECRET,
     store: new MongoStore({
       mongooseConnection: connection,
-      url: 'mongodb://rsmith5901:321Eaglecourt$@ds016058.mlab.com:16058/mygreenvault',
+      url: 'mongodb://rsmith5901:321Eaglecourt!@ds035747.mlab.com:35747/my-green-vault',
       autoReconnect: true,
       clear_interval: 3600
     })
   })
 );
 
-connect('mongodb://rsmith5901:321Eaglecourt$@ds016058.mlab.com:16058/mygreenvault');
+connect('mongodb://rsmith5901:321Eaglecourt!@ds035747.mlab.com:35747/my-green-vault');
 connection.on('error', (err: any) => {
   console.error(err);
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));

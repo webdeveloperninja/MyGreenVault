@@ -8,4 +8,5 @@ export interface Plant {
   plantStatus: number;
   roomType: number;
   userId: string;
+  deviceId?: string;
 }

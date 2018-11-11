@@ -37,6 +37,10 @@ const plantSchema = new Schema(
     weeks: {
       type: Array,
       required: false
+    },
+    deviceId: {
+      type: String,
+      required: false
     }
   },
   {
