@@ -1,6 +1,12 @@
 import { connect, connection } from 'mongoose';
 import { initialize, session as passportSession } from 'passport';
 
+const DocumentClient = require('documentdb').DocumentClient;
+const host = process.env.EVENTS_DB_ENDPOINT;
+const masterKey = process.env.EVENTS_DB_PRIMARY_KEY;
+
+const eventsDocumentClient = new DocumentClient(host, { masterKey: masterKey });
+
 import { isAuthenticated } from './middleware/passport';
 
 const session = require('express-session');
