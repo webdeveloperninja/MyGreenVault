@@ -8,6 +8,10 @@ import { uploadRequest } from '../services/plant-profile-image';
 
 const moment = require('moment');
 
+export const getEvents = (req: Request, res: Response) => {
+  const plantId = req.params.plantId;
+};
+
 export const getPaged = (req: Request, res: Response) => {
   const userId = req.user._id;
   let url_parts = url.parse(req.url, true);

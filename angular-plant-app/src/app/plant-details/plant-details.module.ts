@@ -16,10 +16,13 @@ import { UpdateWeekComponent } from './components/update-week/update-week.compon
 import { WeekComponent } from './components/week/week.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SoilMoistureComponent } from './components/soil-moisture/soil-moisture.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   imports: [
     CommonModule,
+    ChartsModule,
     ReactiveFormsModule,
     SharedModule,
     BrowserAnimationsModule,
@@ -33,7 +36,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     TimelineComponent,
     SelectedPlantComponent,
     UpdateWeekComponent,
-    WeekComponent
+    WeekComponent,
+    SoilMoistureComponent
   ],
   providers: [PlantDetailsService]
 })
