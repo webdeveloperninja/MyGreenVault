@@ -15,6 +15,7 @@ module.exports = function() {
   router.post('/remove', plant.remove);
   router.get('/:plantId', plant.get);
   router.post('/:plantNumber/profile-image', plant.uploadPlantProfilePhoto);
+  router.get('/:plantId/events', plant.getEvents);
 
   router.post('/weeks', weeks.get);
   router.post('/:weekId/weeks/update', weeks.update);
