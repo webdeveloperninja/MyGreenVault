@@ -72,4 +72,11 @@ export class PlantDetailsService {
 
     return this._http.post(url, updated, { headers: headers });
   }
+
+  public getEvents(plantId: string) {
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const url = `http://localhost:7071/api/GetSoilMoisture?plantId=${plantId}`;
+
+    return this._http.get(url);
+  }
 }

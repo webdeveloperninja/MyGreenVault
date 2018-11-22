@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'vault-soil-moisture',
@@ -6,7 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./soil-moisture.component.scss']
 })
 export class SoilMoistureComponent {
+  @Input() events;
   // lineChart
+
+  get hasEvents(): boolean {
+    return this.events && this.events.length && this.events.length >= 1;
+  }
   public lineChartData: Array<any> = [{ data: [65, 59, 80, 81, 56, 55, 40], label: 'Soil Moisture' }];
   public lineChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
   public lineChartOptions: any = {

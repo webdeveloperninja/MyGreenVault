@@ -4,6 +4,6 @@
   </div>
   <div class="col-lg-8 col-xl-9">
     <vault-timeline [weeks]="weeks$ | async"></vault-timeline>
-    <!-- <vault-soil-moisture></vault-soil-moisture> -->
+    <vault-soil-moisture [events]="plantEvents$ | async"></vault-soil-moisture>
   </div>
 </div>
