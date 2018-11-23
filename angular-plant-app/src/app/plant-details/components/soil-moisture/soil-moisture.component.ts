@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'vault-soil-moisture',
@@ -6,9 +6,30 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./soil-moisture.component.scss']
 })
 export class SoilMoistureComponent {
+  @Input() events;
   // lineChart
-  public lineChartData: Array<any> = [{ data: [65, 59, 80, 81, 56, 55, 40], label: 'Soil Moisture' }];
-  public lineChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+
+  get lineChartData() {
+    if (!this.events) {
+      return;
+    }
+
+    return [
+      {
+        data: this.events.map(event => event.IoTEvent.MoistureVoltage),
+        label: 'Soil Moisture'
+      }
+    ];
+  }
+
+  get lineChartLabels() {
+    return this.events.map(event => event.IoTEvent.PublishedAt);
+  }
+
+  get hasEvents(): boolean {
+    return this.events && this.events.length && this.events.length >= 1;
+  }
+
   public lineChartOptions: any = {
     responsive: true
   };
@@ -43,17 +64,6 @@ export class SoilMoistureComponent {
   ];
   public lineChartLegend: boolean = true;
   public lineChartType: string = 'line';
-
-  public randomize(): void {
-    let _lineChartData: Array<any> = new Array(this.lineChartData.length);
-    for (let i = 0; i < this.lineChartData.length; i++) {
-      _lineChartData[i] = { data: new Array(this.lineChartData[i].data.length), label: this.lineChartData[i].label };
-      for (let j = 0; j < this.lineChartData[i].data.length; j++) {
-        _lineChartData[i].data[j] = Math.floor(Math.random() * 100 + 1);
-      }
-    }
-    this.lineChartData = _lineChartData;
-  }
 
   // events
   public chartClicked(e: any): void {
