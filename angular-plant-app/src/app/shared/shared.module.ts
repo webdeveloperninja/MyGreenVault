@@ -82,6 +82,7 @@ import { MomentFormatPipe } from './pipes/moment-format.pipe';
   exports: [
     HeaderComponent,
     LoadingComponent,
+    OmniSearchComponent,
     KeysPipe,
     CamelCaseToRegularPipe,
     JobStatusNumberToTitlePipe,

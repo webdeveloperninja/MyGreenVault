@@ -13,38 +13,43 @@ $weed-green: #000000;
   left: 0;
   right: 0;
   margin: auto;
-  
+
+}
+
+.logo {
+  width: 200px;
 }
 
 .user {
-    font-size: 25px;
-    color: #4dbca1;
+  font-size: 25px;
+  color: #4dbca1;
 }
 
 i {
-    font-size: 31px;
-    cursor: pointer;
+  font-size: 31px;
+  cursor: pointer;
 }
 
 .navbar-custom {
-    background-color: white;
-    article {
-        flex-grow: 1;
-    }
+  background-color: white;
+
+  article {
+    flex-grow: 1;
+  }
 }
 
 .topbar-left {
-    background-color: black;
+  background-color: black;
 }
 
 .fa-bars {
-    color:black;
+  color: black;
 
 }
 
 .small-logo {
-    .fa-bars {
-        color: white;
-        margin-left: 5px;
-    }
+  .fa-bars {
+    color: white;
+    margin-left: 5px;
+  }
 }

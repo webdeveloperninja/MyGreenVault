@@ -25,7 +25,8 @@
               <tr *ngFor="let plant of plants$ | async">
                 <td>
                   <a [routerLink]="['/details', plant._id]">
-                    <img [src]="plant.profileImages | profileImages" class="plant-thumbnail img-thumbnail rounded-circle"> {{ plant.plantName | empty }}
+                    <img [src]="plant.profileImages | profileImages" class="plant-thumbnail img-thumbnail rounded-circle">
+                    {{ plant.plantName | empty }}
                   </a>
                 </td>
                 <td>
