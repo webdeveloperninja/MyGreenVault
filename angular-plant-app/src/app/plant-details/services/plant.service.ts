@@ -75,7 +75,7 @@ export class PlantDetailsService {
 
   public getEvents(plantId: string) {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    const url = `https://iotvault.azurewebsites.net/api/GetSoilMoisture?code=CfDJ8AAAAAAAAAAAAAAAAAAAAAAqULjw3iN_mzSS1mLq12Fn9sakq3UBjF1XlXPxNtV_vkgVisHWNxURLyG9l8SxK9lNQ1PYdZNBLKXYqkVObYcvUhdjjUxaLR7Am5rg-G94MsQL_bH_xn8YoUNtR27EuinQ_TowY-2JmXlFMv8642LTPSsXmz3pTjf8CdPm53DYyA&plantId=${plantId}`;
+    const url = `https://iotvault.azurewebsites.net/api/GetSoilMoisture?plantId=${plantId}`;
 
     return this._http.get(url);
   }

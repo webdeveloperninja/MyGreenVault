@@ -1,9 +1,20 @@
 <div class="row">
   <div class="col-xl-12">
-    <h3>{{ details?.plantName }} - # {{ details?.plantNumber }}</h3>
+    <h4 class="header-title m-t-0">{{ details?.plantName }}</h4>
+    <p class="mb-0">
+      <strong>
+        Plant id:
+      </strong>
+      {{ details?.plantNumber }}
+    </p>
+    <p>
+      <strong>
+        Device id:
+      </strong>
+      {{ details?.deviceId }}
+    </p>
     <ti-job-status-chip [jobStatus]="details?.plantStatus">
     </ti-job-status-chip>
-    <p class="mt-2">Device id: {{ details?.deviceId }}</p>
     <div class="d-flex mt-2">
       <room-type [type]="details?.roomType"></room-type>
       <medium [type]="details?.medium" class="ml-2"></medium>

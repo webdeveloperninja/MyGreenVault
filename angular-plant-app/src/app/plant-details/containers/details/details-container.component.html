@@ -3,7 +3,6 @@
     <vault-details (profileImageSaved)="saveProfileImage($event)" [profileImage]="plantProfileImage$ | async" [details]="details$ | async"></vault-details>
   </div>
   <div class="col-lg-8 col-xl-9">
-    <vault-timeline [weeks]="weeks$ | async"></vault-timeline>
-    <vault-soil-moisture [events]="plantEvents$ | async"></vault-soil-moisture>
+    <vault-timeline [weeks]="weeks$ | async" [events]="plantEvents$ | async"></vault-timeline>
   </div>
 </div>

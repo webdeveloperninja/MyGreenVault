@@ -12,16 +12,27 @@ import { tap } from 'rxjs/operators';
 })
 export class TimelineComponent implements OnInit {
   @Input() weeks: any[];
+  @Input() events: any[];
+
   selected: string;
 
-  selectedWeek$ = this._store.select(fromDetailsSelectors.getSelectedWeek).pipe(tap(selected=> {
-    this.selected = selected;
-  }));
+  showTimeline = true;
+
+  selectedWeek$ = this._store.select(fromDetailsSelectors.getSelectedWeek).pipe(
+    tap(selected => {
+      this.selected = selected;
+    })
+  );
   constructor(private _store: Store<fromDetails.State>) {}
 
   ngOnInit() {}
 
   selectWeek(week) {
+    this.showTimeline = true;
     this._store.dispatch(new fromDetailsActions.SelectPlantWeek(week._id));
+  }
+
+  showDeviceDashboard() {
+    this.showTimeline = false;
   }
 }
