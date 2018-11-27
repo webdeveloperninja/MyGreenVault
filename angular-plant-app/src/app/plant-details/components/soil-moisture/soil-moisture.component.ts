@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'vault-soil-moisture',
@@ -6,6 +7,8 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./soil-moisture.component.scss']
 })
 export class SoilMoistureComponent {
+  moistureFilters: FormGroup;
+
   @Input() events;
   // lineChart
 
@@ -28,6 +31,12 @@ export class SoilMoistureComponent {
 
   get hasEvents(): boolean {
     return this.events && this.events.length && this.events.length >= 1;
+  }
+
+  constructor(private readonly _formBuilder: FormBuilder) {
+    this.moistureFilters = _formBuilder.group({
+      sampling: ['']
+    });
   }
 
   public lineChartOptions: any = {
