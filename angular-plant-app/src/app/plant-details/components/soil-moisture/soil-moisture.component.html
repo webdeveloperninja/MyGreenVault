@@ -1,10 +1,12 @@
-<div class="row" *ngIf="hasEvents">
-  <div class="col-md-6">
-    <div style="display: block;">
-      <canvas baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels"
-        [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"
-        (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+<div class="container-fluid">
+  <div class="row" *ngIf="hasEvents">
+    <div class="col-md-6">
+      <div style="display: block;">
+        <h6 class="text-muted text-uppercase m-b-20 text-center">Soil Moisture</h6>
+        <canvas baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+          [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)"></canvas>
+      </div>
     </div>
   </div>
 </div>
-

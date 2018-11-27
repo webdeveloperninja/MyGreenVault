@@ -1,6 +1,14 @@
 <div class="row">
   <div class="col-xl-12">
-    <h4 class="header-title m-t-0">{{ details?.plantName }}</h4>
+    <h4 class="header-title m-t-0">
+      {{ details?.plantName }}
+      <ti-job-status-chip class="ml-2" [jobStatus]="details?.plantStatus">
+      </ti-job-status-chip>
+    </h4>
+    <img [src]="profileImage" class="img-fluid">
+    <file-upload class="d-flex" (fileChange)="saveProfileImage($event)"></file-upload>
+  </div>
+  <div class="col-xl-12">
     <p class="mb-0">
       <strong>
         Plant id:
@@ -13,16 +21,10 @@
       </strong>
       {{ details?.deviceId }}
     </p>
-    <ti-job-status-chip [jobStatus]="details?.plantStatus">
-    </ti-job-status-chip>
     <div class="d-flex mt-2">
       <room-type [type]="details?.roomType"></room-type>
       <medium [type]="details?.medium" class="ml-2"></medium>
     </div>
-    <img [src]="profileImage" class="img-fluid">
-    <file-upload class="d-flex" (fileChange)="saveProfileImage($event)"></file-upload>
-  </div>
-  <div class="col-xl-12">
     <h4 class="header-title">Description</h4>
     <div class="d-flex">
       {{ details?.plantDescription }}
