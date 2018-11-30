@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input, ChangeDetectorRef} from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -7,79 +7,61 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./soil-moisture.component.scss']
 })
 export class SoilMoistureComponent {
+  showChart = true;
   moistureFilters: FormGroup;
 
   @Input() events;
-  // lineChart
+
+  constructor(private readonly _formBuilder: FormBuilder, private readonly _changeDetectorRef: ChangeDetectorRef) {
+    this.moistureFilters = _formBuilder.group({
+      voltageFactor: [1],
+      samplingRate: [1]
+    });
+
+    this.moistureFilters.controls.samplingRate.valueChanges.subscribe(() => {
+      this.showChart = false;
+      setTimeout(() => {
+        this.showChart = true;
+      })
+    });
+  }
 
   get lineChartData() {
     if (!this.events) {
       return;
     }
-
     return [
       {
-        data: this.events.map(event => event.IoTEvent.MoistureVoltage),
+        data: this.events
+          .filter((_, index) => this.filterNthElement(index))
+          .map(event => this.toVoltageFactor(event.IoTEvent.MoistureVoltage)),
         label: 'Soil Moisture'
       }
     ];
   }
 
   get lineChartLabels() {
-    return this.events.map(event => event.IoTEvent.PublishedAt);
+    return this.events
+      .filter((_, index) => this.filterNthElement(index))
+      .map(event => event.IoTEvent.PublishedAt);
+  }
+
+  private filterNthElement(index: number): boolean {
+    return index % this.moistureFilters.controls.samplingRate.value === 0;
+  }
+
+  private toVoltageFactor(voltage: number): number {
+    return voltage * this.moistureFilters.controls.voltageFactor.value;
   }
 
   get hasEvents(): boolean {
     return this.events && this.events.length && this.events.length >= 1;
   }
 
-  constructor(private readonly _formBuilder: FormBuilder) {
-    this.moistureFilters = _formBuilder.group({
-      sampling: ['']
-    });
-  }
-
   public lineChartOptions: any = {
     responsive: true
   };
-  public lineChartColors: Array<any> = [
-    {
-      // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-    },
-    {
-      // dark grey
-      backgroundColor: 'rgba(77,83,96,0.2)',
-      borderColor: 'rgba(77,83,96,1)',
-      pointBackgroundColor: 'rgba(77,83,96,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(77,83,96,1)'
-    },
-    {
-      // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-    }
-  ];
+
   public lineChartLegend: boolean = false;
   public lineChartType: string = 'line';
-
-  // events
-  public chartClicked(e: any): void {
-    console.log(e);
-  }
-
-  public chartHovered(e: any): void {
-    console.log(e);
-  }
 }
