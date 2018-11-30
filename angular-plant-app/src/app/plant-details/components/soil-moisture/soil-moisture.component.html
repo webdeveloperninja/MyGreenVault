@@ -3,25 +3,30 @@
     <div class="col-md-6">
       <div style="display: block;">
         <h6 class="text-muted text-uppercase m-b-20 text-center">Soil Moisture</h6>
-        <canvas
-          baseChart
-          width="400"
-          height="400"
-          [datasets]="lineChartData"
-          [labels]="lineChartLabels"
-          [options]="lineChartOptions"
-          [colors]="lineChartColors"
-          [legend]="lineChartLegend"
-          [chartType]="lineChartType"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"
-        ></canvas>
+        <div *ngIf="showChart">
+          <canvas
+            baseChart
+            width="400"
+            height="400"
+            [datasets]="lineChartData"
+            [labels]="lineChartLabels"
+            [options]="lineChartOptions"
+            [legend]="lineChartLegend"
+            [chartType]="lineChartType"
+          ></canvas>
+        </div>
       </div>
     </div>
-    <div class="col-md-6" hidden>
+    <div class="col-md-6">
       <form [formGroup]="moistureFilters">
-        <label> Sampling</label>
-        <input type="text" class="form-control" placeholder="Sampling" min="0" formControlName="sampling" type="number" />
+        <div class="form-group">
+          <label> Voltage factor</label>
+          <input type="text" class="form-control" placeholder="Sampling" min="0" formControlName="voltageFactor" type="number" />
+        </div>
+        <div class="form-group">
+          <label>Sampling rate</label>
+          <input type="text"  class="form-control" placeholder="Sampling" min="0" formControlName="samplingRate" type="number" />
+        </div>
       </form>
     </div>
   </div>
