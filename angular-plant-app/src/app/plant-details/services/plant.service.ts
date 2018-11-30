@@ -16,6 +16,7 @@ import { WeekData } from '../contracts/week-data';
 import { Observable } from 'rxjs';
 export const DEFAULT_SKIP: number = 0;
 export const DEFAULT_TAKE: number = 8;
+import * as moment from 'moment';
 
 @Injectable()
 export class PlantDetailsService {
@@ -77,6 +78,18 @@ export class PlantDetailsService {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     const url = `https://iotvault.azurewebsites.net/api/GetSoilMoisture?plantId=${plantId}`;
 
-    return this._http.get(url);
+    return this._http.get(url).pipe(map((events: any[]) => {
+      return events.map(this.tryConvertEventDatesToMoment);
+    }));
+  }
+
+  private tryConvertEventDatesToMoment(event: any) {
+    return {
+      ...event,
+      IoTEvent: {
+        ...event.IoTEvent,
+        PublishedAt: moment(event.IoTEvent.PublishedAt)
+      }
+    }
   }
 }

@@ -1,5 +1,6 @@
 import {Component, OnInit, Input, ChangeDetectorRef} from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import * as moment from 'moment';
 
 @Component({
   selector: 'vault-soil-moisture',
@@ -43,7 +44,11 @@ export class SoilMoistureComponent {
   get lineChartLabels() {
     return this.events
       .filter((_, index) => this.filterNthElement(index))
-      .map(event => event.IoTEvent.PublishedAt);
+      .map(event => this.formatDateLabels(event.IoTEvent.PublishedAt));
+  }
+
+  private formatDateLabels(date: moment.Moment) {
+    return date.format('MMMM Do YYYY, h:mm:ss a')
   }
 
   private filterNthElement(index: number): boolean {
