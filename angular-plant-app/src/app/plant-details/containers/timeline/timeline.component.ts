@@ -13,6 +13,7 @@ import { tap } from 'rxjs/operators';
 export class TimelineComponent implements OnInit {
   @Input() weeks: any[];
   @Input() events: any[];
+  @Input() hasDevice = false;
 
   selected: string;
 

@@ -5,6 +5,7 @@ import * as fromDetailsActions from '../../actions/details.actions';
 import * as fromDetailsSelectors from '../../selectors/details';
 import { Store } from '@ngrx/store';
 import { PlantDetailsService } from '../../services/plant.service';
+import {tap} from "rxjs/operators";
 
 @Component({
   selector: 'vault-details-container',
@@ -13,7 +14,16 @@ import { PlantDetailsService } from '../../services/plant.service';
 export class DetailsContainerComponent implements OnInit {
   routeParameters$ = this._activatedRoute.params;
   plantId: string;
-  details$ = this._store.select(fromDetailsSelectors.getDetails);
+  hasDevice = false;
+
+  details$ = this._store.select(fromDetailsSelectors.getDetails).pipe(tap(details => {
+    if (!!details && !!details.deviceId) {
+      this.hasDevice = true;
+    } else {
+      this.hasDevice = false;
+    }
+  }));
+
   plantProfileImage$ = this._store.select(fromDetailsSelectors.getPlantProfileImage);
   weeks$ = this._store.select(fromDetailsSelectors.getWeeks);
   plantEvents$;
