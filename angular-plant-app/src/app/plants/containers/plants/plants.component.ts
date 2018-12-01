@@ -27,7 +27,7 @@ export class PlantsComponent implements OnInit {
 
   hasPlants: boolean = false;
 
-  query: string = '';
+  query = '';
 
   @ViewChild('updatePlantRef') updatePlantRef: ElementRef;
   @ViewChild('addPlantRef') addPlantRef: ElementRef;
@@ -63,6 +63,10 @@ export class PlantsComponent implements OnInit {
         this.hasPlants = false;
       }
     });
+
+    this._route.queryParams.subscribe((params: any) => {
+      this.query = params.query;
+    })
   }
 
   nextPage() {
